@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers(); // Add this line
+builder.Services.AddControllers(); 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -39,6 +39,6 @@ app.UseCors();
 
 app.UseAuthorization();
 
-app.MapControllers(); // Add this line
+app.MapControllers(); 
 
 app.Run();
