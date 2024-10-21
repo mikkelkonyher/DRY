@@ -1,44 +1,80 @@
 using Microsoft.AspNetCore.Mvc;
-using DRYV1.Models;
 using DRYV1.Data;
-using System.Collections.Generic;
+using DRYV1.Models;
 using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace DRYV1.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class GuitarsController : ControllerBase
+    [Route("api/[controller]")]
+    public class GuitarController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public GuitarsController(ApplicationDbContext context)
+        public GuitarController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Guitars
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Guitar>>> GetGuitars()
+        public async Task<IActionResult> GetAll()
         {
-            return await _context.Guitars.ToListAsync();
+            var guitars = await _context.Guitars.ToListAsync();
+            return Ok(guitars);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var guitar = await _context.Guitars.FindAsync(id);
+            if (guitar == null)
+            {
+                return NotFound();
+            }
+            return Ok(guitar);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guitar>> PostGuitar(Guitar guitar)
+        public async Task<IActionResult> Create(Guitar guitar)
         {
-            // Check if the UserId exists in the database
             var userExists = await _context.Users.AnyAsync(u => u.Id == guitar.UserId);
             if (!userExists)
             {
-                return BadRequest(new { message = "Invalid UserId. User does not exist." });
+                return BadRequest("Invalid UserId");
             }
 
             _context.Guitars.Add(guitar);
             await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetById), new { id = guitar.Id }, guitar);
+        }
 
-            return CreatedAtAction(nameof(GetGuitars), new { id = guitar.Id }, guitar);
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, Guitar guitar)
+        {
+            if (id != guitar.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(guitar).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var guitar = await _context.Guitars.FindAsync(id);
+            if (guitar == null)
+            {
+                return NotFound();
+            }
+
+            _context.Guitars.Remove(guitar);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }
