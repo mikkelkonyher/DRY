@@ -144,3 +144,12 @@
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/BCrypt.Net-Next.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.Bcl.TimeProvider.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
