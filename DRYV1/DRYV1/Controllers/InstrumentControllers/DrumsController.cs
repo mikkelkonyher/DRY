@@ -39,6 +39,12 @@ namespace DRYV1.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Drums drum)
         {
+            var userExists = await _context.Users.AnyAsync(u => u.Id == drum.UserId);
+            if (!userExists)
+            {
+                return BadRequest("Invalid UserId");
+            }
+
             _context.Drums.Add(drum);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = drum.Id }, drum);
