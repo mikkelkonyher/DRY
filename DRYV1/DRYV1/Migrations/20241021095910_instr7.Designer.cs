@@ -2,6 +2,7 @@
 using DRYV1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DRYV1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241021095910_instr7")]
+    partial class instr7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,8 +57,6 @@ namespace DRYV1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Drums");
                 });
 
@@ -92,8 +93,6 @@ namespace DRYV1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Guitars");
                 });
 
@@ -120,31 +119,6 @@ namespace DRYV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("DRYV1.Models.Drums", b =>
-                {
-                    b.HasOne("DRYV1.Models.User", null)
-                        .WithMany("Drums")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DRYV1.Models.Guitar", b =>
-                {
-                    b.HasOne("DRYV1.Models.User", null)
-                        .WithMany("Guitars")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DRYV1.Models.User", b =>
-                {
-                    b.Navigation("Drums");
-
-                    b.Navigation("Guitars");
                 });
 #pragma warning restore 612, 618
         }

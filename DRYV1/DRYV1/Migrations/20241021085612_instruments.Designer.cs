@@ -2,6 +2,7 @@
 using DRYV1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DRYV1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241021085612_instruments")]
+    partial class instruments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +24,7 @@ namespace DRYV1.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DRYV1.Models.Drums", b =>
+            modelBuilder.Entity("DRYV1.Models.Instrument", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,6 +43,11 @@ namespace DRYV1.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -54,47 +62,11 @@ namespace DRYV1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.ToTable("Instruments");
 
-                    b.ToTable("Drums");
-                });
+                    b.HasDiscriminator().HasValue("Instrument");
 
-            modelBuilder.Entity("DRYV1.Models.Guitar", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Brand")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Model")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("TypeofGuitar")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Guitars");
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("DRYV1.Models.User", b =>
@@ -124,20 +96,58 @@ namespace DRYV1.Migrations
 
             modelBuilder.Entity("DRYV1.Models.Drums", b =>
                 {
-                    b.HasOne("DRYV1.Models.User", null)
-                        .WithMany("Drums")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasBaseType("DRYV1.Models.Instrument");
+
+                    b.Property<string>("DrumKitSize")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TypeOfDrums")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasIndex("UserId");
+
+                    b.HasDiscriminator().HasValue("Drums");
                 });
 
             modelBuilder.Entity("DRYV1.Models.Guitar", b =>
                 {
-                    b.HasOne("DRYV1.Models.User", null)
+                    b.HasBaseType("DRYV1.Models.Instrument");
+
+                    b.Property<string>("PickupType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TypeOfGuitar")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasIndex("UserId");
+
+                    b.HasDiscriminator().HasValue("Guitar");
+                });
+
+            modelBuilder.Entity("DRYV1.Models.Drums", b =>
+                {
+                    b.HasOne("DRYV1.Models.User", "User")
+                        .WithMany("Drums")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DRYV1.Models.Guitar", b =>
+                {
+                    b.HasOne("DRYV1.Models.User", "User")
                         .WithMany("Guitars")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DRYV1.Models.User", b =>

@@ -2,6 +2,7 @@
 using DRYV1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DRYV1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241021094450_instr5")]
+    partial class instr5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,27 +127,24 @@ namespace DRYV1.Migrations
 
             modelBuilder.Entity("DRYV1.Models.Drums", b =>
                 {
-                    b.HasOne("DRYV1.Models.User", null)
-                        .WithMany("Drums")
+                    b.HasOne("DRYV1.Models.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DRYV1.Models.Guitar", b =>
                 {
-                    b.HasOne("DRYV1.Models.User", null)
-                        .WithMany("Guitars")
+                    b.HasOne("DRYV1.Models.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("DRYV1.Models.User", b =>
-                {
-                    b.Navigation("Drums");
-
-                    b.Navigation("Guitars");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
