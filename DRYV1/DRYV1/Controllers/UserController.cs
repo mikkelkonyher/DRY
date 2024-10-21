@@ -16,21 +16,42 @@ namespace DRYV1.Controllers
             _context = context;
         }
 
-        // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            var users = await _context.Users
+                .Select(u => new UserDTO
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Email = u.Email
+                })
+                .ToListAsync();
+
+            return Ok(users);
         }
 
-        // POST: api/User
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserDTO>> PostUser(UserCreateDTO userCreateDto)
         {
+            var user = new User
+            {
+                Name = userCreateDto.Name,
+                Email = userCreateDto.Email,
+                Password = BCrypt.Net.BCrypt.HashPassword(userCreateDto.Password)
+            };
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUsers), new { id = user.Id }, user);
+            var userDto = new UserDTO
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email
+            };
+
+            return CreatedAtAction(nameof(GetUsers), new { id = user.Id }, userDto);
         }
     }
 }
