@@ -1,17 +1,7 @@
 namespace DRYV1.Models
 {
-    public class Drums 
+    public class Drums : Instrument
     {
-        public int Id { get; set; }
-        public DateTime ListingDate { get; set; }
-        public string Brand { get; set; }
-        public string Model { get; set; }
-        public string Type { get; set; } //Snare, cymbals, kick, trommesæt, hihat, Floor tom, racktom, tilbehør
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public string Location { get; set; }
-        public string Condition { get; set; }
-        public int Year { get; set; }
-        public int UserId { get; set; } // Foreign key property
+        public string DrumType { get; set; } // Snare, cymbals, kick, etc.
     }
 }

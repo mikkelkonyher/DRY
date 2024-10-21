@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
-using DRYV1.Models;
 using DRYV1.Data;
-using System.Collections.Generic;
+using DRYV1.Models;
 using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace DRYV1.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class DrumsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -18,28 +18,57 @@ namespace DRYV1.Controllers
             _context = context;
         }
 
-        // GET: api/Drums
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Drums>>> GetDrums()
+        public async Task<IActionResult> GetAll()
         {
-            return await _context.Drums.ToListAsync();
+            var drums = await _context.Drums.ToListAsync();
+            return Ok(drums);
         }
 
-        // POST: api/Drums
-        [HttpPost]
-        public async Task<ActionResult<Drums>> PostDrums(Drums drums)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            // Check if the UserId exists in the database
-            var userExists = await _context.Users.AnyAsync(u => u.Id == drums.UserId);
-            if (!userExists)
+            var drum = await _context.Drums.FindAsync(id);
+            if (drum == null)
             {
-                return BadRequest(new { message = "Invalid UserId. User does not exist." });
+                return NotFound();
+            }
+            return Ok(drum);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Drums drum)
+        {
+            _context.Drums.Add(drum);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetById), new { id = drum.Id }, drum);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, Drums drum)
+        {
+            if (id != drum.Id)
+            {
+                return BadRequest();
             }
 
-            _context.Drums.Add(drums);
+            _context.Entry(drum).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
-            return CreatedAtAction(nameof(GetDrums), new { id = drums.Id }, drums);
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var drum = await _context.Drums.FindAsync(id);
+            if (drum == null)
+            {
+                return NotFound();
+            }
+
+            _context.Drums.Remove(drum);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }
