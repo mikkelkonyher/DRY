@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/mikkelkonyher/RiderProjects/DRYV1/DRYV1/DRYV1.csproj": {}
+    "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/DRYV1.csproj": {}
   },
   "projects": {
-    "/Users/mikkelkonyher/RiderProjects/DRYV1/DRYV1/DRYV1.csproj": {
+    "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/DRYV1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/mikkelkonyher/RiderProjects/DRYV1/DRYV1/DRYV1.csproj",
+        "projectUniqueName": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/DRYV1.csproj",
         "projectName": "DRYV1",
-        "projectPath": "/Users/mikkelkonyher/RiderProjects/DRYV1/DRYV1/DRYV1.csproj",
+        "projectPath": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/DRYV1.csproj",
         "packagesPath": "/Users/mikkelkonyher/.nuget/packages/",
-        "outputPath": "/Users/mikkelkonyher/RiderProjects/DRYV1/DRYV1/obj/",
+        "outputPath": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/mikkelkonyher/.nuget/NuGet/NuGet.Config"
