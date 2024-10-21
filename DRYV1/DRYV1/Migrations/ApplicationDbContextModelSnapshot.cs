@@ -104,7 +104,7 @@ namespace DRYV1.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.ToTable("Drums");
+                    b.ToTable("Drums", (string)null);
                 });
 
             modelBuilder.Entity("DRYV1.Models.Guitar", b =>
@@ -123,6 +123,15 @@ namespace DRYV1.Migrations
                     b.HasOne("DRYV1.Models.User", null)
                         .WithMany("Instruments")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DRYV1.Models.Drums", b =>
+                {
+                    b.HasOne("DRYV1.Models.Instrument", null)
+                        .WithOne()
+                        .HasForeignKey("DRYV1.Models.Drums", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
