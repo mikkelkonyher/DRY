@@ -98,13 +98,13 @@ function CreateGuitar() {
             <input type="number" name="year" value={guitar.year} onChange={handleChange} placeholder="År" required />
             <select name="guitarType" value={guitar.guitarType} onChange={handleChange} required>
                 <option value="">Vælg guitartype</option>
-                <option value="Electric Guitar">Elektrisk guitar</option>
-                <option value="Acoustic Guitar">Akustisk guitar</option>
-                <option value="Semi-Hollow Guitar">Semi-hollow guitar</option>
-                <option value="Guitar Amplifier">Guitarforstærker</option>
-                <option value="Effect Pedal">Effektpedal</option>
-                <option value="Accessory">Tilbehør</option>
-                <option value="Other">Andet</option>
+                <option value="Elektrisk Guitar">Elektrisk Guitar</option>
+                <option value="Akustisk Guitar">Akustisk Guitar</option>
+                <option value="Semi-Hollow Guitar">Semi-Hollow Guitar</option>
+                <option value="Guitarforstærker">Guitarforstærker</option>
+                <option value="Effekt Pedal">Effekt Pedal</option>
+                <option value="Tilbehør">Tilbehør</option>
+                <option value="Andet">Andet</option>
             </select>
             <input type="number" name="userId" value={guitar.userId} onChange={handleChange} placeholder="Bruger ID" required />
             <input type="file" multiple onChange={handleFileChange} />

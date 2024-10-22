@@ -15,6 +15,8 @@ function GetGuitar() {
         location: ''
     });
     const [searchQuery, setSearchQuery] = useState('');
+    const [users, setUsers] = useState({});
+    const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
         const fetchGuitars = async () => {
@@ -26,7 +28,6 @@ function GetGuitar() {
                 const data = await response.json();
                 setGuitars(data);
 
-                // Extract unique values from the fetched guitar data
                 const uniqueBrands = [...new Set(data.map(guitar => guitar.brand))];
                 const uniqueModels = [...new Set(data.map(guitar => guitar.model))];
                 const uniqueTypes = [...new Set(data.map(guitar => guitar.guitarType))];
@@ -36,8 +37,19 @@ function GetGuitar() {
                 setModels(uniqueModels);
                 setTypes(uniqueTypes);
                 setLocations(uniqueLocations);
+
+                const userResponse = await fetch('https://localhost:7064/api/User');
+                if (!userResponse.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const userData = await userResponse.json();
+                const userMap = userData.reduce((acc, user) => {
+                    acc[user.id] = user;
+                    return acc;
+                }, {});
+                setUsers(userMap);
             } catch (error) {
-                console.error('Error fetching guitars:', error);
+                console.error('Error fetching guitars or users:', error);
             }
         };
 
@@ -61,6 +73,14 @@ function GetGuitar() {
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
+    };
+
+    const handleImageClick = (src) => {
+        setSelectedImage(src);
+    };
+
+    const closeModal = () => {
+        setSelectedImage(null);
     };
 
     const filteredGuitars = guitars.filter((guitar) => {
@@ -146,13 +166,13 @@ function GetGuitar() {
                         {showAllImages[guitar.id] ? (
                             guitar.imagePaths.map((imagePath, index) => (
                                 <img key={index} src={imagePath} alt={`${guitar.brand} ${guitar.model}`}
-                                     className="guitar-image"/>
+                                     className="guitar-image" onClick={() => handleImageClick(imagePath)} />
                             ))
                         ) : (
                             <img src={guitar.imagePaths[0]} alt={`${guitar.brand} ${guitar.model}`}
-                                 className="guitar-image"/>
+                                 className="guitar-image" onClick={() => handleImageClick(guitar.imagePaths[0])} />
                         )}
-                        <button onClick={() => toggleShowAllImages(guitar.id)}>
+                        <button className="toggle-images-button" onClick={() => toggleShowAllImages(guitar.id)}>
                             {showAllImages[guitar.id] ? 'Show Less' : 'Show All Images'}
                         </button>
                         <h3>{guitar.brand} {guitar.model}</h3>
@@ -162,9 +182,19 @@ function GetGuitar() {
                         <p><strong>Stand:</strong> {guitar.condition}</p>
                         <p><strong>År:</strong> {guitar.year}</p>
                         <p><strong>Type: </strong>{guitar.guitarType}</p>
+                        <p><strong>Sælger:</strong> {users[guitar.userId]?.name || 'Ukendt'}</p>
+                        <button onClick={() => alert(`Skriv til sælger: ${users[guitar.userId]?.email || 'Ukendt'}`)}>
+                            Skriv til sælger
+                        </button>
                     </div>
                 ))}
             </div>
+            {selectedImage && (
+                <div className="modal" onClick={closeModal}>
+                    <span className="close">&times;</span>
+                    <img className="modal-content" src={selectedImage} alt="Large view" />
+                </div>
+            )}
         </div>
     );
 }

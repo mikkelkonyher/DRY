@@ -31,6 +31,27 @@ namespace DRYV1.Controllers
 
             return Ok(users);
         }
+        
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDTO>> GetUserById(int id)
+        {
+            var user = await _context.Users
+                .Where(u => u.Id == id)
+                .Select(u => new UserDTO
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Email = u.Email
+                })
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
 
         [HttpPost]
         public async Task<ActionResult<UserDTO>> PostUser(UserCreateDTO userCreateDto)
