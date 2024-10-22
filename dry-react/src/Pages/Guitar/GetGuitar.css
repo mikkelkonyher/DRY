@@ -1,11 +1,3 @@
-.guitar-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-}
-
 .guitar-card {
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -13,10 +5,8 @@
     width: 300px;
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.guitar-card h3 {
-    margin-top: 0;
+    color: black; /* Set text color to black */
+    margin: 20px; /* Add this line to create 20px space between cards */
 }
 
 .guitar-card p {
@@ -27,13 +17,5 @@
     width: 100%;
     height: auto;
     border-radius: 10px;
-}
-.guitar-card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    width: 300px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: black; /* Set text color to black */
+    display: block;
 }

@@ -3,6 +3,7 @@ import './GetGuitar.css';
 
 function GetGuitar() {
     const [guitars, setGuitars] = useState([]);
+    const [showAllImages, setShowAllImages] = useState({});
 
     useEffect(() => {
         const fetchGuitars = async () => {
@@ -21,18 +22,36 @@ function GetGuitar() {
         fetchGuitars();
     }, []);
 
+    const toggleShowAllImages = (id) => {
+        setShowAllImages((prevState) => ({
+            ...prevState,
+            [id]: !prevState[id],
+        }));
+    };
+
     return (
         <div className="guitar-list">
             {guitars.map((guitar) => (
                 <div key={guitar.id} className="guitar-card">
-                    <img src={`https://localhost:7064/${guitar.imagePaths[0]}`} alt={`${guitar.brand} ${guitar.model}`} className="guitar-image" />
+                    {showAllImages[guitar.id] ? (
+                        guitar.imagePaths.map((imagePath, index) => (
+                            <img key={index} src={imagePath} alt={`${guitar.brand} ${guitar.model}`}
+                                 className="guitar-image"/>
+                        ))
+                    ) : (
+                        <img src={guitar.imagePaths[0]} alt={`${guitar.brand} ${guitar.model}`}
+                             className="guitar-image"/>
+                    )}
+                    <button onClick={() => toggleShowAllImages(guitar.id)}>
+                        {showAllImages[guitar.id] ? 'Show Less' : 'Show All Images'}
+                    </button>
                     <h3>{guitar.brand} {guitar.model}</h3>
                     <p>{guitar.description}</p>
-                    <p>Price: {guitar.price}</p>
-                    <p>Location: {guitar.location}</p>
-                    <p>Condition: {guitar.condition}</p>
-                    <p>Year: {guitar.year}</p>
-                    <p>Type: {guitar.guitarType}</p>
+                    <p><strong>Pris: {guitar.price} DKK</strong></p>
+                    <p><strong>Lokation:</strong> {guitar.location}</p>
+                    <p><strong>Stand:</strong> {guitar.condition}</p>
+                    <p><strong>År:</strong> {guitar.year}</p>
+                    <p><strong>Type: </strong>{guitar.guitarType}</p>
                 </div>
             ))}
         </div>

@@ -34,7 +34,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+app.UseStaticFiles();
 // Use CORS middleware
 app.UseCors();
 

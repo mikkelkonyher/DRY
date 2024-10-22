@@ -47,14 +47,15 @@ namespace DRYV1.Controllers
             {
                 return BadRequest("Invalid UserId");
             }
-            
+
             guitar.ListingDate = DateTime.UtcNow;
 
             if (imageFiles != null && imageFiles.Count > 0)
             {
                 try
                 {
-                    guitar.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets");
+                    var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+                    guitar.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets", baseUrl);
                 }
                 catch (InvalidOperationException ex)
                 {
@@ -67,36 +68,7 @@ namespace DRYV1.Controllers
             return CreatedAtAction(nameof(GetById), new { id = guitar.Id }, guitar);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] Guitar guitar, [FromForm] List<IFormFile> imageFiles)
-        {
-            if (id != guitar.Id)
-            {
-                return BadRequest();
-            }
-
-            var userExists = await _context.Users.AnyAsync(u => u.Id == guitar.UserId);
-            if (!userExists)
-            {
-                return BadRequest("Invalid UserId");
-            }
-
-            if (imageFiles != null && imageFiles.Count > 0)
-            {
-                try
-                {
-                    guitar.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets");
-                }
-                catch (InvalidOperationException ex)
-                {
-                    return BadRequest(ex.Message);
-                }
-            }
-
-            _context.Entry(guitar).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
+        
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
