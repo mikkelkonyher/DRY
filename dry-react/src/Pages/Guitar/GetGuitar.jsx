@@ -17,6 +17,8 @@ function GetGuitar() {
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 3;
 
     useEffect(() => {
         const fetchGuitars = async () => {
@@ -101,6 +103,23 @@ function GetGuitar() {
         return matchesFilters && matchesSearchQuery;
     });
 
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filteredGuitars.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(filteredGuitars.length / itemsPerPage);
+
+    const handlePageChange = (direction) => {
+        setCurrentPage((prevPage) => {
+            if (direction === 'prev' && prevPage > 1) {
+                return prevPage - 1;
+            } else if (direction === 'next' && prevPage < totalPages) {
+                return prevPage + 1;
+            }
+            return prevPage;
+        });
+    };
+
     return (
         <div>
             <div className="filters">
@@ -161,7 +180,7 @@ function GetGuitar() {
                 </select>
             </div>
             <div className="guitar-list">
-                {filteredGuitars.map((guitar) => (
+                {currentItems.map((guitar) => (
                     <div key={guitar.id} className="guitar-card">
                         {showAllImages[guitar.id] ? (
                             guitar.imagePaths.map((imagePath, index) => (
@@ -188,6 +207,23 @@ function GetGuitar() {
                         </button>
                     </div>
                 ))}
+            </div>
+            <div className="pagination">
+                <button
+                    className="pagination-button"
+                    onClick={() => handlePageChange('prev')}
+                    disabled={currentPage === 1}
+                >
+                    &larr;
+                </button>
+                <span>Page {currentPage} of {totalPages}</span>
+                <button
+                    className="pagination-button"
+                    onClick={() => handlePageChange('next')}
+                    disabled={currentPage === totalPages}
+                >
+                    &rarr;
+                </button>
             </div>
             {selectedImage && (
                 <div className="modal" onClick={closeModal}>
