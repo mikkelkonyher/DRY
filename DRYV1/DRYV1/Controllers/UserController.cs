@@ -25,6 +25,7 @@ namespace DRYV1.Controllers
                     Id = u.Id,
                     Name = u.Name,
                     Email = u.Email
+                    
                 })
                 .ToListAsync();
 

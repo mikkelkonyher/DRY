@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using DRYV1.Data;
 using DRYV1.Models;
+using DRYV1.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace DRYV1.Controllers
 {
@@ -37,12 +40,26 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Guitar guitar)
+        public async Task<IActionResult> Create([FromForm] Guitar guitar, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == guitar.UserId);
             if (!userExists)
             {
                 return BadRequest("Invalid UserId");
+            }
+            
+            guitar.ListingDate = DateTime.UtcNow;
+
+            if (imageFiles != null && imageFiles.Count > 0)
+            {
+                try
+                {
+                    guitar.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets");
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
 
             _context.Guitars.Add(guitar);
@@ -51,11 +68,29 @@ namespace DRYV1.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Guitar guitar)
+        public async Task<IActionResult> Update(int id, [FromForm] Guitar guitar, [FromForm] List<IFormFile> imageFiles)
         {
             if (id != guitar.Id)
             {
                 return BadRequest();
+            }
+
+            var userExists = await _context.Users.AnyAsync(u => u.Id == guitar.UserId);
+            if (!userExists)
+            {
+                return BadRequest("Invalid UserId");
+            }
+
+            if (imageFiles != null && imageFiles.Count > 0)
+            {
+                try
+                {
+                    guitar.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets");
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
 
             _context.Entry(guitar).State = EntityState.Modified;

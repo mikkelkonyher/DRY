@@ -1,6 +1,8 @@
+using DRYV1.Interfaces;
+
 namespace DRYV1.Models
 {
-    public class Instrument
+    public class Instrument : IImageUploadable
     {
         public int Id { get; set; }
         public DateTime ListingDate { get; set; }
@@ -11,6 +13,7 @@ namespace DRYV1.Models
         public string Location { get; set; }
         public string Condition { get; set; }
         public int Year { get; set; }
+        public List<string> ImagePaths { get; set; } = new List<string>();
         public int UserId { get; set; } // Foreign key property
     }
 }

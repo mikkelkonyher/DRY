@@ -21,8 +21,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="assets\" />
       <Folder Include="Models\StudioEquipment\" />
-      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>
