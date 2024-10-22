@@ -124,7 +124,7 @@ function CreateGuitar() {
                     </div>
                 ))}
             </div>
-            <button type="submit">Opret Guitar</button>
+            <button type="submit">Opret Produkt</button>
         </form>
     );
 }
