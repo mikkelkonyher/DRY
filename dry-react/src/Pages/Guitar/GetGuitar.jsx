@@ -18,7 +18,7 @@ function GetGuitar() {
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 8;
+    const itemsPerPage = 5;
 
     useEffect(() => {
         const fetchGuitars = async () => {
