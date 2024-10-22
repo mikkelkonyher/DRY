@@ -25,9 +25,13 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #242424;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 h1 {
@@ -65,4 +69,23 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #4cacaf;
+}
+
+nav a:hover {
+  text-decoration: underline;
 }

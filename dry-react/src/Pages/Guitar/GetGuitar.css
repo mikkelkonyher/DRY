@@ -1,0 +1,39 @@
+.guitar-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.guitar-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.guitar-card h3 {
+    margin-top: 0;
+}
+
+.guitar-card p {
+    margin: 5px 0;
+}
+
+.guitar-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+.guitar-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: black; /* Set text color to black */
+}
