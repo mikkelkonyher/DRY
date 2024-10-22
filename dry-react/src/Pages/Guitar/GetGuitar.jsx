@@ -9,7 +9,7 @@ function GetGuitar() {
     const [locations, setLocations] = useState([]);
     const [showAllImages, setShowAllImages] = useState({});
     const [filters, setFilters] = useState({
-        type: '',
+        type: '', // Set default filter type
         brand: '',
         model: '',
         location: ''
@@ -18,7 +18,7 @@ function GetGuitar() {
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 3;
+    const itemsPerPage = 8;
 
     useEffect(() => {
         const fetchGuitars = async () => {
@@ -28,7 +28,10 @@ function GetGuitar() {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setGuitars(data);
+
+                // Sort guitars by Id in descending order
+                const sortedData = data.sort((a, b) => b.id - a.id);
+                setGuitars(sortedData);
 
                 const uniqueBrands = [...new Set(data.map(guitar => guitar.brand))];
                 const uniqueModels = [...new Set(data.map(guitar => guitar.model))];
@@ -135,12 +138,19 @@ function GetGuitar() {
                     value={filters.type}
                     onChange={handleFilterChange}
                 >
-                    <option value="">Filter by Type</option>
-                    {types.map((type) => (
-                        <option key={type} value={type}>
-                            {type}
-                        </option>
-                    ))}
+                    <option value="">Vælg Guitarkategori</option>
+                    <option value="Elektrisk Guitar">Elektrisk Guitar</option>
+                    <option value="Akustisk Guitar">Akustisk Guitar</option>
+                    <option value="Semi-Hollow Guitar">Semi-Hollow Guitar</option>
+                    <option value="Guitarforstærker">Guitarforstærker</option>
+                    <option value="Effekt Pedal">Effekt Pedal</option>
+                    <option value="Tilbehør til Guitar">Tilbehør til Guitar</option>
+                    <option value="Elektrisk Bas">Elektrisk Bas</option>
+                    <option value="Akustisk Bas">Akustisk Bas</option>
+                    <option value="Contrabas">Contrabas</option>
+                    <option value="Basforstærker">Basforstærker</option>
+                    <option value="Tilbehør til Bas">Tilbehør til Bas</option>
+                    <option value="Andet">Andet</option>
                 </select>
                 <select
                     name="brand"

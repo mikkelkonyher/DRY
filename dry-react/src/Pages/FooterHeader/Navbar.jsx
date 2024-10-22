@@ -16,7 +16,9 @@ import { Link } from 'react-router-dom';
 
 const pages = [
     { name: 'Sælg', path: '/create-guitar' },
-    { name: 'Gui/Bas', path: '/get-guitar' }
+    { name: 'Guit/Bass', path: '/get-guitar' },
+    { name: 'Drums', path: '/drums' },
+    { name: 'Studio Gear', path: '/drums' }
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -40,7 +42,7 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: 'transparent', boxShadow: 'none', width: '100%', padding: '10px 0' }}>
+        <AppBar position="fixed" sx={{ backgroundColor: 'rgb(37 37 37)', boxShadow: 'none', width: '100%', padding: '10px 0' }}>
             <Container maxWidth="xl" sx={{ padding: '0 20px' }}>
                 <Toolbar disableGutters>
                     <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
