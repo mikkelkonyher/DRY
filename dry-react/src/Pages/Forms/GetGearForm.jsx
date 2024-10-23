@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './GetGearForm.css';
 
 function GetGearForm({ gearType, apiEndpoint, categories }) {
+    // State variables to manage gear data, filters, and pagination
     const [gear, setGear] = useState([]);
     const [brands, setBrands] = useState([]);
     const [models, setModels] = useState([]);
@@ -21,6 +22,7 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
+    // Fetch gear and user data from the API when the component mounts
     useEffect(() => {
         const fetchGear = async () => {
             try {
@@ -30,9 +32,11 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
                 }
                 const data = await response.json();
 
+                // Sort gear data by ID in descending order
                 const sortedData = data.sort((a, b) => b.id - a.id);
                 setGear(sortedData);
 
+                // Extract unique brands, models, and locations from the gear data
                 const uniqueBrands = [...new Set(data.map(item => item.brand))];
                 const uniqueModels = [...new Set(data.map(item => item.model))];
                 const uniqueLocations = [...new Set(data.map(item => item.location))];
@@ -41,6 +45,7 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
                 setModels(uniqueModels);
                 setLocations(uniqueLocations);
 
+                // Fetch user data and map it by user ID
                 const userResponse = await fetch('https://localhost:7064/api/User');
                 if (!userResponse.ok) {
                     throw new Error('Network response was not ok');
@@ -59,6 +64,7 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
         fetchGear();
     }, [apiEndpoint]);
 
+    // Toggle the visibility of all images for a specific gear item
     const toggleShowAllImages = (id) => {
         setShowAllImages((prevState) => ({
             ...prevState,
@@ -66,6 +72,7 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
         }));
     };
 
+    // Handle changes in filter inputs
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters((prevFilters) => ({
@@ -74,18 +81,22 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
         }));
     };
 
+    // Handle changes in the search input
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
+    // Handle image click to show a larger view
     const handleImageClick = (src) => {
         setSelectedImage(src);
     };
 
+    // Close the image modal
     const closeModal = () => {
         setSelectedImage(null);
     };
 
+    // Filter gear items based on filters and search query
     const filteredGear = gear.filter((item) => {
         const matchesFilters = (
             (filters.type === '' || item?.guitBassType?.includes(filters.type)) &&
@@ -104,12 +115,14 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
         return matchesFilters && matchesSearchQuery;
     });
 
+    // Calculate the indices for pagination
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredGear.slice(indexOfFirstItem, indexOfLastItem);
 
     const totalPages = Math.ceil(filteredGear.length / itemsPerPage);
 
+    // Handle page change for pagination
     const handlePageChange = (direction) => {
         setCurrentPage((prevPage) => {
             if (direction === 'prev' && prevPage > 1) {
@@ -123,11 +136,13 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
 
     return (
         <div>
+            {/* Button to navigate to the sell gear page */}
             <div className="sell-button-container">
                 <Link to={'/SellGuiBassGear'}>
                     <button className="sell-button">Sælg {gearType}</button>
                 </Link>
             </div>
+            {/* Filter inputs for searching and filtering gear */}
             <div className="filters">
                 <input
                     type="text"
@@ -185,6 +200,7 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
                     ))}
                 </select>
             </div>
+            {/* List of gear items */}
             <div className="gear-list">
                 {currentItems.map((item) => (
                     <div key={item.id} className="gear-card">
@@ -214,6 +230,7 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
                     </div>
                 ))}
             </div>
+            {/* Pagination controls */}
             <div className="pagination">
                 <button
                     className="pagination-button"
@@ -231,6 +248,7 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
                     &rarr;
                 </button>
             </div>
+            {/* Modal for displaying selected image */}
             {selectedImage && (
                 <div className="modal" onClick={closeModal}>
                     <span className="close">&times;</span>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './GearForm.css';
 
 function GearForm({ gearType, categories, onSubmit }) {
+    // State for gear details
     const [gear, setGear] = useState({
         brand: '',
         model: '',
@@ -14,11 +15,14 @@ function GearForm({ gearType, categories, onSubmit }) {
         type: '',
         userId: '',
     });
+
+    // State for image files and previews
     const [imageFiles, setImageFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
 
+    // Handle input changes for gear details
     const handleChange = (e) => {
         const { name, value } = e.target;
         setGear((prevGear) => ({
@@ -27,6 +31,7 @@ function GearForm({ gearType, categories, onSubmit }) {
         }));
     };
 
+    // Handle file input changes for images
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         if (files.length > 8) {
@@ -40,10 +45,12 @@ function GearForm({ gearType, categories, onSubmit }) {
         setMainImageIndex(0);
     };
 
+    // Handle main image selection
     const handleMainImageChange = (index) => {
         setMainImageIndex(index);
     };
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -87,17 +94,24 @@ function GearForm({ gearType, categories, onSubmit }) {
         <div>
             <h2>Sælg {gearType}</h2>
             <form onSubmit={handleSubmit}>
+                {/* Success message */}
                 {successMessage && <p className="success-message" style={{color: 'green'}}>{successMessage}</p>}
+
+                {/* Gear type selection */}
                 <select name="type" value={gear.type} onChange={handleChange} required>
                     <option value="">Vælg {gearType} kategori</option>
                     {categories.map((category) => (
                         <option key={category} value={category}>{category}</option>
                     ))}
                 </select>
+
+                {/* Gear details inputs */}
                 <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke" required />
                 <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model" required />
                 <textarea name="description" value={gear.description} onChange={handleChange} placeholder="Beskrivelse" required />
                 <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris" required />
+
+                {/* Gear condition selection */}
                 <select name="condition" value={gear.condition} onChange={handleChange} required>
                     <option value="">Vælg tilstand</option>
                     <option value="Ny">Ny</option>
@@ -105,6 +119,8 @@ function GearForm({ gearType, categories, onSubmit }) {
                     <option value="God Stand">God Stand</option>
                     <option value="Brugt">Brugt</option>
                 </select>
+
+                {/* Additional gear details inputs */}
                 <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År" required />
                 <select name="location" value={gear.location} onChange={handleChange} required>
                     <option value="">Vælg placering</option>
@@ -121,7 +137,11 @@ function GearForm({ gearType, categories, onSubmit }) {
                     <option value="Andet">Andet</option>
                 </select>
                 <input type="number" name="userId" value={gear.userId} onChange={handleChange} placeholder="Bruger ID" required />
+
+                {/* Image file input */}
                 <input type="file" multiple onChange={handleFileChange} />
+
+                {/* Image previews */}
                 <div className="image-previews">
                     {imagePreviews.map((src, index) => (
                         <div key={index} className="image-preview-container">
@@ -138,6 +158,8 @@ function GearForm({ gearType, categories, onSubmit }) {
                         </div>
                     ))}
                 </div>
+
+                {/* Submit button */}
                 <button type="submit">Opret Produkt</button>
             </form>
         </div>
