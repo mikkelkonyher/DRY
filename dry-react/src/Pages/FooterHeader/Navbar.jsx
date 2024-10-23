@@ -15,10 +15,15 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 
 const pages = [
-    { name: 'Sælg', path: '/create-guitar' },
-    { name: 'Guit/Bass', path: '/get-guitar' },
+
+    { name: 'Guit/Bass', path: '/GuiBass' },
     { name: 'Drums', path: '/drums' },
-    { name: 'Studio Gear', path: '/drums' }
+    { name: 'Studio Gear', path: '/studioGear' },
+    { name: 'Keys', path: '/keys' },
+    { name: 'Øvelokaler', path: '/øvelokaler' },
+    { name: 'Musikundervisning', path: '/musikundervisning' },
+    { name: 'Mix & Mastering Tjenester', path: '/mixmastering' }
+
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -50,7 +55,7 @@ function ResponsiveAppBar() {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
+                        href="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },

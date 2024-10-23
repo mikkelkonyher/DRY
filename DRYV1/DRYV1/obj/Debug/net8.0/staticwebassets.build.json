@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9QDj47p2iRVjEnoJQI0t3RQj/9WBCy8kH1kW1fxEzXI=",
+  "Hash": "Otdvis/EiQOi8EFykZ0BUAOC1BXKIgObVIQKYhCVyiA=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/0sudwgcm.xr3.jpg",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/3tygt0nx.ri3.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/0sudwgcm.xr3.jpg",
+      "RelativePath": "assets/3tygt0nx.ri3.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -33,15 +33,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/0sudwgcm.xr3.jpg"
+      "OriginalItemSpec": "wwwroot/assets/3tygt0nx.ri3.jpg"
     },
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/2gm3fwfy.3wo.png",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/aep3wvhb.o4i.png",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/2gm3fwfy.3wo.png",
+      "RelativePath": "assets/aep3wvhb.o4i.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -52,15 +52,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/2gm3fwfy.3wo.png"
+      "OriginalItemSpec": "wwwroot/assets/aep3wvhb.o4i.png"
     },
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/33sexiep.dmp.jpg",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/dtbuix4s.zxc.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/33sexiep.dmp.jpg",
+      "RelativePath": "assets/dtbuix4s.zxc.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -71,15 +71,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/33sexiep.dmp.jpg"
+      "OriginalItemSpec": "wwwroot/assets/dtbuix4s.zxc.jpg"
     },
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/apmvmqid.5x5.jpg",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/g034fuos.fuk.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/apmvmqid.5x5.jpg",
+      "RelativePath": "assets/g034fuos.fuk.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -90,15 +90,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/apmvmqid.5x5.jpg"
+      "OriginalItemSpec": "wwwroot/assets/g034fuos.fuk.jpg"
     },
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/bhf1h0wr.4zn.jpg",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/jsl20bxi.pxm.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/bhf1h0wr.4zn.jpg",
+      "RelativePath": "assets/jsl20bxi.pxm.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -109,15 +109,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/bhf1h0wr.4zn.jpg"
+      "OriginalItemSpec": "wwwroot/assets/jsl20bxi.pxm.jpg"
     },
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/Fender-Anniversary-American-Professional-II-Stratocaster-El-guitar-2-Color-Sunburst-01.png",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/kvpybmqk.3tm.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/Fender-Anniversary-American-Professional-II-Stratocaster-El-guitar-2-Color-Sunburst-01.png",
+      "RelativePath": "assets/kvpybmqk.3tm.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -128,15 +128,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/Fender-Anniversary-American-Professional-II-Stratocaster-El-guitar-2-Color-Sunburst-01.png"
+      "OriginalItemSpec": "wwwroot/assets/kvpybmqk.3tm.jpg"
     },
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/kkstqssh.w2x.jpg",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/na51fa5n.ug1.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/kkstqssh.w2x.jpg",
+      "RelativePath": "assets/na51fa5n.ug1.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -147,15 +147,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/kkstqssh.w2x.jpg"
+      "OriginalItemSpec": "wwwroot/assets/na51fa5n.ug1.jpg"
     },
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/mic3mgzc.r4e.jpg",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/p0ruzfe2.lil.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/mic3mgzc.r4e.jpg",
+      "RelativePath": "assets/p0ruzfe2.lil.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -166,15 +166,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/mic3mgzc.r4e.jpg"
+      "OriginalItemSpec": "wwwroot/assets/p0ruzfe2.lil.jpg"
     },
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/opdwjdph.hyj.jpg",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/rmdymvy2.5q1.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/opdwjdph.hyj.jpg",
+      "RelativePath": "assets/rmdymvy2.5q1.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -185,15 +185,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/opdwjdph.hyj.jpg"
+      "OriginalItemSpec": "wwwroot/assets/rmdymvy2.5q1.jpg"
     },
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/s-l1600.jpg",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/vmolpfvd.tf3.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/s-l1600.jpg",
+      "RelativePath": "assets/vmolpfvd.tf3.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -204,15 +204,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/s-l1600.jpg"
+      "OriginalItemSpec": "wwwroot/assets/vmolpfvd.tf3.jpg"
     },
     {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/v02_B3A38547FCF118C2F581CFACF66D693E.jpg",
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/ykke2pod.l32.png",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
       "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/v02_B3A38547FCF118C2F581CFACF66D693E.jpg",
+      "RelativePath": "assets/ykke2pod.l32.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -223,45 +223,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/v02_B3A38547FCF118C2F581CFACF66D693E.jpg"
-    },
-    {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/v2zzhx0x.xmc.jpg",
-      "SourceId": "DRYV1",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
-      "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/v2zzhx0x.xmc.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/v2zzhx0x.xmc.jpg"
-    },
-    {
-      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/vjtru4rw.w22.png",
-      "SourceId": "DRYV1",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
-      "BasePath": "_content/DRYV1",
-      "RelativePath": "assets/vjtru4rw.w22.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/assets/vjtru4rw.w22.png"
+      "OriginalItemSpec": "wwwroot/assets/ykke2pod.l32.png"
     }
   ]
 }

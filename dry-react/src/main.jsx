@@ -1,11 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import CreateGuitar from './Pages/Guitar/CreateGuitar';
-import GetGuitar from './Pages/Guitar/GetGuitar';
+import CreateGuitBassGear from './Pages/GuitBassGear/CreateGuitBassGear.jsx';
+import GetGuitBassGear from './Pages/GuitBassGear/GetGuitBassGear.jsx';
 import ResponsiveAppBar from './Pages/FooterHeader/Navbar';
 import './index.css';
 import Box from '@mui/material/Box';
+import Home from './Pages/Home/';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -13,8 +14,9 @@ createRoot(document.getElementById('root')).render(
             <ResponsiveAppBar />
             <Box sx={{ marginTop: '84px', padding: '20px' }}> {/* Adjust marginTop based on AppBar height */}
                 <Routes>
-                    <Route path="/create-guitar" element={<CreateGuitar />} />
-                    <Route path="/get-guitar" element={<GetGuitar />} />
+                    <Route path="/SellGuiBassGear" element={<CreateGuitBassGear />} />
+                    <Route path="/GuiBass" element={<GetGuitBassGear />} />
+                    <Route path="/" element={<Home />} />
                 </Routes>
             </Box>
         </Router>

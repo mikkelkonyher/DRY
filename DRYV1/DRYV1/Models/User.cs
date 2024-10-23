@@ -10,7 +10,7 @@ namespace DRYV1.Models
         public string Email { get; set; } 
         public string Password { get; set; }
         
-        public List<Instrument> Instruments { get; set; } = new List<Instrument>();
+        public List<MusicGear> Instruments { get; set; } = new List<MusicGear>();
     }
 
     public class UserDTO

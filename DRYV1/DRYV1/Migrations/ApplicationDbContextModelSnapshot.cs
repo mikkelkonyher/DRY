@@ -23,7 +23,7 @@ namespace DRYV1.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DRYV1.Models.Instrument", b =>
+            modelBuilder.Entity("DRYV1.Models.MusicGear", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace DRYV1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Instruments", (string)null);
+                    b.ToTable("MusicGear", (string)null);
 
                     b.UseTptMappingStrategy();
                 });
@@ -101,29 +101,29 @@ namespace DRYV1.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DRYV1.Models.Drums", b =>
+            modelBuilder.Entity("DRYV1.Models.DrumsGear", b =>
                 {
-                    b.HasBaseType("DRYV1.Models.Instrument");
+                    b.HasBaseType("DRYV1.Models.MusicGear");
 
-                    b.Property<string>("DrumType")
+                    b.Property<string>("DrumsGearType")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.ToTable("Drums", (string)null);
+                    b.ToTable("DrumsGear", (string)null);
                 });
 
-            modelBuilder.Entity("DRYV1.Models.Guitar", b =>
+            modelBuilder.Entity("DRYV1.Models.GuitBassGear", b =>
                 {
-                    b.HasBaseType("DRYV1.Models.Instrument");
+                    b.HasBaseType("DRYV1.Models.MusicGear");
 
-                    b.Property<string>("GuitarType")
+                    b.Property<string>("GuitBassType")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.ToTable("Guitars", (string)null);
+                    b.ToTable("GuitBassGear", (string)null);
                 });
 
-            modelBuilder.Entity("DRYV1.Models.Instrument", b =>
+            modelBuilder.Entity("DRYV1.Models.MusicGear", b =>
                 {
                     b.HasOne("DRYV1.Models.User", null)
                         .WithMany("Instruments")
@@ -132,20 +132,20 @@ namespace DRYV1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DRYV1.Models.Drums", b =>
+            modelBuilder.Entity("DRYV1.Models.DrumsGear", b =>
                 {
-                    b.HasOne("DRYV1.Models.Instrument", null)
+                    b.HasOne("DRYV1.Models.MusicGear", null)
                         .WithOne()
-                        .HasForeignKey("DRYV1.Models.Drums", "Id")
+                        .HasForeignKey("DRYV1.Models.DrumsGear", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DRYV1.Models.Guitar", b =>
+            modelBuilder.Entity("DRYV1.Models.GuitBassGear", b =>
                 {
-                    b.HasOne("DRYV1.Models.Instrument", null)
+                    b.HasOne("DRYV1.Models.MusicGear", null)
                         .WithOne()
-                        .HasForeignKey("DRYV1.Models.Guitar", "Id")
+                        .HasForeignKey("DRYV1.Models.GuitBassGear", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

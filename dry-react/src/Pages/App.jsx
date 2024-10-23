@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import CreateGuitar from '../Pages/Guitar/CreateGuitar';
-import GetGuitar from '../Pages/Guitar/GetGuitar';
+import CreateGuitBassGear from './GuitBassGear/CreateGuitBassGear.jsx';
+import GetGuitBassGear from './GuitBassGear/GetGuitBassGear.jsx';
 
 function App() {
     return (
@@ -13,8 +13,8 @@ function App() {
                 </ul>
             </nav>
             <Routes>
-                <Route path="/create-guitar" element={<CreateGuitar />} />
-                <Route path="/get-guitar" element={<GetGuitar />} />
+                <Route path="/create-guitar" element={<CreateGuitBassGear />} />
+                <Route path="/get-guitar" element={<GetGuitBassGear />} />
             </Routes>
         </Router>
     );

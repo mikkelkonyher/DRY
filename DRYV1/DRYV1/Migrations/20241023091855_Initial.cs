@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -28,7 +29,7 @@ namespace DRYV1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Instruments",
+                name: "MusicGear",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -41,13 +42,14 @@ namespace DRYV1.Migrations
                     Location = table.Column<string>(type: "text", nullable: false),
                     Condition = table.Column<string>(type: "text", nullable: false),
                     Year = table.Column<int>(type: "integer", nullable: false),
+                    ImagePaths = table.Column<List<string>>(type: "text[]", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Instruments", x => x.Id);
+                    table.PrimaryKey("PK_MusicGear", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Instruments_Users_UserId",
+                        name: "FK_MusicGear_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -55,44 +57,44 @@ namespace DRYV1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Drums",
+                name: "DrumsGear",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
-                    DrumType = table.Column<string>(type: "text", nullable: false)
+                    DrumsGearType = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Drums", x => x.Id);
+                    table.PrimaryKey("PK_DrumsGear", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Drums_Instruments_Id",
+                        name: "FK_DrumsGear_MusicGear_Id",
                         column: x => x.Id,
-                        principalTable: "Instruments",
+                        principalTable: "MusicGear",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Guitars",
+                name: "GuitBassGear",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false),
-                    GuitarType = table.Column<string>(type: "text", nullable: false)
+                    GuitBassType = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Guitars", x => x.Id);
+                    table.PrimaryKey("PK_GuitBassGear", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Guitars_Instruments_Id",
+                        name: "FK_GuitBassGear_MusicGear_Id",
                         column: x => x.Id,
-                        principalTable: "Instruments",
+                        principalTable: "MusicGear",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Instruments_UserId",
-                table: "Instruments",
+                name: "IX_MusicGear_UserId",
+                table: "MusicGear",
                 column: "UserId");
         }
 
@@ -100,13 +102,13 @@ namespace DRYV1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Drums");
+                name: "DrumsGear");
 
             migrationBuilder.DropTable(
-                name: "Guitars");
+                name: "GuitBassGear");
 
             migrationBuilder.DropTable(
-                name: "Instruments");
+                name: "MusicGear");
 
             migrationBuilder.DropTable(
                 name: "Users");

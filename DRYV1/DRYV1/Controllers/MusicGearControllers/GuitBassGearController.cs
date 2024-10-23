@@ -12,11 +12,11 @@ namespace DRYV1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class GuitarController : ControllerBase
+    public class GuitBassGearController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public GuitarController(ApplicationDbContext context)
+        public GuitBassGearController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -24,14 +24,14 @@ namespace DRYV1.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var guitars = await _context.Guitars.ToListAsync();
+            var guitars = await _context.GuitBassGear.ToListAsync();
             return Ok(guitars);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var guitar = await _context.Guitars.FindAsync(id);
+            var guitar = await _context.GuitBassGear.FindAsync(id);
             if (guitar == null)
             {
                 return NotFound();
@@ -40,22 +40,22 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] Guitar guitar, [FromForm] List<IFormFile> imageFiles)
+        public async Task<IActionResult> Create([FromForm] GuitBassGear guitBassGear, [FromForm] List<IFormFile> imageFiles)
         {
-            var userExists = await _context.Users.AnyAsync(u => u.Id == guitar.UserId);
+            var userExists = await _context.Users.AnyAsync(u => u.Id == guitBassGear.UserId);
             if (!userExists)
             {
                 return BadRequest("Invalid UserId");
             }
 
-            guitar.ListingDate = DateTime.UtcNow;
+            guitBassGear.ListingDate = DateTime.UtcNow;
 
             if (imageFiles != null && imageFiles.Count > 0)
             {
                 try
                 {
                     var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-                    guitar.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets", baseUrl);
+                    guitBassGear.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets", baseUrl);
                 }
                 catch (InvalidOperationException ex)
                 {
@@ -63,9 +63,9 @@ namespace DRYV1.Controllers
                 }
             }
 
-            _context.Guitars.Add(guitar);
+            _context.GuitBassGear.Add(guitBassGear);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = guitar.Id }, guitar);
+            return CreatedAtAction(nameof(GetById), new { id = guitBassGear.Id }, guitBassGear);
         }
 
         
@@ -73,13 +73,13 @@ namespace DRYV1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var guitar = await _context.Guitars.FindAsync(id);
+            var guitar = await _context.GuitBassGear.FindAsync(id);
             if (guitar == null)
             {
                 return NotFound();
             }
 
-            _context.Guitars.Remove(guitar);
+            _context.GuitBassGear.Remove(guitar);
             await _context.SaveChangesAsync();
             return NoContent();
         }

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import './GetGuitar.css';
+import { Link } from 'react-router-dom';
+import './GetGuiBassGear.css';
 
-function GetGuitar() {
-    const [guitars, setGuitars] = useState([]);
+function GetGuitBassGear() {
+    const [guitBassGear, setGuitBassGear] = useState([]);
     const [brands, setBrands] = useState([]);
     const [models, setModels] = useState([]);
-    const [types, setTypes] = useState([]);
     const [locations, setLocations] = useState([]);
     const [showAllImages, setShowAllImages] = useState({});
     const [filters, setFilters] = useState({
-        type: '', // Set default filter type
+        type: '', // Corrected filter type
         brand: '',
         model: '',
         location: ''
@@ -21,26 +21,25 @@ function GetGuitar() {
     const itemsPerPage = 5;
 
     useEffect(() => {
-        const fetchGuitars = async () => {
+        const fetchGuiBassGears = async () => {
             try {
-                const response = await fetch('https://localhost:7064/api/Guitar');
+                const response = await fetch('https://localhost:7064/api/GuitBassGear');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
 
-                // Sort guitars by Id in descending order
+                // Sort guitBassGear by Id in descending order
                 const sortedData = data.sort((a, b) => b.id - a.id);
-                setGuitars(sortedData);
+                setGuitBassGear(sortedData);
 
-                const uniqueBrands = [...new Set(data.map(guitar => guitar.brand))];
-                const uniqueModels = [...new Set(data.map(guitar => guitar.model))];
-                const uniqueTypes = [...new Set(data.map(guitar => guitar.guitarType))];
-                const uniqueLocations = [...new Set(data.map(guitar => guitar.location))];
+                const uniqueBrands = [...new Set(data.map(guiBassGear => guiBassGear.brand))];
+                const uniqueModels = [...new Set(data.map(guiBassGear => guiBassGear.model))];
+                const uniqueTypes = [...new Set(data.map(guiBassGear => guiBassGear.guitBassType))];
+                const uniqueLocations = [...new Set(data.map(guiBassGear => guiBassGear.location))];
 
                 setBrands(uniqueBrands);
                 setModels(uniqueModels);
-                setTypes(uniqueTypes);
                 setLocations(uniqueLocations);
 
                 const userResponse = await fetch('https://localhost:7064/api/User');
@@ -54,11 +53,11 @@ function GetGuitar() {
                 }, {});
                 setUsers(userMap);
             } catch (error) {
-                console.error('Error fetching guitars or users:', error);
+                console.error('Error fetching guitBassGear or users:', error);
             }
         };
 
-        fetchGuitars();
+        fetchGuiBassGears();
     }, []);
 
     const toggleShowAllImages = (id) => {
@@ -88,19 +87,19 @@ function GetGuitar() {
         setSelectedImage(null);
     };
 
-    const filteredGuitars = guitars.filter((guitar) => {
+    const filteredGuiBassGears = guitBassGear.filter((guitBassGear) => {
         const matchesFilters = (
-            (filters.type === '' || guitar.guitarType.includes(filters.type)) &&
-            (filters.brand === '' || guitar.brand.includes(filters.brand)) &&
-            (filters.model === '' || guitar.model.includes(filters.model)) &&
-            (filters.location === '' || guitar.location.includes(filters.location))
+            (filters.type === '' || guitBassGear?.guitBassType?.includes(filters.type)) &&
+            (filters.brand === '' || guitBassGear?.brand?.includes(filters.brand)) &&
+            (filters.model === '' || guitBassGear?.model?.includes(filters.model)) &&
+            (filters.location === '' || guitBassGear?.location?.includes(filters.location))
         );
 
         const matchesSearchQuery = (
-            guitar.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            guitar.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            guitar.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            guitar.location.toLowerCase().includes(searchQuery.toLowerCase())
+            guitBassGear?.brand?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            guitBassGear?.model?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            guitBassGear?.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            guitBassGear?.location?.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
         return matchesFilters && matchesSearchQuery;
@@ -108,9 +107,9 @@ function GetGuitar() {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredGuitars.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredGuiBassGears.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(filteredGuitars.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredGuiBassGears.length / itemsPerPage);
 
     const handlePageChange = (direction) => {
         setCurrentPage((prevPage) => {
@@ -125,6 +124,11 @@ function GetGuitar() {
 
     return (
         <div>
+            <div className="sell-button-container">
+                <Link to="/SellGuiBassGear">
+                    <button className="sell-button">Sælg Guit/bass udstyr</button>
+                </Link>
+            </div>
             <div className="filters">
                 <input
                     type="text"
@@ -147,7 +151,7 @@ function GetGuitar() {
                     <option value="Tilbehør til Guitar">Tilbehør til Guitar</option>
                     <option value="Elektrisk Bas">Elektrisk Bas</option>
                     <option value="Akustisk Bas">Akustisk Bas</option>
-                    <option value="Contrabas">Contrabas</option>
+                    <option value="Kontrabas">Contrabas</option>
                     <option value="Basforstærker">Basforstærker</option>
                     <option value="Tilbehør til Bas">Tilbehør til Bas</option>
                     <option value="Andet">Andet</option>
@@ -190,29 +194,29 @@ function GetGuitar() {
                 </select>
             </div>
             <div className="guitar-list">
-                {currentItems.map((guitar) => (
-                    <div key={guitar.id} className="guitar-card">
-                        {showAllImages[guitar.id] ? (
-                            guitar.imagePaths.map((imagePath, index) => (
-                                <img key={index} src={imagePath} alt={`${guitar.brand} ${guitar.model}`}
+                {currentItems.map((guitBassGear) => (
+                    <div key={guitBassGear.id} className="guitar-card">
+                        {showAllImages[guitBassGear.id] ? (
+                            guitBassGear.imagePaths.map((imagePath, index) => (
+                                <img key={index} src={imagePath} alt={`${guitBassGear.brand} ${guitBassGear.model}`}
                                      className="guitar-image" onClick={() => handleImageClick(imagePath)} />
                             ))
                         ) : (
-                            <img src={guitar.imagePaths[0]} alt={`${guitar.brand} ${guitar.model}`}
-                                 className="guitar-image" onClick={() => handleImageClick(guitar.imagePaths[0])} />
+                            <img src={guitBassGear.imagePaths[0]} alt={`${guitBassGear.brand} ${guitBassGear.model}`}
+                                 className="guitar-image" onClick={() => handleImageClick(guitBassGear.imagePaths[0])} />
                         )}
-                        <button className="toggle-images-button" onClick={() => toggleShowAllImages(guitar.id)}>
-                            {showAllImages[guitar.id] ? 'Show Less' : 'Show All Images'}
+                        <button className="toggle-images-button" onClick={() => toggleShowAllImages(guitBassGear.id)}>
+                            {showAllImages[guitBassGear.id] ? 'Show Less' : 'Show All Images'}
                         </button>
-                        <h3>{guitar.brand} {guitar.model}</h3>
-                        <p>{guitar.description}</p>
-                        <p><strong>Pris: </strong>{guitar.price} DKK</p>
-                        <p><strong>Lokation:</strong> {guitar.location}</p>
-                        <p><strong>Stand:</strong> {guitar.condition}</p>
-                        <p><strong>År:</strong> {guitar.year}</p>
-                        <p><strong>Type: </strong>{guitar.guitarType}</p>
-                        <p><strong>Sælger:</strong> {users[guitar.userId]?.name || 'Ukendt'}</p>
-                        <button onClick={() => alert(`Skriv til sælger: ${users[guitar.userId]?.email || 'Ukendt'}`)}>
+                        <h3>{guitBassGear.brand} {guitBassGear.model}</h3>
+                        <p>{guitBassGear.description}</p>
+                        <p><strong>Pris: </strong>{guitBassGear.price} DKK</p>
+                        <p><strong>Lokation:</strong> {guitBassGear.location}</p>
+                        <p><strong>Stand:</strong> {guitBassGear.condition}</p>
+                        <p><strong>År:</strong> {guitBassGear.year}</p>
+                        <p><strong>Type: </strong>{guitBassGear.guitBassType}</p>
+                        <p><strong>Sælger:</strong> {users[guitBassGear.userId]?.name || 'Ukendt'}</p>
+                        <button onClick={() => alert(`Skriv til sælger: ${users[guitBassGear.userId]?.email || 'Ukendt'}`)}>
                             Skriv til sælger
                         </button>
                     </div>
@@ -245,4 +249,4 @@ function GetGuitar() {
     );
 }
 
-export default GetGuitar;
+export default GetGuitBassGear;

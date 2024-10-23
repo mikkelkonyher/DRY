@@ -2,7 +2,7 @@ using DRYV1.Interfaces;
 
 namespace DRYV1.Models
 {
-    public class Instrument : IImageUploadable
+    public class MusicGear : IImageUploadable
     {
         public int Id { get; set; }
         public DateTime ListingDate { get; set; }
