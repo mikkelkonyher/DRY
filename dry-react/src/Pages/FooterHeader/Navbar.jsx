@@ -13,23 +13,30 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const pages = [
-
     { name: 'Guit/Bass', path: '/GuitBass' },
     { name: 'Trommer/Slagtøj', path: '/Trommer' },
-    { name: 'Studio Gear', path: '/studioGear' },
     { name: 'Keys', path: '/keys' },
+    { name: 'Blæs', path: '/blæs' },
+    { name: 'Strygere', path: '/strygere' },
+    { name: 'Studio Gear', path: '/studioGear' },
     { name: 'Øvelokaler', path: '/øvelokaler' },
     { name: 'Musikundervisning', path: '/musikundervisning' },
-    { name: 'Mix & Mastering Tjenester', path: '/mixmastering' }
-
+    { name: 'mix/master', path: '/mixmaster' },
+    { name: 'Session Musikere', path: '/sessionmusikere' },
+    { name: 'Signup', path: '/signup' },
+    { name: 'Login', path: '/login' }
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -50,7 +57,7 @@ function ResponsiveAppBar() {
         <AppBar position="fixed" sx={{ backgroundColor: 'rgb(37 37 37)', boxShadow: 'none', width: '100%', padding: '10px 0' }}>
             <Container maxWidth="xl" sx={{ padding: '0 20px' }}>
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <AdbIcon sx={{ display: { xs: 'none', lg: 'flex' }, mr: 1 }} />
                     <Typography
                         variant="h6"
                         noWrap
@@ -58,7 +65,7 @@ function ResponsiveAppBar() {
                         href="/"
                         sx={{
                             mr: 2,
-                            display: { xs: 'none', md: 'flex' },
+                            display: { xs: 'none', lg: 'flex' },
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
@@ -69,7 +76,7 @@ function ResponsiveAppBar() {
                         DRY
                     </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -94,7 +101,7 @@ function ResponsiveAppBar() {
                             }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
-                            sx={{ display: { xs: 'block', md: 'none' } }}
+                            sx={{ display: { xs: 'block', lg: 'none' } }}
                         >
                             {pages.map((page) => (
                                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
@@ -109,7 +116,7 @@ function ResponsiveAppBar() {
                             ))}
                         </Menu>
                     </Box>
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                    <AdbIcon sx={{ display: { xs: 'flex', lg: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
                         noWrap
@@ -117,7 +124,7 @@ function ResponsiveAppBar() {
                         href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
-                            display: { xs: 'flex', md: 'none' },
+                            display: { xs: 'flex', lg: 'none' },
                             flexGrow: 1,
                             fontFamily: 'monospace',
                             fontWeight: 700,
@@ -128,7 +135,7 @@ function ResponsiveAppBar() {
                     >
                         DRY
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }}>
                         {pages.map((page) => (
                             <Button
                                 key={page.name}
