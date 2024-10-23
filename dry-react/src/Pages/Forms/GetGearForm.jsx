@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './GetGearForm.css';
 
-function GetGearForm({ gearType, apiEndpoint, categories }) {
+function GetGearForm({ gearType, apiEndpoint, categories, gearData }) {
     // State variables to manage gear data, filters, and pagination
-    const [gear, setGear] = useState([]);
+    const [gear, setGear] = useState(gearData || []);
     const [brands, setBrands] = useState([]);
     const [models, setModels] = useState([]);
     const [locations, setLocations] = useState([]);
@@ -134,11 +134,13 @@ function GetGearForm({ gearType, apiEndpoint, categories }) {
         });
     };
 
+    const sellGearPath = gearType === "Trommeudstyr" ? "/SellDrumsGear" : "/SellGuiBassGear";
+
     return (
         <div>
             {/* Button to navigate to the sell gear page */}
             <div className="sell-button-container">
-                <Link to={'/SellGuiBassGear'}>
+                <Link to={sellGearPath}>
                     <button className="sell-button">Sælg {gearType}</button>
                 </Link>
             </div>
@@ -263,6 +265,7 @@ GetGearForm.propTypes = {
     gearType: PropTypes.string.isRequired,
     apiEndpoint: PropTypes.string.isRequired,
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+    gearData: PropTypes.array.isRequired,
 };
 
 export default GetGearForm;
