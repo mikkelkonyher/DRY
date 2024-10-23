@@ -4,8 +4,8 @@ import './CreateDrumsGear.css';
 
 function CreateDrumsGear() {
     const categories = [
-        "Acoustic Drums", "Electronic Drums", "Cymbals", "Drum Hardware",
-        "Percussion", "Drum Accessories", "Other"
+        "Akustiske Trommer", "Elektroniske Trommer", "Lilletromme", "Stortromme", "Tamtammer", "Bækkener",
+        "Trommehardware", "Slagtøj", "Trommetilbehør", "Andet"
     ];
 
     const handleSubmit = async (formData) => {
@@ -29,7 +29,7 @@ function CreateDrumsGear() {
         }
     };
 
-    return <GearForm gearType="Drums Gear" categories={categories} onSubmit={handleSubmit} />;
+    return <GearForm gearType="Trommeudstyr" categories={categories} onSubmit={handleSubmit} />;
 }
 
 export default CreateDrumsGear;

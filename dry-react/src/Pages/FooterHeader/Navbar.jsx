@@ -16,8 +16,8 @@ import { Link } from 'react-router-dom';
 
 const pages = [
 
-    { name: 'Guit/Bass', path: '/GuiBass' },
-    { name: 'Drums', path: '/drums' },
+    { name: 'Guit/Bass', path: '/GuitBass' },
+    { name: 'Trommer/Slagtøj', path: '/Trommer' },
     { name: 'Studio Gear', path: '/studioGear' },
     { name: 'Keys', path: '/keys' },
     { name: 'Øvelokaler', path: '/øvelokaler' },
