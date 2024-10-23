@@ -1,0 +1,21 @@
+/* src/Pages/GearForm.css */
+.image-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.image-preview-container {
+    position: relative;
+}
+
+.image-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.success-message {
+    color: green;
+    font-weight: bold;
+}
