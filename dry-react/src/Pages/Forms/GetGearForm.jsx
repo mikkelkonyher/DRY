@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './GetGearForm.css';
 
 function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey }) {
+    // State variables
     const [gear, setGear] = useState(gearData || []);
     const [brands, setBrands] = useState([]);
     const [models, setModels] = useState([]);
@@ -21,6 +22,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
+    // Fetch gear and user data
     useEffect(() => {
         const fetchGear = async () => {
             try {
@@ -59,6 +61,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
         fetchGear();
     }, [apiEndpoint]);
 
+    // Toggle image visibility
     const toggleShowAllImages = (id) => {
         setShowAllImages((prevState) => ({
             ...prevState,
@@ -66,6 +69,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
         }));
     };
 
+    // Handle filter changes
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters((prevFilters) => ({
@@ -74,18 +78,22 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
         }));
     };
 
+    // Handle search query changes
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
+    // Handle image click for modal
     const handleImageClick = (src) => {
         setSelectedImage(src);
     };
 
+    // Close modal
     const closeModal = () => {
         setSelectedImage(null);
     };
 
+// Filter gear based on filters and search query
     const filteredGear = gear.filter((item) => {
         const matchesFilters = (
             (filters.type === '' || item[gearTypeKey]?.includes(filters.type)) &&
@@ -94,16 +102,18 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
             (filters.location === '' || item?.location?.includes(filters.location))
         );
 
-        const matchesSearchQuery = (
-            item?.brand?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item?.model?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item?.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item?.location?.toLowerCase().includes(searchQuery.toLowerCase())
+        const searchKeywords = searchQuery.toLowerCase().split(' ');
+        const matchesSearchQuery = searchKeywords.every(keyword =>
+            item?.brand?.toLowerCase().includes(keyword) ||
+            item?.model?.toLowerCase().includes(keyword) ||
+            item?.description?.toLowerCase().includes(keyword) ||
+            item?.location?.toLowerCase().includes(keyword)
         );
 
         return matchesFilters && matchesSearchQuery;
     });
 
+    // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredGear.slice(indexOfFirstItem, indexOfLastItem);
@@ -121,15 +131,18 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
         });
     };
 
+    // Determine sell gear path
     const sellGearPath = gearType === "Trommeudstyr" ? "/SellDrumsGear" : "/SellGuiBassGear";
 
     return (
         <div>
+            {/* Sell button */}
             <div className="sell-button-container">
                 <Link to={sellGearPath}>
                     <button className="sell-button">Sælg {gearType}</button>
                 </Link>
             </div>
+            {/* Filters */}
             <div className="filters">
                 <input
                     type="text"
@@ -187,6 +200,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
                     ))}
                 </select>
             </div>
+            {/* Gear list */}
             <div className="gear-list">
                 {currentItems.map((item) => (
                     <div key={item.id} className="gear-card">
@@ -216,6 +230,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
                     </div>
                 ))}
             </div>
+            {/* Pagination */}
             <div className="pagination">
                 <button
                     className="pagination-button"
@@ -233,6 +248,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
                     &rarr;
                 </button>
             </div>
+            {/* Image modal */}
             {selectedImage && (
                 <div className="modal" onClick={closeModal}>
                     <span className="close">&times;</span>
