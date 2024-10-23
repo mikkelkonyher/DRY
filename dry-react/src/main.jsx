@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CreateGuitBassGear from './Pages/GuitBassGear/CreateGuitBassGear.jsx';
 import GetGuitBassGear from './Pages/GuitBassGear/GetGuitBassGear.jsx';
+import CreateDrumsGear from "./Pages/DrumsGear/CreateDrumsGear.jsx";
 import ResponsiveAppBar from './Pages/FooterHeader/Navbar';
 import './index.css';
 import Box from '@mui/material/Box';
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')).render(
                 <Routes>
                     <Route path="/SellGuiBassGear" element={<CreateGuitBassGear />} />
                     <Route path="/GuiBass" element={<GetGuitBassGear />} />
+                    <Route path="/SellDrumsGear" element={<CreateDrumsGear />} />
                     <Route path="/" element={<Home />} />
                 </Routes>
             </Box>

@@ -3,6 +3,7 @@ using DRYV1.Data;
 using DRYV1.Models;
 using System.Threading.Tasks;
 using System.Linq;
+using DRYV1.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace DRYV1.Controllers
@@ -37,12 +38,27 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(DrumsGear drumGear)
+        public async Task<IActionResult> Create([FromForm] DrumsGear drumGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == drumGear.UserId);
             if (!userExists)
             {
                 return BadRequest("Invalid UserId");
+            }
+
+            drumGear.ListingDate = DateTime.UtcNow;
+
+            if (imageFiles != null && imageFiles.Count > 0)
+            {
+                try
+                {
+                    var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+                    drumGear.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets", baseUrl);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
 
             _context.DrumsGear.Add(drumGear);

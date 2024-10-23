@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "AH5rNdCJw36Vtysvk0k3Qi1I0nbYxQcXdr+/mA11UWs=",
+  "Hash": "+w+QN6fUkB566eRvCbNRyHfYdpqT+iskjQKeEkGeaz0=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -243,6 +243,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/na51fa5n.ug1.jpg"
+    },
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/niaqugh0.4dj.png",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/niaqugh0.4dj.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/niaqugh0.4dj.png"
     },
     {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/nqnp1p45.zts.jpg",
