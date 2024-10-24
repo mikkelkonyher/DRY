@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using DRYV1.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DRYV1.Controllers
 {
@@ -38,6 +39,7 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] DrumsGear drumGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == drumGear.UserId);
