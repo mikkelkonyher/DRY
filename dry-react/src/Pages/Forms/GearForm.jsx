@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import './GearForm.css';
 
 function GearForm({ gearType, categories, onSubmit }) {
@@ -21,6 +22,56 @@ function GearForm({ gearType, categories, onSubmit }) {
     const [imagePreviews, setImagePreviews] = useState([]);
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
+
+    // Decode token and set userId
+    useEffect(() => {
+        const fetchUserId = async () => {
+            try {
+                const token = localStorage.getItem('token'); // Get the token from local storage
+                console.log('Token from localStorage:', token); // Log the token for debugging
+                if (!token) {
+                    throw new Error('No token found');
+                }
+
+                const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token to get payload
+                console.log('Token payload:', payload); // Log the payload for debugging
+
+                const email = payload.sub; // Extract email from token
+                if (!email) {
+                    throw new Error('Email not found in token');
+                }
+
+                // Fetch all users
+                const userResponse = await fetch(`https://localhost:7064/api/User`, {
+                    headers: {
+                        'accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                console.log('Response', userResponse); // Log the response for debugging
+
+                if (!userResponse.ok) {
+                    throw new Error('Failed to fetch users');
+                }
+
+                const users = await userResponse.json(); // Parse the response JSON
+                const user = users.find(user => user.email === email); // Find the user by email
+                if (!user) {
+                    throw new Error('User not found');
+                }
+
+                setGear((prevGear) => ({
+                    ...prevGear,
+                    userId: user.id,
+                }));
+            } catch (error) {
+                console.error('Error decoding token or fetching user ID:', error);
+            }
+        };
+
+        fetchUserId();
+    }, []);
 
     // Handle input changes for gear details
     const handleChange = (e) => {
@@ -69,7 +120,19 @@ function GearForm({ gearType, categories, onSubmit }) {
         }
 
         try {
-            await onSubmit(formData);
+            const token = localStorage.getItem('token'); // Get the token from local storage
+            const response = await fetch('https://localhost:7064/api/GuitBassGear', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
             setSuccessMessage('Produktet er blevet oprettet!');
             setGear({
                 brand: '',
@@ -136,7 +199,6 @@ function GearForm({ gearType, categories, onSubmit }) {
                     <option value="Grønland">Grønland</option>
                     <option value="Andet">Andet</option>
                 </select>
-                <input type="number" name="userId" value={gear.userId} onChange={handleChange} placeholder="Bruger ID" required />
 
                 {/* Image file input */}
                 <input type="file" multiple onChange={handleFileChange} />
