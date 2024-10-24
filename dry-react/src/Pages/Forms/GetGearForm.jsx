@@ -226,7 +226,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                                  className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])} />
                         )}
                         <button className="toggle-images-button" onClick={() => toggleShowAllImages(item.id)}>
-                            {showAllImages[item.id] ? 'Show Less' : 'Show All Images'}
+                            {showAllImages[item.id] ? 'Vis Mindre' : 'Vis Alle Billeder'}
                         </button>
                         <h3>{item.brand} {item.model}</h3>
                         <p>{item.description}</p>
