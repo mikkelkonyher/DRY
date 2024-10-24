@@ -17,6 +17,7 @@ const Login = () => {
             setSuccess('Login successful!');
             setError('');
             navigate('/'); // Redirect to a protected route after successful login
+            window.location.reload(); // Refresh the page
         } catch (err) {
             setError('Invalid credentials');
             setSuccess('');

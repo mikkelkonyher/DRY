@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
@@ -26,17 +26,17 @@ const pages = [
     { name: 'Øvelokaler', path: '/øvelokaler' },
     { name: 'Musikundervisning', path: '/musikundervisning' },
     { name: 'mix/master', path: '/mixmaster' },
-    { name: 'Session Musikere', path: '/sessionmusikere' },
-    { name: 'Signup', path: '/signup' },
-    { name: 'Login', path: '/login' }
+    { name: 'Session musikere', path: '/sessionmusikere' },
+    { name: 'Signup', path: '/signup' }
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [isAuthenticated, setIsAuthenticated] = React.useState(!!localStorage.getItem('token'));
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
+    const navigate = useNavigate();
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -51,6 +51,12 @@ function ResponsiveAppBar() {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+        navigate('/login');
     };
 
     return (
@@ -135,7 +141,7 @@ function ResponsiveAppBar() {
                     >
                         DRY
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, alignItems: 'center' }}>
                         {pages.map((page) => (
                             <Button
                                 key={page.name}
@@ -148,7 +154,24 @@ function ResponsiveAppBar() {
                             </Button>
                         ))}
                     </Box>
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
+                        {isAuthenticated ? (
+                            <Typography
+                                component="a"
+                                onClick={handleLogout}
+                                sx={{ my: 2, color: 'white', cursor: 'pointer', textDecoration: 'none' }}
+                            >
+                                LOGOUT
+                            </Typography>
+                        ) : (
+                            <Typography
+                                component={Link}
+                                to="/login"
+                                sx={{ my: 2, color: 'white', textDecoration: 'none' }}
+                            >
+                                LOGIN
+                            </Typography>
+                        )}
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
