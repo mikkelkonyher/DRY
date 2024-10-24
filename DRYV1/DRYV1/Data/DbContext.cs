@@ -8,8 +8,8 @@ namespace DRYV1.Data
         public DbSet<User> Users { get; set; }
         public DbSet<MusicGear> MusicGear { get; set; }
         public DbSet<GuitBassGear> GuitBassGear { get; set; }
-        
         public DbSet<DrumsGear> DrumsGear { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

@@ -2,12 +2,12 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 20px;
-    width: 300px;
+    width: 500px;
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: black; /* Set text color to black */
     margin: 20px; /* Add this line to create 20px space between cards */
-    margin-left: 200px;
+
 }
 
 .gear-card p {

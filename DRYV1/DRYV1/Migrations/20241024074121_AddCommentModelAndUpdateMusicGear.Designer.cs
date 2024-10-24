@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DRYV1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DRYV1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241024074121_AddCommentModelAndUpdateMusicGear")]
+    partial class AddCommentModelAndUpdateMusicGear
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,8 +50,6 @@ namespace DRYV1.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MusicGearId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -160,20 +161,12 @@ namespace DRYV1.Migrations
                         .HasForeignKey("MusicGearId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DRYV1.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DRYV1.Models.MusicGear", b =>
                 {
                     b.HasOne("DRYV1.Models.User", null)
-                        .WithMany("MusicGear")
+                        .WithMany("Instruments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -204,7 +197,7 @@ namespace DRYV1.Migrations
 
             modelBuilder.Entity("DRYV1.Models.User", b =>
                 {
-                    b.Navigation("MusicGear");
+                    b.Navigation("Instruments");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,6 +14,7 @@ namespace DRYV1.Models
         public string Condition { get; set; }
         public int Year { get; set; }
         public List<string> ImagePaths { get; set; } = new List<string>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
         public int UserId { get; set; } // Foreign key property
     }
 }

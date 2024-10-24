@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './GetGearForm.css';
 
-function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey }) {
-    // State variables
-    const [gear, setGear] = useState(gearData || []);
+function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTypeKey }) {
+    const [gear, setGear] = useState(gearData);
     const [brands, setBrands] = useState([]);
     const [models, setModels] = useState([]);
     const [locations, setLocations] = useState([]);
@@ -22,7 +21,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    // Fetch gear and user data
     useEffect(() => {
         const fetchGear = async () => {
             try {
@@ -53,6 +51,23 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
                     return acc;
                 }, {});
                 setUsers(userMap);
+
+                const commentsPromises = sortedData.map(async (item) => {
+                    try {
+                        const commentsResponse = await fetch(`https://localhost:7064/api/Comment/api/MusicGear/${item.id}/comments`);
+                        if (!commentsResponse.ok) {
+                            throw new Error(`Failed to fetch comments for gear ID ${item.id}`);
+                        }
+                        const commentsData = await commentsResponse.json();
+                        return { ...item, comments: commentsData };
+                    } catch (error) {
+                        console.error(error);
+                        return { ...item, comments: [] };
+                    }
+                });
+
+                const gearWithComments = await Promise.all(commentsPromises);
+                setGear(gearWithComments);
             } catch (error) {
                 console.error('Error fetching gear or users:', error);
             }
@@ -61,7 +76,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
         fetchGear();
     }, [apiEndpoint]);
 
-    // Toggle image visibility
     const toggleShowAllImages = (id) => {
         setShowAllImages((prevState) => ({
             ...prevState,
@@ -69,7 +83,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
         }));
     };
 
-    // Handle filter changes
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters((prevFilters) => ({
@@ -78,22 +91,18 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
         }));
     };
 
-    // Handle search query changes
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    // Handle image click for modal
     const handleImageClick = (src) => {
         setSelectedImage(src);
     };
 
-    // Close modal
     const closeModal = () => {
         setSelectedImage(null);
     };
 
-// Filter gear based on filters and search query
     const filteredGear = gear.filter((item) => {
         const matchesFilters = (
             (filters.type === '' || item[gearTypeKey]?.includes(filters.type)) &&
@@ -113,7 +122,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
         return matchesFilters && matchesSearchQuery;
     });
 
-    // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredGear.slice(indexOfFirstItem, indexOfLastItem);
@@ -131,18 +139,15 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
         });
     };
 
-    // Determine sell gear path
     const sellGearPath = gearType === "Trommeudstyr" ? "/SellDrumsGear" : "/SellGuiBassGear";
 
     return (
         <div>
-            {/* Sell button */}
             <div className="sell-button-container">
                 <Link to={sellGearPath}>
                     <button className="sell-button">Sælg {gearType}</button>
                 </Link>
             </div>
-            {/* Filters */}
             <div className="filters">
                 <input
                     type="text"
@@ -200,7 +205,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
                     ))}
                 </select>
             </div>
-            {/* Gear list */}
             <div className="gear-list">
                 {currentItems.map((item) => (
                     <div key={item.id} className="gear-card">
@@ -227,10 +231,22 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
                         <button onClick={() => alert(`Skriv til sælger: ${users[item.userId]?.email || 'Ukendt'}`)}>
                             Skriv til sælger
                         </button>
+                        <div className="comments-section">
+                            <h4>Comments:</h4>
+                            {item.comments && item.comments.length > 0 ? (
+                                item.comments.map((comment) => (
+                                    <div key={comment.id} className="comment">
+                                        <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
+                                        <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No comments yet.</p>
+                            )}
+                        </div>
                     </div>
                 ))}
             </div>
-            {/* Pagination */}
             <div className="pagination">
                 <button
                     className="pagination-button"
@@ -248,7 +264,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData, gearTypeKey 
                     &rarr;
                 </button>
             </div>
-            {/* Image modal */}
             {selectedImage && (
                 <div className="modal" onClick={closeModal}>
                     <span className="close">&times;</span>
@@ -263,7 +278,7 @@ GetGearForm.propTypes = {
     gearType: PropTypes.string.isRequired,
     apiEndpoint: PropTypes.string.isRequired,
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
-    gearData: PropTypes.array.isRequired,
+    gearData: PropTypes.array,
     gearTypeKey: PropTypes.string.isRequired,
 };
 
