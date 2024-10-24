@@ -9,6 +9,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
     const [models, setModels] = useState([]);
     const [locations, setLocations] = useState([]);
     const [showAllImages, setShowAllImages] = useState({});
+    const [showComments, setShowComments] = useState({});
     const [filters, setFilters] = useState({
         type: '',
         brand: '',
@@ -56,7 +57,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     try {
                         const commentsResponse = await fetch(`https://localhost:7064/api/Comment/api/MusicGear/${item.id}/comments`);
                         if (!commentsResponse.ok) {
-                            throw new Error(`Failed to fetch comments for gear ID ${item.id}`);
+                            return { ...item, comments: [] };
                         }
                         const commentsData = await commentsResponse.json();
                         return { ...item, comments: commentsData };
@@ -78,6 +79,13 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 
     const toggleShowAllImages = (id) => {
         setShowAllImages((prevState) => ({
+            ...prevState,
+            [id]: !prevState[id],
+        }));
+    };
+
+    const toggleShowComments = (id) => {
+        setShowComments((prevState) => ({
             ...prevState,
             [id]: !prevState[id],
         }));
@@ -232,16 +240,23 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                             Skriv til sælger
                         </button>
                         <div className="comments-section">
-                            <h4>Comments:</h4>
-                            {item.comments && item.comments.length > 0 ? (
-                                item.comments.map((comment) => (
-                                    <div key={comment.id} className="comment">
-                                        <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
-                                        <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
-                                    </div>
-                                ))
-                            ) : (
-                                <p>No comments yet.</p>
+                            <button className="show-comments-button" onClick={() => toggleShowComments(item.id)}>
+                                {showComments[item.id] ? 'Skjul kommentarer' : 'Se kommentarer'}
+                            </button>
+                            {showComments[item.id] && (
+                                <>
+                                    <h4>Kommentarer:</h4>
+                                    {item.comments && item.comments.length > 0 ? (
+                                        item.comments.map((comment) => (
+                                            <div key={comment.id} className="comment">
+                                                <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
+                                                <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>Ingen kommentarer.</p>
+                                    )}
+                                </>
                             )}
                         </div>
                     </div>

@@ -103,11 +103,6 @@ namespace DRYV1.Controllers
                 })
                 .ToListAsync();
 
-            if (comments == null || !comments.Any())
-            {
-                return NotFound();
-            }
-
             return Ok(comments);
         }
     }

@@ -2,7 +2,7 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 20px;
-    width: 500px;
+    width: 400px;
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: black; /* Set text color to black */
@@ -16,10 +16,12 @@
 
 .gear-image {
     width: 100%;
-    height: auto;
+    max-width: 400px; /* Set a maximum width */
+    height: 300px; /* Set a fixed height */
     border-radius: 10px;
     display: block;
-    margin: 10px;
+    margin: 10px auto; /* Center the image horizontally */
+    object-fit: contain; /* Ensures the entire image is visible while maintaining aspect ratio */
 }
 
 .toggle-images-button {
@@ -88,5 +90,20 @@
 .pagination-button:disabled {
     cursor: not-allowed;
     opacity: 0.5;
+}
+
+.show-comments-button {
+    font-size: 0.8em;
+    padding: 5px 10px;
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.show-comments-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
