@@ -8,28 +8,7 @@ function CreateDrumsGear() {
         "Trommehardware", "Slagtøj", "Trommetilbehør", "Andet"
     ];
 
-    const handleSubmit = async (formData) => {
-        formData.set('drumsGearType', formData.get('type'));
-        formData.delete('type');
-
-        try {
-            const response = await fetch('https://localhost:7064/api/DrumsGear', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error('Error creating gear:', error);
-            throw error;
-        }
-    };
-
-    return <GearForm gearType="Trommeudstyr" categories={categories} onSubmit={handleSubmit} />;
+    return <GearForm gearType="Trommeudstyr" categories={categories} apiEndpoint="https://localhost:7064/api/DrumsGear" />;
 }
 
 export default CreateDrumsGear;

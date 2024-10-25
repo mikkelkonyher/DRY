@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './GearForm.css';
 
-function GearForm({ gearType, categories, onSubmit }) {
+function GearForm({ gearType, categories, apiEndpoint }) {
     // State for gear details
     const [gear, setGear] = useState({
         brand: '',
@@ -22,20 +22,18 @@ function GearForm({ gearType, categories, onSubmit }) {
     const [imagePreviews, setImagePreviews] = useState([]);
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Decode token and set userId
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const token = localStorage.getItem('token'); // Get the token from local storage
-                console.log('Token from localStorage:', token); // Log the token for debugging
                 if (!token) {
                     throw new Error('No token found');
                 }
 
                 const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token to get payload
-                console.log('Token payload:', payload); // Log the payload for debugging
-
                 const email = payload.sub; // Extract email from token
                 if (!email) {
                     throw new Error('Email not found in token');
@@ -48,8 +46,6 @@ function GearForm({ gearType, categories, onSubmit }) {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-
-                console.log('Response', userResponse); // Log the response for debugging
 
                 if (!userResponse.ok) {
                     throw new Error('Failed to fetch users');
@@ -104,8 +100,15 @@ function GearForm({ gearType, categories, onSubmit }) {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            setErrorMessage('Login for at oprette et produkt');
+            return;
+        }
+
         const formData = new FormData();
-        formData.append('GuitBassType', gear.type); // Ensure this matches the server's expected field name
+        const typeFieldName = gearType === 'Trommeudstyr' ? 'DrumsGearType' : 'GuitBassType';
+        formData.append(typeFieldName, gear.type); // Dynamically set the field name
         for (const key in gear) {
             formData.append(key, gear[key]);
         }
@@ -120,8 +123,7 @@ function GearForm({ gearType, categories, onSubmit }) {
         }
 
         try {
-            const token = localStorage.getItem('token'); // Get the token from local storage
-            const response = await fetch('https://localhost:7064/api/GuitBassGear', {
+            const response = await fetch(apiEndpoint, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -130,6 +132,8 @@ function GearForm({ gearType, categories, onSubmit }) {
             });
 
             if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Network response was not ok:', errorText);
                 throw new Error('Network response was not ok');
             }
 
@@ -148,6 +152,7 @@ function GearForm({ gearType, categories, onSubmit }) {
             setImageFiles([]);
             setImagePreviews([]);
             setMainImageIndex(0);
+            setErrorMessage('');
         } catch (error) {
             console.error('Fejl ved oprettelse af gear:', error);
         }
@@ -159,6 +164,8 @@ function GearForm({ gearType, categories, onSubmit }) {
             <form onSubmit={handleSubmit}>
                 {/* Success message */}
                 {successMessage && <p className="success-message" style={{color: 'green'}}>{successMessage}</p>}
+                {/* Error message */}
+                {errorMessage && <p className="error-message" style={{color: 'red'}}>{errorMessage}</p>}
 
                 {/* Gear type selection */}
                 <select name="type" value={gear.type} onChange={handleChange} required>
@@ -231,7 +238,7 @@ function GearForm({ gearType, categories, onSubmit }) {
 GearForm.propTypes = {
     gearType: PropTypes.string.isRequired,
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    apiEndpoint: PropTypes.string.isRequired,
 };
 
 export default GearForm;
