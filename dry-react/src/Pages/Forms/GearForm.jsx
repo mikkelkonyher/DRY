@@ -22,6 +22,7 @@ function GearForm({ gearType, categories, onSubmit }) {
     const [imagePreviews, setImagePreviews] = useState([]);
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Decode token and set userId
     useEffect(() => {
@@ -104,6 +105,12 @@ function GearForm({ gearType, categories, onSubmit }) {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token'); // Get the token from local storage
+        if (!token) {
+            setErrorMessage('Login for at oprette et produkt');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('GuitBassType', gear.type); // Ensure this matches the server's expected field name
         for (const key in gear) {
@@ -120,7 +127,6 @@ function GearForm({ gearType, categories, onSubmit }) {
         }
 
         try {
-            const token = localStorage.getItem('token'); // Get the token from local storage
             const response = await fetch('https://localhost:7064/api/GuitBassGear', {
                 method: 'POST',
                 headers: {
@@ -148,6 +154,7 @@ function GearForm({ gearType, categories, onSubmit }) {
             setImageFiles([]);
             setImagePreviews([]);
             setMainImageIndex(0);
+            setErrorMessage('');
         } catch (error) {
             console.error('Fejl ved oprettelse af gear:', error);
         }
@@ -159,6 +166,8 @@ function GearForm({ gearType, categories, onSubmit }) {
             <form onSubmit={handleSubmit}>
                 {/* Success message */}
                 {successMessage && <p className="success-message" style={{color: 'green'}}>{successMessage}</p>}
+                {/* Error message */}
+                {errorMessage && <p className="error-message" style={{color: 'red'}}>{errorMessage}</p>}
 
                 {/* Gear type selection */}
                 <select name="type" value={gear.type} onChange={handleChange} required>
