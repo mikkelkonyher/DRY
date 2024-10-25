@@ -53,27 +53,6 @@ namespace DRYV1.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<UserDTO>> PostUser(UserCreateDTO userCreateDto)
-        {
-            var user = new User
-            {
-                Name = userCreateDto.Name,
-                Email = userCreateDto.Email,
-                Password = BCrypt.Net.BCrypt.HashPassword(userCreateDto.Password)
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            var userDto = new UserDTO
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email
-            };
-
-            return CreatedAtAction(nameof(GetUsers), new { id = user.Id }, userDto);
-        }
+     
     }
 }
