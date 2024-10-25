@@ -9,23 +9,23 @@
     background-color: #fff;
 }
 
-h2 {
+.login-h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
 }
 
-.form-group {
+.login-form-group {
     margin-bottom: 15px;
 }
 
-label {
+.login-label {
     display: block;
     margin-bottom: 5px;
     color: #555;
 }
 
-input {
+.login-input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -33,7 +33,7 @@ input {
     box-sizing: border-box;
 }
 
-button {
+.login-button {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -44,17 +44,17 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.login-button:hover {
     background-color: #0056b3;
 }
 
-.error {
+.login-error {
     color: red;
     text-align: center;
     margin-bottom: 10px;
 }
 
-.success {
+.login-success {
     color: green;
     text-align: center;
     margin-bottom: 10px;
