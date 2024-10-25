@@ -107,7 +107,31 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         }
 
         const formData = new FormData();
-        const typeFieldName = gearType === 'Trommeudstyr' ? 'DrumsGearType' : 'GuitBassType';
+        let typeFieldName;
+
+        switch (gearType) {
+            case 'Trommeudstyr':
+                typeFieldName = 'DrumsGearType';
+                break;
+            case 'Guitar/Bas Udstyr':
+                typeFieldName = 'GuitBassType';
+                break;
+            case 'Keysudstyr':
+                typeFieldName = 'KeysGearType';
+                break;
+            case 'Studio gear':
+                typeFieldName = 'StudioGearType';
+                break;
+            case 'Strygere':
+                typeFieldName = 'StringsGearType';
+                break;
+            case 'Blæs':
+                typeFieldName = 'WindGearType';
+                break;
+            default:
+                typeFieldName = 'GearType';
+        }
+
         formData.append(typeFieldName, gear.type); // Dynamically set the field name
         for (const key in gear) {
             formData.append(key, gear[key]);
