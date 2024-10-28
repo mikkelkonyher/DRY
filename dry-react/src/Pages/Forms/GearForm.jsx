@@ -1,10 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import './GearForm.css';
 
+const ItemType = {
+    IMAGE: 'image',
+};
+
+function DraggableImage({ src, index, moveImage }) {
+    const [, ref] = useDrag({
+        type: ItemType.IMAGE,
+        item: { index },
+    });
+
+    const [, drop] = useDrop({
+        accept: ItemType.IMAGE,
+        hover: (draggedItem) => {
+            if (draggedItem.index !== index) {
+                moveImage(draggedItem.index, index);
+                draggedItem.index = index;
+            }
+        },
+    });
+
+    return (
+        <div ref={(node) => ref(drop(node))} className="image-preview-container">
+            <img src={src} alt={`Forhåndsvisning ${index}`} className="image-preview" />
+            <button type="button" onClick={() => moveImage(index, -1)}>Fjern</button>
+            {index === 0 && <p>Hovedbillede</p>}
+        </div>
+    );
+}
+
+DraggableImage.propTypes = {
+    src: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
+    moveImage: PropTypes.func.isRequired,
+};
+
 function GearForm({ gearType, categories, apiEndpoint }) {
-    // State for gear details
     const [gear, setGear] = useState({
         brand: '',
         model: '',
@@ -14,31 +50,29 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         condition: '',
         type: '',
         userId: '',
+        year: '',
     });
 
-    // State for image files and previews
     const [imageFiles, setImageFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    // Decode token and set userId
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token'); // Get the token from local storage
+                const token = localStorage.getItem('token');
                 if (!token) {
                     throw new Error('No token found');
                 }
 
-                const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token to get payload
-                const email = payload.sub; // Extract email from token
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const email = payload.sub;
                 if (!email) {
                     throw new Error('Email not found in token');
                 }
 
-                // Fetch all users
                 const userResponse = await fetch(`https://localhost:7064/api/User`, {
                     headers: {
                         'accept': 'application/json',
@@ -50,8 +84,8 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     throw new Error('Failed to fetch users');
                 }
 
-                const users = await userResponse.json(); // Parse the response JSON
-                const user = users.find(user => user.email === email); // Find the user by email
+                const users = await userResponse.json();
+                const user = users.find(user => user.email === email);
                 if (!user) {
                     throw new Error('User not found');
                 }
@@ -68,7 +102,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         fetchUserId();
     }, []);
 
-    // Handle input changes for gear details
     const handleChange = (e) => {
         const { name, value } = e.target;
         setGear((prevGear) => ({
@@ -77,7 +110,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         }));
     };
 
-    // Handle file input changes for images
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
@@ -99,10 +131,9 @@ function GearForm({ gearType, categories, apiEndpoint }) {
 
         setImageFiles(newImageFiles);
         setImagePreviews(newImagePreviews);
-        setErrorMessage(''); // Clear any previous error message
+        setErrorMessage('');
     };
 
-    // Handle image removal
     const handleRemoveImage = (index) => {
         const newImageFiles = [...imageFiles];
         const newImagePreviews = [...imagePreviews];
@@ -114,10 +145,28 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         setImagePreviews(newImagePreviews);
     };
 
-    // Handle form submission
+    const moveImage = (fromIndex, toIndex) => {
+        if (toIndex === -1) {
+            handleRemoveImage(fromIndex);
+            return;
+        }
+
+        const newImageFiles = [...imageFiles];
+        const newImagePreviews = [...imagePreviews];
+
+        const [movedFile] = newImageFiles.splice(fromIndex, 1);
+        const [movedPreview] = newImagePreviews.splice(fromIndex, 1);
+
+        newImageFiles.splice(toIndex, 0, movedFile);
+        newImagePreviews.splice(toIndex, 0, movedPreview);
+
+        setImageFiles(newImageFiles);
+        setImagePreviews(newImagePreviews);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token'); // Get the token from local storage
+        const token = localStorage.getItem('token');
         if (!token) {
             setErrorMessage('Login for at oprette et produkt');
             return;
@@ -149,7 +198,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                 typeFieldName = 'GearType';
         }
 
-        formData.append(typeFieldName, gear.type); // Dynamically set the field name
+        formData.append(typeFieldName, gear.type);
         for (const key in gear) {
             formData.append(key, gear[key]);
         }
@@ -158,7 +207,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         }
         formData.append('mainImageIndex', mainImageIndex);
 
-        // Log the form data for debugging
         for (let pair of formData.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }
@@ -200,72 +248,61 @@ function GearForm({ gearType, categories, apiEndpoint }) {
     };
 
     return (
-        <div>
-            <h2>Sælg {gearType}</h2>
-            <form onSubmit={handleSubmit}>
-                {/* Success message */}
-                {successMessage && <p className="success-message" style={{color: 'green'}}>{successMessage}</p>}
-                {/* Error message */}
-                {errorMessage && <p className="error-message" style={{color: 'red'}}>{errorMessage}</p>}
+        <DndProvider backend={HTML5Backend}>
+            <div>
+                <h2>Sælg {gearType}</h2>
+                <form onSubmit={handleSubmit}>
+                    {successMessage && <p className="success-message" style={{color: 'green'}}>{successMessage}</p>}
+                    {errorMessage && <p className="error-message" style={{color: 'red'}}>{errorMessage}</p>}
 
-                {/* Gear type selection */}
-                <select name="type" value={gear.type} onChange={handleChange} required>
-                    <option value="">Vælg {gearType} kategori</option>
-                    {categories.map((category) => (
-                        <option key={category} value={category}>{category}</option>
-                    ))}
-                </select>
+                    <select name="type" value={gear.type} onChange={handleChange} required>
+                        <option value="">Vælg {gearType} kategori</option>
+                        {categories.map((category) => (
+                            <option key={category} value={category}>{category}</option>
+                        ))}
+                    </select>
 
-                {/* Gear details inputs */}
-                <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke" required />
-                <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model" required />
-                <textarea name="description" value={gear.description} onChange={handleChange} placeholder="Beskrivelse" required />
-                <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris" required />
+                    <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke" required />
+                    <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model" required />
+                    <textarea name="description" value={gear.description} onChange={handleChange} placeholder="Beskrivelse" required />
+                    <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris" required />
 
-                {/* Gear condition selection */}
-                <select name="condition" value={gear.condition} onChange={handleChange} required>
-                    <option value="">Vælg tilstand</option>
-                    <option value="Ny">Ny</option>
-                    <option value="Næsten Ny">Næsten Ny</option>
-                    <option value="God Stand">God Stand</option>
-                    <option value="Brugt">Brugt</option>
-                </select>
+                    <select name="condition" value={gear.condition} onChange={handleChange} required>
+                        <option value="">Vælg tilstand</option>
+                        <option value="Ny">Ny</option>
+                        <option value="Næsten Ny">Næsten Ny</option>
+                        <option value="God Stand">God Stand</option>
+                        <option value="Brugt">Brugt</option>
+                    </select>
 
-                {/* Additional gear details inputs */}
-                <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År" required />
-                <select name="location" value={gear.location} onChange={handleChange} required>
-                    <option value="">Vælg placering</option>
-                    <option value="København og omegn">København og omegn</option>
-                    <option value="Aarhus">Aarhus</option>
-                    <option value="Odense">Odense</option>
-                    <option value="Aalborg">Aalborg</option>
-                    <option value="Sjælland">Sjælland</option>
-                    <option value="Jylland">Jylland</option>
-                    <option value="Fyn">Fyn</option>
-                    <option value="Bornholm">Bornholm</option>
-                    <option value="Færøerne">Færøerne</option>
-                    <option value="Grønland">Grønland</option>
-                    <option value="Andet">Andet</option>
-                </select>
+                    <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År" required />
+                    <select name="location" value={gear.location} onChange={handleChange} required>
+                        <option value="">Vælg placering</option>
+                        <option value="København og omegn">København og omegn</option>
+                        <option value="Aarhus">Aarhus</option>
+                        <option value="Odense">Odense</option>
+                        <option value="Aalborg">Aalborg</option>
+                        <option value="Sjælland">Sjælland</option>
+                        <option value="Jylland">Jylland</option>
+                        <option value="Fyn">Fyn</option>
+                        <option value="Bornholm">Bornholm</option>
+                        <option value="Færøerne">Færøerne</option>
+                        <option value="Grønland">Grønland</option>
+                        <option value="Andet">Andet</option>
+                    </select>
 
-                {/* Image file input */}
-                <input type="file" multiple onChange={handleFileChange} />
+                    <input type="file" multiple onChange={handleFileChange} />
 
-                {/* Image previews */}
-                <div className="image-previews">
-                    {imagePreviews.map((src, index) => (
-                        <div key={index} className="image-preview-container">
-                            <img src={src} alt={`Forhåndsvisning ${index}`} className={`image-preview ${mainImageIndex === index ? 'main-image' : ''}`} />
-                            <button type="button" onClick={() => handleRemoveImage(index)}>Fjern</button>
-                            {index === 0 && <p>Hovedbillede</p>}
-                        </div>
-                    ))}
-                </div>
+                    <div className="image-previews">
+                        {imagePreviews.map((src, index) => (
+                            <DraggableImage key={index} src={src} index={index} moveImage={moveImage} />
+                        ))}
+                    </div>
 
-                {/* Submit button */}
-                <button type="submit">Opret Produkt</button>
-            </form>
-        </div>
+                    <button type="submit">Opret Produkt</button>
+                </form>
+            </div>
+        </DndProvider>
     );
 }
 
