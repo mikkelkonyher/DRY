@@ -26,8 +26,7 @@ const pages = [
     { name: 'Øvelokaler', path: '/øvelokaler' },
     { name: 'Musikundervisning', path: '/musikundervisning' },
     { name: 'mix/master', path: '/mixmaster' },
-    { name: 'Session musikere', path: '/sessionmusikere' },
-    { name: 'Signup', path: '/signup' }
+    { name: 'Session musikere', path: '/sessionmusikere' }
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -120,6 +119,17 @@ function ResponsiveAppBar() {
                                     </Typography>
                                 </MenuItem>
                             ))}
+                            {!isAuthenticated && (
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography
+                                        component={Link}
+                                        to="/signup"
+                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit' }}
+                                    >
+                                        Signup
+                                    </Typography>
+                                </MenuItem>
+                            )}
                         </Menu>
                     </Box>
                     <AdbIcon sx={{ display: { xs: 'flex', lg: 'none' }, mr: 1 }} />
@@ -153,6 +163,16 @@ function ResponsiveAppBar() {
                                 {page.name}
                             </Button>
                         ))}
+                        {!isAuthenticated && (
+                            <Button
+                                component={Link}
+                                to="/signup"
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                Signup
+                            </Button>
+                        )}
                     </Box>
                     <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
                         {isAuthenticated ? (

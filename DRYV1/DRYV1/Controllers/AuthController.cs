@@ -20,6 +20,14 @@ public class AuthController : ControllerBase
     [HttpPost("signup")]
     public async Task<IActionResult> Signup(UserCreateDTO userCreateDTO)
     {
+        var existingUser = await _context.Users
+            .FirstOrDefaultAsync(u => u.Name == userCreateDTO.Name || u.Email == userCreateDTO.Email);
+
+        if (existingUser != null)
+        {
+            return BadRequest(new { Message = "A user with the same name or email already exists." });
+        }
+
         var user = new User
         {
             Name = userCreateDTO.Name,
@@ -30,7 +38,7 @@ public class AuthController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok(new { Message = "Bruger oprettet med succes" });
+        return Ok(new { Message = "User created successfully." });
     }
 
     [HttpPost("login")]

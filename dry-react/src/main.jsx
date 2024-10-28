@@ -10,6 +10,7 @@ import './index.css';
 import Box from '@mui/material/Box';
 import Home from './Pages/Home/';
 import Login from './Pages/LoginSignup/Login.jsx'; // Import the Login component
+import Signup   from "./Pages/LoginSignup/Signup.jsx";
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')).render(
                     <Route path="/SellDrumsGear" element={<CreateDrumsGear />} />
                     <Route path="/Trommer" element={<GetDrumsGear />} />
                     <Route path="/login" element={<Login />} /> {/* Add the login route */}
+                    <Route path="/signup" element={<Signup />} />
                     <Route path="/" element={<Home />} />
                 </Routes>
             </Box>
