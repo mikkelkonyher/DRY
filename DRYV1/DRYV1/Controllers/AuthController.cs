@@ -30,7 +30,7 @@ public class AuthController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok(new { Message = "User created successfully" });
+        return Ok(new { Message = "Bruger oprettet med succes" });
     }
 
     [HttpPost("login")]
@@ -40,7 +40,7 @@ public class AuthController : ControllerBase
 
         if (user == null || !BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password))
         {
-            return Unauthorized(new { Message = "Invalid credentials" });
+            return Unauthorized(new { Message = "Forkert email eller adgangskode" });
         }
 
         var token = _jwtService.GenerateToken(user);

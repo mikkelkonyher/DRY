@@ -20,7 +20,7 @@ const Login = () => {
             navigate('/');
             window.location.reload();
         } catch (err) {
-            setError('Invalid credentials');
+            setError('Forkert email eller adgangskode');
             setSuccess('');
         }
     };

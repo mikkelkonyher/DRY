@@ -32,9 +32,9 @@ namespace DRYV1.Services
                 }
 
                 var extension = Path.GetExtension(imageFile.FileName).ToLower();
-                if (extension != ".png" && extension != ".jpg" && extension != ".jpeg")
+                if (extension != ".png" && extension != ".jpg" && extension != ".jpeg" && extension != ".webp")
                 {
-                    throw new InvalidOperationException("Only PNG and JPG images are allowed.");
+                    throw new InvalidOperationException("Only PNG, JPG, and WEBP images are allowed.");
                 }
 
                 var fileName = Path.GetRandomFileName() + extension;
