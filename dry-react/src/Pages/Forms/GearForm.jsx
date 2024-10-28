@@ -12,7 +12,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         price: '',
         location: '',
         condition: '',
-        year: '',
         type: '',
         userId: '',
     });
@@ -81,20 +80,38 @@ function GearForm({ gearType, categories, apiEndpoint }) {
     // Handle file input changes for images
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
-        if (files.length > 8) {
-            alert('Du kan kun uploade op til 8 fotos.');
-            return;
-        }
-        setImageFiles(files);
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+        const newImageFiles = [...imageFiles];
+        const newImagePreviews = [...imagePreviews];
 
-        const previews = files.map(file => URL.createObjectURL(file));
-        setImagePreviews(previews);
-        setMainImageIndex(0);
+        for (const file of files) {
+            if (!allowedTypes.includes(file.type)) {
+                setErrorMessage('Kun billeder af typen jpg, jpeg, png eller webp er tilladt.');
+                return;
+            }
+            if (newImageFiles.length >= 8) {
+                setErrorMessage('Du kan ikke uploade mere end 8 billeder.');
+                return;
+            }
+            newImageFiles.push(file);
+            newImagePreviews.push(URL.createObjectURL(file));
+        }
+
+        setImageFiles(newImageFiles);
+        setImagePreviews(newImagePreviews);
+        setErrorMessage(''); // Clear any previous error message
     };
 
-    // Handle main image selection
-    const handleMainImageChange = (index) => {
-        setMainImageIndex(index);
+    // Handle image removal
+    const handleRemoveImage = (index) => {
+        const newImageFiles = [...imageFiles];
+        const newImagePreviews = [...imagePreviews];
+
+        newImageFiles.splice(index, 1);
+        newImagePreviews.splice(index, 1);
+
+        setImageFiles(newImageFiles);
+        setImagePreviews(newImagePreviews);
     };
 
     // Handle form submission
@@ -238,16 +255,9 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                 <div className="image-previews">
                     {imagePreviews.map((src, index) => (
                         <div key={index} className="image-preview-container">
-                            <img src={src} alt={`Forhåndsvisning ${index}`} className="image-preview" />
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="mainImage"
-                                    checked={mainImageIndex === index}
-                                    onChange={() => handleMainImageChange(index)}
-                                />
-                                Hovedbillede
-                            </label>
+                            <img src={src} alt={`Forhåndsvisning ${index}`} className={`image-preview ${mainImageIndex === index ? 'main-image' : ''}`} />
+                            <button type="button" onClick={() => handleRemoveImage(index)}>Fjern</button>
+                            {index === 0 && <p>Hovedbillede</p>}
                         </div>
                     ))}
                 </div>

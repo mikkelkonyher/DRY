@@ -19,3 +19,11 @@
     color: green;
     font-weight: bold;
 }
+
+.image-preview-container label {
+    color: black;
+}
+
+.image-preview-container p {
+    color: black; /* Ensure the "Hovedbillede" text is black */
+}
