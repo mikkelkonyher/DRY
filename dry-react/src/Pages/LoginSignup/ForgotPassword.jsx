@@ -18,13 +18,15 @@ const ForgotPassword = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Network response was not ok');
             }
 
             const data = await response.json();
             setMessage(data.message);
         } catch (err) {
-            setMessage('Error sending password reset link.');
+            console.error('Error:', err);
+            setMessage(err.message || 'Error sending password reset link.');
         }
     };
 

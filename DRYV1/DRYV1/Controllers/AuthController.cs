@@ -83,8 +83,7 @@ public class AuthController : ControllerBase
 
         return Ok(new 
         {
-            Message = "Email bekræftet og bruger oprettet/opdateret succesfuldt. Velkommen til Splash!",
-           
+            Message = "Email confirmed and user created/updated successfully. Welcome to Splash!",
         });
     }
 
@@ -149,5 +148,4 @@ public class AuthController : ControllerBase
 
         return Ok(new { Message = "Password has been reset successfully." });
     }
-    
 }
