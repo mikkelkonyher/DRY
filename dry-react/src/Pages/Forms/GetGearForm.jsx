@@ -253,7 +253,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     <option value="40000-50000">40.000-50.000 DKK</option>
                     <option value="50000+">50.000+ DKK</option>
                 </select>
-                <button onClick={clearFilters}>Clear Filters</button>
+                <button className="clear-filters-button" onClick={clearFilters}>Nustil filtre</button>
             </div>
             <div className="gear-list">
                 {currentItems.map((item) => (
