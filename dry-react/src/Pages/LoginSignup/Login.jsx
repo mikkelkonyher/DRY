@@ -1,3 +1,5 @@
+// File: src/components/Login.js
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -14,7 +16,6 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://localhost:7064/api/Auth/login', { email, password });
             localStorage.setItem('token', response.data.token);
             setSuccess('Login successful!');
             setError('');
@@ -58,6 +59,9 @@ const Login = () => {
             </form>
             <p className="signup-text">
                 <Link to="/signup" className="signup-link">Signup</Link>
+            </p>
+            <p className="forgot-password-text">
+                <Link to="/forgot-password" className="forgot-password-link">Forgot Password?</Link>
             </p>
         </div>
     );

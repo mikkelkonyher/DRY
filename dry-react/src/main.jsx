@@ -12,6 +12,8 @@ import Home from './Pages/Home/';
 import Login from './Pages/LoginSignup/Login.jsx';
 import Signup from "./Pages/LoginSignup/Signup.jsx";
 import { checkToken } from './authUtils';
+import ForgotPassword from "./Pages/LoginSignup/ForgotPassword.jsx";
+import ResetPassword from "./Pages/LoginSignup/ResetPassword.jsx";
 
 function Main() {
     useEffect(() => {
@@ -30,6 +32,8 @@ function Main() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/" element={<Home />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/reset-password/:token" element={<ResetPassword />}/>
                 </Routes>
             </Box>
         </Router>
