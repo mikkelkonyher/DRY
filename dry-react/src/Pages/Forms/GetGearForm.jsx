@@ -112,6 +112,17 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
         setSelectedImage(null);
     };
 
+    const clearFilters = () => {
+        setFilters({
+            type: '',
+            brand: '',
+            model: '',
+            location: '',
+            price: ''
+        });
+        setSearchQuery('');
+    };
+
     const filteredGear = gear.filter((item) => {
         const matchesFilters = (
             (filters.type === '' || item[gearTypeKey]?.includes(filters.type)) &&
@@ -242,6 +253,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     <option value="40000-50000">40.000-50.000 DKK</option>
                     <option value="50000+">50.000+ DKK</option>
                 </select>
+                <button onClick={clearFilters}>Clear Filters</button>
             </div>
             <div className="gear-list">
                 {currentItems.map((item) => (
