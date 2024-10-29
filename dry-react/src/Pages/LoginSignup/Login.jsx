@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
+import LoginIcon from '@mui/icons-material/Login';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -13,7 +14,6 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://localhost:7064/api/Auth/login', { email, password });
             localStorage.setItem('token', response.data.token);
             setSuccess('Login successful!');
             setError('');
@@ -27,7 +27,7 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h2 className="login-h2">Login</h2>
+            <h2 className="login-h2">Login <LoginIcon/></h2>
             {error && <p className="login-error">{error}</p>}
             {success && <p className="login-success">{success}</p>}
             <form onSubmit={handleSubmit}>
@@ -55,6 +55,9 @@ const Login = () => {
                 </div>
                 <button type="submit" className="login-button">Login</button>
             </form>
+            <p className="signup-text">
+                <Link to="/signup" className="signup-link">Signup</Link>
+            </p>
         </div>
     );
 };

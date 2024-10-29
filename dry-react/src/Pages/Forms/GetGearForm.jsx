@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './GetGearForm.css';
+import SellIcon from '@mui/icons-material/Sell';
 
 function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTypeKey }) {
     const [gear, setGear] = useState(gearData);
@@ -177,7 +178,10 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
         <div>
             <div className="sell-button-container">
                 <Link to={sellGearPath}>
-                    <button className="sell-button">Sælg {gearType}</button>
+                    <button className="sell-button">
+                        <SellIcon style={{ marginRight: '5px' }} />
+                        Sælg {gearType}
+                    </button>
                 </Link>
             </div>
             <div className="filters">

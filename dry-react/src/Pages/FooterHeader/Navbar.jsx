@@ -15,6 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 const pages = [
     { name: 'Guit/Bass', path: '/GuitBass' },
@@ -28,7 +29,7 @@ const pages = [
     { name: 'mix/master', path: '/mixmaster' },
     { name: 'Session musikere', path: '/sessionmusikere' }
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Min Profil', 'Inbox'];
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -149,7 +150,7 @@ function ResponsiveAppBar() {
                             textDecoration: 'none',
                         }}
                     >
-                        DRY
+                        Splash
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, alignItems: 'center' }}>
                         {pages.map((page) => (
@@ -192,9 +193,20 @@ function ResponsiveAppBar() {
                                 LOGIN
                             </Typography>
                         )}
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                        <Tooltip title="Min Profil og Inbox">
+                            <IconButton
+                                onClick={handleOpenUserMenu}
+                                sx={{
+                                    p: 0,
+                                    marginRight: isAuthenticated ? '10px' : '0', // Adjust this value as needed
+                                    [theme.breakpoints.down('sm')]: {
+                                        marginRight: '10px', // Adjust this value as needed
+                                    },
+                                }}
+                            >
+                                <Avatar sx={{ bgcolor: '#4cacaf' }}>
+                                    <AccountBoxIcon sx={{ color: 'cyan' }} />
+                                </Avatar>
                             </IconButton>
                         </Tooltip>
                         <Menu
