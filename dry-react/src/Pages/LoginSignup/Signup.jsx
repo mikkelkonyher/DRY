@@ -52,31 +52,17 @@ function Signup() {
                 throw new Error('Network response was not ok');
             }
 
-            // Automatically log in the user after successful signup
-            const loginResponse = await fetch('https://localhost:7064/api/Auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password,
-                }),
-            });
-
-            if (!loginResponse.ok) {
-                setErrorMessage('Login failed. Please try again.');
-                throw new Error('Network response was not ok');
-            }
-
-            const loginData = await loginResponse.json();
-            localStorage.setItem('token', loginData.token);
-            setSuccessMessage('Signup and login successful!');
+            setSuccessMessage('Brugeroprettelse vellykket! Tjek venligst din e-mail for at bekræfte din konto.');
             setErrorMessage('');
-            navigate('/');
-            window.location.reload();
+            setFormData({
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+            });
         } catch (error) {
-            console.error('Error during signup or login:', error);
+            console.error('Error during signup:', error);
+            setErrorMessage('An error occurred. Please try again.');
         }
     };
 

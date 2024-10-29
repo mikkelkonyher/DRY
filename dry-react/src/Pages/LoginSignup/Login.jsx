@@ -20,7 +20,7 @@ const Login = () => {
             navigate('/');
             window.location.reload();
         } catch (err) {
-            setError('Forkert email eller adgangskode');
+            setError('Forkert email eller adgangskode, eller bruger er ikke bekræftet.');
             setSuccess('');
         }
     };
