@@ -14,7 +14,8 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
         type: '',
         brand: '',
         model: '',
-        location: ''
+        location: '',
+        price: ''
     });
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
@@ -116,7 +117,19 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
             (filters.type === '' || item[gearTypeKey]?.includes(filters.type)) &&
             (filters.brand === '' || item?.brand?.includes(filters.brand)) &&
             (filters.model === '' || item?.model?.includes(filters.model)) &&
-            (filters.location === '' || item?.location?.includes(filters.location))
+            (filters.location === '' || item?.location?.includes(filters.location)) &&
+            (filters.price === '' || (
+                filters.price === '0-500' && item.price <= 500 ||
+                filters.price === '500-1000' && item.price > 500 && item.price <= 1000 ||
+                filters.price === '1000-5000' && item.price > 1000 && item.price <= 5000 ||
+                filters.price === '5000-10000' && item.price > 5000 && item.price <= 10000 ||
+                filters.price === '10000-15000' && item.price > 10000 && item.price <= 15000 ||
+                filters.price === '15000-20000' && item.price > 15000 && item.price <= 20000 ||
+                filters.price === '20000-30000' && item.price > 20000 && item.price <= 30000 ||
+                filters.price === '30000-40000' && item.price > 30000 && item.price <= 40000 ||
+                filters.price === '40000-50000' && item.price > 40000 && item.price <= 50000 ||
+                filters.price === '50000+' && item.price > 50000
+            ))
         );
 
         const searchKeywords = searchQuery.toLowerCase().split(' ');
@@ -211,6 +224,23 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                             {location}
                         </option>
                     ))}
+                </select>
+                <select
+                    name="price"
+                    value={filters.price}
+                    onChange={handleFilterChange}
+                >
+                    <option value="">Filter by Price</option>
+                    <option value="0-500">0-500 DKK</option>
+                    <option value="500-1000">500-1000 DKK</option>
+                    <option value="1000-5000">1000-5000 DKK</option>
+                    <option value="5000-10000">5000-10.000 DKK</option>
+                    <option value="10000-15000">10.000-15.000 DKK</option>
+                    <option value="15000-20000">15.000-20.000 DKK</option>
+                    <option value="20000-30000">20.000-30.000 DKK</option>
+                    <option value="30000-40000">30.000-40.000 DKK</option>
+                    <option value="40000-50000">40.000-50.000 DKK</option>
+                    <option value="50000+">50.000+ DKK</option>
                 </select>
             </div>
             <div className="gear-list">
