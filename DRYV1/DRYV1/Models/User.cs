@@ -36,5 +36,11 @@ namespace DRYV1.Models
         public string Email { get; set; }
         public string Password { get; set; }
     }
+    
+    public class ResetPasswordDTO
+    {
+        public string Token { get; set; }
+        public string NewPassword { get; set; }
+    }
 
 }

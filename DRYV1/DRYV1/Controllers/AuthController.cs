@@ -107,4 +107,47 @@ public class AuthController : ControllerBase
 
         return Ok(new { Token = token });
     }
+    
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] string email)
+    {
+        var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+        if (user == null)
+        {
+            return BadRequest(new { Message = "User with this email does not exist." });
+        }
+
+        var token = _jwtService.GenerateToken(user);
+        var resetLink = Url.Action(nameof(ResetPassword), "Auth", new { token }, Request.Scheme);
+
+        await _emailService.SendEmailAsync(email, "Reset your password", $"Please reset your password by clicking <a href='{resetLink}'>here</a>.");
+
+        return Ok(new { Message = "Password reset link has been sent to your email." });
+    }
+    
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO resetPasswordDTO)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(resetPasswordDTO.Token);
+        var email = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+
+        if (email == null)
+        {
+            return BadRequest(new { Message = "Invalid token." });
+        }
+
+        var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+        if (user == null)
+        {
+            return BadRequest(new { Message = "User with this email does not exist." });
+        }
+
+        user.Password = BCrypt.Net.BCrypt.HashPassword(resetPasswordDTO.NewPassword);
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { Message = "Password has been reset successfully." });
+    }
+    
 }
