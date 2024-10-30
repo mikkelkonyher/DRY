@@ -59,6 +59,9 @@ const Login = () => {
             <p className="signup-text">
                 <Link to="/signup" className="signup-link">Signup</Link>
             </p>
+            <p className="forgot-password-text">
+                <Link to="/forgot-password" className="forgot-password-link">Forgot Password?</Link>
+            </p>
         </div>
     );
 };

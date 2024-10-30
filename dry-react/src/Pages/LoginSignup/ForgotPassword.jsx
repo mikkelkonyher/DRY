@@ -8,22 +8,25 @@ const ForgotPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
             const response = await fetch('https://localhost:7064/api/Auth/forgot-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email }),
+                // Send the email as a raw string in the request body
+                body: JSON.stringify(email),
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Network response was not ok');
+                const errorMessage = errorData.Message || 'Network response was not ok';
+                throw new Error(errorMessage);
             }
 
             const data = await response.json();
-            setMessage(data.message);
+            setMessage(data.Message || 'Password reset link has been sent to your email.');
         } catch (err) {
             console.error('Error:', err);
             setMessage(err.message || 'Error sending password reset link.');

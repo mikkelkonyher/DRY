@@ -117,13 +117,12 @@ public class AuthController : ControllerBase
         }
 
         var token = _jwtService.GenerateToken(user);
-        var resetLink = Url.Action(nameof(ResetPassword), "Auth", new { token }, Request.Scheme);
-
+        var resetLink = $"http://localhost:5173/reset-password/{token}";
         await _emailService.SendEmailAsync(email, "Reset your password", $"Please reset your password by clicking <a href='{resetLink}'>here</a>.");
 
         return Ok(new { Message = "Password reset link has been sent to your email." });
     }
-    
+
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO resetPasswordDTO)
     {
