@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
+import config from "../../../config.jsx";
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ function Signup() {
         }
 
         try {
-            const signupResponse = await fetch('https://localhost:7064/api/Auth/signup', {
+            const signupResponse = await fetch(`${config.apiBaseUrl}/api/Auth/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,17 +68,17 @@ function Signup() {
     };
 
     return (
-        <div className="auth-body">
-            <div className="auth-container">
+        <div className="signup-body">
+            <div className="signup-container">
                 <h2>Opret dig som Ninja!</h2>
-                <form className="auth-form" onSubmit={handleSubmit}>
+                <form className="signup-form" onSubmit={handleSubmit}>
                     {successMessage && <p className="signup-success-message">{successMessage}</p>}
-                    {errorMessage && <p className="auth-error-message">{errorMessage}</p>}
+                    {errorMessage && <p className="signup-error-message">{errorMessage}</p>}
 
                     <input
                         type="text"
                         name="name"
-                        className="auth-input"
+                        className="signup-input"
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Brugernavn"
@@ -86,7 +87,7 @@ function Signup() {
                     <input
                         type="email"
                         name="email"
-                        className="auth-input"
+                        className="signup-input"
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Email"
@@ -95,7 +96,7 @@ function Signup() {
                     <input
                         type="password"
                         name="password"
-                        className="auth-input"
+                        className="signup-input"
                         value={formData.password}
                         onChange={handleChange}
                         placeholder="Password"
@@ -104,13 +105,13 @@ function Signup() {
                     <input
                         type="password"
                         name="confirmPassword"
-                        className="auth-input"
+                        className="signup-input"
                         value={formData.confirmPassword}
                         onChange={handleChange}
                         placeholder="Confirm Password"
                         required
                     />
-                    <button type="submit" className="auth-button">Signup</button>
+                    <button type="submit" className="signup-button">Signup</button>
                 </form>
             </div>
         </div>

@@ -39,7 +39,8 @@ namespace DRYV1.Controllers
             }
             return Ok(guitar);
         }
-
+        
+        
         [HttpPost]
      
         public async Task<IActionResult> Create([FromForm] GuitBassGear guitBassGear, [FromForm] List<IFormFile> imageFiles)

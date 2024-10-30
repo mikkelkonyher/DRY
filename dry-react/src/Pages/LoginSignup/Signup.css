@@ -1,10 +1,6 @@
 /* src/Pages/LoginSignup/Signup.css */
 
-
-
-
-
-.signup-body {
+.signup-body2 {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     display: flex;
@@ -18,9 +14,10 @@
     background-color: #fff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     width: 100%;
     max-width: 400px;
+    border: none; /* Ensure no border is applied */
 }
 
 .signup-container h2 {
@@ -79,4 +76,3 @@
     margin-bottom: 15px;
     font-size: 14px;
 }
-

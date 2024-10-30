@@ -23,10 +23,12 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(false);
     const itemsPerPage = 5;
 
     useEffect(() => {
         const fetchGear = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(apiEndpoint);
                 if (!response.ok) {
@@ -74,6 +76,8 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 setGear(gearWithComments);
             } catch (error) {
                 console.error('Error fetching gear or users:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -260,55 +264,59 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 </select>
                 <button className="clear-filters-button" onClick={clearFilters}>Nustil filtre</button>
             </div>
-            <div className="gear-list">
-                {currentItems.map((item) => (
-                    <div key={item.id} className="gear-card">
-                        {showAllImages[item.id] ? (
-                            item.imagePaths.map((imagePath, index) => (
-                                <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
-                                     className="gear-image" onClick={() => handleImageClick(imagePath)} />
-                            ))
-                        ) : (
-                            <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
-                                 className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])} />
-                        )}
-                        <button className="toggle-images-button" onClick={() => toggleShowAllImages(item.id)}>
-                            {showAllImages[item.id] ? 'Vis Mindre' : 'Vis Alle Billeder'}
-                        </button>
-                        <h3>{item.brand} {item.model}</h3>
-                        <p>{item.description}</p>
-                        <p><strong>Pris: </strong>{item.price} DKK</p>
-                        <p><strong>Lokation:</strong> {item.location}</p>
-                        <p><strong>Stand:</strong> {item.condition}</p>
-                        <p><strong>År:</strong> {item.year}</p>
-                        <p><strong>Type: </strong>{item[gearTypeKey]}</p>
-                        <p><strong>Sælger:</strong> {users[item.userId]?.name || 'Ukendt'}</p>
-                        <button onClick={() => alert(`Skriv til sælger: ${users[item.userId]?.email || 'Ukendt'}`)}>
-                            Skriv til sælger
-                        </button>
-                        <div className="comments-section">
-                            <button className="show-comments-button" onClick={() => toggleShowComments(item.id)}>
-                                {showComments[item.id] ? 'Skjul kommentarer' : 'Se kommentarer'}
-                            </button>
-                            {showComments[item.id] && (
-                                <>
-                                    <h4>Kommentarer:</h4>
-                                    {item.comments && item.comments.length > 0 ? (
-                                        item.comments.map((comment) => (
-                                            <div key={comment.id} className="comment">
-                                                <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
-                                                <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <p>Ingen kommentarer.</p>
-                                    )}
-                                </>
+            {loading ? (
+                <div className="loading">Loading...</div>
+            ) : (
+                <div className="gear-list">
+                    {currentItems.map((item) => (
+                        <div key={item.id} className="gear-card">
+                            {showAllImages[item.id] ? (
+                                item.imagePaths.map((imagePath, index) => (
+                                    <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
+                                         className="gear-image" onClick={() => handleImageClick(imagePath)} />
+                                ))
+                            ) : (
+                                <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
+                                     className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])} />
                             )}
+                            <button className="toggle-images-button" onClick={() => toggleShowAllImages(item.id)}>
+                                {showAllImages[item.id] ? 'Vis Mindre' : 'Vis Alle Billeder'}
+                            </button>
+                            <h3>{item.brand} {item.model}</h3>
+                            <p>{item.description}</p>
+                            <p><strong>Pris: </strong>{item.price} DKK</p>
+                            <p><strong>Lokation:</strong> {item.location}</p>
+                            <p><strong>Stand:</strong> {item.condition}</p>
+                            <p><strong>År:</strong> {item.year}</p>
+                            <p><strong>Type: </strong>{item[gearTypeKey]}</p>
+                            <p><strong>Sælger:</strong> {users[item.userId]?.name || 'Ukendt'}</p>
+                            <button onClick={() => alert(`Skriv til sælger: ${users[item.userId]?.email || 'Ukendt'}`)}>
+                                Skriv til sælger
+                            </button>
+                            <div className="comments-section">
+                                <button className="show-comments-button" onClick={() => toggleShowComments(item.id)}>
+                                    {showComments[item.id] ? 'Skjul kommentarer' : 'Se kommentarer'}
+                                </button>
+                                {showComments[item.id] && (
+                                    <>
+                                        <h4>Kommentarer:</h4>
+                                        {item.comments && item.comments.length > 0 ? (
+                                            item.comments.map((comment) => (
+                                                <div key={comment.id} className="comment">
+                                                    <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
+                                                    <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p>Ingen kommentarer.</p>
+                                        )}
+                                    </>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
             <div className="pagination">
                 <button
                     className="pagination-button"

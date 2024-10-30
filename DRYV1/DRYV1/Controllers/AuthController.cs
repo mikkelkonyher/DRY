@@ -1,5 +1,3 @@
-// File: Controllers/AuthController.cs
-
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
