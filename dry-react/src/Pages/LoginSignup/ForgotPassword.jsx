@@ -1,6 +1,5 @@
-// File: src/Pages/LoginSignup/ForgotPassword.jsx
-
 import React, { useState } from 'react';
+import config from "../../../config.jsx";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -10,12 +9,11 @@ const ForgotPassword = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('https://localhost:7064/api/Auth/forgot-password', {
+            const response = await fetch(`${config.apiBaseUrl}/api/Auth/forgot-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                // Send the email as a raw string in the request body
                 body: JSON.stringify(email),
             });
 

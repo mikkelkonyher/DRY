@@ -1,6 +1,7 @@
 import React from 'react';
 import GearForm from '../Forms/GearForm.jsx';
 import './CreateGuitBassGear.css';
+import config from "../../../config.jsx";
 
 function CreateGuitBassGear() {
     const categories = [
@@ -9,7 +10,7 @@ function CreateGuitBassGear() {
         "Kontrabas", "Basforstærker", "Tilbehør til Bas", "Andet"
     ];
 
-    return <GearForm gearType="Guitar/Bas Udstyr" categories={categories} apiEndpoint="https://localhost:7064/api/GuitBassGear" />;
+    return <GearForm gearType="Guitar/Bas Udstyr" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/GuitBassGear`} />;
 }
 
 export default CreateGuitBassGear;

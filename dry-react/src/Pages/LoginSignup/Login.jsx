@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
 import LoginIcon from '@mui/icons-material/Login';
+import config from "../../../config.jsx";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://localhost:7064/api/Auth/login', { email, password });
+            const response = await axios.post(`${config.apiBaseUrl}/api/Auth/login`, { email, password });
             localStorage.setItem('token', response.data.token);
             setSuccess('Login successful!');
             setError('');

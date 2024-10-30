@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import config from "../../../config.jsx";
 
 import './GearForm.css';
 
@@ -73,7 +74,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     throw new Error('Email not found in token');
                 }
 
-                const userResponse = await fetch(`https://localhost:7064/api/User`, {
+                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
                     headers: {
                         'accept': 'application/json',
                         'Authorization': `Bearer ${token}`

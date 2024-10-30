@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './GetGearForm.css';
 import SellIcon from '@mui/icons-material/Sell';
+import config from "../../../config.jsx";
 
 function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTypeKey }) {
     const [gear, setGear] = useState(gearData);
@@ -44,7 +45,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 setModels(uniqueModels);
                 setLocations(uniqueLocations);
 
-                const userResponse = await fetch('https://localhost:7064/api/User');
+                const userResponse = await fetch(`${config.apiBaseUrl}/User`);
                 if (!userResponse.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -57,7 +58,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 
                 const commentsPromises = sortedData.map(async (item) => {
                     try {
-                        const commentsResponse = await fetch(`https://localhost:7064/api/Comment/api/MusicGear/${item.id}/comments`);
+                        const commentsResponse = await fetch(`${config.apiBaseUrl}/Comment/api/MusicGear/${item.id}/comments`);
                         if (!commentsResponse.ok) {
                             return { ...item, comments: [] };
                         }

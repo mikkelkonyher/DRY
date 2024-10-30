@@ -1,6 +1,7 @@
 import React from 'react';
 import GetGearForm from '../Forms/GetGearForm.jsx';
-import './GetGuiBassGear.css'
+import './GetGuiBassGear.css';
+import config from "../../../config.jsx";
 
 function GetGuitBassGear() {
     const categories = [
@@ -12,7 +13,7 @@ function GetGuitBassGear() {
     return (
         <GetGearForm
             gearType="Guitar og Basudstyr"
-            apiEndpoint="https://localhost:7064/api/GuitBassGear"
+            apiEndpoint={`${config.apiBaseUrl}/api/GuitBassGear`}
             categories={categories}
             gearTypeKey="guitBassType"
         />

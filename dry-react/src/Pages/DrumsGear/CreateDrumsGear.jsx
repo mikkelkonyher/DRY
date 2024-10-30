@@ -1,6 +1,7 @@
 import React from 'react';
 import GearForm from '../Forms/GearForm.jsx';
 import './CreateDrumsGear.css';
+import config from "../../../config.jsx";
 
 function CreateDrumsGear() {
     const categories = [
@@ -8,7 +9,7 @@ function CreateDrumsGear() {
         "Trommehardware", "Slagtøj", "Trommetilbehør", "Andet"
     ];
 
-    return <GearForm gearType="Trommeudstyr" categories={categories} apiEndpoint="https://localhost:7064/api/DrumsGear" />;
+    return <GearForm gearType="Trommeudstyr" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/DrumsGear`}/>;
 }
 
 export default CreateDrumsGear;
