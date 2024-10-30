@@ -75,3 +75,15 @@
 .signup-link:hover {
     text-decoration: underline;
 }
+
+.forgot-password-text{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.forgot-password-link{
+    color: #007bff;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 12px;
+}
