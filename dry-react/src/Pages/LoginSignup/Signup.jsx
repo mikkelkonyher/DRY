@@ -69,7 +69,7 @@ function Signup() {
     return (
         <div className="auth-body">
             <div className="auth-container">
-                <h2>Signup</h2>
+                <h2>Opret dig som Ninja!</h2>
                 <form className="auth-form" onSubmit={handleSubmit}>
                     {successMessage && <p className="signup-success-message">{successMessage}</p>}
                     {errorMessage && <p className="auth-error-message">{errorMessage}</p>}
