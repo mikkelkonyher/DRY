@@ -45,7 +45,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 setModels(uniqueModels);
                 setLocations(uniqueLocations);
 
-                const userResponse = await fetch(`${config.apiBaseUrl}/User`);
+                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
                 if (!userResponse.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -58,7 +58,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 
                 const commentsPromises = sortedData.map(async (item) => {
                     try {
-                        const commentsResponse = await fetch(`${config.apiBaseUrl}/Comment/api/MusicGear/${item.id}/comments`);
+                        const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
                         if (!commentsResponse.ok) {
                             return { ...item, comments: [] };
                         }
