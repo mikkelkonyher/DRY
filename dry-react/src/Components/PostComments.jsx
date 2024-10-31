@@ -104,10 +104,10 @@ function PostComment({ gearId, onCommentPosted }) {
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: 'grey',
-                    opacity: '0.6'
+
                 }}
             >
-                😊
+                🥷
             </button>
             {showEmojiPicker && <Picker onEmojiSelect={addEmoji} />}
             <button type="submit">Post Kommentar</button>

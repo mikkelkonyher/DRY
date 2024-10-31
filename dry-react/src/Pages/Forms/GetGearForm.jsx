@@ -317,12 +317,14 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                                 <>
                                     <h4>Kommentarer:</h4>
                                     {item.comments && item.comments.length > 0 ? (
-                                        item.comments.map((comment) => (
-                                            <div key={comment.id} className="comment">
-                                                <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
-                                                <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
-                                            </div>
-                                        ))
+                                        item.comments
+                                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                                            .map((comment) => (
+                                                <div key={comment.id} className="comment">
+                                                    <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
+                                                    <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
+                                                </div>
+                                            ))
                                     ) : (
                                         <p>Ingen kommentarer.</p>
                                     )}
