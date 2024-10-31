@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './GetGearForm.css';
 import SellIcon from '@mui/icons-material/Sell';
 import config from "../../../config.jsx";
+import PostComment from "../../Components/PostComments.jsx";
 
 function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTypeKey }) {
     const [gear, setGear] = useState(gearData);
@@ -173,6 +174,20 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
         });
     };
 
+    const handleCommentPosted = async () => {
+        try {
+            const response = await fetch(apiEndpoint);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            const sortedData = data.sort((a, b) => b.id - a.id);
+            setGear(sortedData);
+        } catch (error) {
+            console.error('Error fetching gear:', error);
+        }
+    };
+
     const sellGearPath = gearType === "Trommeudstyr" ? "/SellDrumsGear" : "/SellGuiBassGear";
 
     return (
@@ -303,6 +318,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                                     ) : (
                                         <p>Ingen kommentarer.</p>
                                     )}
+                                    <PostComment gearId={item.id} onCommentPosted={handleCommentPosted} />
                                 </>
                             )}
                         </div>
