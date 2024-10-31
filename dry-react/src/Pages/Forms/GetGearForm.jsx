@@ -198,19 +198,24 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
             <div className="sell-button-container">
                 <Link to={sellGearPath}>
                     <button className="sell-button">
-                        <SellIcon style={{ marginRight: '5px' }} />
+                        <SellIcon style={{marginRight: '5px'}}/>
                         Sælg {gearType}
                     </button>
                 </Link>
             </div>
-            <div className="filters">
+            <div className="search-bar2">
+
                 <input
                     type="text"
                     name="search"
+                    className="search-bar2"
                     value={searchQuery}
                     onChange={handleSearchChange}
-                    placeholder="Search..."
+                    placeholder="Søg efter guitarer, basudstyr, effekter og mere..."
                 />
+            </div>
+            <div className="filters">
+
                 <select
                     name="type"
                     value={filters.type}
@@ -284,11 +289,11 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                         {showAllImages[item.id] ? (
                             item.imagePaths.map((imagePath, index) => (
                                 <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
-                                     className="gear-image" onClick={() => handleImageClick(imagePath)} />
+                                     className="gear-image" onClick={() => handleImageClick(imagePath)}/>
                             ))
                         ) : (
                             <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
-                                 className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])} />
+                                 className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])}/>
                         )}
                         <button className="toggle-images-button" onClick={() => toggleShowAllImages(item.id)}>
                             {showAllImages[item.id] ? 'Vis Mindre' : 'Vis Alle Billeder'}
@@ -321,7 +326,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                                     ) : (
                                         <p>Ingen kommentarer.</p>
                                     )}
-                                    <PostComment gearId={item.id} onCommentPosted={() => handleCommentPosted(item.id)} />
+                                    <PostComment gearId={item.id} onCommentPosted={() => handleCommentPosted(item.id)}/>
                                 </>
                             )}
                         </div>
@@ -348,7 +353,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
             {selectedImage && (
                 <div className="modal" onClick={closeModal}>
                     <span className="close">&times;</span>
-                    <img className="modal-content" src={selectedImage} alt="Large view" />
+                    <img className="modal-content" src={selectedImage} alt="Large view"/>
                 </div>
             )}
         </div>

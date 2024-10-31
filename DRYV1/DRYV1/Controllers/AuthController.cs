@@ -81,7 +81,7 @@ public class AuthController : ControllerBase
 
         return Ok(new 
         {
-            Message = "Du er nu officielt en Snedig Ninja hos GearNinja! Velkommen til vores hemmelige klub af gear-entusiaster, hvor hurtige tricks og skarpe moves er hverdagskost. Vi glæder os til at hjælpe dig med at mestre udstyret og finde ninjaens hemmelige våben til hver mission. Tjek din indbakke, hold skarpt øje med nyheder og gear-tricks, og forbered dig på en spændende rejse ind i ninjaland! Velkommen til GearNinja-familien – lad eventyret begynde!",
+            Message = "Du er nu officielt en Snedig Ninja hos GearNinja!",
         });
     }
 

@@ -131,3 +131,19 @@
     background-color: #4cacaf;
 }
 
+.search-bar2 {
+    display: flex;
+    justify-content: center; /* Center the input element horizontally */
+    width: 100%; /* Ensure the div takes the full width of its container */
+}
+
+.search-bar2 input {
+    width: 350px; /* Set the width of the input element */
+}
+
+.comment {
+    background-color: #f0f0f0; /* Light grey background */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
