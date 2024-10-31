@@ -174,17 +174,20 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
         });
     };
 
-    const handleCommentPosted = async () => {
+    const handleCommentPosted = async (gearId) => {
         try {
-            const response = await fetch(apiEndpoint);
+            const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${gearId}/comments`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const data = await response.json();
-            const sortedData = data.sort((a, b) => b.id - a.id);
-            setGear(sortedData);
+            const commentsData = await response.json();
+            setGear((prevGear) =>
+                prevGear.map((item) =>
+                    item.id === gearId ? { ...item, comments: commentsData } : item
+                )
+            );
         } catch (error) {
-            console.error('Error fetching gear:', error);
+            console.error('Error fetching comments:', error);
         }
     };
 
@@ -318,7 +321,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                                     ) : (
                                         <p>Ingen kommentarer.</p>
                                     )}
-                                    <PostComment gearId={item.id} onCommentPosted={handleCommentPosted} />
+                                    <PostComment gearId={item.id} onCommentPosted={() => handleCommentPosted(item.id)} />
                                 </>
                             )}
                         </div>
