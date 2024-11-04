@@ -21,11 +21,14 @@ namespace DRYV1.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> Search(string query)
+        public async Task<IActionResult> Search(string query, string type = "")
         {
             var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var results = await _context.MusicGear
-                .Where(g => keywords.All(k => g.Brand.ToLower().Contains(k) ||
+                .Where(g => (string.IsNullOrEmpty(type) ||
+                             (g is GuitBassGear && ((GuitBassGear)g).GuitBassType.ToLower().Contains(type.ToLower())) ||
+                             (g is DrumsGear && ((DrumsGear)g).DrumsGearType.ToLower().Contains(type.ToLower()))) &&
+                            keywords.All(k => g.Brand.ToLower().Contains(k) ||
                                               g.Model.ToLower().Contains(k) ||
                                               g.Year.ToString().Contains(k) ||
                                               g.Description.ToLower().Contains(k) ||

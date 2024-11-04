@@ -24,7 +24,8 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 2;
+    const [noSearchResults, setNoSearchResults] = useState(false);
+    const itemsPerPage = 100;
 
     useEffect(() => {
         const fetchGear = async () => {
@@ -81,26 +82,41 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
         fetchGear();
     }, [apiEndpoint]);
 
-    useEffect(() => {
-        const fetchSearchResults = async () => {
-            if (searchQuery.trim() === '') {
-                return;
+    const fetchSearchResults = async () => {
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/search?query=${encodeURIComponent(searchQuery)}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-
-            try {
-                const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/search?query=${encodeURIComponent(searchQuery)}`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setGear(data);
-            } catch (error) {
-                console.error('Error fetching search results:', error);
-            }
-        };
-
-        fetchSearchResults();
-    }, [searchQuery]);
+            const data = await response.json();
+            const filteredData = data.filter((item) => {
+                const matchesFilters = (
+                    (filters.type === '' || item[gearTypeKey]?.includes(filters.type)) &&
+                    (filters.brand === '' || item?.brand?.includes(filters.brand)) &&
+                    (filters.model === '' || item?.model?.includes(filters.model)) &&
+                    (filters.location === '' || item?.location?.includes(filters.location)) &&
+                    (filters.price === '' || (
+                        filters.price === '0-500' && item.price <= 500 ||
+                        filters.price === '500-1000' && item.price > 500 && item.price <= 1000 ||
+                        filters.price === '1000-5000' && item.price > 1000 && item.price <= 5000 ||
+                        filters.price === '5000-10000' && item.price > 5000 && item.price <= 10000 ||
+                        filters.price === '10000-15000' && item.price > 10000 && item.price <= 15000 ||
+                        filters.price === '15000-20000' && item.price > 15000 && item.price <= 20000 ||
+                        filters.price === '20000-30000' && item.price > 20000 && item.price <= 30000 ||
+                        filters.price === '30000-40000' && item.price > 30000 && item.price <= 40000 ||
+                        filters.price === '40000-50000' && item.price > 40000 && item.price <= 50000 ||
+                        filters.price === '50000+' && item.price > 50000
+                    ))
+                );
+                return matchesFilters;
+            });
+            setGear(filteredData);
+            setNoSearchResults(filteredData.length === 0);
+        } catch (error) {
+            console.error('Error fetching search results:', error);
+            setNoSearchResults(true);
+        }
+    };
 
     const toggleShowAllImages = (id) => {
         setShowAllImages((prevState) => ({
@@ -147,34 +163,11 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
         setSearchQuery('');
     };
 
-    const filteredGear = gear.filter((item) => {
-        const matchesFilters = (
-            (filters.type === '' || item[gearTypeKey]?.includes(filters.type)) &&
-            (filters.brand === '' || item?.brand?.includes(filters.brand)) &&
-            (filters.model === '' || item?.model?.includes(filters.model)) &&
-            (filters.location === '' || item?.location?.includes(filters.location)) &&
-            (filters.price === '' || (
-                filters.price === '0-500' && item.price <= 500 ||
-                filters.price === '500-1000' && item.price > 500 && item.price <= 1000 ||
-                filters.price === '1000-5000' && item.price > 1000 && item.price <= 5000 ||
-                filters.price === '5000-10000' && item.price > 5000 && item.price <= 10000 ||
-                filters.price === '10000-15000' && item.price > 10000 && item.price <= 15000 ||
-                filters.price === '15000-20000' && item.price > 15000 && item.price <= 20000 ||
-                filters.price === '20000-30000' && item.price > 20000 && item.price <= 30000 ||
-                filters.price === '30000-40000' && item.price > 30000 && item.price <= 40000 ||
-                filters.price === '40000-50000' && item.price > 40000 && item.price <= 50000 ||
-                filters.price === '50000+' && item.price > 50000
-            ))
-        );
-
-        return matchesFilters;
-    });
-
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredGear.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = gear.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(filteredGear.length / itemsPerPage);
+    const totalPages = Math.ceil(gear.length / itemsPerPage);
 
     const handlePageChange = (direction) => {
         setCurrentPage((prevPage) => {
@@ -223,9 +216,11 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     className="search-bar2"
                     value={searchQuery}
                     onChange={handleSearchChange}
-                    placeholder="Søg efter guitarer, basudstyr, effekter og mere..."
+                    placeholder="Søg i alt gear..."
                 />
+                <button onClick={fetchSearchResults}>Search</button>
             </div>
+            {noSearchResults && <p>Fandt ingen match</p>}
             <div className="filters">
                 <select
                     name="type"
