@@ -107,5 +107,62 @@ namespace DRYV1.Controllers
 
             return Ok(results);
         }
+        
+        [HttpGet("filter")]
+        public async Task<IActionResult> Filter(
+            string model = null,
+            string brand = null,
+            decimal? minPrice = null,
+            decimal? maxPrice = null,
+            string guitBassType = null,
+            int? year = null,
+            string location = null)
+        {
+            var query = _context.GuitBassGear.AsQueryable();
+
+            if (!string.IsNullOrEmpty(model))
+            {
+                query = query.Where(g => g.Model.ToLower().Contains(model.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(brand))
+            {
+                query = query.Where(g => g.Brand.ToLower().Contains(brand.ToLower()));
+            }
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(g => g.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(g => g.Price <= maxPrice.Value);
+            }
+
+            if (!string.IsNullOrEmpty(guitBassType))
+            {
+                query = query.Where(g => g.GuitBassType.ToLower().Contains(guitBassType.ToLower()));
+            }
+
+            if (year.HasValue)
+            {
+                query = query.Where(g => g.Year == year.Value);
+            }
+
+            if (!string.IsNullOrEmpty(location))
+            {
+                query = query.Where(g => g.Location.ToLower().Contains(location.ToLower()));
+            }
+
+            var results = await query.ToListAsync();
+
+            if (!results.Any())
+            {
+                return NotFound("No matching records found.");
+            }
+
+            return Ok(results);
+        }
     }
 }
