@@ -73,30 +73,6 @@
     cursor: pointer;
 }
 
-.pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.pagination-button {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 1px solid #ccc;
-    background-color: #000000;
-    cursor: pointer;
-}
-
-.pagination-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-}
 
 .show-comments-button {
     font-size: 0.8em;
@@ -113,19 +89,7 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.clear-filters-button {
-    font-size: 0.7em;
-    padding: 3px 6px;
-    background-color: #000000;
-    border: 1px solid #ffffff;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    color: #ffffff;
-    width: 100px; /* Set a fixed width */
-    text-align: center; /* Center the text */
-    margin-left: 10px;
-}
+
 
 .clear-filters-button:hover {
     background-color: #4cacaf;

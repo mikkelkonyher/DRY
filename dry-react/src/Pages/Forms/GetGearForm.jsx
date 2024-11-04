@@ -5,7 +5,8 @@ import './GetGearForm.css';
 import SellIcon from '@mui/icons-material/Sell';
 import config from "../../../config.jsx";
 import PostComment from "../../Components/PostComments.jsx";
-import Pagination from '../../Components/Pagination.jsx'; // Import the new Pagination component
+import Pagination from '../../Components/Pagination.jsx';
+import SearchFilters from '../../Components/SearchFilters.jsx'; // Import the new SearchFilters component
 
 function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTypeKey }) {
     const [gear, setGear] = useState(gearData);
@@ -94,9 +95,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 }
             });
 
-            // Log the URL to debug
-            console.log('Fetching URL:', url.toString());
-
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -112,15 +110,15 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                         filters.price === '0-500' && item.price <= 500 ||
                         filters.price === '500-1000' && item.price > 500 && item.price <= 1000 ||
                         filters.price === '1000-5000' && item.price > 1000 && item.price <= 5000 ||
-                        filters.price === '5000-10000' && item.price > 5000 && item.price <= 10000 ||
-                        filters.price === '10000-15000' && item.price > 10000 && item.price <= 15000 ||
-                        filters.price === '15000-20000' && item.price > 15000 && item.price <= 20000 ||
-                        filters.price === '20000-30000' && item.price > 20000 && item.price <= 30000 ||
-                        filters.price === '30000-40000' && item.price > 30000 && item.price <= 40000 ||
-                        filters.price === '40000-50000' && item.price > 40000 && item.price <= 50000 ||
-                        filters.price === '50000+' && item.price > 50000
-                    ))
-                );
+                filters.price === '5000-10000' && item.price > 5000 && item.price <= 10000 ||
+                filters.price === '10000-15000' && item.price > 10000 && item.price <= 15000 ||
+                filters.price === '15000-20000' && item.price > 15000 && item.price <= 20000 ||
+                filters.price === '20000-30000' && item.price > 20000 && item.price <= 30000 ||
+                filters.price === '30000-40000' && item.price > 30000 && item.price <= 40000 ||
+                filters.price === '40000-50000' && item.price > 40000 && item.price <= 50000 ||
+                filters.price === '50000+' && item.price > 50000
+            ))
+            );
                 return matchesFilters;
             });
             setGear(filteredData);
@@ -234,74 +232,15 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 <button className="search-button-small" onClick={fetchSearchResults}>Søg</button>
             </div>
             {noSearchResults && <p>Fandt ingen match</p>}
-            <div className="filters">
-                <select
-                    name="type"
-                    value={filters.type}
-                    onChange={handleFilterChange}
-                >
-                    <option value="">Type</option>
-                    {categories.map((category) => (
-                        <option key={category} value={category}>
-                            {category}
-                        </option>
-                    ))}
-                </select>
-                <select
-                    name="brand"
-                    value={filters.brand}
-                    onChange={handleFilterChange}
-                >
-                    <option value="">Brand</option>
-                    {brands.map((brand) => (
-                        <option key={brand} value={brand}>
-                            {brand}
-                        </option>
-                    ))}
-                </select>
-                <select
-                    name="model"
-                    value={filters.model}
-                    onChange={handleFilterChange}
-                >
-                    <option value="">Model</option>
-                    {models.map((model) => (
-                        <option key={model} value={model}>
-                            {model}
-                        </option>
-                    ))}
-                </select>
-                <select
-                    name="location"
-                    value={filters.location}
-                    onChange={handleFilterChange}
-                >
-                    <option value="">Lokation</option>
-                    {locations.map((location) => (
-                        <option key={location} value={location}>
-                            {location}
-                        </option>
-                    ))}
-                </select>
-                <select
-                    name="price"
-                    value={filters.price}
-                    onChange={handleFilterChange}
-                >
-                    <option value="">Pris</option>
-                    <option value="0-500">0-500 DKK</option>
-                    <option value="500-1000">500-1000 DKK</option>
-                    <option value="1000-5000">1000-5000 DKK</option>
-                    <option value="5000-10000">5000-10.000 DKK</option>
-                    <option value="10000-15000">10.000-15.000 DKK</option>
-                    <option value="15000-20000">15.000-20.000 DKK</option>
-                    <option value="20000-30000">20.000-30.000 DKK</option>
-                    <option value="30000-40000">30.000-40.000 DKK</option>
-                    <option value="40000-50000">40.000-50.000 DKK</option>
-                    <option value="50000+">50.000+ DKK</option>
-                </select>
-                <button className="clear-filters-button" onClick={clearFilters}>Nustil filtre</button>
-            </div>
+            <SearchFilters
+                filters={filters}
+                categories={categories}
+                brands={brands}
+                models={models}
+                locations={locations}
+                onFilterChange={handleFilterChange}
+                onClearFilters={clearFilters}
+            />
             <div className="gear-list">
                 {currentItems.map((item) => (
                     <div key={item.id} className="gear-card">
