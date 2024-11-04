@@ -84,7 +84,19 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 
     const fetchSearchResults = async () => {
         try {
-            const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/search?query=${encodeURIComponent(searchQuery)}`);
+            const url = new URL(`${apiEndpoint}/search`);
+            url.searchParams.append('query', searchQuery);
+
+            Object.keys(filters).forEach(key => {
+                if (filters[key]) {
+                    url.searchParams.append(key, filters[key]);
+                }
+            });
+
+            // Log the URL to debug
+            console.log('Fetching URL:', url.toString());
+
+            const response = await fetch(url);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -216,7 +228,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     className="search-bar2"
                     value={searchQuery}
                     onChange={handleSearchChange}
-                    placeholder="Søg i alt gear..."
+                    placeholder="Søg..."
                 />
                 <button onClick={fetchSearchResults}>Search</button>
             </div>

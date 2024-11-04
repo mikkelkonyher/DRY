@@ -95,5 +95,25 @@ namespace DRYV1.Controllers
             return NoContent();
         }
         
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(string query)
+        {
+            var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var results = await _context.DrumsGear
+                .Where(g => keywords.All(k => g.Brand.ToLower().Contains(k) ||
+                                              g.Model.ToLower().Contains(k) ||
+                                              g.Year.ToString().Contains(k) ||
+                                              g.Description.ToLower().Contains(k) ||
+                                              g.Location.ToLower().Contains(k) ||
+                                              g.DrumsGearType.ToLower().Contains(k)))
+                .ToListAsync();
+
+            if (!results.Any())
+            {
+                return NotFound("No matching records found.");
+            }
+
+            return Ok(results);
+        }
     }
 }
