@@ -147,3 +147,20 @@
     border-radius: 5px;
     margin-bottom: 10px;
 }
+
+.search-button-small {
+    padding: 5px 10px; /* Increase the top and bottom padding */
+    font-size: 12px;
+    width: 55px;
+    margin-left: 3px;
+    border-radius: 5px;
+    background-color: #000b8c;
+    cursor: pointer;
+    text-align: center; /* Center the text inside the button */
+    height: 38px;
+    margin-top: 10px;
+}
+
+.search-button-small:hover {
+    background-color: #3269c8;
+}

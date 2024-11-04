@@ -228,9 +228,9 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     className="search-bar2"
                     value={searchQuery}
                     onChange={handleSearchChange}
-                    placeholder="Søg..."
+                    placeholder="Søg efter brand, model etc..."
                 />
-                <button onClick={fetchSearchResults}>Search</button>
+                <button className="search-button-small" onClick={fetchSearchResults}>Søg</button>
             </div>
             {noSearchResults && <p>Fandt ingen match</p>}
             <div className="filters">
