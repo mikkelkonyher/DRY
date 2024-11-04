@@ -239,7 +239,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     value={filters.type}
                     onChange={handleFilterChange}
                 >
-                    <option value="">Vælg {gearType} kategori</option>
+                    <option value="">Type</option>
                     {categories.map((category) => (
                         <option key={category} value={category}>
                             {category}
@@ -251,7 +251,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     value={filters.brand}
                     onChange={handleFilterChange}
                 >
-                    <option value="">Filter by Brand</option>
+                    <option value="">Brand</option>
                     {brands.map((brand) => (
                         <option key={brand} value={brand}>
                             {brand}
@@ -263,7 +263,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     value={filters.model}
                     onChange={handleFilterChange}
                 >
-                    <option value="">Filter by Model</option>
+                    <option value="">Model</option>
                     {models.map((model) => (
                         <option key={model} value={model}>
                             {model}
@@ -275,7 +275,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     value={filters.location}
                     onChange={handleFilterChange}
                 >
-                    <option value="">Filter by Location</option>
+                    <option value="">Lokation</option>
                     {locations.map((location) => (
                         <option key={location} value={location}>
                             {location}
@@ -287,7 +287,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                     value={filters.price}
                     onChange={handleFilterChange}
                 >
-                    <option value="">Filter by Price</option>
+                    <option value="">Pris</option>
                     <option value="0-500">0-500 DKK</option>
                     <option value="500-1000">500-1000 DKK</option>
                     <option value="1000-5000">1000-5000 DKK</option>
