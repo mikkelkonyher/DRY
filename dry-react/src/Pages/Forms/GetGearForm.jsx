@@ -5,6 +5,7 @@ import './GetGearForm.css';
 import SellIcon from '@mui/icons-material/Sell';
 import config from "../../../config.jsx";
 import PostComment from "../../Components/PostComments.jsx";
+import Pagination from '../../Components/Pagination.jsx'; // Import the new Pagination component
 
 function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTypeKey }) {
     const [gear, setGear] = useState(gearData);
@@ -216,7 +217,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
             <div className="sell-button-container">
                 <Link to={sellGearPath}>
                     <button className="sell-button">
-                        <SellIcon style={{marginRight: '5px'}}/>
+                        <SellIcon style={{ marginRight: '5px' }} />
                         Sælg {gearType}
                     </button>
                 </Link>
@@ -307,11 +308,11 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                         {showAllImages[item.id] ? (
                             item.imagePaths.map((imagePath, index) => (
                                 <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
-                                     className="gear-image" onClick={() => handleImageClick(imagePath)}/>
+                                     className="gear-image" onClick={() => handleImageClick(imagePath)} />
                             ))
                         ) : (
                             <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
-                                 className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])}/>
+                                 className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])} />
                         )}
                         <button className="toggle-images-button" onClick={() => toggleShowAllImages(item.id)}>
                             {showAllImages[item.id] ? 'Vis Mindre' : 'Vis Alle Billeder'}
@@ -346,34 +347,22 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                                     ) : (
                                         <p>Ingen kommentarer.</p>
                                     )}
-                                    <PostComment gearId={item.id} onCommentPosted={() => handleCommentPosted(item.id)}/>
+                                    <PostComment gearId={item.id} onCommentPosted={() => handleCommentPosted(item.id)} />
                                 </>
                             )}
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="pagination">
-                <button
-                    className="pagination-button"
-                    onClick={() => handlePageChange('prev')}
-                    disabled={currentPage === 1}
-                >
-                    &larr;
-                </button>
-                <span>Page {currentPage} of {totalPages}</span>
-                <button
-                    className="pagination-button"
-                    onClick={() => handlePageChange('next')}
-                    disabled={currentPage === totalPages}
-                >
-                    &rarr;
-                </button>
-            </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
             {selectedImage && (
                 <div className="modal" onClick={closeModal}>
                     <span className="close">&times;</span>
-                    <img className="modal-content" src={selectedImage} alt="Large view"/>
+                    <img className="modal-content" src={selectedImage} alt="Large view" />
                 </div>
             )}
         </div>
