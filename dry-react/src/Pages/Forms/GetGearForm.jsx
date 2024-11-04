@@ -24,7 +24,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5;
+    const itemsPerPage = 2;
 
     useEffect(() => {
         const fetchGear = async () => {
@@ -80,6 +80,27 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 
         fetchGear();
     }, [apiEndpoint]);
+
+    useEffect(() => {
+        const fetchSearchResults = async () => {
+            if (searchQuery.trim() === '') {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/search?query=${encodeURIComponent(searchQuery)}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setGear(data);
+            } catch (error) {
+                console.error('Error fetching search results:', error);
+            }
+        };
+
+        fetchSearchResults();
+    }, [searchQuery]);
 
     const toggleShowAllImages = (id) => {
         setShowAllImages((prevState) => ({
@@ -146,15 +167,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
             ))
         );
 
-        const searchKeywords = searchQuery.toLowerCase().split(' ');
-        const matchesSearchQuery = searchKeywords.every(keyword =>
-            item?.brand?.toLowerCase().includes(keyword) ||
-            item?.model?.toLowerCase().includes(keyword) ||
-            item?.description?.toLowerCase().includes(keyword) ||
-            item?.location?.toLowerCase().includes(keyword)
-        );
-
-        return matchesFilters && matchesSearchQuery;
+        return matchesFilters;
     });
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -204,7 +217,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 </Link>
             </div>
             <div className="search-bar2">
-
                 <input
                     type="text"
                     name="search"
@@ -215,7 +227,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 />
             </div>
             <div className="filters">
-
                 <select
                     name="type"
                     value={filters.type}

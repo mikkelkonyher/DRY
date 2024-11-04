@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import config from "../../../config.jsx";
-
 import './GearForm.css';
 
+//DraggableImage component
 const ItemType = {
     IMAGE: 'image',
 };
@@ -41,6 +41,7 @@ DraggableImage.propTypes = {
     moveImage: PropTypes.func.isRequired,
 };
 
+//GearForm component
 function GearForm({ gearType, categories, apiEndpoint }) {
     const [gear, setGear] = useState({
         brand: '',
