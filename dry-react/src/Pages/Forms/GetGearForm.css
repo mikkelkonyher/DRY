@@ -138,7 +138,8 @@
 }
 
 .search-bar2 input {
-    width: 350px; /* Set the width of the input element */
+    width: 300px; /* Set the width of the input element */
+
 }
 
 .comment {
@@ -163,4 +164,24 @@
 
 .search-button-small:hover {
     background-color: #3269c8;
+}
+
+.sell-button-container {
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    width: 100%; /* Ensure the container takes the full width of its parent */
+}
+
+.sell-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px; /* Set a specific width */
+
 }

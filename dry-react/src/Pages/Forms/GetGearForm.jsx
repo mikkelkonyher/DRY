@@ -25,7 +25,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [noSearchResults, setNoSearchResults] = useState(false);
-    const itemsPerPage = 100;
+    const itemsPerPage = 2;
 
     useEffect(() => {
         const fetchGear = async () => {
