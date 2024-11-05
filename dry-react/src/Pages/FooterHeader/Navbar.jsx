@@ -60,7 +60,7 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: 'rgb(37 37 37)', boxShadow: 'none', width: '100%', padding: '10px 0' }}>
+        <AppBar position="fixed" sx={{ backgroundColor: '#712cf9', boxShadow: 'none', width: '100%', padding: '10px 0' }}>
             <Container maxWidth="xl" sx={{ padding: '0 20px' }}>
                 <Toolbar disableGutters>
                     <svg
@@ -215,8 +215,8 @@ function ResponsiveAppBar() {
                                     },
                                 }}
                             >
-                                <Avatar sx={{bgcolor: '#4cacaf'}}>
-                                    <AccountBoxIcon sx={{color: 'cyan'}}/>
+                                <Avatar sx={{bgcolor: 'white'}}>
+                                    <AccountBoxIcon sx={{color: '#712cf9'}}/>
                                 </Avatar>
                             </IconButton>
                         </Tooltip>

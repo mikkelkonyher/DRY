@@ -244,19 +244,21 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
             <div className="gear-list">
                 {currentItems.map((item) => (
                     <div key={item.id} className="gear-card">
+                        <h3>{item.brand} {item.model}</h3>
+
                         {showAllImages[item.id] ? (
                             item.imagePaths.map((imagePath, index) => (
                                 <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
-                                     className="gear-image" onClick={() => handleImageClick(imagePath)} />
+                                     className="gear-image" onClick={() => handleImageClick(imagePath)}/>
                             ))
                         ) : (
                             <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
-                                 className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])} />
+                                 className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])}/>
                         )}
                         <button className="toggle-images-button" onClick={() => toggleShowAllImages(item.id)}>
                             {showAllImages[item.id] ? 'Vis Mindre' : 'Vis Alle Billeder'}
                         </button>
-                        <h3>{item.brand} {item.model}</h3>
+
                         <p>{item.description}</p>
                         <p><strong>Pris: </strong>{item.price} DKK</p>
                         <p><strong>Lokation:</strong> {item.location}</p>
@@ -279,14 +281,15 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                                             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                                             .map((comment) => (
                                                 <div key={comment.id} className="comment">
-                                                    <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
+                                                    <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}
+                                                    </p>
                                                     <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
                                                 </div>
                                             ))
                                     ) : (
                                         <p>Ingen kommentarer.</p>
                                     )}
-                                    <PostComment gearId={item.id} onCommentPosted={() => handleCommentPosted(item.id)} />
+                                    <PostComment gearId={item.id} onCommentPosted={() => handleCommentPosted(item.id)}/>
                                 </>
                             )}
                         </div>
