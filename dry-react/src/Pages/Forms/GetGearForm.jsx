@@ -266,6 +266,7 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                         <p><strong>År:</strong> {item.year}</p>
                         <p><strong>Type: </strong>{item[gearTypeKey]}</p>
                         <p><strong>Sælger:</strong> {users[item.userId]?.name || 'Ukendt'}</p>
+                        <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
                         <button onClick={() => alert(`Skriv til sælger: ${users[item.userId]?.email || 'Ukendt'}`)}>
                             Skriv til sælger
                         </button>

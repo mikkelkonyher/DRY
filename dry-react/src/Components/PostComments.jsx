@@ -78,14 +78,22 @@ function PostComment({ gearId, onCommentPosted }) {
 
     const addEmoji = (emoji) => setCommentText(commentText + emoji.native);
 
+    const calculateRows = (text) => {
+        const lines = text.split('\n').length;
+        const extraLines = Math.floor(text.length / 50); // Adjust based on average line length
+        return lines + extraLines;
+    };
+
     return (
         <form onSubmit={handleCommentSubmit}>
             {errorMessage && <p className="error-message" style={{ color: 'red' }}>{errorMessage}</p>}
             <textarea
+                className="comment-input"
                 value={commentText}
                 onChange={handleCommentChange}
                 placeholder="Skriv en kommentar..."
                 required
+                rows={calculateRows(commentText)}
             />
             <button
                 type="button"

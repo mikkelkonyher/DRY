@@ -90,6 +90,17 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+.comment-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: #2b2d30;
+    color: #ffffff;
+    resize: none; /* Prevent resizing */
+}
+
 
 
 .clear-filters-button:hover {
@@ -114,6 +125,11 @@
     border-radius: 5px;
     margin-bottom: 10px;
     border: 1px solid #ffffff; /* Thin white border */
+}
+
+.comments-section {
+    width: 100%;
+    overflow: hidden;
 }
 
 .search-button-small {
