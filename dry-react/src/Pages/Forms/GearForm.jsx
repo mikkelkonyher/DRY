@@ -264,10 +264,20 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         ))}
                     </select>
 
-                    <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke" required />
-                    <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model" required />
-                    <textarea name="description" value={gear.description} onChange={handleChange} placeholder="Beskrivelse" required />
-                    <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris" required />
+                    <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke"
+                           required/>
+                    <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model"
+                           required/>
+                    <textarea
+                        name="description"
+                        value={gear.description}
+                        onChange={handleChange}
+                        placeholder="Beskrivelse max 500 tegn"
+                        required
+                        maxLength={500} // Assuming an average word length of 5 characters
+                    />
+                    <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris"
+                           required/>
 
                     <select name="condition" value={gear.condition} onChange={handleChange} required>
                         <option value="">Vælg tilstand</option>
@@ -277,7 +287,8 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         <option value="Brugt">Brugt</option>
                     </select>
 
-                    <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År" required />
+                    <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År"
+                           required/>
                     <select name="location" value={gear.location} onChange={handleChange} required>
                         <option value="">Vælg placering</option>
                         <option value="København og omegn">København og omegn</option>
@@ -293,11 +304,11 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         <option value="Andet">Andet</option>
                     </select>
 
-                    <input type="file" multiple onChange={handleFileChange} />
+                    <input type="file" multiple onChange={handleFileChange}/>
 
                     <div className="image-previews">
                         {imagePreviews.map((src, index) => (
-                            <DraggableImage key={index} src={src} index={index} moveImage={moveImage} />
+                            <DraggableImage key={index} src={src} index={index} moveImage={moveImage}/>
                         ))}
                     </div>
 

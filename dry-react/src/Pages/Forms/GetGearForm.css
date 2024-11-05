@@ -1,6 +1,6 @@
 .gear-card {
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 25px;
     padding: 20px;
     width: 400px;
     background-color: #f9f9f9;
@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Center the content inside the card */
+
 }
 
 .gear-card p {
@@ -22,9 +23,9 @@
 
 .gear-image {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     height: 300px;
-    border-radius: 10px; /* Ensure the image has rounded corners */
+    border-radius: 50px; /* Ensure the image has rounded corners */
     display: block;
     margin: 10px auto;
     object-fit: contain;
@@ -118,8 +119,8 @@
     font-size: 12px;
     width: 55px;
     margin-left: 3px;
-    border-radius: 5px;
-    background-color: #000b8c;
+    border-radius: 10px;
+    background-color: #712cf9;
     cursor: pointer;
     text-align: center; /* Center the text inside the button */
     height: 38px;
@@ -141,11 +142,11 @@
     align-items: center;
     justify-content: center;
     padding: 10px 20px;
-    background-color: #4caf50;
+    background-color: transparent;
     color: white;
-    border: none;
-    border-radius: 5px;
+    border: 1px solid #712cf9; /* Corrected border property */
+    border-radius: 25px;
     cursor: pointer;
-    width: 200px; /* Set a specific width */
-
+    width: 400px; /* Set a specific width */
+    margin-bottom: 20px;
 }
