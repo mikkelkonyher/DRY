@@ -103,7 +103,8 @@
 }
 
 .search-bar2 input {
-    width: 300px; /* Set the width of the input element */
+    width: 500px; /* Set the width of the input element */
+    border-radius: 10px;
 
 }
 
