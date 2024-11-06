@@ -25,7 +25,7 @@
     width: 100%;
     max-width: 400px;
     height: 400px;
-    border-radius: 50px; /* Ensure the image has rounded corners */
+    border-radius: 10px; /* Ensure the image has rounded corners */
     display: block;
     margin: 10px auto;
     object-fit: contain;
