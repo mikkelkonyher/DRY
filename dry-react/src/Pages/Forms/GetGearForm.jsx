@@ -7,20 +7,10 @@ import config from "../../../config.jsx";
 import PostComment from "../../Components/PostComments.jsx";
 import Pagination from '../../Components/Pagination.jsx';
 
-function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTypeKey }) {
+function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
     const [gear, setGear] = useState(gearData);
-    const [brands, setBrands] = useState([]);
-    const [models, setModels] = useState([]);
-    const [locations, setLocations] = useState([]);
     const [showAllImages, setShowAllImages] = useState({});
     const [showComments, setShowComments] = useState({});
-    const [filters, setFilters] = useState({
-        type: '',
-        brand: '',
-        model: '',
-        location: '',
-        price: ''
-    });
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
@@ -38,26 +28,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 const data = await response.json();
 
                 const sortedData = data.sort((a, b) => b.id - a.id);
-                setGear(sortedData);
-
-                const uniqueBrands = [...new Set(data.map(item => item.brand))];
-                const uniqueModels = [...new Set(data.map(item => item.model))];
-                const uniqueLocations = [...new Set(data.map(item => item.location))];
-
-                setBrands(uniqueBrands);
-                setModels(uniqueModels);
-                setLocations(uniqueLocations);
-
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-                if (!userResponse.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const userData = await userResponse.json();
-                const userMap = userData.reduce((acc, user) => {
-                    acc[user.id] = user;
-                    return acc;
-                }, {});
-                setUsers(userMap);
 
                 const commentsPromises = sortedData.map(async (item) => {
                     try {
@@ -75,6 +45,17 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 
                 const gearWithComments = await Promise.all(commentsPromises);
                 setGear(gearWithComments);
+
+                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
+                if (!userResponse.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const userData = await userResponse.json();
+                const userMap = userData.reduce((acc, user) => {
+                    acc[user.id] = user;
+                    return acc;
+                }, {});
+                setUsers(userMap);
             } catch (error) {
                 console.error('Error fetching gear or users:', error);
             }
@@ -93,8 +74,24 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            setGear(data);
-            setNoSearchResults(data.length === 0);
+
+            const commentsPromises = data.map(async (item) => {
+                try {
+                    const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
+                    if (!commentsResponse.ok) {
+                        return { ...item, comments: [] };
+                    }
+                    const commentsData = await commentsResponse.json();
+                    return { ...item, comments: commentsData };
+                } catch (error) {
+                    console.error(error);
+                    return { ...item, comments: [] };
+                }
+            });
+
+            const gearWithComments = await Promise.all(commentsPromises);
+            setGear(gearWithComments);
+            setNoSearchResults(gearWithComments.length === 0);
         } catch (error) {
             console.error('Error fetching search results:', error);
             setNoSearchResults(true);
@@ -115,14 +112,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
         }));
     };
 
-    const handleFilterChange = (e) => {
-        const { name, value } = e.target;
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            [name]: value,
-        }));
-    };
-
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
@@ -133,17 +122,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 
     const closeModal = () => {
         setSelectedImage(null);
-    };
-
-    const clearFilters = () => {
-        setFilters({
-            type: '',
-            brand: '',
-            model: '',
-            location: '',
-            price: ''
-        });
-        setSearchQuery('');
     };
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -278,7 +256,6 @@ function GetGearForm({ gearType, apiEndpoint, categories, gearData = [], gearTyp
 GetGearForm.propTypes = {
     gearType: PropTypes.string.isRequired,
     apiEndpoint: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.string).isRequired,
     gearData: PropTypes.array,
     gearTypeKey: PropTypes.string.isRequired,
 };
