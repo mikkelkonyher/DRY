@@ -2,7 +2,7 @@
     border: 1px solid #ccc;
     border-radius: 25px;
     padding: 20px;
-    width: 400px;
+    width: 500px;
     background-color: #2b2d30;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: #ffffff;
@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Center the content inside the card */
-
+    margin-top: 50px; /* Add space above the card */
 }
 
 .gear-card p {
@@ -23,8 +23,8 @@
 
 .gear-image {
     width: 100%;
-    max-width: 500px;
-    height: 300px;
+    max-width: 400px;
+    height: 400px;
     border-radius: 50px; /* Ensure the image has rounded corners */
     display: block;
     margin: 10px auto;
@@ -39,6 +39,24 @@
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+    .gear-card {
+        width: 80%; /* Adjust width for smaller screens */
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .gear-image {
+        max-width: 100%; /* Ensure the image fits within the card */
+        height: 300px; /* Set a smaller height for smaller screens */
+        object-fit: cover;
+    }
+
+    .toggle-images-button, .show-comments-button, .sell-button {
+        width: 100%; /* Make buttons full width */
+        font-size: 1em; /* Adjust font size */
+    }
 }
 
 .toggle-images-button:hover {
@@ -119,6 +137,17 @@
 
 }
 
+.search-bar2 input {
+    width: 500px; /* Set the width of the input element */
+    border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+    .search-bar2 input {
+        width: 80%; /* Adjust width for smaller screens */
+    }
+}
+
 .comment {
     background-color: #26282e; /* Light grey background */
     padding: 10px;
@@ -167,4 +196,11 @@
     cursor: pointer;
     width: 400px; /* Set a specific width */
     margin-bottom: 20px;
+}
+
+@media (max-width: 700px) {
+    .sell-button {
+        width: 90%; /* Adjust width for smaller screens */
+        padding: 5px 10px; /* Adjust padding for smaller screens */
+    }
 }
