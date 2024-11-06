@@ -3,7 +3,7 @@
     border-radius: 25px;
     padding: 20px;
     width: 500px;
-    background-color: #2b2d30;
+    background-color: #000000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: #ffffff;
     margin: 20px auto; /* Center the card horizontally */
@@ -97,7 +97,7 @@
     font-size: 0.8em;
     padding: 5px 10px;
     background-color: transparent;
-    border: 1px solid black;
+    border: 1px solid white;
     border-radius: 5px;
     color: #ffffff;
     cursor: pointer;
@@ -168,7 +168,7 @@
     width: 55px;
     margin-left: 5px;
     border-radius: 10px;
-    background-color: #712cf9;
+    background-color: #6366f1;
     cursor: pointer;
     text-align: center; /* Center the text inside the button */
     height: 38px;
@@ -176,7 +176,7 @@
 }
 
 .search-button-small:hover {
-    background-color: #3269c8;
+    background-color: #712cf9;
 }
 
 .sell-button-container {
@@ -193,7 +193,7 @@
     padding: 10px 20px;
     background-color: transparent;
     color: white;
-    border: 1px solid #712cf9; /* Corrected border property */
+    border: 1px solid #6366f1; /* Corrected border property */
     border-radius: 25px;
     cursor: pointer;
     width: 400px; /* Set a specific width */

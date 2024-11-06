@@ -60,21 +60,10 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: '#712cf9', boxShadow: 'none', width: '100%', padding: '10px 0' }}>
+        <AppBar position="fixed" sx={{ backgroundColor: 'rgba(24, 24, 24, 0.8)', boxShadow: 'none', width: '100%', padding: '10px 0', backdropFilter: 'blur(10px)' }}>
             <Container maxWidth="xl" sx={{ padding: '0 20px' }}>
                 <Toolbar disableGutters>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="2em"
-                        height="2em"
-                        viewBox="0 0 24 24"
-                        sx={{display: {xs: 'none', lg: 'flex'}, mr: 1}}
-                    >
-                        <path
-                            fill="currentColor"
-                            d="M7.75 13c-.01-.35.15-.69.42-.92c.75.16 1.45.47 2.08.92c0 .68-.56 1.24-1.25 1.24S7.76 13.69 7.75 13m6 0c.63-.44 1.33-.75 2.08-.91c.27.23.43.57.42.91c0 .7-.56 1.26-1.25 1.26s-1.25-.56-1.25-1.26M12 9c-2.77-.04-5.5.65-7.93 2L4 12c0 1.23.29 2.44.84 3.54a47.6 47.6 0 0 1 14.32 0c.55-1.1.84-2.31.84-3.54l-.07-1A15.85 15.85 0 0 0 12 9m0-7a10 10 0 0 1 10 10a10 10 0 0 1-10 10A10 10 0 0 1 2 12A10 10 0 0 1 12 2"
-                        />
-                    </svg>
+
                     <Typography
                         variant="h6"
                         noWrap
