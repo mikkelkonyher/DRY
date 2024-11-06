@@ -64,6 +64,10 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
         fetchGear();
     }, [apiEndpoint]);
 
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [currentPage]);
+
     const fetchSearchResults = async () => {
         try {
             const url = new URL(`${apiEndpoint}/search`);
@@ -133,12 +137,13 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
 
     const handlePageChange = (direction) => {
         setCurrentPage((prevPage) => {
+            let newPage = prevPage;
             if (direction === 'prev' && prevPage > 1) {
-                return prevPage - 1;
+                newPage = prevPage - 1;
             } else if (direction === 'next' && prevPage < totalPages) {
-                return prevPage + 1;
+                newPage = prevPage + 1;
             }
-            return prevPage;
+            return newPage;
         });
     };
 

@@ -143,6 +143,11 @@
     margin-left: 30px;
 }
 
+.sell-button:hover {
+    background-color: #712cf9; /* Change background color on hover */
+    /* Change border color on hover */
+}
+
 @media (max-width: 600px) {
     .search-bar2 input {
         width: 70%; /* Adjust width for smaller screens */
