@@ -92,6 +92,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
             const gearWithComments = await Promise.all(commentsPromises);
             setGear(gearWithComments);
             setNoSearchResults(gearWithComments.length === 0);
+            setCurrentPage(1); // Reset pagination to page 1
         } catch (error) {
             console.error('Error fetching search results:', error);
             setNoSearchResults(true);
