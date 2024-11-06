@@ -140,11 +140,12 @@
 .search-bar2 input {
     width: 500px; /* Set the width of the input element */
     border-radius: 10px;
+    margin-left: 30px;
 }
 
 @media (max-width: 600px) {
     .search-bar2 input {
-        width: 80%; /* Adjust width for smaller screens */
+        width: 70%; /* Adjust width for smaller screens */
     }
 }
 
@@ -165,7 +166,7 @@
     padding: 5px 10px; /* Increase the top and bottom padding */
     font-size: 12px;
     width: 55px;
-    margin-left: 3px;
+    margin-left: 5px;
     border-radius: 10px;
     background-color: #712cf9;
     cursor: pointer;
@@ -182,6 +183,7 @@
     display: flex;
     justify-content: center; /* Center the button horizontally */
     width: 100%; /* Ensure the container takes the full width of its parent */
+    margin-top: 20px;
 }
 
 .sell-button {
@@ -200,7 +202,7 @@
 
 @media (max-width: 700px) {
     .sell-button {
-        width: 90%; /* Adjust width for smaller screens */
+        width: 100%; /* Adjust width for smaller screens */
         padding: 5px 10px; /* Adjust padding for smaller screens */
     }
 }
