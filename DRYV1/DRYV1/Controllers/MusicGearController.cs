@@ -80,12 +80,40 @@ namespace DRYV1.Controllers
                 return NotFound("MusicGear not found.");
             }
 
-            musicGear.Brand = updatedMusicGear.Brand;
-            musicGear.Model = updatedMusicGear.Model;
-            musicGear.Year = updatedMusicGear.Year;
-            musicGear.Description = updatedMusicGear.Description;
-            musicGear.Location = updatedMusicGear.Location;
-           
+            if (!string.IsNullOrEmpty(updatedMusicGear.Brand) && updatedMusicGear.Brand != "string")
+            {
+                musicGear.Brand = updatedMusicGear.Brand;
+            }
+
+            if (!string.IsNullOrEmpty(updatedMusicGear.Model) && updatedMusicGear.Model != "string")
+            {
+                musicGear.Model = updatedMusicGear.Model;
+            }
+
+            if (updatedMusicGear.Year != 0)
+            {
+                musicGear.Year = updatedMusicGear.Year;
+            }
+
+            if (!string.IsNullOrEmpty(updatedMusicGear.Description) && updatedMusicGear.Description != "string")
+            {
+                musicGear.Description = updatedMusicGear.Description;
+            }
+
+            if (!string.IsNullOrEmpty(updatedMusicGear.Location) && updatedMusicGear.Location != "string")
+            {
+                musicGear.Location = updatedMusicGear.Location;
+            }
+
+            if (updatedMusicGear.Price != 0)
+            {
+                musicGear.Price = updatedMusicGear.Price;
+            }
+
+            if (updatedMusicGear.ImagePaths != null && updatedMusicGear.ImagePaths.Any() && updatedMusicGear.ImagePaths[0] != "string")
+            {
+                musicGear.ImagePaths = updatedMusicGear.ImagePaths;
+            }
 
             _context.MusicGear.Update(musicGear);
             await _context.SaveChangesAsync();
