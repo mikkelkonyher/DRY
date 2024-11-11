@@ -204,8 +204,8 @@ function ResponsiveAppBar() {
                                     },
                                 }}
                             >
-                                <Avatar sx={{bgcolor: 'white'}}>
-                                    <AccountBoxIcon sx={{color: '#712cf9'}}/>
+                                <Avatar sx={{bgcolor: '#6366f1'}}>
+                                    <AccountBoxIcon sx={{color: 'white'}}/>
                                 </Avatar>
                             </IconButton>
                         </Tooltip>
