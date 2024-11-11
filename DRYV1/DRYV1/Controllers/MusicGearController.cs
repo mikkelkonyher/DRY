@@ -67,7 +67,7 @@ namespace DRYV1.Controllers
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] MusicGear updatedMusicGear)
+        public async Task<IActionResult> Update(int id, [FromBody] MusicGearUpdateDTO updatedMusicGear)
         {
             if (id != updatedMusicGear.Id)
             {
@@ -85,7 +85,7 @@ namespace DRYV1.Controllers
             musicGear.Year = updatedMusicGear.Year;
             musicGear.Description = updatedMusicGear.Description;
             musicGear.Location = updatedMusicGear.Location;
-            musicGear.UserId = updatedMusicGear.UserId;
+           
 
             _context.MusicGear.Update(musicGear);
             await _context.SaveChangesAsync();
