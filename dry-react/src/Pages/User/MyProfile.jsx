@@ -169,6 +169,7 @@ function MyProfile() {
                 </div>
             ) : (
                 <div>
+                    <h2>Velkommen, {userName}</h2>
                     <p>Brugernavn: {userName}</p>
                     <p>Email: {userEmail}</p>
                     <button onClick={handleEdit}>Edit</button>
