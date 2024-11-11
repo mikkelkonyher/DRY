@@ -23,6 +23,14 @@
     object-fit: contain;
 }
 
+.sell-card p {
+    text-align: left; /* Align text to the left */
+    width: 100%; /* Ensure the text takes the full width of the card */
+    margin: 5px 0;
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Ensure text wraps within the card */
+}
+
 .delete-button{
     background: red;
 }

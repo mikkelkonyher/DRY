@@ -7,6 +7,10 @@ function MyProfile() {
     const [gear, setGear] = useState([]);
     const [users, setUsers] = useState({});
     const [userId, setUserId] = useState(null);
+    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [showSellCards, setShowSellCards] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -32,6 +36,8 @@ function MyProfile() {
                 if (!user) throw new Error('User not found');
 
                 setUserId(user.id);
+                setUserName(user.name);
+                setUserEmail(user.email);
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }
@@ -115,22 +121,78 @@ function MyProfile() {
         // Implement the function to toggle showing comments
     };
 
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
+    const handleSave = async () => {
+        if (!userName || !userEmail || userEmail === "string" || userName === "string") {
+            console.error('Invalid user data');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ id: userId, name: userName, email: userEmail })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update user');
+            }
+
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Error updating user:', error);
+        }
+    };
+
     return (
         <div className="my-profile">
-            <h2>Min Profil</h2>
-            <div className="gear-list">
-                {gear.map((item) => (
-                    <SellCard
-                        key={item.id}
-                        item={item}
-                        users={users}
-                        handleImageClick={handleImageClick}
-                        handleCommentPosted={handleCommentPosted}
-                        toggleShowAllImages={toggleShowAllImages}
-                        toggleShowComments={toggleShowComments}
+            {isEditing ? (
+                <div>
+                    <input
+                        type="text"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
                     />
-                ))}
-            </div>
+                    <input
+                        type="email"
+                        value={userEmail}
+                        onChange={(e) => setUserEmail(e.target.value)}
+                    />
+                    <button onClick={handleSave}>Save</button>
+                </div>
+            ) : (
+                <div>
+                    <p>Brugernavn: {userName}</p>
+                    <p>Email: {userEmail}</p>
+                    <button onClick={handleEdit}>Edit</button>
+                </div>
+            )}
+
+            <button onClick={() => setShowSellCards(!showSellCards)}>
+                {showSellCards ? 'Skjul mine annoncer' : 'Se alle mine annoncer'}
+            </button>
+            {showSellCards && (
+                <div className="gear-list">
+                    {gear.map((item) => (
+                        <SellCard
+                            key={item.id}
+                            item={item}
+                            users={users}
+                            handleImageClick={handleImageClick}
+                            handleCommentPosted={handleCommentPosted}
+                            toggleShowAllImages={toggleShowAllImages}
+                            toggleShowComments={toggleShowComments}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

@@ -52,7 +52,46 @@ namespace DRYV1.Controllers
 
             return Ok(user);
         }
+        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO updatedUser)
+        {
+            if (id != updatedUser.Id)
+            {
+                return BadRequest("User ID mismatch.");
+            }
 
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            if (!string.IsNullOrEmpty(updatedUser.Email) && updatedUser.Email != "string")
+            {
+                var emailExists = await _context.Users.AnyAsync(u => u.Email == updatedUser.Email && u.Id != id);
+                if (emailExists)
+                {
+                    return BadRequest("Email is already in use.");
+                }
+                user.Email = updatedUser.Email;
+            }
+
+            if (!string.IsNullOrEmpty(updatedUser.Name) && updatedUser.Name != "string")
+            {
+                var nameExists = await _context.Users.AnyAsync(u => u.Name == updatedUser.Name && u.Id != id);
+                if (nameExists)
+                {
+                    return BadRequest("Name is already in use.");
+                }
+                user.Name = updatedUser.Name;
+            }
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
      
     }
 }

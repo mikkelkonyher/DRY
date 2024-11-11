@@ -31,7 +31,7 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
             {showAllImages ? (
                 item.imagePaths.map((imagePath, index) => (
                     <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
-                         className="gear-image" onClick={() => handleImageClick(imagePath)}/>
+                         className="sell-gear-image " onClick={() => handleImageClick(imagePath)}/>
                 ))
             ) : (
                 <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
@@ -41,7 +41,7 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
                 {showAllImages ? 'Vis Mindre' : 'Vis Alle Billeder'}
             </button>
 
-            <p>{item.description}</p>
+            <p><strong>Beskrivelse: </strong>{item.description}</p>
             <p><strong>Pris: </strong>{item.price} DKK</p>
             <p><strong>Lokation:</strong> {item.location}</p>
             <p><strong>Stand:</strong> {item.condition}</p>

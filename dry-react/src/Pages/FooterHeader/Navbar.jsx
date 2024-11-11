@@ -29,7 +29,10 @@ const pages = [
     { name: 'mix/master', path: '/mixmaster' },
     { name: 'Session musikere', path: '/sessionmusikere' }
 ];
-const settings = ['Min Profil', 'Inbox'];
+const settings = [
+    { name: 'Min Profil', path: '/myprofile' },
+    { name: 'Inbox', path: '/inbox' }
+];
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -226,8 +229,14 @@ function ResponsiveAppBar() {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography sx={{textAlign: 'center'}}>{setting}</Typography>
+                                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                                    <Typography
+                                        component={Link}
+                                        to={setting.path}
+                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit' }}
+                                    >
+                                        {setting.name}
+                                    </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
