@@ -1,0 +1,28 @@
+.sell-card {
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 15px;
+    width: 400px;
+    background-color: #000000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+    margin: 20px auto; /* Center the card horizontally */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content inside the card */
+    margin-top: 50px; /* Add space above the card */
+}
+
+.sell-gear-image {
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    border-radius: 10px; /* Ensure the image has rounded corners */
+    display: block;
+    margin: 10px auto;
+    object-fit: contain;
+}
+
+.delete-button{
+    background: red;
+}

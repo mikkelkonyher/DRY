@@ -44,5 +44,68 @@ namespace DRYV1.Controllers
 
             return Ok(results);
         }
+        
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetByUserId(int userId)
+        {
+            var userExists = await _context.Users.AnyAsync(u => u.Id == userId);
+            if (!userExists)
+            {
+                return NotFound("User not found.");
+            }
+
+            var musicGear = await _context.MusicGear
+                .Where(g => g.UserId == userId)
+                .ToListAsync();
+
+            if (!musicGear.Any())
+            {
+                return NotFound("No music gear found for this user.");
+            }
+
+            return Ok(musicGear);
+        }
+        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] MusicGear updatedMusicGear)
+        {
+            if (id != updatedMusicGear.Id)
+            {
+                return BadRequest("MusicGear ID mismatch.");
+            }
+
+            var musicGear = await _context.MusicGear.FindAsync(id);
+            if (musicGear == null)
+            {
+                return NotFound("MusicGear not found.");
+            }
+
+            musicGear.Brand = updatedMusicGear.Brand;
+            musicGear.Model = updatedMusicGear.Model;
+            musicGear.Year = updatedMusicGear.Year;
+            musicGear.Description = updatedMusicGear.Description;
+            musicGear.Location = updatedMusicGear.Location;
+            musicGear.UserId = updatedMusicGear.UserId;
+
+            _context.MusicGear.Update(musicGear);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+        
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var musicGear = await _context.MusicGear.FindAsync(id);
+            if (musicGear == null)
+            {
+                return NotFound("MusicGear not found.");
+            }
+
+            _context.MusicGear.Remove(musicGear);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
     }
 }

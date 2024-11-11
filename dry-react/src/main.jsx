@@ -14,6 +14,7 @@ import Signup from "./Pages/LoginSignup/Signup.jsx";
 import { checkToken } from './authUtils';
 import ForgotPassword from "./Pages/LoginSignup/ForgotPassword.jsx";
 import ResetPassword from "./Pages/LoginSignup/ResetPassword.jsx";
+import MyProfile from "./Pages/User/MyProfile.jsx";
 
 function Main() {
     useEffect(() => {
@@ -34,6 +35,7 @@ function Main() {
                     <Route path="/" element={<Home />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/reset-password/:token" element={<ResetPassword />}/>
+                    <Route path="/myprofile" element={<MyProfile />} />
                 </Routes>
             </Box>
         </Router>
