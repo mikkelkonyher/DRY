@@ -4,13 +4,11 @@ import { Link } from 'react-router-dom';
 import './GetGearForm.css';
 import SellIcon from '@mui/icons-material/Sell';
 import config from "../../../config.jsx";
-import PostComment from "../../Components/PostComments.jsx";
 import Pagination from '../../Components/Pagination.jsx';
+import GearCard from "./GearCard.jsx";
 
-function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
+function GetGearForm({ gearType, apiEndpoint, gearData = []}) {
     const [gear, setGear] = useState(gearData);
-    const [showAllImages, setShowAllImages] = useState({});
-    const [showComments, setShowComments] = useState({});
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
@@ -103,20 +101,6 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
         }
     };
 
-    const toggleShowAllImages = (id) => {
-        setShowAllImages((prevState) => ({
-            ...prevState,
-            [id]: !prevState[id],
-        }));
-    };
-
-    const toggleShowComments = (id) => {
-        setShowComments((prevState) => ({
-            ...prevState,
-            [id]: !prevState[id],
-        }));
-    };
-
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
@@ -190,58 +174,13 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
             {noSearchResults && <p>Fandt ingen match</p>}
             <div className="gear-list">
                 {currentItems.map((item) => (
-                    <div key={item.id} className="gear-card">
-                        <h3>{item.brand} {item.model}</h3>
-
-                        {showAllImages[item.id] ? (
-                            item.imagePaths.map((imagePath, index) => (
-                                <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
-                                     className="gear-image" onClick={() => handleImageClick(imagePath)}/>
-                            ))
-                        ) : (
-                            <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
-                                 className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])}/>
-                        )}
-                        <button className="toggle-images-button" onClick={() => toggleShowAllImages(item.id)}>
-                            {showAllImages[item.id] ? 'Vis Mindre' : 'Vis Alle Billeder'}
-                        </button>
-
-                        <p>{item.description}</p>
-                        <p><strong>Pris: </strong>{item.price} DKK</p>
-                        <p><strong>Lokation:</strong> {item.location}</p>
-                        <p><strong>Stand:</strong> {item.condition}</p>
-                        <p><strong>År:</strong> {item.year}</p>
-                        <p><strong>Type: </strong>{item[gearTypeKey]}</p>
-                        <p><strong>Sælger:</strong> {users[item.userId]?.name || 'Ukendt'}</p>
-                        <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
-                        <button onClick={() => alert(`Skriv til sælger: ${users[item.userId]?.email || 'Ukendt'}`)}>
-                            Skriv til sælger
-                        </button>
-                        <div className="comments-section">
-                            <button className="show-comments-button" onClick={() => toggleShowComments(item.id)}>
-                                {showComments[item.id] ? 'Skjul kommentarer' : 'Se kommentarer'}
-                            </button>
-                            {showComments[item.id] && (
-                                <>
-                                    <h4>Kommentarer:</h4>
-                                    {item.comments && item.comments.length > 0 ? (
-                                        item.comments
-                                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                                            .map((comment) => (
-                                                <div key={comment.id} className="comment">
-                                                    <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}
-                                                    </p>
-                                                    <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
-                                                </div>
-                                            ))
-                                    ) : (
-                                        <p>Ingen kommentarer.</p>
-                                    )}
-                                    <PostComment gearId={item.id} onCommentPosted={() => handleCommentPosted(item.id)}/>
-                                </>
-                            )}
-                        </div>
-                    </div>
+                    <GearCard
+                        key={item.id}
+                        item={item}
+                        users={users}
+                        handleImageClick={handleImageClick}
+                        handleCommentPosted={handleCommentPosted}
+                    />
                 ))}
             </div>
             <Pagination
