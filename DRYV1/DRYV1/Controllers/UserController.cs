@@ -67,24 +67,35 @@ namespace DRYV1.Controllers
                 return NotFound("User not found.");
             }
 
-            if (!string.IsNullOrEmpty(updatedUser.Email) && updatedUser.Email != "string")
+            if (!string.IsNullOrEmpty(updatedUser.Email) && updatedUser.Email.Trim() != "string")
             {
-                var emailExists = await _context.Users.AnyAsync(u => u.Email == updatedUser.Email && u.Id != id);
+                var emailExists = await _context.Users
+                    .AnyAsync(u => u.Email.ToLower().Trim() == updatedUser.Email.ToLower().Trim() && u.Id != id);
                 if (emailExists)
                 {
                     return BadRequest("Email is already in use.");
                 }
-                user.Email = updatedUser.Email;
             }
 
-            if (!string.IsNullOrEmpty(updatedUser.Name) && updatedUser.Name != "string")
+            if (!string.IsNullOrEmpty(updatedUser.Name) && updatedUser.Name.Trim() != "string")
             {
-                var nameExists = await _context.Users.AnyAsync(u => u.Name == updatedUser.Name && u.Id != id);
+                var nameExists = await _context.Users
+                    .AnyAsync(u => u.Name.ToLower().Trim() == updatedUser.Name.ToLower().Trim() && u.Id != id);
                 if (nameExists)
                 {
                     return BadRequest("Name is already in use.");
                 }
-                user.Name = updatedUser.Name;
+            }
+
+            // Update user properties after validation checks
+            if (!string.IsNullOrEmpty(updatedUser.Email) && updatedUser.Email.Trim() != "string")
+            {
+                user.Email = updatedUser.Email.Trim();
+            }
+
+            if (!string.IsNullOrEmpty(updatedUser.Name) && updatedUser.Name.Trim() != "string")
+            {
+                user.Name = updatedUser.Name.Trim();
             }
 
             _context.Users.Update(user);

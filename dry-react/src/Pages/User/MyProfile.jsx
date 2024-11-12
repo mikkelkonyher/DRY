@@ -11,6 +11,7 @@ function MyProfile() {
     const [userEmail, setUserEmail] = useState('');
     const [showSellCards, setShowSellCards] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -131,7 +132,22 @@ function MyProfile() {
             return;
         }
 
+        const confirmed = window.confirm('Er du sikker på at du vil gemme disse ændringer?');
+        if (!confirmed) return;
+
         try {
+            const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
+            if (!userResponse.ok) {
+                throw new Error('Failed to fetch users');
+            }
+            const users = await userResponse.json();
+            const userExists = users.some(user => (user.name === userName || user.email === userEmail) && user.id !== userId);
+
+            if (userExists) {
+                setErrorMessage('Brugernavn eller Mail er optaget');
+                return;
+            }
+
             const response = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
                 method: 'PUT',
                 headers: {
@@ -146,6 +162,7 @@ function MyProfile() {
             }
 
             setIsEditing(false);
+            setErrorMessage('');
         } catch (error) {
             console.error('Error updating user:', error);
         }
@@ -153,7 +170,7 @@ function MyProfile() {
 
     return (
         <div className="my-profile">
-<h1 className="ninja">🥷</h1>
+            <h1 className="ninja">🥷</h1>
             {isEditing ? (
                 <div className="edit-profile">
                     <input
@@ -169,6 +186,7 @@ function MyProfile() {
                         className="input-field"
                     />
                     <button onClick={handleSave}>Save</button>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </div>
             ) : (
                 <div className="profile-info">
@@ -180,7 +198,7 @@ function MyProfile() {
             )}
 
             <button onClick={() => setShowSellCards(!showSellCards)}>
-            {showSellCards ? 'Skjul mine annoncer' : 'Se alle mine annoncer'}
+                {showSellCards ? 'Skjul mine annoncer' : 'Se alle mine annoncer'}
             </button>
             {showSellCards && (
                 <div className="gear-list">
