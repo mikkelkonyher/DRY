@@ -153,7 +153,7 @@ function MyProfile() {
 
     return (
         <div className="my-profile">
-
+<h1 className="ninja">🥷</h1>
             {isEditing ? (
                 <div className="edit-profile">
                     <input
@@ -170,7 +170,7 @@ function MyProfile() {
                 </div>
             ) : (
                 <div className="profile-info">
-                    <h2>{userName} GearNinja Konto</h2>
+                    <h2> GearNinja: {userName}</h2>
                     <p>Brugernavn: {userName}</p>
                     <p>Email: {userEmail}</p>
                     <button onClick={handleEdit}>Edit</button>
