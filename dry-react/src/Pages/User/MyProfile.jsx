@@ -160,25 +160,27 @@ function MyProfile() {
                         type="text"
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
+                        className="input-field"
                     />
                     <input
                         type="email"
                         value={userEmail}
                         onChange={(e) => setUserEmail(e.target.value)}
+                        className="input-field"
                     />
                     <button onClick={handleSave}>Save</button>
                 </div>
             ) : (
                 <div className="profile-info">
                     <h2> GearNinja: {userName}</h2>
-                    <p>Brugernavn: {userName}</p>
-                    <p>Email: {userEmail}</p>
+                    <p><strong>Brugernavn:</strong> {userName}</p>
+                    <p><strong>Email:</strong> {userEmail}</p>
                     <button onClick={handleEdit}>Edit</button>
                 </div>
             )}
 
             <button onClick={() => setShowSellCards(!showSellCards)}>
-                {showSellCards ? 'Skjul mine annoncer' : 'Se alle mine annoncer'}
+            {showSellCards ? 'Skjul mine annoncer' : 'Se alle mine annoncer'}
             </button>
             {showSellCards && (
                 <div className="gear-list">
