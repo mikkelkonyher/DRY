@@ -64,8 +64,8 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted }) {
 GearCard.propTypes = {
     item: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
-    toggleShowAllImages: PropTypes.func.isRequired,
-    toggleShowComments: PropTypes.func.isRequired,
+    //toggleShowAllImages: PropTypes.func.isRequired,
+    //toggleShowComments: PropTypes.func.isRequired,
     handleImageClick: PropTypes.func.isRequired,
     handleCommentPosted: PropTypes.func.isRequired,
 };
