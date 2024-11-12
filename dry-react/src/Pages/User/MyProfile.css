@@ -2,7 +2,8 @@
     border: 1px solid #ccc;
     border-radius: 25px;
     padding: 15px;
-    width: 400px;
+    width: 100%; /* Make it responsive */
+    max-width: 400px;
     background-color: #000000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: #ffffff;
@@ -31,6 +32,41 @@
     overflow-wrap: break-word; /* Ensure text wraps within the card */
 }
 
-.delete-button{
+.delete-button {
     background: red;
+}
+
+.delete-button:hover {
+    background: darkred;
+}
+
+.my-profile {
+    width: 100%; /* Ensure it takes the full width of its container */
+    max-width: 400px; /* Increase the max-width */
+    margin: 0 auto;
+    padding: 150px; /* Increase the padding */
+    background-color: #000000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ffffff;
+}
+
+.profile-info, .edit-profile {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%; /* Ensure it takes the full width of its container */
+    max-width: 400px; /* Set the maximum width */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 600px) {
+    .sell-card {
+        width: 90%; /* Reduce width for smaller screens */
+        padding: 10px; /* Reduce padding for smaller screens */
+    }
+
+    .my-profile {
+        width: 90%; /* Reduce width for smaller screens */
+        padding: 20px; /* Reduce padding for smaller screens */
+    }
 }

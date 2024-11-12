@@ -38,6 +38,7 @@ function MyProfile() {
                 setUserId(user.id);
                 setUserName(user.name);
                 setUserEmail(user.email);
+
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }
@@ -57,7 +58,6 @@ function MyProfile() {
                 }
                 const data = await response.json();
 
-                // Fetch comments for each gear item
                 const gearWithComments = await Promise.all(data.map(async (item) => {
                     try {
                         const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
@@ -153,8 +153,9 @@ function MyProfile() {
 
     return (
         <div className="my-profile">
+
             {isEditing ? (
-                <div>
+                <div className="edit-profile">
                     <input
                         type="text"
                         value={userName}
@@ -168,8 +169,8 @@ function MyProfile() {
                     <button onClick={handleSave}>Save</button>
                 </div>
             ) : (
-                <div>
-                    <h2>Velkommen, {userName}</h2>
+                <div className="profile-info">
+                    <h2>{userName} GearNinja Konto</h2>
                     <p>Brugernavn: {userName}</p>
                     <p>Email: {userEmail}</p>
                     <button onClick={handleEdit}>Edit</button>
