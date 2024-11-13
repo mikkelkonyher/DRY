@@ -31,7 +31,6 @@ namespace DRYV1.Models
         
         public List<string>? ImagePaths { get; set; } = new List<string>();
         
-        public List<string>? ImagesToDelete { get; set; } = new List<string>();
        
     }
 }

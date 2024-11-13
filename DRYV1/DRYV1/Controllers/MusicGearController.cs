@@ -67,7 +67,7 @@ namespace DRYV1.Controllers
             return Ok(musicGear);
         }
         
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] MusicGearUpdateDTO updatedMusicGear, [FromForm] List<IFormFile> imageFiles)
         {
             if (id != updatedMusicGear.Id)
@@ -116,16 +116,11 @@ namespace DRYV1.Controllers
                 musicGear.Price = updatedMusicGear.Price.Value;
             }
 
-            // Handle image deletion
-            if (updatedMusicGear.ImagesToDelete != null && updatedMusicGear.ImagesToDelete.Any())
-            {
-                musicGear.ImagePaths = musicGear.ImagePaths.Except(updatedMusicGear.ImagesToDelete).ToList();
-            }
 
             // Handle image addition
             if (imageFiles != null && imageFiles.Any())
             {
-                var uploadPath = "uploads/musicgear";
+                var uploadPath = "assets/uploads/musicgear";
                 var baseUrl = $"{Request.Scheme}://{Request.Host}/";
                 var imageUrls = await ImageUploadHelper.UploadImagesAsync(imageFiles, uploadPath, baseUrl);
                 musicGear.ImagePaths.AddRange(imageUrls);
@@ -149,6 +144,26 @@ namespace DRYV1.Controllers
             _context.MusicGear.Remove(musicGear);
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+        
+        [HttpDelete("{id}/images")]
+        public async Task<IActionResult> DeleteImage(int id, [FromBody] string imageUrl)
+        {
+            var musicGear = await _context.MusicGear.FindAsync(id);
+            if (musicGear == null)
+            {
+                return NotFound("MusicGear not found.");
+            }
+
+            if (musicGear.ImagePaths.Contains(imageUrl))
+            {
+                musicGear.ImagePaths.Remove(imageUrl);
+                _context.MusicGear.Update(musicGear);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+
+            return NotFound("Image not found.");
         }
 
     }
