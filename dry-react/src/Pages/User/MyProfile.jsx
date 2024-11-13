@@ -9,7 +9,7 @@ function MyProfile() {
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
-    const [showSellCards, setShowSellCards] = useState(false);
+    const [showSellCards, setShowSellCards] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -168,6 +168,11 @@ function MyProfile() {
         }
     };
 
+    const handleCancel = () => {
+        setIsEditing(false);
+        setErrorMessage('');
+    };
+
     return (
         <div className="my-profile">
             <h1 className="ninja">🥷</h1>
@@ -186,6 +191,7 @@ function MyProfile() {
                         className="input-field"
                     />
                     <button onClick={handleSave}>Save</button>
+                    <button onClick={handleCancel}>Cancel</button>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </div>
             ) : (
