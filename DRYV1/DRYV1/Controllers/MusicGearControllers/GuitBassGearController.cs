@@ -58,7 +58,7 @@ namespace DRYV1.Controllers
                 try
                 {
                     var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-                    guitBassGear.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets", baseUrl);
+                    guitBassGear.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets/uploads/musicgear", baseUrl);
                 }
                 catch (InvalidOperationException ex)
                 {

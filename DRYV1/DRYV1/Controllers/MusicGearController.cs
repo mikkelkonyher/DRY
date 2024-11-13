@@ -81,42 +81,54 @@ namespace DRYV1.Controllers
                 return NotFound("MusicGear not found.");
             }
 
-            if (!string.IsNullOrEmpty(updatedMusicGear.Brand) && updatedMusicGear.Brand != "string")
+            if (!string.IsNullOrEmpty(updatedMusicGear.Brand))
             {
                 musicGear.Brand = updatedMusicGear.Brand;
             }
 
-            if (!string.IsNullOrEmpty(updatedMusicGear.Model) && updatedMusicGear.Model != "string")
+            if (!string.IsNullOrEmpty(updatedMusicGear.Model))
             {
                 musicGear.Model = updatedMusicGear.Model;
             }
 
-            if (updatedMusicGear.Year != 0)
+            if (updatedMusicGear.Year.HasValue)
             {
-                musicGear.Year = updatedMusicGear.Year;
+                musicGear.Year = updatedMusicGear.Year.Value;
             }
 
-            if (!string.IsNullOrEmpty(updatedMusicGear.Description) && updatedMusicGear.Description != "string")
+            if (!string.IsNullOrEmpty(updatedMusicGear.Description))
             {
                 musicGear.Description = updatedMusicGear.Description;
             }
 
-            if (!string.IsNullOrEmpty(updatedMusicGear.Location) && updatedMusicGear.Location != "string")
+            if (!string.IsNullOrEmpty(updatedMusicGear.Location))
             {
                 musicGear.Location = updatedMusicGear.Location;
             }
 
-            if (updatedMusicGear.Price != 0)
+            if (!string.IsNullOrEmpty(updatedMusicGear.Condition))
             {
-                musicGear.Price = updatedMusicGear.Price;
+                musicGear.Condition = updatedMusicGear.Condition;
             }
 
+            if (updatedMusicGear.Price.HasValue)
+            {
+                musicGear.Price = updatedMusicGear.Price.Value;
+            }
+
+            // Handle image deletion
+            if (updatedMusicGear.ImagesToDelete != null && updatedMusicGear.ImagesToDelete.Any())
+            {
+                musicGear.ImagePaths = musicGear.ImagePaths.Except(updatedMusicGear.ImagesToDelete).ToList();
+            }
+
+            // Handle image addition
             if (imageFiles != null && imageFiles.Any())
             {
                 var uploadPath = "uploads/musicgear";
                 var baseUrl = $"{Request.Scheme}://{Request.Host}/";
                 var imageUrls = await ImageUploadHelper.UploadImagesAsync(imageFiles, uploadPath, baseUrl);
-                musicGear.ImagePaths = imageUrls;
+                musicGear.ImagePaths.AddRange(imageUrls);
             }
 
             _context.MusicGear.Update(musicGear);
