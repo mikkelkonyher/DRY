@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
+using DRYV1.Services;
 
 namespace DRYV1.Controllers
 {
@@ -67,7 +68,7 @@ namespace DRYV1.Controllers
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] MusicGearUpdateDTO updatedMusicGear)
+        public async Task<IActionResult> Update(int id, [FromForm] MusicGearUpdateDTO updatedMusicGear, [FromForm] List<IFormFile> imageFiles)
         {
             if (id != updatedMusicGear.Id)
             {
@@ -110,9 +111,12 @@ namespace DRYV1.Controllers
                 musicGear.Price = updatedMusicGear.Price;
             }
 
-            if (updatedMusicGear.ImagePaths != null && updatedMusicGear.ImagePaths.Any() && updatedMusicGear.ImagePaths[0] != "string")
+            if (imageFiles != null && imageFiles.Any())
             {
-                musicGear.ImagePaths = updatedMusicGear.ImagePaths;
+                var uploadPath = "uploads/musicgear";
+                var baseUrl = $"{Request.Scheme}://{Request.Host}/";
+                var imageUrls = await ImageUploadHelper.UploadImagesAsync(imageFiles, uploadPath, baseUrl);
+                musicGear.ImagePaths = imageUrls;
             }
 
             _context.MusicGear.Update(musicGear);
