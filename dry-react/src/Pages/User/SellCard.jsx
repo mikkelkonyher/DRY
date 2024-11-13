@@ -88,6 +88,7 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
                         onChange={(e) => setUpdatedItem({ ...updatedItem, description: e.target.value })}
                     />
                     <select
+                        className="nice-select"
                         value={updatedItem.location}
                         onChange={(e) => setUpdatedItem({ ...updatedItem, location: e.target.value })}
                     >
@@ -105,6 +106,7 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
                         <option value="Andet">Andet</option>
                     </select>
                     <select
+                        className="nice-select"
                         value={updatedItem.condition}
                         onChange={(e) => setUpdatedItem({ ...updatedItem, condition: e.target.value })}
                     >

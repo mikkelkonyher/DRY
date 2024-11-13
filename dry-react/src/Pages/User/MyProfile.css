@@ -76,6 +76,21 @@
     margin-top: 10px;
 }
 
+.nice-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 150px; /* Adjust the height as needed */
+    resize: none; /* Prevent resizing */
+}
+
 /* Media query for smaller screens */
 @media (max-width: 600px) {
     .sell-card {
