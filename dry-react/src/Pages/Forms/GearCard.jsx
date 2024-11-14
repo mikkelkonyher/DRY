@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PostComment from "../../Components/PostComments.jsx";
 
-function GearCard({ item, users, handleImageClick, handleCommentPosted }) {
+function GearCard({ item, users, handleImageClick, handleCommentPosted, gearTypeKey }) {
     const [showAllImages, setShowAllImages] = useState(false);
     const [showComments, setShowComments] = useState(false);
 
@@ -28,7 +28,7 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted }) {
             <p><strong>Lokation:</strong> {item.location}</p>
             <p><strong>Stand:</strong> {item.condition}</p>
             <p><strong>År:</strong> {item.year}</p>
-            <p><strong>Type: </strong>{item.type}</p>
+            <p><strong>Type: </strong>{item[gearTypeKey]}</p>
             <p><strong>Sælger:</strong> {users[item.userId]?.name || 'Ukendt'}</p>
             <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
             <button onClick={() => alert(`Skriv til sælger: ${users[item.userId]?.email || 'Ukendt'}`)}>
@@ -64,10 +64,9 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted }) {
 GearCard.propTypes = {
     item: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
-    //toggleShowAllImages: PropTypes.func.isRequired,
-    //toggleShowComments: PropTypes.func.isRequired,
     handleImageClick: PropTypes.func.isRequired,
     handleCommentPosted: PropTypes.func.isRequired,
+    gearTypeKey: PropTypes.string.isRequired,
 };
 
 export default GearCard;

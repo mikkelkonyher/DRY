@@ -1,3 +1,4 @@
+// src/Pages/Forms/GetGearForm.jsx
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -7,7 +8,7 @@ import config from "../../../config.jsx";
 import Pagination from '../../Components/Pagination.jsx';
 import GearCard from "./GearCard.jsx";
 
-function GetGearForm({ gearType, apiEndpoint, gearData = []}) {
+function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
     const [gear, setGear] = useState(gearData);
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
@@ -180,6 +181,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = []}) {
                         users={users}
                         handleImageClick={handleImageClick}
                         handleCommentPosted={handleCommentPosted}
+                        gearTypeKey={gearTypeKey} // Pass gearTypeKey here
                     />
                 ))}
             </div>
