@@ -7,6 +7,8 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
     const [showComments, setShowComments] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [updatedItem, setUpdatedItem] = useState({ ...item, id: item.id });
+    const [newImages, setNewImages] = useState([]);
+    const [imagesToDelete, setImagesToDelete] = useState([]);
 
     const handleDelete = async () => {
         const confirmed = window.confirm('Er du sikker på at du vil slette produktet?');
@@ -28,11 +30,9 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
 
     const handleUpdate = async () => {
         try {
-            // Ensure the id is correctly set
             const itemToUpdate = { ...updatedItem, id: item.id };
-            console.log('Updated item:', itemToUpdate); // Log the updated item to check its structure
+            console.log('Updated item:', itemToUpdate);
 
-            // Create FormData
             const formData = new FormData();
             formData.append('Id', itemToUpdate.id);
             formData.append('Brand', itemToUpdate.brand);
@@ -42,6 +42,14 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
             formData.append('Location', itemToUpdate.location);
             formData.append('Condition', itemToUpdate.condition);
             formData.append('Price', itemToUpdate.price);
+
+            newImages.forEach((image) => {
+                formData.append('imageFiles', image);
+            });
+
+            imagesToDelete.forEach((image) => {
+                formData.append('imagesToDelete', image);
+            });
 
             const response = await fetch(`https://localhost:7064/api/MusicGear/update/${item.id}`, {
                 method: 'PUT',
@@ -58,6 +66,18 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
         } catch (error) {
             console.error('Error updating item:', error);
         }
+    };
+
+    const handleNewImagesChange = (e) => {
+        setNewImages([...e.target.files]);
+    };
+
+    const handleImageDelete = (image) => {
+        setImagesToDelete([...imagesToDelete, image]);
+        setUpdatedItem({
+            ...updatedItem,
+            imagePaths: updatedItem.imagePaths.filter((img) => img !== image),
+        });
     };
 
     return (
@@ -122,6 +142,19 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
                         placeholder="Pris"
                         onChange={(e) => setUpdatedItem({ ...updatedItem, price: e.target.value })}
                     />
+                    <input
+                        type="file"
+                        multiple
+                        onChange={handleNewImagesChange}
+                    />
+                    <div className="image-list">
+                        {updatedItem.imagePaths.map((imagePath, index) => (
+                            <div key={index} className="image-item">
+                                <img src={imagePath} alt={`${item.brand} ${item.model}`} className="sell-gear-image" />
+                                <button onClick={() => handleImageDelete(imagePath)}>Delete</button>
+                            </div>
+                        ))}
+                    </div>
                     <button onClick={handleUpdate}>Save</button>
                     <button onClick={() => setIsEditing(false)}>Cancel</button>
                 </>

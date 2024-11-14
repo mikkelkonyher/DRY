@@ -2973,6 +2973,7 @@
       "packagesPath": "/Users/mikkelkonyher/.nuget/packages/",
       "outputPath": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/obj/",
       "projectStyle": "PackageReference",
+      "UsingMicrosoftNETSdk": false,
       "configFilePaths": [
         "/Users/mikkelkonyher/.nuget/NuGet/NuGet.Config"
       ],

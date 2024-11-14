@@ -68,7 +68,7 @@ namespace DRYV1.Controllers
         }
         
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] MusicGearUpdateDTO updatedMusicGear, [FromForm] List<IFormFile> imageFiles)
+        public async Task<IActionResult> Update(int id, [FromForm] MusicGearUpdateDTO updatedMusicGear, [FromForm] List<IFormFile> imageFiles, [FromForm] List<string> imagesToDelete)
         {
             if (id != updatedMusicGear.Id)
             {
@@ -116,6 +116,11 @@ namespace DRYV1.Controllers
                 musicGear.Price = updatedMusicGear.Price.Value;
             }
 
+            // Handle image deletion
+            if (imagesToDelete != null && imagesToDelete.Any())
+            {
+                musicGear.ImagePaths = musicGear.ImagePaths.Except(imagesToDelete).ToList();
+            }
 
             // Handle image addition
             if (imageFiles != null && imageFiles.Any())
