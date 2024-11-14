@@ -144,7 +144,7 @@ function MyProfile() {
             const userExists = users.some(user => (user.name === userName || user.email === userEmail) && user.id !== userId);
 
             if (userExists) {
-                setErrorMessage('Brugernavn eller Mail er optaget');
+                setErrorMessage('Brugernavn eller mail er optaget');
                 return;
             }
 
@@ -202,7 +202,6 @@ function MyProfile() {
                     <button onClick={handleEdit}>Edit</button>
                 </div>
             )}
-
             <button onClick={() => setShowSellCards(!showSellCards)}>
                 {showSellCards ? 'Skjul mine annoncer' : 'Se alle mine annoncer'}
             </button>
