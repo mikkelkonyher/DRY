@@ -10,6 +10,8 @@ namespace DRYV1.Data
         public DbSet<GuitBassGear> GuitBassGear { get; set; }
         public DbSet<DrumsGear> DrumsGear { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        
+        public DbSet<Favorite> Favorites { get; set; } 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

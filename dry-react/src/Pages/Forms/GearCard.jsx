@@ -1,10 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PostComment from "../../Components/PostComments.jsx";
+import config from "../../../config.jsx"; // Import the config object
 
-function GearCard({ item, users, handleImageClick, handleCommentPosted, gearTypeKey }) {
+function GearCard({ item, users, handleImageClick, handleCommentPosted, gearTypeKey, handleFavorite, userId }) {
     const [showAllImages, setShowAllImages] = useState(false);
     const [showComments, setShowComments] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    useEffect(() => {
+        // Check if the item is already a favorite when the component mounts
+        const checkFavoriteStatus = async () => {
+            try {
+                const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
+                const checkResponse = await fetch(checkUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!checkResponse.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const favorites = await checkResponse.json();
+                const favoriteStatus = favorites.some(favorite => favorite.musicGearId === item.id);
+                setIsFavorite(favoriteStatus);
+            } catch (error) {
+                console.error('Error checking favorite status:', error);
+            }
+        };
+
+        checkFavoriteStatus();
+    }, [item.id, userId]);
+
+    const handleFavoriteClick = async () => {
+        try {
+            await handleFavorite(item.id);
+            setIsFavorite(!isFavorite);
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        }
+    };
 
     return (
         <div className="gear-card">
@@ -33,6 +71,9 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
             <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
             <button onClick={() => alert(`Skriv til sælger: ${users[item.userId]?.email || 'Ukendt'}`)}>
                 Skriv til sælger
+            </button>
+            <button onClick={handleFavoriteClick}>
+                {isFavorite ? 'Unfavorite' : 'Favorite'}
             </button>
             <div className="comments-section">
                 <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
@@ -67,6 +108,8 @@ GearCard.propTypes = {
     handleImageClick: PropTypes.func.isRequired,
     handleCommentPosted: PropTypes.func.isRequired,
     gearTypeKey: PropTypes.string.isRequired,
+    handleFavorite: PropTypes.func.isRequired,
+    userId: PropTypes.number.isRequired, // Add userId to prop types
 };
 
 export default GearCard;

@@ -1,4 +1,3 @@
-// src/Pages/Forms/GetGearForm.jsx
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -15,6 +14,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [noSearchResults, setNoSearchResults] = useState(false);
+    const [userId, setUserId] = useState(null);
     const itemsPerPage = 5;
 
     useEffect(() => {
@@ -62,6 +62,38 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
 
         fetchGear();
     }, [apiEndpoint]);
+
+    useEffect(() => {
+        const fetchUserId = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) throw new Error('No token found');
+
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const email = payload.sub;
+                if (!email) throw new Error('Email not found in token');
+
+                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
+                    headers: {
+                        'accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!userResponse.ok) throw new Error('Failed to fetch users');
+
+                const users = await userResponse.json();
+                const user = users.find(user => user.email === email);
+                if (!user) throw new Error('User not found');
+
+                setUserId(user.id);
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+            }
+        };
+
+        fetchUserId();
+    }, []);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -149,6 +181,50 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
         }
     };
 
+    const handleToggleFavorite = async (gearId) => {
+        try {
+            if (!userId) throw new Error('User ID not found');
+
+            // Check if the item is already a favorite
+            const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
+            const checkResponse = await fetch(checkUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!checkResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const favorites = await checkResponse.json();
+            const isFavorite = favorites.some(favorite => favorite.musicGearId === gearId);
+
+            // Toggle favorite
+            const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
+            url.searchParams.append('userId', userId);
+            url.searchParams.append('musicGearId', gearId);
+
+            const response = await fetch(url, {
+                method: isFavorite ? 'DELETE' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const responseBody = await response.text();
+            const favoriteData = responseBody ? JSON.parse(responseBody) : {};
+            console.log(isFavorite ? 'Favorite removed:' : 'Favorite added:', favoriteData);
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        }
+    };
+
     const sellGearPath = gearType === "Trommeudstyr" ? "/SellDrumsGear" : "/SellGuiBassGear";
 
     return (
@@ -182,6 +258,8 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
                         handleImageClick={handleImageClick}
                         handleCommentPosted={handleCommentPosted}
                         gearTypeKey={gearTypeKey} // Pass gearTypeKey here
+                        handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
+                        userId={userId}
                     />
                 ))}
             </div>

@@ -1,21 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PostComment from "../../Components/PostComments.jsx";
+import config from '../../../config.jsx';
 
-function SellCard({ item, handleImageClick, handleCommentPosted }) {
+function SellCard({ item, handleImageClick, handleCommentPosted, userId, isFavorite }) {
     const [showAllImages, setShowAllImages] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [updatedItem, setUpdatedItem] = useState({ ...item, id: item.id });
     const [newImages, setNewImages] = useState([]);
     const [imagesToDelete, setImagesToDelete] = useState([]);
+    const [comments, setComments] = useState([]);
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch comments');
+                }
+                const data = await response.json();
+                setComments(data);
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+            }
+        };
+
+        fetchComments();
+    }, [item.id]);
 
     const handleDelete = async () => {
         const confirmed = window.confirm('Er du sikker på at du vil slette produktet?');
         if (!confirmed) return;
 
         try {
-            const response = await fetch(`https://localhost:7064/api/MusicGear/${item.id}`, {
+            const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/${item.id}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {
@@ -25,6 +44,27 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
             window.location.reload(); // Refresh the page
         } catch (error) {
             console.error('Error deleting item:', error);
+        }
+    };
+
+    const handleToggleFavorite = async () => {
+        try {
+            const method = isFavorite ? 'DELETE' : 'POST';
+            const url = `${config.apiBaseUrl}/api/Favorites?userId=${userId}&musicGearId=${item.id}`;
+            console.log(`Sending ${method} request to ${url}`);
+
+            const response = await fetch(url, {
+                method,
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to ${isFavorite ? 'unfavorite' : 'favorite'} the item`);
+            }
+
+            console.log(`Item ${isFavorite ? 'unfavorited' : 'favorited'} successfully`);
+            window.location.reload(); // Refresh the page
+        } catch (error) {
+            console.error(`Error ${isFavorite ? 'unfavoriting' : 'favoriting'} item:`, error);
         }
     };
 
@@ -51,7 +91,7 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
                 formData.append('imagesToDelete', image);
             });
 
-            const response = await fetch(`https://localhost:7064/api/MusicGear/update/${item.id}`, {
+            const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/update/${item.id}`, {
                 method: 'PUT',
                 body: formData,
             });
@@ -162,13 +202,21 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
                 <>
                     <h3>{item.brand} {item.model}</h3>
                     {showAllImages ? (
-                        item.imagePaths.map((imagePath, index) => (
-                            <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
-                                 className="sell-gear-image" onClick={() => handleImageClick(imagePath)} />
-                        ))
+                        item.imagePaths && item.imagePaths.length > 0 ? (
+                            item.imagePaths.map((imagePath, index) => (
+                                <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
+                                     className="sell-gear-image" onClick={() => handleImageClick(imagePath)} />
+                            ))
+                        ) : (
+                            <p>No images available</p>
+                        )
                     ) : (
-                        <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
-                             className="sell-gear-image" onClick={() => handleImageClick(item.imagePaths[0])} />
+                        item.imagePaths && item.imagePaths.length > 0 ? (
+                            <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
+                                 className="sell-gear-image" onClick={() => handleImageClick(item.imagePaths[0])} />
+                        ) : (
+                            <p>No images available</p>
+                        )
                     )}
                     <button className="toggle-images-button" onClick={() => setShowAllImages(!showAllImages)}>
                         {showAllImages ? 'Vis Mindre' : 'Vis Alle Billeder'}
@@ -186,8 +234,8 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
                         {showComments && (
                             <>
                                 <h4>Kommentarer:</h4>
-                                {item.comments && item.comments.length > 0 ? (
-                                    item.comments
+                                {comments.length > 0 ? (
+                                    comments
                                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                                         .map((comment) => (
                                             <div key={comment.id} className="comment">
@@ -202,10 +250,18 @@ function SellCard({ item, handleImageClick, handleCommentPosted }) {
                             </>
                         )}
                     </div>
-                    <button className="delete-button" onClick={handleDelete}>
-                        Slet
-                    </button>
-                    <button onClick={() => setIsEditing(true)}>Edit</button>
+                    {item.userId === userId ? (
+                        <>
+                            <button className="delete-button" onClick={handleDelete}>
+                                Slet
+                            </button>
+                            <button onClick={() => setIsEditing(true)}>Edit</button>
+                        </>
+                    ) : (
+                        <button className="unfavorite-button" onClick={handleToggleFavorite}>
+                            {isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
+                        </button>
+                    )}
                 </>
             )}
         </div>
@@ -216,6 +272,8 @@ SellCard.propTypes = {
     item: PropTypes.object.isRequired,
     handleImageClick: PropTypes.func.isRequired,
     handleCommentPosted: PropTypes.func.isRequired,
+    userId: PropTypes.number.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
 };
 
 export default SellCard;

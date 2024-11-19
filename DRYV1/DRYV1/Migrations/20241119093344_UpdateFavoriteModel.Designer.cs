@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DRYV1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DRYV1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241119093344_UpdateFavoriteModel")]
+    partial class UpdateFavoriteModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,8 +74,6 @@ namespace DRYV1.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MusicGearId");
 
                     b.ToTable("Favorites");
                 });
@@ -195,17 +196,6 @@ namespace DRYV1.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DRYV1.Models.Favorite", b =>
-                {
-                    b.HasOne("DRYV1.Models.MusicGear", "MusicGear")
-                        .WithMany()
-                        .HasForeignKey("MusicGearId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MusicGear");
                 });
 
             modelBuilder.Entity("DRYV1.Models.MusicGear", b =>

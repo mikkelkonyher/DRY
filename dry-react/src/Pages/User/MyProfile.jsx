@@ -5,11 +5,13 @@ import './MyProfile.css';
 
 function MyProfile() {
     const [gear, setGear] = useState([]);
+    const [favoriteGear, setFavoriteGear] = useState([]);
     const [users, setUsers] = useState({});
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
-    const [showSellCards, setShowSellCards] = useState(true);
+    const [showSellCards, setShowSellCards] = useState(false);
+    const [showFavoriteCards, setShowFavoriteCards] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -92,6 +94,23 @@ function MyProfile() {
 
         fetchUserGear();
     }, [userId]);
+
+    const fetchFavoriteGear = async () => {
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/api/Favorites/${userId}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const favoriteData = await response.json();
+            const favoriteGearData = favoriteData.map(fav => ({
+                ...fav.musicGear,
+                isFavorite: true
+            }));
+            setFavoriteGear(favoriteGearData);
+        } catch (error) {
+            console.error('Error fetching favorite gear:', error);
+        }
+    };
 
     const handleImageClick = (src) => {
         // Handle image click if needed
@@ -205,6 +224,12 @@ function MyProfile() {
             <button onClick={() => setShowSellCards(!showSellCards)}>
                 {showSellCards ? 'Skjul mine annoncer' : 'Se alle mine annoncer'}
             </button>
+            <button onClick={() => {
+                setShowFavoriteCards(!showFavoriteCards);
+                if (!showFavoriteCards) fetchFavoriteGear();
+            }}>
+                {showFavoriteCards ? 'Skjul favoritter' : 'Se alle favoritter'}
+            </button>
             {showSellCards && (
                 <div className="gear-list">
                     {gear.map((item) => (
@@ -216,6 +241,25 @@ function MyProfile() {
                             handleCommentPosted={handleCommentPosted}
                             toggleShowAllImages={toggleShowAllImages}
                             toggleShowComments={toggleShowComments}
+                            userId={userId}
+                            isFavorite={false}
+                        />
+                    ))}
+                </div>
+            )}
+            {showFavoriteCards && (
+                <div className="gear-list">
+                    {favoriteGear.map((item) => (
+                        <SellCard
+                            key={item.id}
+                            item={item}
+                            users={users}
+                            handleImageClick={handleImageClick}
+                            handleCommentPosted={handleCommentPosted}
+                            toggleShowAllImages={toggleShowAllImages}
+                            toggleShowComments={toggleShowComments}
+                            userId={userId}
+                            isFavorite={true}
                         />
                     ))}
                 </div>
