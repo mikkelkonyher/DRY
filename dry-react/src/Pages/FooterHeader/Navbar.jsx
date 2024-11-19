@@ -11,9 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { Link, useNavigate } from 'react-router-dom';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
@@ -74,7 +72,7 @@ function ResponsiveAppBar() {
                         href="/"
                         sx={{
                             mr: 2,
-                            display: {xs: 'none', lg: 'flex'},
+                            display: { xs: 'none', lg: 'flex' },
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
@@ -85,7 +83,7 @@ function ResponsiveAppBar() {
                         GearNinja
                     </Typography>
 
-                    <Box sx={{flexGrow: 1, display: {xs: 'flex', lg: 'none'}}}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -94,7 +92,7 @@ function ResponsiveAppBar() {
                             onClick={handleOpenNavMenu}
                             color="inherit"
                         >
-                            <MenuIcon/>
+                            <MenuIcon />
                         </IconButton>
                         <Menu
                             id="menu-appbar"
@@ -110,14 +108,14 @@ function ResponsiveAppBar() {
                             }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
-                            sx={{display: {xs: 'block', lg: 'none'}}}
+                            sx={{ display: { xs: 'block', lg: 'none' } }}
                         >
                             {pages.map((page) => (
                                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
                                     <Typography
                                         component={Link}
                                         to={page.path}
-                                        sx={{textAlign: 'center', textDecoration: 'none', color: 'inherit'}}
+                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit' }}
                                     >
                                         {page.name}
                                     </Typography>
@@ -128,7 +126,7 @@ function ResponsiveAppBar() {
                                     <Typography
                                         component={Link}
                                         to="/signup"
-                                        sx={{textAlign: 'center', textDecoration: 'none', color: 'inherit'}}
+                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit' }}
                                     >
                                         Signup
                                     </Typography>
@@ -144,25 +142,26 @@ function ResponsiveAppBar() {
                         href="/"
                         sx={{
                             mr: 2,
-                            display: {xs: 'flex', lg: 'none'},
+                            display: { xs: 'flex', lg: 'none' },
                             flexGrow: 1,
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
+                            fontSize: { xs: '1.2rem', sm: '1.5rem' }, // Smaller font size on small screens
                         }}
                     >
                         GearNinja
                     </Typography>
-                    <Box sx={{flexGrow: 1, display: {xs: 'none', lg: 'flex'}, alignItems: 'center'}}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, alignItems: 'center' }}>
                         {pages.map((page) => (
                             <Button
                                 key={page.name}
                                 component={Link}
                                 to={page.path}
                                 onClick={handleCloseNavMenu}
-                                sx={{my: 2, color: 'white', display: 'block'}}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page.name}
                             </Button>
@@ -172,19 +171,19 @@ function ResponsiveAppBar() {
                                 component={Link}
                                 to="/signup"
                                 onClick={handleCloseNavMenu}
-                                sx={{my: 2, color: 'white', display: 'block'}}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 Signup
                             </Button>
                         )}
                     </Box>
-                    <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center'}}>
+                    <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
                         {isAuthenticated ? (
                             <>
                                 <Typography
                                     component="a"
                                     onClick={handleLogout}
-                                    sx={{my: 2, color: 'red', cursor: 'pointer', textDecoration: 'none'}}
+                                    sx={{ my: 2, color: 'red', cursor: 'pointer', textDecoration: 'none' }}
                                 >
                                     LOGOUT
                                 </Typography>
@@ -195,17 +194,19 @@ function ResponsiveAppBar() {
                                             p: 0,
                                             marginRight: '10px',
                                             [theme.breakpoints.down('sm')]: {
-                                                marginRight: '10px',
+
+                                                marginLeft: 'auto', // Ensure it stays within the viewport
+                                                marginRight: '45px', // Add some left margin
                                             },
                                         }}
                                     >
-                                        <Avatar sx={{bgcolor: '#6366f1'}}>
-                                            <AccountBoxIcon sx={{color: 'white'}}/>
+                                        <Avatar sx={{ bgcolor: '#6366f1' }}>
+                                            <AccountBoxIcon sx={{ color: 'white' }} />
                                         </Avatar>
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
-                                    sx={{mt: '45px'}}
+                                    sx={{ mt: '45px' }}
                                     id="menu-appbar"
                                     anchorEl={anchorElUser}
                                     anchorOrigin={{
@@ -237,7 +238,7 @@ function ResponsiveAppBar() {
                             <Typography
                                 component={Link}
                                 to="/login"
-                                sx={{my: 2, color: 'cyan', textDecoration: 'none'}}
+                                sx={{ my: 2, color: 'cyan', textDecoration: 'none' }}
                             >
                                 LOGIN
                             </Typography>

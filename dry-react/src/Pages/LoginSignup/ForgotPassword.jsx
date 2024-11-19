@@ -25,10 +25,10 @@ const ForgotPassword = () => {
             }
 
             const data = await response.json();
-            setMessage(data.Message || 'Password reset link has been sent to your email.');
+            setMessage(data.Message || 'Password nulstillingslink er blevet sendt til din email.');
         } catch (err) {
             console.error('Error:', err);
-            setMessage(err.message || 'Error sending password reset link.');
+            setMessage(err.message || 'Fejl ved sending af password reset link.');
         }
     };
 
