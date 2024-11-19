@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PostComment from "../../Components/PostComments.jsx";
 import config from '../../../config.jsx';
 
-function SellCard({ item, handleImageClick, handleCommentPosted, userId, isFavorite }) {
+function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
     const [showAllImages, setShowAllImages] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -12,6 +12,7 @@ function SellCard({ item, handleImageClick, handleCommentPosted, userId, isFavor
     const [imagesToDelete, setImagesToDelete] = useState([]);
     const [comments, setComments] = useState([]);
     const [user, setUser] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null); // State for selected image
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -138,6 +139,14 @@ function SellCard({ item, handleImageClick, handleCommentPosted, userId, isFavor
         });
     };
 
+    const handleImageClick = (src) => {
+        setSelectedImage(src); // Set the selected image
+    };
+
+    const closeModal = () => {
+        setSelectedImage(null); // Close the modal
+    };
+
     return (
         <div className="sell-card">
             {isEditing ? (
@@ -244,7 +253,7 @@ function SellCard({ item, handleImageClick, handleCommentPosted, userId, isFavor
                     <p><strong>Lokation:</strong> {item.location}</p>
                     <p><strong>Stand:</strong> {item.condition}</p>
                     <p><strong>År:</strong> {item.year}</p>
-                    <p><strong>Oprettet af:</strong> {user?.name || 'Ukendt'}</p>
+                    <p><strong>Sælger:</strong> {user?.name || 'Ukendt'}</p>
                     <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
                     <div className="comments-section">
                         <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
@@ -283,13 +292,18 @@ function SellCard({ item, handleImageClick, handleCommentPosted, userId, isFavor
                     )}
                 </>
             )}
+            {selectedImage && (
+                <div className="modal" onClick={closeModal}>
+                    <span className="close">&times;</span>
+                    <img className="modal-content" src={selectedImage} alt="Large view" />
+                </div>
+            )}
         </div>
     );
 }
 
 SellCard.propTypes = {
     item: PropTypes.object.isRequired,
-    handleImageClick: PropTypes.func.isRequired,
     handleCommentPosted: PropTypes.func.isRequired,
     userId: PropTypes.number.isRequired,
     isFavorite: PropTypes.bool.isRequired,
