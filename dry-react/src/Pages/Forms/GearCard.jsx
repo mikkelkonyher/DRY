@@ -73,7 +73,7 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
                 Skriv til sælger
             </button>
             <button onClick={handleFavoriteClick}>
-                {isFavorite ? 'Unfavorite' : 'Favorite'}
+                {isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
             </button>
             <div className="comments-section">
                 <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
