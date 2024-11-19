@@ -13,6 +13,7 @@ function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
     const [comments, setComments] = useState([]);
     const [user, setUser] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null); // State for selected image
+    const [showDescription, setShowDescription] = useState(false); // State for description
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -248,7 +249,10 @@ function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
                     <button className="toggle-images-button" onClick={() => setShowAllImages(!showAllImages)}>
                         {showAllImages ? 'Vis Mindre' : 'Vis Alle Billeder'}
                     </button>
-                    <p><strong>Beskrivelse: </strong>{item.description}</p>
+                    <button className="toggle-description-button" onClick={() => setShowDescription(!showDescription)}>
+                        {showDescription ? 'Skjul Beskrivelse' : 'Vis Beskrivelse'}
+                    </button>
+                    {showDescription && <p><strong>Beskrivelse: </strong>{item.description}</p>}
                     <p><strong>Pris: </strong>{item.price} DKK</p>
                     <p><strong>Lokation:</strong> {item.location}</p>
                     <p><strong>Stand:</strong> {item.condition}</p>
