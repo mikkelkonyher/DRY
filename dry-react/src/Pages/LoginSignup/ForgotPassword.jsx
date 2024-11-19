@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import config from "../../../config.jsx";
+import './ForgotPassword.css';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -33,20 +34,22 @@ const ForgotPassword = () => {
 
     return (
         <div className="forgot-password-container">
-            <h2>Forgot Password</h2>
-            {message && <p>{message}</p>}
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="email">Email:</label>
+            <h2 className="forgot-password-title">Glemt adgangskode</h2>
+            {message && <p className="forgot-password-message">{message}</p>}
+            <form onSubmit={handleSubmit} className="forgot-password-form">
+                <div className="forgot-password-form-group">
+                    <label htmlFor="email" className="forgot-password-label">Email:</label>
                     <input
+                        placeholder={'Indtast email'}
                         type="email"
                         id="email"
+                        className="forgot-password-input"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </div>
-                <button type="submit">Send Reset Link</button>
+                <button type="submit" className="forgot-password-button">Send nulstillingslink</button>
             </form>
         </div>
     );
