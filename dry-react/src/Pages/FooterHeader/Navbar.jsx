@@ -180,13 +180,59 @@ function ResponsiveAppBar() {
                     </Box>
                     <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center'}}>
                         {isAuthenticated ? (
-                            <Typography
-                                component="a"
-                                onClick={handleLogout}
-                                sx={{my: 2, color: 'red', cursor: 'pointer', textDecoration: 'none'}}
-                            >
-                                LOGOUT
-                            </Typography>
+                            <>
+                                <Typography
+                                    component="a"
+                                    onClick={handleLogout}
+                                    sx={{my: 2, color: 'red', cursor: 'pointer', textDecoration: 'none'}}
+                                >
+                                    LOGOUT
+                                </Typography>
+                                <Tooltip title="Min Profil og Inbox">
+                                    <IconButton
+                                        onClick={handleOpenUserMenu}
+                                        sx={{
+                                            p: 0,
+                                            marginRight: '10px',
+                                            [theme.breakpoints.down('sm')]: {
+                                                marginRight: '10px',
+                                            },
+                                        }}
+                                    >
+                                        <Avatar sx={{bgcolor: '#6366f1'}}>
+                                            <AccountBoxIcon sx={{color: 'white'}}/>
+                                        </Avatar>
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{mt: '45px'}}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {settings.map((setting) => (
+                                        <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                                            <Typography
+                                                component={Link}
+                                                to={setting.path}
+                                                sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit' }}
+                                            >
+                                                {setting.name}
+                                            </Typography>
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+                            </>
                         ) : (
                             <Typography
                                 component={Link}
@@ -196,50 +242,6 @@ function ResponsiveAppBar() {
                                 LOGIN
                             </Typography>
                         )}
-                        <Tooltip title="Min Profil og Inbox">
-                            <IconButton
-                                onClick={handleOpenUserMenu}
-                                sx={{
-                                    p: 0,
-                                    marginRight: isAuthenticated ? '10px' : '0', // Adjust this value as needed
-                                    [theme.breakpoints.down('sm')]: {
-                                        marginRight: '10px', // Adjust this value as needed
-                                    },
-                                }}
-                            >
-                                <Avatar sx={{bgcolor: '#6366f1'}}>
-                                    <AccountBoxIcon sx={{color: 'white'}}/>
-                                </Avatar>
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{mt: '45px'}}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                                    <Typography
-                                        component={Link}
-                                        to={setting.path}
-                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit' }}
-                                    >
-                                        {setting.name}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
                     </Box>
                 </Toolbar>
             </Container>
