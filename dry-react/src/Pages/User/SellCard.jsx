@@ -11,6 +11,7 @@ function SellCard({ item, handleImageClick, handleCommentPosted, userId, isFavor
     const [newImages, setNewImages] = useState([]);
     const [imagesToDelete, setImagesToDelete] = useState([]);
     const [comments, setComments] = useState([]);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -28,6 +29,23 @@ function SellCard({ item, handleImageClick, handleCommentPosted, userId, isFavor
 
         fetchComments();
     }, [item.id]);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(`${config.apiBaseUrl}/api/User/${item.userId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user');
+                }
+                const data = await response.json();
+                setUser(data);
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+
+        fetchUser();
+    }, [item.userId]);
 
     const handleDelete = async () => {
         const confirmed = window.confirm('Er du sikker på at du vil slette produktet?');
@@ -226,6 +244,7 @@ function SellCard({ item, handleImageClick, handleCommentPosted, userId, isFavor
                     <p><strong>Lokation:</strong> {item.location}</p>
                     <p><strong>Stand:</strong> {item.condition}</p>
                     <p><strong>År:</strong> {item.year}</p>
+                    <p><strong>Oprettet af:</strong> {user?.name || 'Ukendt'}</p>
                     <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
                     <div className="comments-section">
                         <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
