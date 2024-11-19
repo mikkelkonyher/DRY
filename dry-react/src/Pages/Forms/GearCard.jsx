@@ -7,6 +7,7 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
     const [showAllImages, setShowAllImages] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [showDescription, setShowDescription] = useState(false); // New state for description
 
     useEffect(() => {
         // Check if the item is already a favorite when the component mounts
@@ -36,6 +37,11 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
     }, [item.id, userId]);
 
     const handleFavoriteClick = async () => {
+        if (!userId) {
+            alert('Login for at tilføje favoritter');
+            return;
+        }
+
         try {
             await handleFavorite(item.id);
             setIsFavorite(!isFavorite);
@@ -61,7 +67,11 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
                 {showAllImages ? 'Vis Mindre' : 'Vis Alle Billeder'}
             </button>
 
-            <p>{item.description}</p>
+            <button className="toggle-description-button" onClick={() => setShowDescription(!showDescription)}>
+                {showDescription ? 'Skjul Beskrivelse' : 'Vis Beskrivelse'}
+            </button>
+            {showDescription && <p>{item.description}</p>}
+
             <p><strong>Pris: </strong>{item.price} DKK</p>
             <p><strong>Lokation:</strong> {item.location}</p>
             <p><strong>Stand:</strong> {item.condition}</p>
