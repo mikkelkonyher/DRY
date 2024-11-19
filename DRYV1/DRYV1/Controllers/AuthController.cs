@@ -79,10 +79,7 @@ public class AuthController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return Ok(new 
-        {
-            Message = "Du er nu officielt en Snedig Ninja hos GearNinja!",
-        });
+        return Redirect("http://localhost:5173/login");
     }
 
     [HttpPost("login")]
