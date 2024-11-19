@@ -99,7 +99,7 @@ function Signup() {
                         className="signup-input"
                         value={formData.password}
                         onChange={handleChange}
-                        placeholder="Password"
+                        placeholder="Adgangskode"
                         required
                     />
                     <input
@@ -108,7 +108,7 @@ function Signup() {
                         className="signup-input"
                         value={formData.confirmPassword}
                         onChange={handleChange}
-                        placeholder="Confirm Password"
+                        placeholder="Bekræft adgangskode"
                         required
                     />
                     <button type="submit" className="signup-button">Signup</button>

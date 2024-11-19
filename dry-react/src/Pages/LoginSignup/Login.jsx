@@ -36,6 +36,7 @@ const Login = () => {
                 <div className="login-form-group">
                     <label htmlFor="email" className="login-label">Email:</label>
                     <input
+                        placeholder={'Indtast email'}
                         type="email"
                         id="email"
                         value={email}
@@ -45,8 +46,9 @@ const Login = () => {
                     />
                 </div>
                 <div className="login-form-group">
-                    <label htmlFor="password" className="login-label">Password:</label>
+                    <label htmlFor="password" className="login-label">Adgangskode:</label>
                     <input
+                        placeholder={'Indtast adgangskode'}
                         type="password"
                         id="password"
                         value={password}
@@ -61,7 +63,7 @@ const Login = () => {
                 <Link to="/signup" className="signup-link">Signup</Link>
             </p>
             <p className="forgot-password-text">
-                <Link to="/forgot-password" className="forgot-password-link">Forgot Password?</Link>
+                <Link to="/forgot-password" className="forgot-password-link">Glemt adganskode?</Link>
             </p>
         </div>
     );
