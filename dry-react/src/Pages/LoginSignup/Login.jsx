@@ -34,7 +34,7 @@ const Login = () => {
             {success && <p className="login-success">{success}</p>}
             <form onSubmit={handleSubmit}>
                 <div className="login-form-group">
-                    <label htmlFor="email" className="login-label">Email:</label>
+                    <label htmlFor="email" className="login-label">Email Adresse</label>
                     <input
                         placeholder={'Indtast email'}
                         type="email"
@@ -46,7 +46,7 @@ const Login = () => {
                     />
                 </div>
                 <div className="login-form-group">
-                    <label htmlFor="password" className="login-label">Adgangskode:</label>
+                    <label htmlFor="password" className="login-label">Adgangskode</label>
                     <input
                         placeholder={'Indtast adgangskode'}
                         type="password"

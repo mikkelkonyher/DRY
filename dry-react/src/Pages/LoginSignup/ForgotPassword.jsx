@@ -25,7 +25,7 @@ const ForgotPassword = () => {
             }
 
             const data = await response.json();
-            setMessage(data.Message || 'Password nulstillingslink er blevet sendt til din email.');
+            setMessage(data.Message || 'Nulstillingslink er blevet sendt til din email.');
         } catch (err) {
             console.error('Error:', err);
             setMessage(err.message || 'Fejl ved sending af password reset link.');
@@ -34,11 +34,11 @@ const ForgotPassword = () => {
 
     return (
         <div className="forgot-password-container">
-            <h2 className="forgot-password-title">Glemt adgangskode</h2>
+            <h2 className="forgot-password-title">Glemt adgangskode?</h2>
             {message && <p className="forgot-password-message">{message}</p>}
             <form onSubmit={handleSubmit} className="forgot-password-form">
                 <div className="forgot-password-form-group">
-                    <label htmlFor="email" className="forgot-password-label">Email:</label>
+                    <label htmlFor="email" className="forgot-password-label">Email Adresse</label>
                     <input
                         placeholder={'Indtast email'}
                         type="email"
