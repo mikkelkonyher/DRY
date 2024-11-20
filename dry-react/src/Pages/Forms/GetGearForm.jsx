@@ -7,7 +7,7 @@ import config from "../../../config.jsx";
 import Pagination from '../../Components/Pagination.jsx';
 import GearCard from "./GearCard.jsx";
 
-function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
+function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, categories }) {
     const [gear, setGear] = useState(gearData);
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
@@ -15,6 +15,9 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [noSearchResults, setNoSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedPriceRange, setSelectedPriceRange] = useState('');
+    const [selectedLocation, setSelectedLocation] = useState('');
     const itemsPerPage = 5;
 
     useEffect(() => {
@@ -138,6 +141,21 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
         setSearchQuery(e.target.value);
     };
 
+    const handleCategoryChange = (e) => {
+        setSelectedCategory(e.target.value);
+        setCurrentPage(1); // Reset pagination to page 1
+    };
+
+    const handlePriceRangeChange = (e) => {
+        setSelectedPriceRange(e.target.value);
+        setCurrentPage(1); // Reset pagination to page 1
+    };
+
+    const handleLocationChange = (e) => {
+        setSelectedLocation(e.target.value);
+        setCurrentPage(1); // Reset pagination to page 1
+    };
+
     const handleImageClick = (src) => {
         setSelectedImage(src);
     };
@@ -146,11 +164,21 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
         setSelectedImage(null);
     };
 
+    const filteredGear = gear.filter(item => {
+        const matchesCategory = selectedCategory ? item[gearTypeKey] === selectedCategory : true;
+        const matchesPrice = selectedPriceRange ? (
+            selectedPriceRange === '50000+' ? item.price >= 50000 :
+                item.price >= parseInt(selectedPriceRange.split('-')[0]) && item.price <= parseInt(selectedPriceRange.split('-')[1])
+        ) : true;
+        const matchesLocation = selectedLocation ? item.location === selectedLocation : true;
+        return matchesCategory && matchesPrice && matchesLocation;
+    });
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = gear.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredGear.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(gear.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredGear.length / itemsPerPage);
 
     const handlePageChange = (direction) => {
         setCurrentPage((prevPage) => {
@@ -232,7 +260,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
             <div className="sell-button-container">
                 <Link to={sellGearPath}>
                     <button className="sell-button">
-                        <SellIcon style={{ marginRight: '5px' }} />
+                        <SellIcon style={{marginRight: '5px'}}/>
                         Sælg {gearType}
                     </button>
                 </Link>
@@ -247,6 +275,45 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
                     placeholder="Søg efter brand, model etc..."
                 />
                 <button className="search-button-small" onClick={fetchSearchResults}>Søg</button>
+            </div>
+            <div className="selector-container">
+                <div className="selector">
+                    <select value={selectedCategory} onChange={handleCategoryChange}>
+                        <option value="">Alle kategorier</option>
+                        {categories.map((category) => (
+                            <option key={category} value={category}>
+                                {category}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="selector">
+                    <select value={selectedPriceRange} onChange={handlePriceRangeChange}>
+                        <option value="">Alle priser</option>
+                        <option value="0-1000">0-1000 kr.</option>
+                        <option value="1000-5000">1000-5000 kr.</option>
+                        <option value="5000-10000">5000-10.000 kr.</option>
+                        <option value="10000-20000">10.000-20.000 kr.</option>
+                        <option value="20000-50000">20.000-50.000 kr.</option>
+                        <option value="50000+">50.000+ kr.</option>
+                    </select>
+                </div>
+                <div className="selector">
+                    <select value={selectedLocation} onChange={handleLocationChange}>
+                        <option value="">Vælg placering</option>
+                        <option value="København og omegn">København og omegn</option>
+                        <option value="Aarhus">Aarhus</option>
+                        <option value="Odense">Odense</option>
+                        <option value="Aalborg">Aalborg</option>
+                        <option value="Sjælland">Sjælland</option>
+                        <option value="Jylland">Jylland</option>
+                        <option value="Fyn">Fyn</option>
+                        <option value="Bornholm">Bornholm</option>
+                        <option value="Færøerne">Færøerne</option>
+                        <option value="Grønland">Grønland</option>
+                        <option value="Andet">Andet</option>
+                    </select>
+                </div>
             </div>
             {noSearchResults && <p>Fandt ingen match</p>}
             <div className="gear-list">
@@ -271,7 +338,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
             {selectedImage && (
                 <div className="modal" onClick={closeModal}>
                     <span className="close">&times;</span>
-                    <img className="modal-content" src={selectedImage} alt="Large view" />
+                    <img className="modal-content" src={selectedImage} alt="Large view"/>
                 </div>
             )}
         </div>
@@ -283,6 +350,7 @@ GetGearForm.propTypes = {
     apiEndpoint: PropTypes.string.isRequired,
     gearData: PropTypes.array,
     gearTypeKey: PropTypes.string.isRequired,
+    categories: PropTypes.array.isRequired,
 };
 
 export default GetGearForm;
