@@ -295,7 +295,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
                         <option value="5000-10000">5000-10.000 kr.</option>
                         <option value="10000-20000">10.000-20.000 kr.</option>
                         <option value="20000-50000">20.000-50.000 kr.</option>
-                        <option value="50000+">50000+ Kr</option>
+                        <option value="50000+">50.000+ kr.</option>
                     </select>
                 </div>
                 <div className="selector">
