@@ -17,6 +17,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
     const [userId, setUserId] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedPriceRange, setSelectedPriceRange] = useState('');
+    const [selectedLocation, setSelectedLocation] = useState('');
     const itemsPerPage = 5;
 
     useEffect(() => {
@@ -150,6 +151,11 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
         setCurrentPage(1); // Reset pagination to page 1
     };
 
+    const handleLocationChange = (e) => {
+        setSelectedLocation(e.target.value);
+        setCurrentPage(1); // Reset pagination to page 1
+    };
+
     const handleImageClick = (src) => {
         setSelectedImage(src);
     };
@@ -164,7 +170,8 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
             selectedPriceRange === '50000+' ? item.price >= 50000 :
                 item.price >= parseInt(selectedPriceRange.split('-')[0]) && item.price <= parseInt(selectedPriceRange.split('-')[1])
         ) : true;
-        return matchesCategory && matchesPrice;
+        const matchesLocation = selectedLocation ? item.location === selectedLocation : true;
+        return matchesCategory && matchesPrice && matchesLocation;
     });
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -289,6 +296,22 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
                         <option value="10000-20000">10.000-20.000 kr.</option>
                         <option value="20000-50000">20.000-50.000 kr.</option>
                         <option value="50000+">50000+ Kr</option>
+                    </select>
+                </div>
+                <div className="selector">
+                    <select value={selectedLocation} onChange={handleLocationChange}>
+                        <option value="">Vælg placering</option>
+                        <option value="København og omegn">København og omegn</option>
+                        <option value="Aarhus">Aarhus</option>
+                        <option value="Odense">Odense</option>
+                        <option value="Aalborg">Aalborg</option>
+                        <option value="Sjælland">Sjælland</option>
+                        <option value="Jylland">Jylland</option>
+                        <option value="Fyn">Fyn</option>
+                        <option value="Bornholm">Bornholm</option>
+                        <option value="Færøerne">Færøerne</option>
+                        <option value="Grønland">Grønland</option>
+                        <option value="Andet">Andet</option>
                     </select>
                 </div>
             </div>

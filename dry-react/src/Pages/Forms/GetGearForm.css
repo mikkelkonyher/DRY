@@ -217,6 +217,7 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    flex-wrap: wrap; /* Allow selectors to wrap to the next line */
 }
 
 .selector-container .selector select {
@@ -224,6 +225,29 @@
     font-size: 12px; /* Increase font size */
     margin: 0 10px; /* Add some space between the selectors */
     border: 1px solid #ccc; /* Add border */
+}
+
+@media (max-width: 600px) {
+    .selector-container {
+        display: flex;
+        flex-direction: column; /* Stack selectors vertically */
+        align-items: center; /* Center the selectors horizontally */
+        width: 100%; /* Ensure the container takes the full width of its parent */
+    }
+
+    .selector-container .selector {
+        width: 100%; /* Ensure all selectors have the same width */
+    }
+
+    .selector-container .selector select {
+        width: 100%; /* Make selectors full width on small screens */
+        margin: 10px 0; /* Add space between selectors vertically */
+        font-size: 12px; /* Increase font size for readability */
+    }
+
+    .selector-container .selector select option {
+        font-size: 30px; /* Increase font size for options */
+    }
 }
 
 @media (max-width: 700px) {
