@@ -21,10 +21,22 @@ namespace DRYV1.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
         {
-            var drums = await _context.DrumsGear.ToListAsync();
-            return Ok(drums);
+            var totalItems = await _context.DrumsGear.CountAsync();
+            var drums = await _context.DrumsGear
+                .OrderByDescending(d => d.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var response = new
+            {
+                TotalItems = totalItems,
+                Items = drums
+            };
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -96,16 +108,21 @@ namespace DRYV1.Controllers
         }
         
         [HttpGet("search")]
-        public async Task<IActionResult> Search(string query)
+        public async Task<IActionResult> Search(string query, int pageNumber = 1, int pageSize = 10)
         {
             var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var results = await _context.DrumsGear
+            var queryable = _context.DrumsGear
                 .Where(g => keywords.All(k => g.Brand.ToLower().Contains(k) ||
                                               g.Model.ToLower().Contains(k) ||
                                               g.Year.ToString().Contains(k) ||
                                               g.Description.ToLower().Contains(k) ||
                                               g.Location.ToLower().Contains(k) ||
-                                              g.DrumsGearType.ToLower().Contains(k)))
+                                              g.DrumsGearType.ToLower().Contains(k)));
+
+            var totalItems = await queryable.CountAsync();
+            var results = await queryable
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             if (!results.Any())
@@ -113,7 +130,13 @@ namespace DRYV1.Controllers
                 return NotFound("No matching records found.");
             }
 
-            return Ok(results);
+            var response = new
+            {
+                TotalItems = totalItems,
+                Items = results
+            };
+
+            return Ok(response);
         }
     }
 }

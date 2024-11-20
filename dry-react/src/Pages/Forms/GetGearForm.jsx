@@ -7,8 +7,8 @@ import config from "../../../config.jsx";
 import Pagination from '../../Components/Pagination.jsx';
 import GearCard from "./GearCard.jsx";
 
-function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, categories }) {
-    const [gear, setGear] = useState(gearData);
+function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
+    const [gear, setGear] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
@@ -18,18 +18,29 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedPriceRange, setSelectedPriceRange] = useState('');
     const [selectedLocation, setSelectedLocation] = useState('');
-    const itemsPerPage = 5;
+    const [totalItems, setTotalItems] = useState(0);
+    const itemsPerPage = 10;
 
     useEffect(() => {
         const fetchGear = async () => {
             try {
-                const response = await fetch(apiEndpoint);
+                const url = new URL(apiEndpoint);
+                url.searchParams.append('pageNumber', currentPage);
+                url.searchParams.append('pageSize', itemsPerPage);
+
+                const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
 
-                const sortedData = data.sort((a, b) => b.id - a.id);
+                console.log('API response:', data); // Log the response to debug
+
+                if (!data.items) {
+                    throw new Error('items property is undefined');
+                }
+
+                const sortedData = data.items.sort((a, b) => b.id - a.id);
 
                 const commentsPromises = sortedData.map(async (item) => {
                     try {
@@ -47,6 +58,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
 
                 const gearWithComments = await Promise.all(commentsPromises);
                 setGear(gearWithComments);
+                setTotalItems(data.totalItems);
 
                 const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
                 if (!userResponse.ok) {
@@ -64,7 +76,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
         };
 
         fetchGear();
-    }, [apiEndpoint]);
+    }, [apiEndpoint, currentPage]);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -104,8 +116,11 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
 
     const fetchSearchResults = async () => {
         try {
-            const url = new URL(`${apiEndpoint}/search`);
+            const url = new URL(apiEndpoint);
+            url.pathname += '/search';
             url.searchParams.append('query', searchQuery);
+            url.searchParams.append('pageNumber', currentPage);
+            url.searchParams.append('pageSize', itemsPerPage);
 
             const response = await fetch(url);
             if (!response.ok) {
@@ -113,7 +128,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
             }
             const data = await response.json();
 
-            const commentsPromises = data.map(async (item) => {
+            const commentsPromises = data.items.map(async (item) => {
                 try {
                     const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
                     if (!commentsResponse.ok) {
@@ -130,6 +145,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
             const gearWithComments = await Promise.all(commentsPromises);
             setGear(gearWithComments);
             setNoSearchResults(gearWithComments.length === 0);
+            setTotalItems(data.totalItems);
             setCurrentPage(1); // Reset pagination to page 1
         } catch (error) {
             console.error('Error fetching search results:', error);
@@ -164,21 +180,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
         setSelectedImage(null);
     };
 
-    const filteredGear = gear.filter(item => {
-        const matchesCategory = selectedCategory ? item[gearTypeKey] === selectedCategory : true;
-        const matchesPrice = selectedPriceRange ? (
-            selectedPriceRange === '50000+' ? item.price >= 50000 :
-                item.price >= parseInt(selectedPriceRange.split('-')[0]) && item.price <= parseInt(selectedPriceRange.split('-')[1])
-        ) : true;
-        const matchesLocation = selectedLocation ? item.location === selectedLocation : true;
-        return matchesCategory && matchesPrice && matchesLocation;
-    });
-
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredGear.slice(indexOfFirstItem, indexOfLastItem);
-
-    const totalPages = Math.ceil(filteredGear.length / itemsPerPage);
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const handlePageChange = (direction) => {
         setCurrentPage((prevPage) => {
@@ -317,7 +319,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
             </div>
             {noSearchResults && <p>Fandt ingen match</p>}
             <div className="gear-list">
-                {currentItems.map((item) => (
+                {gear.map((item) => (
                     <GearCard
                         key={item.id}
                         item={item}
@@ -348,7 +350,6 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
 GetGearForm.propTypes = {
     gearType: PropTypes.string.isRequired,
     apiEndpoint: PropTypes.string.isRequired,
-    gearData: PropTypes.array,
     gearTypeKey: PropTypes.string.isRequired,
     categories: PropTypes.array.isRequired,
 };
