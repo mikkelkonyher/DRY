@@ -7,7 +7,7 @@ import config from "../../../config.jsx";
 import Pagination from '../../Components/Pagination.jsx';
 import GearCard from "./GearCard.jsx";
 
-function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
+function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, categories }) {
     const [gear, setGear] = useState(gearData);
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
@@ -15,6 +15,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [noSearchResults, setNoSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState('');
     const itemsPerPage = 5;
 
     useEffect(() => {
@@ -138,6 +139,10 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
         setSearchQuery(e.target.value);
     };
 
+    const handleCategoryChange = (e) => {
+        setSelectedCategory(e.target.value);
+    };
+
     const handleImageClick = (src) => {
         setSelectedImage(src);
     };
@@ -146,11 +151,15 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
         setSelectedImage(null);
     };
 
+    const filteredGear = selectedCategory
+        ? gear.filter(item => item[gearTypeKey] === selectedCategory)
+        : gear;
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = gear.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredGear.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(gear.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredGear.length / itemsPerPage);
 
     const handlePageChange = (direction) => {
         setCurrentPage((prevPage) => {
@@ -248,6 +257,16 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey }) {
                 />
                 <button className="search-button-small" onClick={fetchSearchResults}>Søg</button>
             </div>
+            <div className="category-selector">
+                <select value={selectedCategory} onChange={handleCategoryChange}>
+                    <option value="">Alle kategorier</option>
+                    {categories.map((category) => (
+                        <option key={category} value={category}>
+                            {category}
+                        </option>
+                    ))}
+                </select>
+            </div>
             {noSearchResults && <p>Fandt ingen match</p>}
             <div className="gear-list">
                 {currentItems.map((item) => (
@@ -283,6 +302,7 @@ GetGearForm.propTypes = {
     apiEndpoint: PropTypes.string.isRequired,
     gearData: PropTypes.array,
     gearTypeKey: PropTypes.string.isRequired,
+    categories: PropTypes.array.isRequired,
 };
 
 export default GetGearForm;
