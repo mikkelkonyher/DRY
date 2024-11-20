@@ -1,28 +1,30 @@
 /* Login.css */
 .login-container {
-    max-width: 400px;
+    max-width: 500px;
     margin: 50px auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: transparent;
 }
 
 .login-h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #333;
+    color: #ffffff;
 }
 
 .login-form-group {
     margin-bottom: 15px;
+    max-width: 500px;
+    background-color: transparent;
 }
 
 .login-label {
     display: block;
     margin-bottom: 5px;
-    color: #555;
+    color: #ffffff;
 }
 
 .login-input {
@@ -86,4 +88,13 @@
     text-decoration: none;
     font-weight: normal;
     font-size: 12px;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: transparent; /* Change the background color to transparent */
 }

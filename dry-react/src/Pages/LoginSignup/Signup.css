@@ -1,7 +1,6 @@
 /* src/Pages/LoginSignup/Signup.css */
 
 .signup-body2 {
-    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     display: flex;
     justify-content: center;
@@ -11,21 +10,18 @@
 }
 
 .signup-container {
-    background-color: #fff;
+    background-color: transparent;
     padding: 30px;
     border-radius: 10px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     width: 100%;
     max-width: 400px;
-    border: none; /* Ensure no border is applied */
+    border: 1px solid #ccc;
 }
 
 .signup-container h2 {
-    margin-bottom: 20px;
-    color: #333;
     text-align: center;
-    font-size: 24px;
-    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffffff;
 }
 
 .signup-form {
@@ -38,7 +34,7 @@
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .signup-button {
@@ -75,4 +71,21 @@
     text-align: center;
     margin-bottom: 15px;
     font-size: 14px;
+}
+
+/* Media query for small screens */
+@media (max-width: 600px) {
+    .signup-container {
+        padding: 20px;
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+    .signup-input {
+        font-size: 14px;
+    }
+
+    .signup-button {
+        font-size: 14px;
+    }
 }
