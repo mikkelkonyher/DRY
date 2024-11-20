@@ -142,10 +142,12 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
 
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
+        setCurrentPage(1); // Reset pagination to page 1
     };
 
     const handlePriceRangeChange = (e) => {
         setSelectedPriceRange(e.target.value);
+        setCurrentPage(1); // Reset pagination to page 1
     };
 
     const handleImageClick = (src) => {
@@ -281,12 +283,12 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
                 <div className="selector">
                     <select value={selectedPriceRange} onChange={handlePriceRangeChange}>
                         <option value="">Alle priser</option>
-                        <option value="0-1000">0-1000</option>
-                        <option value="1000-5000">1000-5000</option>
-                        <option value="5000-10000">5000-10000</option>
-                        <option value="10000-20000">10000-20000</option>
-                        <option value="20000-50000">20000-50000</option>
-                        <option value="50000+">50000+</option>
+                        <option value="0-1000">0-1000 kr.</option>
+                        <option value="1000-5000">1000-5000 kr.</option>
+                        <option value="5000-10000">5000-10.000 kr.</option>
+                        <option value="10000-20000">10.000-20.000 kr.</option>
+                        <option value="20000-50000">20.000-50.000 kr.</option>
+                        <option value="50000+">50000+ Kr</option>
                     </select>
                 </div>
             </div>
