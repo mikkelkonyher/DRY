@@ -16,6 +16,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
     const [noSearchResults, setNoSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedPriceRange, setSelectedPriceRange] = useState('');
     const itemsPerPage = 5;
 
     useEffect(() => {
@@ -143,6 +144,10 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
         setSelectedCategory(e.target.value);
     };
 
+    const handlePriceRangeChange = (e) => {
+        setSelectedPriceRange(e.target.value);
+    };
+
     const handleImageClick = (src) => {
         setSelectedImage(src);
     };
@@ -151,9 +156,14 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
         setSelectedImage(null);
     };
 
-    const filteredGear = selectedCategory
-        ? gear.filter(item => item[gearTypeKey] === selectedCategory)
-        : gear;
+    const filteredGear = gear.filter(item => {
+        const matchesCategory = selectedCategory ? item[gearTypeKey] === selectedCategory : true;
+        const matchesPrice = selectedPriceRange ? (
+            selectedPriceRange === '50000+' ? item.price >= 50000 :
+                item.price >= parseInt(selectedPriceRange.split('-')[0]) && item.price <= parseInt(selectedPriceRange.split('-')[1])
+        ) : true;
+        return matchesCategory && matchesPrice;
+    });
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -241,7 +251,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
             <div className="sell-button-container">
                 <Link to={sellGearPath}>
                     <button className="sell-button">
-                        <SellIcon style={{ marginRight: '5px' }} />
+                        <SellIcon style={{marginRight: '5px'}}/>
                         Sælg {gearType}
                     </button>
                 </Link>
@@ -257,15 +267,28 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
                 />
                 <button className="search-button-small" onClick={fetchSearchResults}>Søg</button>
             </div>
-            <div className="category-selector">
-                <select value={selectedCategory} onChange={handleCategoryChange}>
-                    <option value="">Alle kategorier</option>
-                    {categories.map((category) => (
-                        <option key={category} value={category}>
-                            {category}
-                        </option>
-                    ))}
-                </select>
+            <div className="selector-container">
+                <div className="selector">
+                    <select value={selectedCategory} onChange={handleCategoryChange}>
+                        <option value="">Alle kategorier</option>
+                        {categories.map((category) => (
+                            <option key={category} value={category}>
+                                {category}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="selector">
+                    <select value={selectedPriceRange} onChange={handlePriceRangeChange}>
+                        <option value="">Alle priser</option>
+                        <option value="0-1000">0-1000</option>
+                        <option value="1000-5000">1000-5000</option>
+                        <option value="5000-10000">5000-10000</option>
+                        <option value="10000-20000">10000-20000</option>
+                        <option value="20000-50000">20000-50000</option>
+                        <option value="50000+">50000+</option>
+                    </select>
+                </div>
             </div>
             {noSearchResults && <p>Fandt ingen match</p>}
             <div className="gear-list">
@@ -290,7 +313,7 @@ function GetGearForm({ gearType, apiEndpoint, gearData = [], gearTypeKey, catego
             {selectedImage && (
                 <div className="modal" onClick={closeModal}>
                     <span className="close">&times;</span>
-                    <img className="modal-content" src={selectedImage} alt="Large view" />
+                    <img className="modal-content" src={selectedImage} alt="Large view"/>
                 </div>
             )}
         </div>
