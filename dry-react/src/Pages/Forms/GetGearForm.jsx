@@ -308,7 +308,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                         setSelectedCategory(e.target.value);
                         setCurrentPage(1); // Reset to page 1 when changing the filter
                     }}>
-                        <option value="">All Categories</option>
+                        <option value="">Alle kategorier</option>
                         {categories.map((category) => (
                             <option key={category} value={category}>{category}</option>
                         ))}
