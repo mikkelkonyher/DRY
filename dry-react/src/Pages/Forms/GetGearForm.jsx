@@ -119,7 +119,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             const url = new URL(apiEndpoint);
             url.pathname += '/search';
             url.searchParams.append('query', searchQuery);
-            url.searchParams.append('pageNumber', currentPage);
+            url.searchParams.append('pageNumber', 1); // Use page 1 for the search
             url.searchParams.append('pageSize', itemsPerPage);
 
             const response = await fetch(url);
@@ -146,11 +146,16 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             setGear(gearWithComments);
             setNoSearchResults(gearWithComments.length === 0);
             setTotalItems(data.totalItems);
-            setCurrentPage(1); // Reset pagination to page 1
+            setCurrentPage(1); // Set current page to 1 after fetching results
         } catch (error) {
             console.error('Error fetching search results:', error);
             setNoSearchResults(true);
         }
+    };
+
+    const handleSearch = () => {
+        setCurrentPage(1); // Set current page to 1 before fetching search results
+        fetchSearchResults();
     };
 
     const handleSearchChange = (e) => {
@@ -276,7 +281,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                     onChange={handleSearchChange}
                     placeholder="Søg efter brand, model etc..."
                 />
-                <button className="search-button-small" onClick={fetchSearchResults}>Søg</button>
+                <button className="search-button-small" onClick={handleSearch}>Søg</button>
             </div>
             <div className="selector-container">
                 <div className="selector">
