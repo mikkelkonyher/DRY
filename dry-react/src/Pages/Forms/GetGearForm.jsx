@@ -16,6 +16,9 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     const [noSearchResults, setNoSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [location, setLocation] = useState('');
+    const [priceRange, setPriceRange] = useState('');
     const itemsPerPage = 10;
 
     useEffect(() => {
@@ -24,6 +27,21 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                 const url = new URL(apiEndpoint);
                 url.searchParams.append('pageNumber', currentPage);
                 url.searchParams.append('pageSize', itemsPerPage);
+                if (selectedCategory) {
+                    url.searchParams.append(gearTypeKey, selectedCategory);
+                }
+                if (location) {
+                    url.searchParams.append('location', location);
+                }
+                if (priceRange) {
+                    const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+                    if (minPrice) {
+                        url.searchParams.append('minPrice', minPrice);
+                    }
+                    if (maxPrice) {
+                        url.searchParams.append('maxPrice', maxPrice);
+                    }
+                }
 
                 const response = await fetch(url);
                 if (!response.ok) {
@@ -73,7 +91,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         };
 
         fetchGear();
-    }, [apiEndpoint, currentPage]);
+    }, [apiEndpoint, currentPage, selectedCategory, location, priceRange]);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -259,6 +277,10 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
 
     const sellGearPath = gearType === "Trommeudstyr" ? "/SellDrumsGear" : "/SellGuiBassGear";
 
+    const filteredGear = selectedCategory
+        ? gear.filter(item => item[gearTypeKey] === selectedCategory)
+        : gear;
+
     return (
         <div>
             <div className="sell-button-container">
@@ -280,9 +302,54 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                 />
                 <button className="search-button-small" onClick={handleSearch}>Søg</button>
             </div>
+            <div className="category-filter">
+                <select value={selectedCategory} onChange={(e) => {
+                    setSelectedCategory(e.target.value);
+                    setCurrentPage(1); // Reset to page 1 when changing the filter
+                }}>
+                    <option value="">All Categories</option>
+                    {categories.map((category) => (
+                        <option key={category} value={category}>{category}</option>
+                    ))}
+                </select>
+            </div>
+            <div className="location-filter">
+                <select name="location" value={location} onChange={(e) => {
+                    setLocation(e.target.value);
+                    setCurrentPage(1); // Reset to page 1 when changing the filter
+                }} required>
+                    <option value="">Vælg placering</option>
+                    <option value="København og omegn">København og omegn</option>
+                    <option value="Aarhus">Aarhus</option>
+                    <option value="Odense">Odense</option>
+                    <option value="Aalborg">Aalborg</option>
+                    <option value="Sjælland">Sjælland</option>
+                    <option value="Jylland">Jylland</option>
+                    <option value="Fyn">Fyn</option>
+                    <option value="Bornholm">Bornholm</option>
+                    <option value="Færøerne">Færøerne</option>
+                    <option value="Grønland">Grønland</option>
+                    <option value="Andet">Andet</option>
+                </select>
+            </div>
+            <div className="price-filter">
+                <select name="priceRange" value={priceRange} onChange={(e) => {
+                    setPriceRange(e.target.value);
+                    setCurrentPage(1); // Reset to page 1 when changing the filter
+                }} required>
+                    <option value="">Vælg pris</option>
+                    <option value="0-1000">0-1000</option>
+                    <option value="1000-5000">1000-5000</option>
+                    <option value="5000-10000">5000-10000</option>
+                    <option value="10000-20000">10000-20000</option>
+                    <option value="20000-40000">20000-40000</option>
+                    <option value="40000-50000">40000-50000</option>
+                    <option value="50000-">50000+</option>
+                </select>
+            </div>
             {noSearchResults && <p>Fandt ingen match</p>}
             <div className="gear-list">
-                {gear.map((item) => (
+                {filteredGear.map((item) => (
                     <GearCard
                         key={item.id}
                         item={item}

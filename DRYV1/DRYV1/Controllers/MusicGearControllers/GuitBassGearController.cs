@@ -17,12 +17,41 @@ namespace DRYV1.Controllers
         {
             _context = context;
         }
-
         [HttpGet]
-        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> GetAll(
+            int pageNumber = 1, 
+            int pageSize = 10, 
+            string guitBassType = null, 
+            string location = null, 
+            decimal? minPrice = null, 
+            decimal? maxPrice = null)
         {
-            var totalItems = await _context.GuitBassGear.CountAsync();
-            var guitars = await _context.GuitBassGear
+            var query = _context.GuitBassGear.AsQueryable();
+
+            if (!string.IsNullOrEmpty(guitBassType))
+            {
+                var normalizedGuitBassType = guitBassType.Trim().ToLower();
+                query = query.Where(g => g.GuitBassType.ToLower() == normalizedGuitBassType);
+            }
+
+            if (!string.IsNullOrEmpty(location))
+            {
+                var normalizedLocation = location.Trim().ToLower();
+                query = query.Where(g => g.Location.ToLower().Contains(normalizedLocation));
+            }
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(g => g.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(g => g.Price <= maxPrice.Value);
+            }
+
+            var totalItems = await query.CountAsync();
+            var guitars = await query
                 .OrderByDescending(g => g.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
