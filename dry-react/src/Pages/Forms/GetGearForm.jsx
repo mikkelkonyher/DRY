@@ -15,9 +15,6 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [noSearchResults, setNoSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [selectedPriceRange, setSelectedPriceRange] = useState('');
-    const [selectedLocation, setSelectedLocation] = useState('');
     const [totalItems, setTotalItems] = useState(0);
     const itemsPerPage = 10;
 
@@ -167,21 +164,6 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         setSearchQuery(e.target.value);
     };
 
-    const handleCategoryChange = (e) => {
-        setSelectedCategory(e.target.value);
-        setCurrentPage(1); // Reset pagination to page 1
-    };
-
-    const handlePriceRangeChange = (e) => {
-        setSelectedPriceRange(e.target.value);
-        setCurrentPage(1); // Reset pagination to page 1
-    };
-
-    const handleLocationChange = (e) => {
-        setSelectedLocation(e.target.value);
-        setCurrentPage(1); // Reset pagination to page 1
-    };
-
     const handleImageClick = (src) => {
         setSelectedImage(src);
     };
@@ -297,45 +279,6 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                     placeholder="Søg efter brand, model etc..."
                 />
                 <button className="search-button-small" onClick={handleSearch}>Søg</button>
-            </div>
-            <div className="selector-container">
-                <div className="selector">
-                    <select value={selectedCategory} onChange={handleCategoryChange}>
-                        <option value="">Alle kategorier</option>
-                        {categories.map((category) => (
-                            <option key={category} value={category}>
-                                {category}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="selector">
-                    <select value={selectedPriceRange} onChange={handlePriceRangeChange}>
-                        <option value="">Alle priser</option>
-                        <option value="0-1000">0-1000 kr.</option>
-                        <option value="1000-5000">1000-5000 kr.</option>
-                        <option value="5000-10000">5000-10.000 kr.</option>
-                        <option value="10000-20000">10.000-20.000 kr.</option>
-                        <option value="20000-50000">20.000-50.000 kr.</option>
-                        <option value="50000+">50.000+ kr.</option>
-                    </select>
-                </div>
-                <div className="selector">
-                    <select value={selectedLocation} onChange={handleLocationChange}>
-                        <option value="">Vælg placering</option>
-                        <option value="København og omegn">København og omegn</option>
-                        <option value="Aarhus">Aarhus</option>
-                        <option value="Odense">Odense</option>
-                        <option value="Aalborg">Aalborg</option>
-                        <option value="Sjælland">Sjælland</option>
-                        <option value="Jylland">Jylland</option>
-                        <option value="Fyn">Fyn</option>
-                        <option value="Bornholm">Bornholm</option>
-                        <option value="Færøerne">Færøerne</option>
-                        <option value="Grønland">Grønland</option>
-                        <option value="Andet">Andet</option>
-                    </select>
-                </div>
             </div>
             {noSearchResults && <p>Fandt ingen match</p>}
             <div className="gear-list">

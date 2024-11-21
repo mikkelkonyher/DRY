@@ -142,7 +142,9 @@ namespace DRYV1.Controllers
             decimal? maxPrice = null,
             string guitBassType = null,
             int? year = null,
-            string location = null)
+            string location = null,
+            int pageNumber = 1,
+            int pageSize = 10)
         {
             var query = _context.GuitBassGear.AsQueryable();
 
@@ -181,14 +183,25 @@ namespace DRYV1.Controllers
                 query = query.Where(g => g.Location.ToLower().Contains(location.ToLower()));
             }
 
-            var results = await query.ToListAsync();
+            var totalItems = await query.CountAsync();
+            var results = await query
+                .OrderByDescending(g => g.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             if (!results.Any())
             {
                 return NotFound("No matching records found.");
             }
 
-            return Ok(results);
+            var response = new
+            {
+                TotalItems = totalItems,
+                Items = results
+            };
+
+            return Ok(response);
         }
     }
 }
