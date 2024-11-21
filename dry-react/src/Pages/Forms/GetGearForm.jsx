@@ -154,6 +154,10 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     };
 
     const handleSearch = () => {
+        if (!searchQuery.trim()) {
+            window.location.reload(); // Reload the page if the search query is empty
+            return;
+        }
         setCurrentPage(1); // Set current page to 1 before fetching search results
         fetchSearchResults();
     };
