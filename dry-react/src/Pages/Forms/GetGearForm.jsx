@@ -339,13 +339,13 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                         setCurrentPage(1); // Reset to page 1 when changing the filter
                     }} required>
                         <option value="">Vælg pris</option>
-                        <option value="0-1000">0-1000</option>
-                        <option value="1000-5000">1000-5000</option>
-                        <option value="5000-10000">5000-10000</option>
-                        <option value="10000-20000">10000-20000</option>
-                        <option value="20000-40000">20000-40000</option>
-                        <option value="40000-50000">40000-50000</option>
-                        <option value="50000-">50000+</option>
+                        <option value="0-1000">0-1000 kr.</option>
+                        <option value="1000-5000">1000-5000 kr.</option>
+                        <option value="5000-10000">5000-10.000 kr.</option>
+                        <option value="10000-20000">10.000-20.000 kr.</option>
+                        <option value="20000-40000">20.000-40.000 kr.</option>
+                        <option value="40000-50000">40.000-50.000 kr.</option>
+                        <option value="50000-">50.000+ kr.</option>
                     </select>
                 </div>
             </div>
