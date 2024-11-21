@@ -225,6 +225,16 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         try {
             if (!userId) throw new Error('User ID not found');
 
+            // Find the gear item by gearId
+            const gearItem = gear.find(item => item.id === gearId);
+            if (!gearItem) throw new Error('Gear item not found');
+
+            // Prevent favoriting own created cards
+            if (userId === gearItem.userId) {
+                alert('Egne produkter bliver ikke tilføjet til favoritter');
+                return;
+            }
+
             // Check if the item is already a favorite
             const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
             const checkResponse = await fetch(checkUrl, {
