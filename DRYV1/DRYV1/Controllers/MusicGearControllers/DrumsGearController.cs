@@ -21,10 +21,40 @@ namespace DRYV1.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> GetAll(
+            int pageNumber = 1, 
+            int pageSize = 10, 
+            string drumsGearType = null, 
+            string location = null, 
+            decimal? minPrice = null, 
+            decimal? maxPrice = null)
         {
-            var totalItems = await _context.DrumsGear.CountAsync();
-            var drums = await _context.DrumsGear
+            var query = _context.DrumsGear.AsQueryable();
+
+            if (!string.IsNullOrEmpty(drumsGearType))
+            {
+                var normalizedDrumsGearType = drumsGearType.Trim().ToLower();
+                query = query.Where(d => d.DrumsGearType.ToLower() == normalizedDrumsGearType);
+            }
+
+            if (!string.IsNullOrEmpty(location))
+            {
+                var normalizedLocation = location.Trim().ToLower();
+                query = query.Where(d => d.Location.ToLower().Contains(normalizedLocation));
+            }
+
+            if (minPrice.HasValue)
+            {
+                query = query.Where(d => d.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(d => d.Price <= maxPrice.Value);
+            }
+
+            var totalItems = await query.CountAsync();
+            var drums = await query
                 .OrderByDescending(d => d.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
