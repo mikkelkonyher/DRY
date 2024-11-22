@@ -27,34 +27,46 @@ namespace DRYV1.Controllers
             string drumsGearType = null, 
             string location = null, 
             decimal? minPrice = null, 
-            decimal? maxPrice = null)
+            decimal? maxPrice = null,
+            string query = null)
         {
-            var query = _context.DrumsGear.AsQueryable();
+            var queryable = _context.DrumsGear.AsQueryable();
 
             if (!string.IsNullOrEmpty(drumsGearType))
             {
                 var normalizedDrumsGearType = drumsGearType.Trim().ToLower();
-                query = query.Where(d => d.DrumsGearType.ToLower() == normalizedDrumsGearType);
+                queryable = queryable.Where(d => d.DrumsGearType.ToLower() == normalizedDrumsGearType);
             }
 
             if (!string.IsNullOrEmpty(location))
             {
                 var normalizedLocation = location.Trim().ToLower();
-                query = query.Where(d => d.Location.ToLower().Contains(normalizedLocation));
+                queryable = queryable.Where(d => d.Location.ToLower().Contains(normalizedLocation));
             }
 
             if (minPrice.HasValue)
             {
-                query = query.Where(d => d.Price >= minPrice.Value);
+                queryable = queryable.Where(d => d.Price >= minPrice.Value);
             }
 
             if (maxPrice.HasValue)
             {
-                query = query.Where(d => d.Price <= maxPrice.Value);
+                queryable = queryable.Where(d => d.Price <= maxPrice.Value);
             }
 
-            var totalItems = await query.CountAsync();
-            var drums = await query
+            if (!string.IsNullOrEmpty(query))
+            {
+                var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                queryable = queryable.Where(d => keywords.All(k => d.Brand.ToLower().Contains(k) ||
+                                                                   d.Model.ToLower().Contains(k) ||
+                                                                   d.Year.ToString().Contains(k) ||
+                                                                   d.Description.ToLower().Contains(k) ||
+                                                                   d.Location.ToLower().Contains(k) ||
+                                                                   d.DrumsGearType.ToLower().Contains(k)));
+            }
+
+            var totalItems = await queryable.CountAsync();
+            var drums = await queryable
                 .OrderByDescending(d => d.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -137,36 +149,6 @@ namespace DRYV1.Controllers
             return NoContent();
         }
         
-        [HttpGet("search")]
-        public async Task<IActionResult> Search(string query, int pageNumber = 1, int pageSize = 10)
-        {
-            var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var queryable = _context.DrumsGear
-                .Where(g => keywords.All(k => g.Brand.ToLower().Contains(k) ||
-                                              g.Model.ToLower().Contains(k) ||
-                                              g.Year.ToString().Contains(k) ||
-                                              g.Description.ToLower().Contains(k) ||
-                                              g.Location.ToLower().Contains(k) ||
-                                              g.DrumsGearType.ToLower().Contains(k)));
-
-            var totalItems = await queryable.CountAsync();
-            var results = await queryable
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            if (!results.Any())
-            {
-                return NotFound("No matching records found.");
-            }
-
-            var response = new
-            {
-                TotalItems = totalItems,
-                Items = results
-            };
-
-            return Ok(response);
-        }
+      
     }
 }
