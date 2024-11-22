@@ -14,7 +14,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const [noSearchResults, setNoSearchResults] = useState(false);
+    const [noSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState('');
@@ -23,75 +23,78 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     const itemsPerPage = 10;
 
     // Fetch gear data from API
-    useEffect(() => {
-        const fetchGear = async () => {
-            try {
-                const url = new URL(apiEndpoint);
-                url.searchParams.append('pageNumber', currentPage);
-                url.searchParams.append('pageSize', itemsPerPage);
-                if (selectedCategory) {
-                    url.searchParams.append(gearTypeKey, selectedCategory);
+    const fetchGear = async (search = false) => {
+        try {
+            const url = new URL(apiEndpoint);
+            url.searchParams.append('pageNumber', currentPage);
+            url.searchParams.append('pageSize', itemsPerPage);
+            if (selectedCategory) {
+                url.searchParams.append(gearTypeKey, selectedCategory);
+            }
+            if (location) {
+                url.searchParams.append('location', location);
+            }
+            if (priceRange) {
+                const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+                if (minPrice) {
+                    url.searchParams.append('minPrice', minPrice);
                 }
-                if (location) {
-                    url.searchParams.append('location', location);
+                if (maxPrice) {
+                    url.searchParams.append('maxPrice', maxPrice);
                 }
-                if (priceRange) {
-                    const [minPrice, maxPrice] = priceRange.split('-').map(Number);
-                    if (minPrice) {
-                        url.searchParams.append('minPrice', minPrice);
-                    }
-                    if (maxPrice) {
-                        url.searchParams.append('maxPrice', maxPrice);
-                    }
-                }
+            }
+            if (search && searchQuery) {
+                url.searchParams.append('query', searchQuery);
+            }
 
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
 
-                console.log('API response:', data); // Log the response to debug
+            console.log('API response:', data); // Log the response to debug
 
-                if (!data.items) {
-                    throw new Error('items property is undefined');
-                }
+            if (!data.items) {
+                throw new Error('items property is undefined');
+            }
 
-                const sortedData = data.items.sort((a, b) => b.id - a.id);
+            const sortedData = data.items.sort((a, b) => b.id - a.id);
 
-                const commentsPromises = sortedData.map(async (item) => {
-                    try {
-                        const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
-                        if (!commentsResponse.ok) {
-                            return { ...item, comments: [] };
-                        }
-                        const commentsData = await commentsResponse.json();
-                        return { ...item, comments: commentsData };
-                    } catch (error) {
-                        console.error(error);
+            const commentsPromises = sortedData.map(async (item) => {
+                try {
+                    const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
+                    if (!commentsResponse.ok) {
                         return { ...item, comments: [] };
                     }
-                });
-
-                const gearWithComments = await Promise.all(commentsPromises);
-                setGear(gearWithComments);
-                setTotalItems(data.totalItems);
-
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-                if (!userResponse.ok) {
-                    throw new Error('Network response was not ok');
+                    const commentsData = await commentsResponse.json();
+                    return { ...item, comments: commentsData };
+                } catch (error) {
+                    console.error(error);
+                    return { ...item, comments: [] };
                 }
-                const userData = await userResponse.json();
-                const userMap = userData.reduce((acc, user) => {
-                    acc[user.id] = user;
-                    return acc;
-                }, {});
-                setUsers(userMap);
-            } catch (error) {
-                console.error('Error fetching gear or users:', error);
-            }
-        };
+            });
 
+            const gearWithComments = await Promise.all(commentsPromises);
+            setGear(gearWithComments);
+            setTotalItems(data.totalItems);
+
+            const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
+            if (!userResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const userData = await userResponse.json();
+            const userMap = userData.reduce((acc, user) => {
+                acc[user.id] = user;
+                return acc;
+            }, {});
+            setUsers(userMap);
+        } catch (error) {
+            console.error('Error fetching gear or users:', error);
+        }
+    };
+
+    useEffect(() => {
         fetchGear();
     }, [apiEndpoint, currentPage, selectedCategory, location, priceRange]);
 
@@ -133,55 +136,10 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
 
-    // Fetch search results
-    const fetchSearchResults = async () => {
-        try {
-            const url = new URL(apiEndpoint);
-            url.pathname += '/search';
-            url.searchParams.append('query', searchQuery);
-            url.searchParams.append('pageNumber', 1); // Use page 1 for the search
-            url.searchParams.append('pageSize', itemsPerPage);
-
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-
-            const commentsPromises = data.items.map(async (item) => {
-                try {
-                    const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
-                    if (!commentsResponse.ok) {
-                        return { ...item, comments: [] };
-                    }
-                    const commentsData = await commentsResponse.json();
-                    return { ...item, comments: commentsData };
-                } catch (error) {
-                    console.error(error);
-                    return { ...item, comments: [] };
-                }
-            });
-
-            const gearWithComments = await Promise.all(commentsPromises);
-            setGear(gearWithComments);
-            setNoSearchResults(gearWithComments.length === 0);
-            setTotalItems(data.totalItems);
-            setCurrentPage(1); // Set current page to 1 after fetching results
-        } catch (error) {
-            console.error('Error fetching search results:', error);
-            setNoSearchResults(true);
-        }
-    };
-
     // Handle search button click
     const handleSearch = () => {
         setCurrentPage(1); // Set current page to 1 before fetching search results
-        fetchSearchResults();
-        if (!searchQuery.trim()) {
-            window.location.reload(); // Reload the page if the search query is empty
-            return;
-        }
-        fetchSearchResults();
+        fetchGear(true);
     };
 
     // Handle search input change

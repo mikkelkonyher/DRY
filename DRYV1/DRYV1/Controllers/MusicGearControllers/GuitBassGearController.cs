@@ -24,34 +24,46 @@ namespace DRYV1.Controllers
             string guitBassType = null, 
             string location = null, 
             decimal? minPrice = null, 
-            decimal? maxPrice = null)
+            decimal? maxPrice = null,
+            string query = null)
         {
-            var query = _context.GuitBassGear.AsQueryable();
+            var queryable = _context.GuitBassGear.AsQueryable();
 
             if (!string.IsNullOrEmpty(guitBassType))
             {
                 var normalizedGuitBassType = guitBassType.Trim().ToLower();
-                query = query.Where(g => g.GuitBassType.ToLower() == normalizedGuitBassType);
+                queryable = queryable.Where(g => g.GuitBassType.ToLower() == normalizedGuitBassType);
             }
 
             if (!string.IsNullOrEmpty(location))
             {
                 var normalizedLocation = location.Trim().ToLower();
-                query = query.Where(g => g.Location.ToLower().Contains(normalizedLocation));
+                queryable = queryable.Where(g => g.Location.ToLower().Contains(normalizedLocation));
             }
 
             if (minPrice.HasValue)
             {
-                query = query.Where(g => g.Price >= minPrice.Value);
+                queryable = queryable.Where(g => g.Price >= minPrice.Value);
             }
 
             if (maxPrice.HasValue)
             {
-                query = query.Where(g => g.Price <= maxPrice.Value);
+                queryable = queryable.Where(g => g.Price <= maxPrice.Value);
             }
 
-            var totalItems = await query.CountAsync();
-            var guitars = await query
+            if (!string.IsNullOrEmpty(query))
+            {
+                var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                queryable = queryable.Where(g => keywords.All(k => g.Brand.ToLower().Contains(k) ||
+                                                                   g.Model.ToLower().Contains(k) ||
+                                                                   g.Year.ToString().Contains(k) ||
+                                                                   g.Description.ToLower().Contains(k) ||
+                                                                   g.Location.ToLower().Contains(k) ||
+                                                                   g.GuitBassType.ToLower().Contains(k)));
+            }
+
+            var totalItems = await queryable.CountAsync();
+            var guitars = await queryable
                 .OrderByDescending(g => g.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
