@@ -1,7 +1,7 @@
 import React from 'react';
-import GetGearForm from '../Forms/GetGearForm.jsx';
+import GetGearForm from '../../Forms/GetGearForm.jsx';
 import './GetDrumsGear.css';
-import config from "../../../config.jsx";
+import config from "../../../../config.jsx";
 
 function GetDrumsGear() {
     const categories = [

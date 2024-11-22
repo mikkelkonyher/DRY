@@ -99,6 +99,7 @@ namespace DRYV1.Controllers
 
         [HttpPost]
         [Authorize]
+    
         public async Task<IActionResult> Create([FromForm] StudioGear studioGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == studioGear.UserId);
@@ -114,7 +115,7 @@ namespace DRYV1.Controllers
                 try
                 {
                     var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
-                    studioGear.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets/uploads/studiogear", baseUrl);
+                    studioGear.ImagePaths = await ImageUploadHelper.UploadImagesAsync(imageFiles, "assets/uploads/musicgear", baseUrl);
                 }
                 catch (InvalidOperationException ex)
                 {

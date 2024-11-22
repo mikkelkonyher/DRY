@@ -93,7 +93,7 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+     [Authorize]
         public async Task<IActionResult> Create([FromForm] DrumsGear drumGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == drumGear.UserId);

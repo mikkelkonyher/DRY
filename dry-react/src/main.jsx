@@ -1,10 +1,12 @@
 import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import CreateGuitBassGear from './Pages/GuitBassGear/CreateGuitBassGear.jsx';
-import GetGuitBassGear from './Pages/GuitBassGear/GetGuitBassGear.jsx';
-import CreateDrumsGear from "./Pages/DrumsGear/CreateDrumsGear.jsx";
-import GetDrumsGear from "./Pages/DrumsGear/GetDrumsGear.jsx";
+import CreateGuitBassGear from './Pages/AllMusicGear/GuitBassGear/CreateGuitBassGear.jsx';
+import GetGuitBassGear from './Pages/AllMusicGear/GuitBassGear/GetGuitBassGear.jsx';
+import CreateDrumsGear from "./Pages/AllMusicGear/DrumsGear/CreateDrumsGear.jsx";
+import GetDrumsGear from "./Pages/AllMusicGear/DrumsGear/GetDrumsGear.jsx";
+import CreateStudioGear from "./Pages/AllMusicGear/StudioGear/CreateStudioGear.jsx";
+import GetStudioGear from "./Pages/AllMusicGear/StudioGear/GetStudioGear.jsx";
 import ResponsiveAppBar from './Pages/FooterHeader/Navbar';
 import './index.css';
 import Box from '@mui/material/Box';
@@ -27,9 +29,11 @@ function Main() {
             <Box sx={{ marginTop: '84px', padding: '20px' }}>
                 <Routes>
                     <Route path="/SellGuiBassGear" element={<CreateGuitBassGear />} />
-                    <Route path="/GuitBass" element={<GetGuitBassGear />} />
                     <Route path="/SellDrumsGear" element={<CreateDrumsGear />} />
+                    <Route path="/SellStudioGear" element={<CreateStudioGear />} />
+                    <Route path="/GuitBass" element={<GetGuitBassGear />} />
                     <Route path="/Trommer" element={<GetDrumsGear />} />
+                    <Route path="/Studiogear" element={<GetStudioGear />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/" element={<Home />} />

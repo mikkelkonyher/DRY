@@ -247,7 +247,11 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     };
 
     // Determine the path for selling gear
-    const sellGearPath = gearType === "Trommeudstyr" ? "/SellDrumsGear" : "/SellGuiBassGear";
+    const sellGearPath = gearType === "Trommeudstyr"
+        ? "/SellDrumsGear"
+        : gearType === "Studio Gear"
+            ? "/SellStudioGear"
+            : "/SellGuiBassGear";
 
     // Filter gear based on selected category
     const filteredGear = selectedCategory

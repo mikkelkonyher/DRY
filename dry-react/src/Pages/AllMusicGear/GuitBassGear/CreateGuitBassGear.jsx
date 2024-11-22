@@ -1,7 +1,7 @@
 import React from 'react';
-import GearForm from '../Forms/GearForm.jsx';
+import GearForm from '../../Forms/GearForm.jsx';
 import './CreateGuitBassGear.css';
-import config from "../../../config.jsx";
+import config from "../../../../config.jsx";
 
 function CreateGuitBassGear() {
     const categories = [
