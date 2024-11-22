@@ -194,7 +194,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                 typeFieldName = 'StringsGearType';
                 break;
             case 'Blæs':
-                typeFieldName = 'WindGearType';
+                typeFieldName = 'HornsGearType';
                 break;
             default:
                 typeFieldName = 'GearType';

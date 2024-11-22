@@ -32,10 +32,10 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                 url.searchParams.append(gearTypeKey, selectedCategory);
             }
             if (location) {
-                url.searchParams.append('location', location);
+                url.searchParams.append('location', location); // Append location to the URL
             }
             if (priceRange) {
-                const [minPrice, maxPrice] = priceRange.split('-').map(Number);
+                const [minPrice, maxPrice] = priceRange.split('-').map(Number); // Split the price range and convert to numbers
                 if (minPrice) {
                     url.searchParams.append('minPrice', minPrice);
                 }
