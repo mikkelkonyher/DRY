@@ -72,6 +72,7 @@
     text-align: left; /* Align text to the left */
     width: 100%; /* Ensure the container takes the full width of its parent */
     padding: 10px; /* Add some padding for better spacing */
+    white-space: pre-wrap; /* Preserve whitespace and line breaks */
 }
 
 @media (max-width: 600px) {

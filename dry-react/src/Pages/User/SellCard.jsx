@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PostComment from "../../Components/PostComments.jsx";
 import config from '../../../config.jsx';
+import './SellCard.css';
 
 function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
     const [showAllImages, setShowAllImages] = useState(false);
@@ -252,7 +253,7 @@ function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
                     <button className="toggle-description-button" onClick={() => setShowDescription(!showDescription)}>
                         {showDescription ? 'Skjul Beskrivelse' : 'Vis Beskrivelse'}
                     </button>
-                    {showDescription && <p><strong>Beskrivelse: </strong>{item.description}</p>}
+                    {showDescription && <p className="description"><strong>Beskrivelse: </strong>{item.description}</p>}
                     <p><strong>Pris: </strong>{item.price} DKK</p>
                     <p><strong>Lokation:</strong> {item.location}</p>
                     <p><strong>Stand:</strong> {item.condition}</p>
