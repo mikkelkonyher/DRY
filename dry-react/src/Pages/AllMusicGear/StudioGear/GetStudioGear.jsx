@@ -11,7 +11,7 @@ function GetStudioGear() {
 
     return (
         <GetGearForm
-            gearType="Studio Gear"
+            gearType="Studie Gear"
             apiEndpoint={`${config.apiBaseUrl}/api/StudioGear`}
             categories={categories}
             gearTypeKey="studioGearType"

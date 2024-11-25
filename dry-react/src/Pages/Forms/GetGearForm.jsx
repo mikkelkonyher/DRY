@@ -249,7 +249,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     // Determine the path for selling gear
     const sellGearPath = gearType === "Trommeudstyr"
         ? "/SellDrumsGear"
-        : gearType === "Studio Gear"
+        : gearType === "Studie Gear"
             ? "/SellStudioGear"
             : gearType === "Keys Gear"
                 ? "/SellKeysGear"

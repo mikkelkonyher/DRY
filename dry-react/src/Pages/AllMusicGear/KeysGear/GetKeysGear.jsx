@@ -5,7 +5,7 @@ import config from "../../../../config.jsx";
 function GetKeysGear() {
     const categories = [
         "Synthsizere", "Keyboards", "Klaverer", "Stage Pianos", "Flygler",
-        "Orgler", "Akkordeons", "Tilbehør til klaverer og flygler", "Andet"
+        "Orgler", "Akkordeons", "Tilbehør til keys", "Andet"
     ];
 
     return (
