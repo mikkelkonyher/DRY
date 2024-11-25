@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import PostComment from "../../Components/PostComments.jsx";
 import config from "../../../config.jsx"; // Import the config object
 
@@ -7,7 +10,7 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
     const [showAllImages, setShowAllImages] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
-    const [showDescription, setShowDescription] = useState(false); // New state for description
+    const [showMoreInfo, setShowMoreInfo] = useState(false); // New state for more info
 
     useEffect(() => {
         // Check if the item is already a favorite when the component mounts
@@ -53,37 +56,43 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
     return (
         <div className="gear-card">
             <h3>{item.brand} {item.model}</h3>
+            <h4><strong>Pris: </strong>{item.price} kr. </h4>
 
-            {showAllImages ? (
-                item.imagePaths.map((imagePath, index) => (
-                    <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
-                         className="gear-image" onClick={() => handleImageClick(imagePath)}/>
-                ))
-            ) : (
-                <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
-                     className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])}/>
-            )}
+            <div className="image-container">
+                <button className="favorite-button" onClick={handleFavoriteClick}>
+                    <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart} />
+                </button>
+                {showAllImages ? (
+                    item.imagePaths.map((imagePath, index) => (
+                        <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
+                             className="gear-image" onClick={() => handleImageClick(imagePath)}/>
+                    ))
+                ) : (
+                    <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
+                         className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])}/>
+                )}
+            </div>
             <button className="toggle-images-button" onClick={() => setShowAllImages(!showAllImages)}>
                 {showAllImages ? 'Vis Mindre' : 'Vis Alle Billeder'}
             </button>
 
-            <button className="toggle-description-button" onClick={() => setShowDescription(!showDescription)}>
-                {showDescription ? 'Skjul Beskrivelse' : 'Vis Beskrivelse'}
+            <button className="toggle-more-info-button" onClick={() => setShowMoreInfo(!showMoreInfo)}>
+                {showMoreInfo ? 'Skjul Mere Info' : 'Vis Mere Info'}
             </button>
-            {showDescription && <p>{item.description}</p>}
+            {showMoreInfo && (
+                <div className="more-info-container">
+                    <p>{item.description}</p>
+                    <p><strong>Lokation:</strong> {item.location}</p>
+                    <p><strong>Stand:</strong> {item.condition}</p>
+                    <p><strong>År:</strong> {item.year}</p>
+                    <p><strong>Type: </strong>{item[gearTypeKey]}</p>
+                    <p><strong>Sælger:</strong> {users[item.userId]?.name || 'Ukendt'}</p>
+                    <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
+                </div>
+            )}
 
-            <p><strong>Pris: </strong>{item.price} DKK</p>
-            <p><strong>Lokation:</strong> {item.location}</p>
-            <p><strong>Stand:</strong> {item.condition}</p>
-            <p><strong>År:</strong> {item.year}</p>
-            <p><strong>Type: </strong>{item[gearTypeKey]}</p>
-            <p><strong>Sælger:</strong> {users[item.userId]?.name || 'Ukendt'}</p>
-            <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
             <button onClick={() => alert(`Skriv til sælger: ${users[item.userId]?.email || 'Ukendt'}`)}>
                 Skriv til sælger
-            </button>
-            <button onClick={handleFavoriteClick}>
-                {isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
             </button>
             <div className="comments-section">
                 <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
