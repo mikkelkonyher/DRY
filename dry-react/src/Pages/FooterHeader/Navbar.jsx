@@ -19,7 +19,7 @@ const pages = [
     { name: 'Guit/Bass', path: '/GuitBass' },
     { name: 'Trommer', path: '/Trommer' },
     { name: 'Keys', path: '/keys' },
-    { name: 'Blæs', path: '/blæs' },
+    { name: 'Blæs', path: '/blæsere' },
     { name: 'Strygere', path: '/strygere' },
     { name: 'Studio Gear', path: '/studiogear' },
     { name: 'Øvelokaler', path: '/øvelokaler' },

@@ -255,7 +255,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                 ? "/SellKeysGear"
                 : gearType === "Strygere"
                     ? "/SellStringsGear"
-                    : gearType === "Horns Gear"
+                    : gearType === "Blæseinstrumenter"
                         ? "/SellHornsGear"
                         : "/SellGuiBassGear";
 

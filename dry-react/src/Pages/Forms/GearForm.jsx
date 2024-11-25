@@ -193,7 +193,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
             case 'Strygere':
                 typeFieldName = 'StringsGearType';
                 break;
-            case 'Blæs':
+            case 'Blæseinstrumenter':
                 typeFieldName = 'HornsGearType';
                 break;
             default:
