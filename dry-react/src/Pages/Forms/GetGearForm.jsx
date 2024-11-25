@@ -251,7 +251,9 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         ? "/SellDrumsGear"
         : gearType === "Studio Gear"
             ? "/SellStudioGear"
-            : "/SellGuiBassGear";
+            : gearType === "Keys Gear"
+                ? "/SellKeysGear"
+                : "/SellGuiBassGear";
 
     // Filter gear based on selected category
     const filteredGear = selectedCategory
