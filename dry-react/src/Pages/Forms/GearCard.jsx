@@ -7,7 +7,7 @@ import PostComment from "../../Components/PostComments.jsx";
 import config from "../../../config.jsx"; // Import the config object
 
 function GearCard({ item, users, handleImageClick, handleCommentPosted, gearTypeKey, handleFavorite, userId }) {
-    const [showAllImages, setShowAllImages] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [showComments, setShowComments] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
     const [showMoreInfo, setShowMoreInfo] = useState(false); // New state for more info
@@ -53,6 +53,14 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
         }
     };
 
+    const handleNextImage = () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % item.imagePaths.length);
+    };
+
+    const handlePrevImage = () => {
+        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + item.imagePaths.length) % item.imagePaths.length);
+    };
+
     return (
         <div className="gear-card">
             <h3>{item.brand} {item.model}</h3>
@@ -62,19 +70,11 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
                 <button className="favorite-button" onClick={handleFavoriteClick}>
                     <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart} />
                 </button>
-                {showAllImages ? (
-                    item.imagePaths.map((imagePath, index) => (
-                        <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
-                             className="gear-image" onClick={() => handleImageClick(imagePath)}/>
-                    ))
-                ) : (
-                    <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
-                         className="gear-image" onClick={() => handleImageClick(item.imagePaths[0])}/>
-                )}
+                <button className="nav-button left" onClick={handlePrevImage}>&lt;</button>
+                <img src={item.imagePaths[currentImageIndex]} alt={`${item.brand} ${item.model}`}
+                     className="gear-image" onClick={() => handleImageClick(item.imagePaths[currentImageIndex])}/>
+                <button className="nav-button right" onClick={handleNextImage}>&gt;</button>
             </div>
-            <button className="toggle-images-button" onClick={() => setShowAllImages(!showAllImages)}>
-                {showAllImages ? 'Vis Mindre' : 'Vis Alle Billeder'}
-            </button>
 
             <button className="toggle-more-info-button" onClick={() => setShowMoreInfo(!showMoreInfo)}>
                 {showMoreInfo ? 'Skjul Mere Info' : 'Vis Mere Info'}
@@ -96,7 +96,7 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
             </button>
             <div className="comments-section">
                 <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
-                    {showComments ? 'Skjul kommentarer' : 'Se kommentarer'}
+                    {showComments ? 'Skjul kommentarer' : 'Kommenter'}
                 </button>
                 {showComments && (
                     <>

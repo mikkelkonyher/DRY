@@ -48,17 +48,73 @@
     display: inline-block;
 }
 
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 1;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5; /* Add opacity */
+}
+
+.nav-button:hover {
+    opacity: 1; /* Change opacity on hover */
+    background-color: #ffffff;
+}
+
+.nav-button.left {
+    left: 10px; /* Adjust position to stay inside the image */
+}
+
+.nav-button.right {
+    right: 10px; /* Adjust position to stay inside the image */
+}
+
+@media (max-width: 600px) {
+    .nav-button {
+        font-size: 12px; /* Adjust font size for smaller screens */
+        width: 25px; /* Adjust width for smaller screens */
+        height: 25px; /* Adjust height for smaller screens */
+    }
+
+    .nav-button.left {
+        left: 5px; /* Adjust position for smaller screens */
+    }
+
+    .nav-button.right {
+        right: 5px; /* Adjust position for smaller screens */
+    }
+}
+
 .gear-image {
     width: 100%;
     max-width: 400px;
     height: 400px;
-    border-radius: 10px; /* Ensure the image has rounded corners */
+    border-radius: 10px;
     display: block;
     margin: 10px auto;
     object-fit: contain;
 }
 
-.toggle-images-button {
+
+
+.toggle-images-button2 {
     font-size: 0.8em;
     padding: 5px 10px;
     background-color: #bccac9;
