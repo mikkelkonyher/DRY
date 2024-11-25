@@ -16,7 +16,7 @@
 
 .favorite-button {
     position: absolute;
-    top: -80px; /* Position the button just above the image */
+    top: -75px; /* Position the button just above the image */
     left: 50%; /* Center the button horizontally */
     transform: translateX(-50%); /* Adjust for the button's width */
     background: none;
@@ -33,6 +33,14 @@
 .favorite-button:hover {
     background: none;
     color: darkred;
+}
+
+@media (max-width: 600px) {
+    .favorite-button {
+        top: -60px; /* Adjust position for smaller screens */
+        font-size: 30px; /* Adjust font size for smaller screens */
+        margin-left: 100px; /* Adjust margin for smaller screens */
+    }
 }
 
 .image-container {
