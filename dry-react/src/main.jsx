@@ -9,6 +9,8 @@ import CreateStudioGear from "./Pages/AllMusicGear/StudioGear/CreateStudioGear.j
 import GetStudioGear from "./Pages/AllMusicGear/StudioGear/GetStudioGear.jsx";
 import CreateKeysGear from "./Pages/AllMusicGear/KeysGear/CreateKeysGear.jsx";
 import GetKeysGear from "./Pages/AllMusicGear/KeysGear/GetKeysGear.jsx";
+import CreateStringsGear from "./Pages/AllMusicGear/StringsGear/CreateStringsGear.jsx";
+import GetStringsGear from "./Pages/AllMusicGear/StringsGear/GetStringsGear.jsx";
 import ResponsiveAppBar from './Pages/FooterHeader/Navbar';
 import './index.css';
 import Box from '@mui/material/Box';
@@ -34,9 +36,11 @@ function Main() {
                     <Route path="/SellDrumsGear" element={<CreateDrumsGear />} />
                     <Route path="/SellStudioGear" element={<CreateStudioGear />} />
                     <Route path="/SellKeysGear" element={<CreateKeysGear />} />
+                    <Route path="/SellStringsGear" element={<CreateStringsGear />} />
                     <Route path="/GuitBass" element={<GetGuitBassGear />} />
                     <Route path="/Trommer" element={<GetDrumsGear />} />
                     <Route path="/Studiogear" element={<GetStudioGear />} />
+                    <Route path="/Strygere" element={<GetStringsGear />} />
                     <Route path="/Keys" element={<GetKeysGear />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />

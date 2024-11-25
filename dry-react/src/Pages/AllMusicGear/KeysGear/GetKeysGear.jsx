@@ -13,7 +13,7 @@ function GetKeysGear() {
             gearType="Keys Gear"
             apiEndpoint={`${config.apiBaseUrl}/api/KeysGear`}
             categories={categories}
-            gearTypeKey="keysType"
+            gearTypeKey="keysGearType"
         />
     );
 }
