@@ -24,7 +24,7 @@ const pages = [
     { name: 'Studio Gear', path: '/studiogear' },
     { name: 'Øvelokaler', path: '/øvelokaler' },
     { name: 'Musikundervisning', path: '/musikundervisning' },
-    { name: 'mix/master', path: '/mixmaster' },
+    { name: 'Musikproduktion', path: '/Musikproduktion' },
     { name: 'Session musikere', path: '/sessionmusikere' }
 ];
 const settings = [

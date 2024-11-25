@@ -272,9 +272,9 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         name="description"
                         value={gear.description}
                         onChange={handleChange}
-                        placeholder="Beskrivelse max 1000 tegn"
+                        placeholder="Beskrivelse max 2000 tegn"
                         required
-                        maxLength={1000} // Assuming an average word length of 5 characters
+                        maxLength={2000} // Assuming an average word length of 5 characters
                     />
                     <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris"
                            required/>
