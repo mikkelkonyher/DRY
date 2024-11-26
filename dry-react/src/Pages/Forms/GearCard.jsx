@@ -12,6 +12,8 @@ function GearCard({ item, handleImageClick, userId }) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!userId) return;
+
         // Check if the item is already a favorite when the component mounts
         const checkFavoriteStatus = async () => {
             try {
@@ -101,8 +103,7 @@ function GearCard({ item, handleImageClick, userId }) {
 GearCard.propTypes = {
     item: PropTypes.object.isRequired,
     handleImageClick: PropTypes.func.isRequired,
-    handleFavorite: PropTypes.func.isRequired,
-    userId: PropTypes.number.isRequired, // Add userId to prop types
+    userId: PropTypes.number, // Make userId optional
 };
 
 export default GearCard;

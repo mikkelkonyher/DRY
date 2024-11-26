@@ -87,7 +87,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         const fetchUserId = async () => {
             try {
                 const token = localStorage.getItem('token');
-                if (!token) throw new Error('No token found');
+                if (!token) return; // Exit if no token is found
 
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const email = payload.sub;
