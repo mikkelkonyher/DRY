@@ -60,22 +60,7 @@ function MyProfile() {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-
-                const gearWithComments = await Promise.all(data.map(async (item) => {
-                    try {
-                        const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
-                        if (!commentsResponse.ok) {
-                            return { ...item, comments: [] };
-                        }
-                        const commentsData = await commentsResponse.json();
-                        return { ...item, comments: commentsData };
-                    } catch (error) {
-                        console.error(error);
-                        return { ...item, comments: [] };
-                    }
-                }));
-
-                setGear(gearWithComments);
+                setGear(data);
 
                 const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
                 if (!userResponse.ok) {
@@ -114,31 +99,6 @@ function MyProfile() {
 
     const handleImageClick = (src) => {
         // Handle image click if needed
-    };
-
-    const handleCommentPosted = async (gearId) => {
-        try {
-            const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${gearId}/comments`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const commentsData = await response.json();
-            setGear((prevGear) =>
-                prevGear.map((item) =>
-                    item.id === gearId ? { ...item, comments: commentsData } : item
-                )
-            );
-        } catch (error) {
-            console.error('Error fetching comments:', error);
-        }
-    };
-
-    const toggleShowAllImages = () => {
-        // Implement the function to toggle showing all images
-    };
-
-    const toggleShowComments = () => {
-        // Implement the function to toggle showing comments
     };
 
     const handleEdit = () => {
@@ -238,9 +198,6 @@ function MyProfile() {
                             item={item}
                             users={users}
                             handleImageClick={handleImageClick}
-                            handleCommentPosted={handleCommentPosted}
-                            toggleShowAllImages={toggleShowAllImages}
-                            toggleShowComments={toggleShowComments}
                             userId={userId}
                             isFavorite={false}
                         />
@@ -255,9 +212,6 @@ function MyProfile() {
                             item={item}
                             users={users}
                             handleImageClick={handleImageClick}
-                            handleCommentPosted={handleCommentPosted}
-                            toggleShowAllImages={toggleShowAllImages}
-                            toggleShowComments={toggleShowComments}
                             userId={userId}
                             isFavorite={true}
                         />
