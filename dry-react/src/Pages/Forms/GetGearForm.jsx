@@ -60,23 +60,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             }
 
             const sortedData = data.items.sort((a, b) => b.id - a.id);
-
-            const commentsPromises = sortedData.map(async (item) => {
-                try {
-                    const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
-                    if (!commentsResponse.ok) {
-                        return { ...item, comments: [] };
-                    }
-                    const commentsData = await commentsResponse.json();
-                    return { ...item, comments: commentsData };
-                } catch (error) {
-                    console.error(error);
-                    return { ...item, comments: [] };
-                }
-            });
-
-            const gearWithComments = await Promise.all(commentsPromises);
-            setGear(gearWithComments);
+            setGear(sortedData);
             setTotalItems(data.totalItems);
 
             const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
@@ -171,24 +155,6 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             }
             return newPage;
         });
-    };
-
-    // Handle comment posted
-    const handleCommentPosted = async (gearId) => {
-        try {
-            const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${gearId}/comments`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const commentsData = await response.json();
-            setGear((prevGear) =>
-                prevGear.map((item) =>
-                    item.id === gearId ? { ...item, comments: commentsData } : item
-                )
-            );
-        } catch (error) {
-            console.error('Error fetching comments:', error);
-        }
     };
 
     // Handle toggle favorite
@@ -345,8 +311,6 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                         item={item}
                         users={users}
                         handleImageClick={handleImageClick}
-                        handleCommentPosted={handleCommentPosted}
-                        gearTypeKey={gearTypeKey} // Pass gearTypeKey here
                         handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
                         userId={userId}
                     />
