@@ -15,6 +15,8 @@ function CardDetails() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [users, setUsers] = useState({});
     const [userId, setUserId] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState('');
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -125,6 +127,11 @@ function CardDetails() {
         setCurrentImageIndex((prevIndex) => (prevIndex - 1 + gearItem.imagePaths.length) % gearItem.imagePaths.length);
     };
 
+    const handleImageClick = (imagePath) => {
+        setSelectedImage(imagePath);
+        setIsModalOpen(true);
+    };
+
     const handleCommentPosted = async () => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${id}/comments`);
@@ -149,7 +156,7 @@ function CardDetails() {
                 </button>
                 <button className="nav-button left" onClick={handlePrevImage}>&lt;</button>
                 <img src={gearItem.imagePaths[currentImageIndex]} alt={`${gearItem.brand} ${gearItem.model}`}
-                     className="gear-image" />
+                     className="gear-image" onClick={() => handleImageClick(gearItem.imagePaths[currentImageIndex])} />
                 <button className="nav-button right" onClick={handleNextImage}>&gt;</button>
             </div>
 
@@ -188,6 +195,13 @@ function CardDetails() {
                     </>
                 )}
             </div>
+
+            {isModalOpen && (
+                <div className="modal" onClick={() => setIsModalOpen(false)}>
+                    <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+                    <img className="modal-content" src={selectedImage} alt="Large view" />
+                </div>
+            )}
         </div>
     );
 }
