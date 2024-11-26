@@ -89,7 +89,7 @@ function GearCard({ item, handleImageClick, userId }) {
 
             <div className="image-container">
                 <button className="favorite-button" onClick={handleFavoriteClick}>
-                    <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart} />
+                    <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart}/>
                 </button>
                 <button className="nav-button left" onClick={handlePrevImage}>&lt;</button>
                 <img src={item.imagePaths[currentImageIndex]} alt={`${item.brand} ${item.model}`}
