@@ -170,6 +170,18 @@ namespace DRYV1.Controllers
 
             return NotFound("Image not found.");
         }
+        
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var musicGear = await _context.MusicGear.FindAsync(id);
+            if (musicGear == null)
+            {
+                return NotFound("MusicGear not found.");
+            }
+
+            return Ok(musicGear);
+        }
 
     }
 }

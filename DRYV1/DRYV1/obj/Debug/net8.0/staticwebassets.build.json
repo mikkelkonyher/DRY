@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "sU66dl2jV2p/Tk4XwuOTATAkEmDMp9fP7IXSaPGXUjM=",
+  "Hash": "RMdDgGNGU6ktuIt8H96yHRVRQhm9+f3sPP7z2B1RM9g=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -5897,6 +5897,27 @@
       "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/2x4uhle0.ngn.png"
     },
     {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/3q3qlec3.em5.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/musicgear/3q3qlec3.em5#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "igawfidqci",
+      "Integrity": "Drw+xOB3M5T6JzXkXml0tQy8cWuoZ8YcBCjCti/IM9Y=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/3q3qlec3.em5.jpg"
+    },
+    {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/44vymyue.jdz.webp",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
@@ -6359,6 +6380,27 @@
       "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/kdnexifl.3k0.webp"
     },
     {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/lconwkwv.04t.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/musicgear/lconwkwv.04t#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "mzsslw2veu",
+      "Integrity": "whaxMocbciodqyqA/fX+zPWsuOTM5P6IDXCiCeVYSps=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/lconwkwv.04t.jpg"
+    },
+    {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/lkk2lecg.onq.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
@@ -6546,6 +6588,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/p3hiuc0o.1ce.png"
+    },
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/pbbieamo.kui.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/musicgear/pbbieamo.kui#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "igawfidqci",
+      "Integrity": "Drw+xOB3M5T6JzXkXml0tQy8cWuoZ8YcBCjCti/IM9Y=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/pbbieamo.kui.jpg"
     },
     {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/porujagi.kbm.jpg",
@@ -31382,7 +31445,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 24 Nov 2024 09:50:02 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -31419,7 +31482,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 24 Nov 2024 09:50:02 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -31438,6 +31501,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-62jMs/VZ9KWpSsWtZRe8+4gufS+Ab0rhLlIZmuoDDrs="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/3q3qlec3.em5.igawfidqci.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/3q3qlec3.em5.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "22615"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Drw+xOB3M5T6JzXkXml0tQy8cWuoZ8YcBCjCti/IM9Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "igawfidqci"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/musicgear/3q3qlec3.em5.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Drw+xOB3M5T6JzXkXml0tQy8cWuoZ8YcBCjCti/IM9Y="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/3q3qlec3.em5.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/3q3qlec3.em5.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "22615"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Drw+xOB3M5T6JzXkXml0tQy8cWuoZ8YcBCjCti/IM9Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Drw+xOB3M5T6JzXkXml0tQy8cWuoZ8YcBCjCti/IM9Y="
         }
       ]
     },
@@ -31792,7 +31937,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 08:58:17 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -31837,7 +31982,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 08:58:17 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -32284,7 +32429,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 08:58:17 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -32321,7 +32466,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 08:58:17 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -32448,7 +32593,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 09:26:07 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -32485,7 +32630,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 09:26:07 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -32940,7 +33085,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 22 Nov 2024 10:50:23 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -32977,7 +33122,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 22 Nov 2024 10:50:23 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -33242,6 +33387,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-pvPGYqSq2dsZfqdkGQf2BXqHoRTa8O0drZJnrf6E4yA="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/lconwkwv.04t.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/lconwkwv.04t.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "51025"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"whaxMocbciodqyqA/fX+zPWsuOTM5P6IDXCiCeVYSps=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 25 Nov 2024 12:45:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-whaxMocbciodqyqA/fX+zPWsuOTM5P6IDXCiCeVYSps="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/lconwkwv.04t.mzsslw2veu.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/lconwkwv.04t.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "51025"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"whaxMocbciodqyqA/fX+zPWsuOTM5P6IDXCiCeVYSps=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 25 Nov 2024 12:45:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "mzsslw2veu"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/musicgear/lconwkwv.04t.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-whaxMocbciodqyqA/fX+zPWsuOTM5P6IDXCiCeVYSps="
         }
       ]
     },
@@ -33924,7 +34151,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 24 Nov 2024 09:50:02 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -33969,7 +34196,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 24 Nov 2024 09:50:02 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -33980,6 +34207,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-gfvS+TuDclhVq5dnn8Mdq9Fgg6QBDso/NeSGfq250Iw="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/pbbieamo.kui.igawfidqci.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/pbbieamo.kui.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "22615"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Drw+xOB3M5T6JzXkXml0tQy8cWuoZ8YcBCjCti/IM9Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "igawfidqci"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/musicgear/pbbieamo.kui.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Drw+xOB3M5T6JzXkXml0tQy8cWuoZ8YcBCjCti/IM9Y="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/pbbieamo.kui.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/pbbieamo.kui.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "22615"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Drw+xOB3M5T6JzXkXml0tQy8cWuoZ8YcBCjCti/IM9Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Drw+xOB3M5T6JzXkXml0tQy8cWuoZ8YcBCjCti/IM9Y="
         }
       ]
     },
@@ -34170,7 +34479,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 22 Nov 2024 10:54:00 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -34207,7 +34516,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 22 Nov 2024 10:54:00 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -34416,7 +34725,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 09:26:07 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -34453,7 +34762,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 25 Nov 2024 09:26:07 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -34908,7 +35217,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 24 Nov 2024 09:47:32 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -34953,7 +35262,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 24 Nov 2024 09:47:32 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -35400,7 +35709,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 22 Nov 2024 11:06:41 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -35445,7 +35754,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 22 Nov 2024 11:06:41 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -35482,7 +35791,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 24 Nov 2024 09:50:02 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -35527,7 +35836,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 24 Nov 2024 09:50:02 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -35974,7 +36283,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 22 Nov 2024 10:49:51 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -36011,7 +36320,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 22 Nov 2024 10:49:51 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -36138,7 +36447,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 24 Nov 2024 09:47:32 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -36183,7 +36492,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 24 Nov 2024 09:47:32 GMT"
+          "Value": "Mon, 25 Nov 2024 10:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
