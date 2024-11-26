@@ -97,6 +97,11 @@ function CardDetails() {
             return;
         }
 
+        if (userId === gearItem.userId) {
+            alert('Du kan ikke tilføje dit eget produkt til favoritter');
+            return;
+        }
+
         try {
             const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
             url.searchParams.append('userId', userId);

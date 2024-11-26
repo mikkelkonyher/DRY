@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import config from "../../../config.jsx"; // Import the config object
 
-function GearCard({ item, handleImageClick, handleFavorite, userId }) {
+function GearCard({ item, handleImageClick, userId }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Check if the item is already a favorite when the component mounts
@@ -43,8 +44,22 @@ function GearCard({ item, handleImageClick, handleFavorite, userId }) {
             return;
         }
 
+        if (userId === item.userId) {
+            alert('Du kan ikke tilføje dit eget produkt til favoritter');
+            return;
+        }
+
         try {
-            await handleFavorite(item.id);
+            const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
+            url.searchParams.append('userId', userId);
+            url.searchParams.append('musicGearId', item.id);
+
+            const response = await fetch(url, {
+                method: isFavorite ? 'DELETE' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
             setIsFavorite(!isFavorite);
         } catch (error) {
             console.error('Error toggling favorite:', error);
@@ -57,6 +72,14 @@ function GearCard({ item, handleImageClick, handleFavorite, userId }) {
 
     const handlePrevImage = () => {
         setCurrentImageIndex((prevIndex) => (prevIndex - 1 + item.imagePaths.length) % item.imagePaths.length);
+    };
+
+    const handleViewDetailsClick = () => {
+        if (!userId) {
+            alert('Login for at se produkt');
+            return;
+        }
+        navigate(`/gear/${item.id}`);
     };
 
     return (
@@ -74,19 +97,14 @@ function GearCard({ item, handleImageClick, handleFavorite, userId }) {
                 <button className="nav-button right" onClick={handleNextImage}>&gt;</button>
             </div>
 
-            <Link to={`/gear/${item.id}`}>
-                <button>Vis produkt</button>
-            </Link>
+            <button className="view-details-button" onClick={handleViewDetailsClick}>Vis produkt</button>
         </div>
     );
 }
 
 GearCard.propTypes = {
     item: PropTypes.object.isRequired,
-    users: PropTypes.object.isRequired,
     handleImageClick: PropTypes.func.isRequired,
-    handleCommentPosted: PropTypes.func.isRequired,
-    gearTypeKey: PropTypes.string.isRequired,
     handleFavorite: PropTypes.func.isRequired,
     userId: PropTypes.number.isRequired, // Add userId to prop types
 };
