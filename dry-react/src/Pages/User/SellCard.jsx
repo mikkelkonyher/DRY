@@ -1,54 +1,79 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import PostComment from "../../Components/PostComments.jsx";
+import { useNavigate } from 'react-router-dom';
 import config from '../../../config.jsx';
 import './SellCard.css';
 
-function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
-    const [showAllImages, setShowAllImages] = useState(false);
-    const [showComments, setShowComments] = useState(false);
+function SellCard({ item, userId }) {
     const [isEditing, setIsEditing] = useState(false);
     const [updatedItem, setUpdatedItem] = useState({ ...item, id: item.id });
     const [newImages, setNewImages] = useState([]);
     const [imagesToDelete, setImagesToDelete] = useState([]);
-    const [comments, setComments] = useState([]);
-    const [user, setUser] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(null); // State for selected image
-    const [showDescription, setShowDescription] = useState(false); // State for description
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchComments = async () => {
+        if (!userId) return;
+
+        const checkFavoriteStatus = async () => {
             try {
-                const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${item.id}/comments`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch comments');
+                const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
+                const checkResponse = await fetch(checkUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!checkResponse.ok) {
+                    throw new Error('Network response was not ok');
                 }
-                const data = await response.json();
-                setComments(data);
+
+                const favorites = await checkResponse.json();
+                const favoriteStatus = favorites.some(favorite => favorite.musicGearId === item.id);
+                setIsFavorite(favoriteStatus);
             } catch (error) {
-                console.error('Error fetching comments:', error);
+                console.error('Error checking favorite status:', error);
             }
         };
 
-        fetchComments();
-    }, [item.id]);
+        checkFavoriteStatus();
+    }, [item.id, userId]);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await fetch(`${config.apiBaseUrl}/api/User/${item.userId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user');
-                }
-                const data = await response.json();
-                setUser(data);
-            } catch (error) {
-                console.error('Error fetching user:', error);
-            }
-        };
+    const handleFavoriteClick = async () => {
+        if (!userId) {
+            alert('Login for at tilføje favoritter');
+            return;
+        }
 
-        fetchUser();
-    }, [item.userId]);
+        if (userId === item.userId) {
+            alert('Du kan ikke tilføje dit eget produkt til favoritter');
+            return;
+        }
+
+        if (isFavorite) {
+            const confirmed = window.confirm('Er du sikker på at du vil fjerne dette produkt fra favoritter?');
+            if (!confirmed) return;
+        }
+
+        try {
+            const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
+            url.searchParams.append('userId', userId);
+            url.searchParams.append('musicGearId', item.id);
+
+            const response = await fetch(url, {
+                method: isFavorite ? 'DELETE' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
+            setIsFavorite(!isFavorite);
+            window.location.reload(); // Reload the page to reflect the change
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        }
+    };
 
     const handleDelete = async () => {
         const confirmed = window.confirm('Er du sikker på at du vil slette produktet?');
@@ -62,30 +87,9 @@ function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
                 throw new Error('Failed to delete the item');
             }
             console.log('Item deleted successfully');
-            window.location.reload(); // Refresh the page
+            window.location.reload();
         } catch (error) {
             console.error('Error deleting item:', error);
-        }
-    };
-
-    const handleToggleFavorite = async () => {
-        try {
-            const method = isFavorite ? 'DELETE' : 'POST';
-            const url = `${config.apiBaseUrl}/api/Favorites?userId=${userId}&musicGearId=${item.id}`;
-            console.log(`Sending ${method} request to ${url}`);
-
-            const response = await fetch(url, {
-                method,
-            });
-
-            if (!response.ok) {
-                throw new Error(`Failed to ${isFavorite ? 'unfavorite' : 'favorite'} the item`);
-            }
-
-            console.log(`Item ${isFavorite ? 'unfavorited' : 'favorited'} successfully`);
-            window.location.reload(); // Refresh the page
-        } catch (error) {
-            console.error(`Error ${isFavorite ? 'unfavoriting' : 'favoriting'} item:`, error);
         }
     };
 
@@ -123,7 +127,7 @@ function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
             }
             console.log('Item updated successfully');
             setIsEditing(false);
-            window.location.reload(); // Refresh the page
+            window.location.reload();
         } catch (error) {
             console.error('Error updating item:', error);
         }
@@ -142,11 +146,15 @@ function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
     };
 
     const handleImageClick = (src) => {
-        setSelectedImage(src); // Set the selected image
+        setSelectedImage(src);
     };
 
     const closeModal = () => {
-        setSelectedImage(null); // Close the modal
+        setSelectedImage(null);
+    };
+
+    const handleViewDetailsClick = () => {
+        navigate(`/gear/${item.id}`);
     };
 
     return (
@@ -230,57 +238,13 @@ function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
             ) : (
                 <>
                     <h3>{item.brand} {item.model}</h3>
-                    {showAllImages ? (
-                        item.imagePaths && item.imagePaths.length > 0 ? (
-                            item.imagePaths.map((imagePath, index) => (
-                                <img key={index} src={imagePath} alt={`${item.brand} ${item.model}`}
-                                     className="sell-gear-image" onClick={() => handleImageClick(imagePath)} />
-                            ))
-                        ) : (
-                            <p>No images available</p>
-                        )
-                    ) : (
-                        item.imagePaths && item.imagePaths.length > 0 ? (
+                    <h4><strong>Pris: </strong>{item.price} kr. </h4>
+                    <div className="image-container">
+                        {item.imagePaths && item.imagePaths.length > 0 ? (
                             <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
                                  className="sell-gear-image" onClick={() => handleImageClick(item.imagePaths[0])} />
                         ) : (
                             <p>No images available</p>
-                        )
-                    )}
-                    <button className="toggle-images-button" onClick={() => setShowAllImages(!showAllImages)}>
-                        {showAllImages ? 'Vis Mindre' : 'Vis Alle Billeder'}
-                    </button>
-                    <button className="toggle-description-button" onClick={() => setShowDescription(!showDescription)}>
-                        {showDescription ? 'Skjul Beskrivelse' : 'Vis Beskrivelse'}
-                    </button>
-                    {showDescription && <p className="description"><strong>Beskrivelse: </strong>{item.description}</p>}
-                    <p><strong>Pris: </strong>{item.price} DKK</p>
-                    <p><strong>Lokation:</strong> {item.location}</p>
-                    <p><strong>Stand:</strong> {item.condition}</p>
-                    <p><strong>År:</strong> {item.year}</p>
-                    <p><strong>Sælger:</strong> {user?.name || 'Ukendt'}</p>
-                    <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
-                    <div className="comments-section">
-                        <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
-                            {showComments ? 'Skjul kommentarer' : 'Se kommentarer'}
-                        </button>
-                        {showComments && (
-                            <>
-                                <h4>Kommentarer:</h4>
-                                {comments.length > 0 ? (
-                                    comments
-                                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                                        .map((comment) => (
-                                            <div key={comment.id} className="comment">
-                                                <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
-                                                <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
-                                            </div>
-                                        ))
-                                ) : (
-                                    <p>Ingen kommentarer.</p>
-                                )}
-                                <PostComment gearId={item.id} onCommentPosted={() => handleCommentPosted(item.id)} />
-                            </>
                         )}
                     </div>
                     {item.userId === userId ? (
@@ -291,8 +255,14 @@ function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
                             <button onClick={() => setIsEditing(true)}>Edit</button>
                         </>
                     ) : (
-                        <button className="unfavorite-button" onClick={handleToggleFavorite}>
-                            {isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
+                        <button className="favorite-button" onClick={handleFavoriteClick}>
+
+                        </button>
+                    )}
+                    <button className="view-details-button" onClick={handleViewDetailsClick}>Vis produkt</button>
+                    {isFavorite && (
+                        <button className="remove-favorite-button" onClick={handleFavoriteClick}>
+                            Fjern fra favoritter
                         </button>
                     )}
                 </>
@@ -309,9 +279,7 @@ function SellCard({ item, handleCommentPosted, userId, isFavorite }) {
 
 SellCard.propTypes = {
     item: PropTypes.object.isRequired,
-    handleCommentPosted: PropTypes.func.isRequired,
     userId: PropTypes.number.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
 };
 
 export default SellCard;
