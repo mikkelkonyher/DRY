@@ -63,7 +63,7 @@ const Login = () => {
                 <Link to="/signup" className="signup-link">Signup</Link>
             </p>
             <p className="forgot-password-text">
-                <Link to="/forgot-password" className="forgot-password-link">Glemt adganskode?</Link>
+                <Link to="/forgot-password" className="forgot-password-link">Glemt adgangskode?</Link>
             </p>
         </div>
     );
