@@ -34,7 +34,7 @@ const ForgotPassword = () => {
 
     return (
         <div className="forgot-password-container">
-            <h2 className="forgot-password-title">Glemt adgangskode?</h2>
+            <h2 className="forgot-password-title">Nulstil Adgangskode</h2>
             {message && <p className="forgot-password-message">{message}</p>}
             <form onSubmit={handleSubmit} className="forgot-password-form">
                 <div className="forgot-password-form-group">

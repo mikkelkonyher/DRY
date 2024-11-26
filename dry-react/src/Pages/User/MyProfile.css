@@ -103,3 +103,13 @@ textarea {
         padding: 20px; /* Reduce padding for smaller screens */
     }
 }
+
+.deleteprofile-button{
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}

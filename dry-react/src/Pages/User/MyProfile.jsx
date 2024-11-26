@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import SellCard from "./SellCard.jsx";
 import config from '../../../config.jsx';
 import './MyProfile.css';
@@ -10,10 +11,15 @@ function MyProfile() {
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
+    const [originalEmail, setOriginalEmail] = useState('');
+    const [confirmEmail, setConfirmEmail] = useState('');
     const [showSellCards, setShowSellCards] = useState(false);
     const [showFavoriteCards, setShowFavoriteCards] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [isEmailChanging, setIsEmailChanging] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [confirmDelete, setConfirmDelete] = useState('');
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -103,11 +109,21 @@ function MyProfile() {
 
     const handleEdit = () => {
         setIsEditing(true);
+        setIsEmailChanging(false);
+        setConfirmEmail('');
+        setOriginalEmail(userEmail);
+        setShowSellCards(false);
+        setShowFavoriteCards(false);
     };
 
     const handleSave = async () => {
         if (!userName || !userEmail || userEmail === "string" || userName === "string") {
             console.error('Invalid user data');
+            return;
+        }
+
+        if (isEmailChanging && userEmail !== confirmEmail) {
+            setErrorMessage('E-mailadresserne stemmer ikke overens.');
             return;
         }
 
@@ -149,7 +165,43 @@ function MyProfile() {
 
     const handleCancel = () => {
         setIsEditing(false);
+        setShowDeleteConfirm(false);
         setErrorMessage('');
+        setUserEmail(originalEmail);
+    };
+
+    const handleDelete = async () => {
+        if (!showDeleteConfirm) {
+            setShowDeleteConfirm(true);
+            return;
+        }
+
+        if (confirmDelete !== 'SLET') {
+            setErrorMessage('Du skal skrive SLET for at bekræfte sletning.');
+            return;
+        }
+
+        const confirmed = window.confirm('Er du sikker på, at du vil slette din profil? Denne handling kan ikke fortrydes.');
+        if (!confirmed) return;
+
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete user');
+            }
+
+            // Handle successful deletion (e.g., redirect to login page)
+            window.location.href = '/login';
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            setErrorMessage('Failed to delete user');
+        }
     };
 
     return (
@@ -157,6 +209,21 @@ function MyProfile() {
             <h1 className="ninja">🥷</h1>
             {isEditing ? (
                 <div className="edit-profile">
+                    <Link to="/forgot-password">
+                        <button>Skift Adgangskode</button>
+                    </Link>
+                    <button className="deleteprofile-button" onClick={handleDelete}>Slet Profil</button>
+                    {showDeleteConfirm && (
+                        <div className="delete-confirm">
+                            <input
+                                type="text"
+                                value={confirmDelete}
+                                onChange={(e) => setConfirmDelete(e.target.value)}
+                                placeholder="Skriv SLET for at bekræfte sletning"
+                                className="input-field"
+                            />
+                        </div>
+                    )}
                     <input
                         type="text"
                         value={userName}
@@ -166,9 +233,21 @@ function MyProfile() {
                     <input
                         type="email"
                         value={userEmail}
-                        onChange={(e) => setUserEmail(e.target.value)}
+                        onChange={(e) => {
+                            setUserEmail(e.target.value);
+                            setIsEmailChanging(true);
+                        }}
                         className="input-field"
                     />
+                    {isEmailChanging && (
+                        <input
+                            type="email"
+                            value={confirmEmail}
+                            onChange={(e) => setConfirmEmail(e.target.value)}
+                            className="input-field"
+                            placeholder="Bekræft ændring af email"
+                        />
+                    )}
                     <button onClick={handleSave}>Save</button>
                     <button onClick={handleCancel}>Cancel</button>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -181,15 +260,19 @@ function MyProfile() {
                     <button onClick={handleEdit}>Edit</button>
                 </div>
             )}
-            <button onClick={() => setShowSellCards(!showSellCards)}>
-                {showSellCards ? 'Skjul mine annoncer' : 'Se alle mine annoncer'}
-            </button>
-            <button onClick={() => {
-                setShowFavoriteCards(!showFavoriteCards);
-                if (!showFavoriteCards) fetchFavoriteGear();
-            }}>
-                {showFavoriteCards ? 'Skjul favoritter' : 'Se alle favoritter'}
-            </button>
+            {!isEditing && (
+                <>
+                    <button onClick={() => setShowSellCards(!showSellCards)}>
+                        {showSellCards ? 'Skjul mine annoncer' : 'Se alle mine annoncer'}
+                    </button>
+                    <button onClick={() => {
+                        setShowFavoriteCards(!showFavoriteCards);
+                        if (!showFavoriteCards) fetchFavoriteGear();
+                    }}>
+                        {showFavoriteCards ? 'Skjul favoritter' : 'Se alle favoritter'}
+                    </button>
+                </>
+            )}
             {showSellCards && (
                 <div className="gear-list">
                     {gear.map((item) => (
