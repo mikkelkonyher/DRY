@@ -20,7 +20,7 @@ function CardDetails() {
         const fetchUserId = async () => {
             try {
                 const token = localStorage.getItem('token');
-                if (!token) throw new Error('No token found');
+                if (!token) return;
 
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const email = payload.sub;
@@ -86,9 +86,7 @@ function CardDetails() {
             }
         };
 
-        if (userId) {
-            fetchGearItem();
-        }
+        fetchGearItem();
     }, [id, userId]);
 
     const handleFavoriteClick = async () => {

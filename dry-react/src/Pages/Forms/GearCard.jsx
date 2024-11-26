@@ -75,10 +75,6 @@ function GearCard({ item, handleImageClick, userId }) {
     };
 
     const handleViewDetailsClick = () => {
-        if (!userId) {
-            alert('Login for at se produkt');
-            return;
-        }
         navigate(`/gear/${item.id}`);
     };
 
