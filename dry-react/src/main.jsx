@@ -13,6 +13,7 @@ import CreateStringsGear from "./Pages/AllMusicGear/StringsGear/CreateStringsGea
 import GetStringsGear from "./Pages/AllMusicGear/StringsGear/GetStringsGear.jsx";
 import CreateHornsGear from "./Pages/AllMusicGear/HornsGear/CreateHornsGear.jsx";
 import GetHornsGear from "./Pages/AllMusicGear/HornsGear/GetHornsGear.jsx";
+import CardDetails from "./Pages/Forms/CardDetails.jsx";
 import ResponsiveAppBar from './Pages/FooterHeader/Navbar';
 import './index.css';
 import Box from '@mui/material/Box';
@@ -46,6 +47,7 @@ function Main() {
                     <Route path="/Strygere" element={<GetStringsGear />} />
                     <Route path="/Keys" element={<GetKeysGear />} />
                     <Route path="/Blæsere" element={<GetHornsGear />} />
+                    <Route path="/gear/:id" element={<CardDetails />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/" element={<Home />} />

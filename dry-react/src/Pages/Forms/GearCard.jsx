@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
@@ -90,6 +91,10 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
                     <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
                 </div>
             )}
+
+            <Link to={`/gear/${item.id}`}>
+                <button>View Details</button>
+            </Link>
 
             <button onClick={() => alert(`Skriv til sælger: ${users[item.userId]?.email || 'Ukendt'}`)}>
                 Skriv til sælger
