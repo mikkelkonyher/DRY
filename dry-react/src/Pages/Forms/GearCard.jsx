@@ -4,14 +4,11 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
-import PostComment from "../../Components/PostComments.jsx";
 import config from "../../../config.jsx"; // Import the config object
 
-function GearCard({ item, users, handleImageClick, handleCommentPosted, gearTypeKey, handleFavorite, userId }) {
+function GearCard({ item, handleImageClick, handleFavorite, userId }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [showComments, setShowComments] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
-    const [showMoreInfo, setShowMoreInfo] = useState(false); // New state for more info
 
     useEffect(() => {
         // Check if the item is already a favorite when the component mounts
@@ -77,51 +74,9 @@ function GearCard({ item, users, handleImageClick, handleCommentPosted, gearType
                 <button className="nav-button right" onClick={handleNextImage}>&gt;</button>
             </div>
 
-            <button className="toggle-more-info-button" onClick={() => setShowMoreInfo(!showMoreInfo)}>
-                {showMoreInfo ? 'Skjul Mere Info' : 'Vis Mere Info'}
-            </button>
-            {showMoreInfo && (
-                <div className="more-info-container">
-                    <p>{item.description}</p>
-                    <p><strong>Lokation:</strong> {item.location}</p>
-                    <p><strong>Stand:</strong> {item.condition}</p>
-                    <p><strong>År:</strong> {item.year}</p>
-                    <p><strong>Type: </strong>{item[gearTypeKey]}</p>
-                    <p><strong>Sælger:</strong> {users[item.userId]?.name || 'Ukendt'}</p>
-                    <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
-                </div>
-            )}
-
             <Link to={`/gear/${item.id}`}>
-                <button>View Details</button>
+                <button>Vis produkt</button>
             </Link>
-
-            <button onClick={() => alert(`Skriv til sælger: ${users[item.userId]?.email || 'Ukendt'}`)}>
-                Skriv til sælger
-            </button>
-            <div className="comments-section">
-                <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
-                    {showComments ? 'Skjul kommentarer' : 'Kommenter'}
-                </button>
-                {showComments && (
-                    <>
-                        <h4>Kommentarer:</h4>
-                        {item.comments && item.comments.length > 0 ? (
-                            item.comments
-                                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                                .map((comment) => (
-                                    <div key={comment.id} className="comment">
-                                        <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
-                                        <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
-                                    </div>
-                                ))
-                        ) : (
-                            <p>Ingen kommentarer.</p>
-                        )}
-                        <PostComment gearId={item.id} onCommentPosted={() => handleCommentPosted(item.id)}/>
-                    </>
-                )}
-            </div>
         </div>
     );
 }
