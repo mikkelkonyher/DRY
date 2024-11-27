@@ -45,10 +45,10 @@ namespace DRYV1.Services
 
                 using (var image = Image.Load(imageFile.OpenReadStream()))
                 {
-                    // Compress the image to around 0.4-0.8MB
+                    
                     var encoder = new JpegEncoder
                     {
-                        Quality = 30 // Adjust the quality to achieve around 0.4-0.8MB
+                        Quality = 30 // adjust this value to change the image quality
                     };
 
                     await image.SaveAsync(filePath, encoder);
