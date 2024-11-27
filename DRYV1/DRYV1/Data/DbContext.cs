@@ -41,6 +41,8 @@ namespace DRYV1.Data
             modelBuilder.Entity<KeysGear>().ToTable("KeysGear");
             modelBuilder.Entity<HornsGear>().ToTable("HornsGear");
             modelBuilder.Entity<StringsGear>().ToTable("StringsGear");
+            
+            
         }
     }
 }

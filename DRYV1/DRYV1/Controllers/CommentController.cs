@@ -31,16 +31,32 @@ namespace DRYV1.Controllers
                 return BadRequest("Invalid UserId.");
             }
 
-            // Validate if the MusicGearId exists
-            var musicGearExists = await _context.MusicGear.AnyAsync(mg => mg.Id == commentDto.MusicGearId);
-            if (!musicGearExists)
+            // Validate if the MusicGearId or RehearsalRoomId exists
+            if (commentDto.MusicGearId.HasValue && commentDto.MusicGearId.Value > 0)
             {
-                return BadRequest("Invalid MusicGearId.");
+                var musicGearExists = await _context.MusicGear.AnyAsync(mg => mg.Id == commentDto.MusicGearId.Value);
+                if (!musicGearExists)
+                {
+                    return BadRequest("Invalid MusicGearId.");
+                }
+            }
+            else if (commentDto.RehearsalRoomId.HasValue && commentDto.RehearsalRoomId.Value > 0)
+            {
+                var rehearsalRoomExists = await _context.RehearsalRooms.AnyAsync(rr => rr.Id == commentDto.RehearsalRoomId.Value);
+                if (!rehearsalRoomExists)
+                {
+                    return BadRequest("Invalid RehearsalRoomId.");
+                }
+            }
+            else
+            {
+                return BadRequest("Either MusicGearId or RehearsalRoomId must be provided.");
             }
 
             var comment = new Comment
             {
-                MusicGearId = commentDto.MusicGearId,
+                MusicGearId = commentDto.MusicGearId.HasValue && commentDto.MusicGearId.Value > 0 ? commentDto.MusicGearId : null,
+                RehearsalRoomId = commentDto.RehearsalRoomId.HasValue && commentDto.RehearsalRoomId.Value > 0 ? commentDto.RehearsalRoomId : null,
                 UserId = commentDto.UserId,
                 Text = commentDto.Text,
                 CreatedAt = DateTime.UtcNow
@@ -61,6 +77,7 @@ namespace DRYV1.Controllers
                 {
                     c.Id,
                     c.MusicGearId,
+                    c.RehearsalRoomId,
                     c.UserId,
                     c.Text,
                     c.CreatedAt,
@@ -80,7 +97,7 @@ namespace DRYV1.Controllers
 
             return Ok(comment);
         }
-        
+
         [HttpGet("api/MusicGear/{musicGearId}/comments")]
         public async Task<IActionResult> GetCommentsByMusicGearId(int musicGearId)
         {
@@ -91,6 +108,31 @@ namespace DRYV1.Controllers
                 {
                     c.Id,
                     c.MusicGearId,
+                    c.UserId,
+                    c.Text,
+                    c.CreatedAt,
+                    User = new UserDTO
+                    {
+                        Id = c.User.Id,
+                        Name = c.User.Name,
+                        Email = c.User.Email
+                    }
+                })
+                .ToListAsync();
+
+            return Ok(comments);
+        }
+
+        [HttpGet("api/RehearsalRoom/{rehearsalRoomId}/comments")]
+        public async Task<IActionResult> GetCommentsByRehearsalRoomId(int rehearsalRoomId)
+        {
+            var comments = await _context.Comments
+                .Where(c => c.RehearsalRoomId == rehearsalRoomId)
+                .Include(c => c.User)
+                .Select(c => new
+                {
+                    c.Id,
+                    c.RehearsalRoomId,
                     c.UserId,
                     c.Text,
                     c.CreatedAt,
