@@ -22,6 +22,13 @@ namespace DRYV1.Controllers
         {
             var favorite = new Favorite { UserId = userId, MusicGearId = musicGearId };
             _context.Favorites.Add(favorite);
+
+            var musicGear = await _context.MusicGear.FindAsync(musicGearId);
+            if (musicGear != null)
+            {
+                musicGear.FavoriteCount++;
+            }
+
             await _context.SaveChangesAsync();
             return Ok(favorite);
         }
@@ -37,6 +44,13 @@ namespace DRYV1.Controllers
             }
 
             _context.Favorites.Remove(favorite);
+
+            var musicGear = await _context.MusicGear.FindAsync(musicGearId);
+            if (musicGear != null)
+            {
+                musicGear.FavoriteCount--;
+            }
+
             await _context.SaveChangesAsync();
             return NoContent();
         }

@@ -16,6 +16,7 @@ namespace DRYV1.Models
         public List<string> ImagePaths { get; set; } = new List<string>();
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public int UserId { get; set; } // Foreign key property
+        public int FavoriteCount { get; set; }
     }
     
     public class MusicGearUpdateDTO
