@@ -50,5 +50,17 @@ namespace DRYV1.Services
 
             return imageUrls;
         }
+
+        public static void DeleteImages(List<string> imagePaths)
+        {
+            foreach (var imagePath in imagePaths)
+            {
+                var fullPath = Path.Combine("wwwroot", imagePath);
+                if (File.Exists(fullPath))
+                {
+                    File.Delete(fullPath);
+                }
+            }
+        }
     }
 }

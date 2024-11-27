@@ -146,6 +146,7 @@ namespace DRYV1.Controllers
                 return NotFound("MusicGear not found.");
             }
 
+            ImageUploadHelper.DeleteImages(musicGear.ImagePaths);
             _context.MusicGear.Remove(musicGear);
             await _context.SaveChangesAsync();
             return NoContent();
