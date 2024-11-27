@@ -146,7 +146,10 @@ namespace DRYV1.Controllers
                 return NotFound("MusicGear not found.");
             }
 
-            ImageUploadHelper.DeleteImages(musicGear.ImagePaths);
+            // Ensure the paths are relative to wwwroot
+            var relativeImagePaths = musicGear.ImagePaths.Select(p => p.Replace($"{Request.Scheme}://{Request.Host}/", "")).ToList();
+            ImageUploadHelper.DeleteImages(relativeImagePaths);
+
             _context.MusicGear.Remove(musicGear);
             await _context.SaveChangesAsync();
             return NoContent();
