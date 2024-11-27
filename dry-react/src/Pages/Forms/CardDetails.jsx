@@ -183,7 +183,6 @@ function CardDetails() {
                 </button>
                 {showComments && (
                     <>
-                        <h4>Kommentarer:</h4>
                         {gearItem.comments && gearItem.comments.length > 0 ? (
                             gearItem.comments
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))

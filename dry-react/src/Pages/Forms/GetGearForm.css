@@ -192,6 +192,7 @@
     color: #ffffff;
     cursor: pointer;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .show-comments-button:hover {
@@ -335,4 +336,9 @@
         width: 100%; /* Adjust width for smaller screens */
         padding: 5px 10px; /* Adjust padding for smaller screens */
     }
+}
+
+.view-details-button:hover {
+    background-color: transparent;
+
 }
