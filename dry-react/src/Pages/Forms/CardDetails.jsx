@@ -171,7 +171,7 @@ function CardDetails() {
                 <p><strong>År:</strong> {gearItem.year}</p>
                 <p><strong>Sælger:</strong> {users[gearItem.userId]?.name || 'Ukendt'}</p>
                 <p>Oprettet: {new Date(gearItem.listingDate).toLocaleDateString()}</p>
-                <p><strong>❤️</strong> {gearItem.favoriteCount}</p>
+                <p><strong>🤍</strong> {gearItem.favoriteCount}</p>
             </div>
 
             <button onClick={() => alert(`Skriv til sælger: ${users[gearItem.userId]?.email || 'Ukendt'}`)}>

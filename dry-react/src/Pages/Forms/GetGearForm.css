@@ -30,6 +30,7 @@
     padding: 5px; /* Add some padding for better click area */
 }
 
+
 .favorite-button:hover {
     background: none;
     color: darkred;
