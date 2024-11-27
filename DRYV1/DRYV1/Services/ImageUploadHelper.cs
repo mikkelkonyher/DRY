@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Http;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -39,9 +42,16 @@ namespace DRYV1.Services
 
                 var fileName = Path.GetRandomFileName() + extension;
                 var filePath = Path.Combine(fullUploadPath, fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+
+                using (var image = Image.Load(imageFile.OpenReadStream()))
                 {
-                    await imageFile.CopyToAsync(stream);
+                    // Compress the image to around 0.4-0.8MB
+                    var encoder = new JpegEncoder
+                    {
+                        Quality = 30 // Adjust the quality to achieve around 0.4-0.8MB
+                    };
+
+                    await image.SaveAsync(filePath, encoder);
                 }
 
                 var imageUrl = new Uri(new Uri(baseUrl), Path.Combine(uploadPath, fileName).Replace("\\", "/")).ToString();
