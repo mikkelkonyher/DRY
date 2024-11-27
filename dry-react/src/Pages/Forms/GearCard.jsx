@@ -86,7 +86,11 @@ function GearCard({ item, handleImageClick, userId }) {
             <h4><strong>Pris: </strong>{item.price} kr. </h4>
 
             <div className="image-container">
-                <button className="favorite-button" onClick={handleFavoriteClick}>
+                <button
+                    className="favorite-button"
+                    onClick={handleFavoriteClick}
+                    title={isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
+                >
                     <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart}/>
                 </button>
                 <button className="nav-button left" onClick={handlePrevImage}>&lt;</button>
