@@ -1,4 +1,5 @@
 using DRYV1.Models;
+using DRYV1.Models.MusicUtilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DRYV1.Data
@@ -21,6 +22,8 @@ namespace DRYV1.Data
         public DbSet<Comment> Comments { get; set; }
         
         public DbSet<Favorite> Favorites { get; set; } 
+        
+        public DbSet<RehearsalRoom> RehearsalRooms { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
