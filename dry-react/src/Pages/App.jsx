@@ -20,6 +20,7 @@ import Signup from "./LoginSignup/Signup.jsx";
 import ForgotPassword from "./LoginSignup/ForgotPassword.jsx";
 import ResetPassword from "./LoginSignup/ResetPassword.jsx";
 import MyProfile from "./User/MyProfile.jsx";
+import Footer from "./FooterHeader/Footer.jsx";
 
 
 function App() {
@@ -49,6 +50,8 @@ function App() {
                     <Route path="/myprofile" element={<MyProfile />} />
                 </Routes>
             </Box>
+
+            <Footer />
         </>
     );
 }
