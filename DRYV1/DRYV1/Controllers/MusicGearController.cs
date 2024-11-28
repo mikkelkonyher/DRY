@@ -146,12 +146,26 @@ namespace DRYV1.Controllers
                 return NotFound("MusicGear not found.");
             }
 
+            // Find related comments and remove them
+            var relatedComments = _context.Comments.Where(c => c.MusicGearId == id);
+            _context.Comments.RemoveRange(relatedComments);
+
             // Ensure the paths are relative to wwwroot
             var relativeImagePaths = musicGear.ImagePaths.Select(p => p.Replace($"{Request.Scheme}://{Request.Host}/", "")).ToList();
             ImageUploadHelper.DeleteImages(relativeImagePaths);
 
             _context.MusicGear.Remove(musicGear);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Log the exception (ex) here if needed
+                return StatusCode(500, "An error occurred while deleting the music gear.");
+            }
+
             return NoContent();
         }
         
