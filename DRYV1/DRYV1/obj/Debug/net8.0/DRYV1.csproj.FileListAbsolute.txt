@@ -279,3 +279,6 @@
 /Users/mhk/Desktop/H2/DRY/DRYV1/DRYV1/obj/Debug/net8.0/ref/DRYV1.dll
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/global.json
 /Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/SixLabors.ImageSharp.dll
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/bin/Debug/net8.0/DRYV1.staticwebassets.endpoints.json
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/obj/Debug/net8.0/staticwebassets.build.endpoints.json
+/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/obj/Debug/net8.0/staticwebassets/msbuild.DRYV1.Microsoft.AspNetCore.StaticWebAssetEndpoints.props

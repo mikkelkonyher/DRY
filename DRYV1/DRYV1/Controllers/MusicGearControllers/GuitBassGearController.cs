@@ -27,12 +27,12 @@ namespace DRYV1.Controllers
             decimal? maxPrice = null,
             string query = null)
         {
-            var queryable = _context.GuitBassGear.AsQueryable();
+            var queryable = _context.GuitBassGear.AsQueryable(); 
 
-            if (!string.IsNullOrEmpty(guitBassType))
+            if (!string.IsNullOrEmpty(guitBassType)) 
             {
                 var normalizedGuitBassType = guitBassType.Trim().ToLower();
-                queryable = queryable.Where(g => g.GuitBassType.ToLower() == normalizedGuitBassType);
+                queryable = queryable.Where(g => g.GuitBassType.ToLower() == normalizedGuitBassType); 
             }
 
             if (!string.IsNullOrEmpty(location))
