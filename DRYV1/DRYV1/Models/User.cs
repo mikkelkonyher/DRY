@@ -1,4 +1,5 @@
 using DRYV1.Controllers;
+using DRYV1.Models.MusicUtilities;
 
 namespace DRYV1.Models
 {
@@ -13,6 +14,8 @@ namespace DRYV1.Models
         public bool IsValidated { get; set; } = false;
         
         public List<MusicGear> MusicGear { get; set; } = new List<MusicGear>();
+        
+        public List<RehearsalRoom> RehearsalRooms { get; set; } = new List<RehearsalRoom>();
     }
 
     public class UserDTO
