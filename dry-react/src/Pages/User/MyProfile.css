@@ -1,17 +1,18 @@
 .sell-card {
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    padding: 15px;
-    width: 100%; /* Make it responsive */
-    max-width: 400px;
+    border: none; /* Remove the existing border */
+    box-shadow: 0 0 0 0.2px #ccc, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
     background-color: #000000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: #ffffff;
     margin: 20px auto; /* Center the card horizontally */
     display: flex;
     flex-direction: column;
     align-items: center; /* Center the content inside the card */
     margin-top: 50px; /* Add space above the card */
+    position: relative; /* Add relative positioning */
+    justify-content: center;
 }
 
 .sell-gear-image {
