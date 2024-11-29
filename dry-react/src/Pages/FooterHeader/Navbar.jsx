@@ -109,10 +109,19 @@ function ResponsiveAppBar() {
                             }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
-                            sx={{ display: { xs: 'block', lg: 'none' } }}
+                            sx={{
+                                display: { xs: 'block', lg: 'none' },
+                                '& .MuiPaper-root': {
+                                    backgroundColor: 'black', // Set background color to black
+                                }
+                            }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                                <MenuItem
+                                    key={page.name}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ color: 'white' }} // Set text color to white
+                                >
                                     <Typography
                                         component={Link}
                                         to={page.path}
@@ -123,7 +132,10 @@ function ResponsiveAppBar() {
                                 </MenuItem>
                             ))}
                             {!isAuthenticated && (
-                                <MenuItem onClick={handleCloseNavMenu}>
+                                <MenuItem
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ color: 'white' }} // Set text color to white
+                                >
                                     <Typography
                                         component={Link}
                                         to="/signup"
@@ -209,7 +221,7 @@ function ResponsiveAppBar() {
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
-                                    sx={{ mt: '45px' }}
+                                    sx={{ mt: '45px', '& .MuiPaper-root': { backgroundColor: 'black' } }} // Set background color to black
                                     id="menu-appbar"
                                     anchorEl={anchorElUser}
                                     anchorOrigin={{
@@ -225,7 +237,7 @@ function ResponsiveAppBar() {
                                     onClose={handleCloseUserMenu}
                                 >
                                     {settings.map((setting) => (
-                                        <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                                        <MenuItem key={setting.name} onClick={handleCloseUserMenu} sx={{ color: 'white' }}>
                                             <Typography
                                                 component={Link}
                                                 to={setting.path}
