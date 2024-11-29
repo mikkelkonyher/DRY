@@ -67,8 +67,11 @@
 }
 
 .ninja {
-    text-align: center;
-    margin-top: 20px;
+    display: block;
+    width: 10em; /* Increase the width */
+    height: 10em; /* Increase the height */
+    margin: 20px auto; /* Center the SVG and add space above */
+    margin-bottom: 50px;
 }
 .input-field {
     width: 100%;
