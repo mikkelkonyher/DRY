@@ -61,7 +61,7 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: 'rgba(24, 24, 24, 0.8)', boxShadow: 'none', width: '100%', padding: '10px 0', backdropFilter: 'blur(10px)' }}>
+        <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none', width: '100%', padding: '10px 0', backdropFilter: 'blur(10px)' }}>
             <Container maxWidth="xl" sx={{ padding: '0 20px' }}>
                 <Toolbar disableGutters>
 
@@ -74,16 +74,17 @@ function ResponsiveAppBar() {
                             mr: 2,
                             display: { xs: 'none', lg: 'flex' },
                             fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
+                            fontWeight: 100,
+                            letterSpacing: '.2rem',
                             color: 'inherit',
                             textDecoration: 'none',
+                            textTransform: 'none', // Ensure text is not uppercase
                         }}
                     >
                         GearNinja
                     </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' }, justifyContent: 'center' }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -115,7 +116,7 @@ function ResponsiveAppBar() {
                                     <Typography
                                         component={Link}
                                         to={page.path}
-                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit' }}
+                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit', textTransform: 'none' }}
                                     >
                                         {page.name}
                                     </Typography>
@@ -126,7 +127,7 @@ function ResponsiveAppBar() {
                                     <Typography
                                         component={Link}
                                         to="/signup"
-                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit' }}
+                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit', textTransform: 'none' }}
                                     >
                                         Signup
                                     </Typography>
@@ -150,18 +151,20 @@ function ResponsiveAppBar() {
                             color: 'inherit',
                             textDecoration: 'none',
                             fontSize: { xs: '1.2rem', sm: '1.5rem' }, // Smaller font size on small screens
+                            textTransform: 'none', // Ensure text is not uppercase
+                            justifyContent: 'center'
                         }}
                     >
                         GearNinja
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, alignItems: 'center' }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, alignItems: 'center', justifyContent: 'center' }}>
                         {pages.map((page) => (
                             <Button
                                 key={page.name}
                                 component={Link}
                                 to={page.path}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
+                                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none' }}
                             >
                                 {page.name}
                             </Button>
@@ -171,7 +174,7 @@ function ResponsiveAppBar() {
                                 component={Link}
                                 to="/signup"
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
+                                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none' }}
                             >
                                 Signup
                             </Button>
@@ -183,7 +186,7 @@ function ResponsiveAppBar() {
                                 <Typography
                                     component="a"
                                     onClick={handleLogout}
-                                    sx={{ my: 2, color: 'red', cursor: 'pointer', textDecoration: 'none' }}
+                                    sx={{ my: 2, color: 'red', cursor: 'pointer', textDecoration: 'none', textTransform: 'none' }}
                                 >
                                     LOGOUT
                                 </Typography>
@@ -226,7 +229,7 @@ function ResponsiveAppBar() {
                                             <Typography
                                                 component={Link}
                                                 to={setting.path}
-                                                sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit' }}
+                                                sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit', textTransform: 'none' }}
                                             >
                                                 {setting.name}
                                             </Typography>
@@ -238,7 +241,7 @@ function ResponsiveAppBar() {
                             <Typography
                                 component={Link}
                                 to="/login"
-                                sx={{ my: 2, color: 'cyan', textDecoration: 'none' }}
+                                sx={{ my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none' }}
                             >
                                 LOGIN
                             </Typography>

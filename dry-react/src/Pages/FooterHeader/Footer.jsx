@@ -8,7 +8,7 @@ function Footer() {
     return (
         <footer className="footer">
             <div className="footer-content">
-                <p className="footer-text">© {currentYear} GearNinja | Support@GearNinja.dk</p>
+
                 <div className="footer-icons">
                     <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
                         <XIcon/>
@@ -18,7 +18,9 @@ function Footer() {
                     </a>
 
                 </div>
+                <p className="footer-text">© {currentYear} GearNinja | Support@GearNinja.dk</p>
             </div>
+
         </footer>
     );
 }
