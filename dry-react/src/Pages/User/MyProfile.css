@@ -6,14 +6,15 @@
     width: 400px;
     background-color: #000000;
     color: #ffffff;
-    margin: 20px auto; /* Center the card horizontally */
+    margin: 50px auto 20px; /* Center the card horizontally and add space above */
     display: flex;
     flex-direction: column;
     align-items: center; /* Center the content inside the card */
-    margin-top: 50px; /* Add space above the card */
     position: relative; /* Add relative positioning */
     justify-content: center;
+    margin-left: -20px;
 }
+
 
 .sell-gear-image {
     width: 100%;
@@ -42,14 +43,20 @@
 }
 
 .my-profile {
-    width: 100%; /* Ensure it takes the full width of its container */
-    max-width: 400px; /* Increase the max-width */
+    width: 100%;
+    max-width: 700px;
     margin: 0 auto;
-    padding: 150px; /* Increase the padding */
+    padding: 150px;
     background-color: #000000;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid #ffffff;
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+}
+
+.gear-list {
+    width: 100%; /* Ensure the gear list takes the full width of the container */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
 }
 
 .profile-info, .edit-profile {
@@ -98,6 +105,7 @@ textarea {
     .sell-card {
         width: 95% !important; /* Ensure consistent width for smaller screens */
         padding: 10px; /* Reduce padding for smaller screens */
+       margin-left: -3px;
     }
 
     .my-profile {
@@ -118,4 +126,8 @@ textarea {
 
 .deleteprofile-button:hover{
     background: darkred;
+}
+
+.myproductsButton{
+    margin-bottom: 20px;
 }

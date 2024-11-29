@@ -4,6 +4,7 @@ import SellCard from "./SellCard.jsx";
 import config from '../../../config.jsx';
 import './MyProfile.css';
 
+
 function MyProfile() {
     const [gear, setGear] = useState([]);
     const [favoriteGear, setFavoriteGear] = useState([]);
@@ -262,7 +263,7 @@ function MyProfile() {
             )}
             {!isEditing && (
                 <>
-                    <button onClick={() => setShowSellCards(!showSellCards)}>
+                    <button className="myproductsButton" onClick={() => setShowSellCards(!showSellCards)}>
                         {showSellCards ? 'Skjul mine annoncer' : 'Se alle mine annoncer'}
                     </button>
                     <button onClick={() => {
