@@ -112,7 +112,7 @@ textarea {
     }
 
     .my-profile {
-        width: 90%; /* Reduce width for smaller screens */
+        width: 100%; /* Reduce width for smaller screens */
         padding: 20px; /* Reduce padding for smaller screens */
     }
 }
