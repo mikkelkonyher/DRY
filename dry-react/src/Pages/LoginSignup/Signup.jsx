@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
 import config from "../../../config.jsx";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -70,7 +71,7 @@ function Signup() {
     return (
         <div className="signup-body">
             <div className="signup-container">
-                <h2>Opret dig som Ninja!</h2>
+                <h2>Signup <HowToRegIcon/></h2>
                 <form className="signup-form" onSubmit={handleSubmit}>
                     {successMessage && <p className="signup-success-message">{successMessage}</p>}
                     {errorMessage && <p className="signup-error-message">{errorMessage}</p>}

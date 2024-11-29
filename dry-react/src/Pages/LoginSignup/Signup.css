@@ -1,5 +1,7 @@
 /* src/Pages/LoginSignup/Signup.css */
 
+
+
 .signup-body2 {
     background-color: #f4f4f4;
     display: flex;
@@ -13,8 +15,8 @@
     background-color: transparent;
     padding: 30px;
     border-radius: 10px;
-    width: 100%;
-    max-width: 400px;
+    width: 80%;
+    max-width: 500px;
     border: 1px solid #ccc;
 }
 
@@ -30,11 +32,13 @@
 }
 
 .signup-input {
-    margin-bottom: 15px;
-    padding: 12px;
+    width: 100%;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 12px;
+    box-sizing: border-box;
+   max-width: 400px;
+    margin: 10px auto;
 }
 
 .signup-button {
@@ -46,6 +50,7 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
 .signup-button:hover {
@@ -77,7 +82,7 @@
 @media (max-width: 600px) {
     .signup-container {
         padding: 20px;
-        max-width: 90%;
+        max-width: 100%;
         margin: 0 auto;
     }
 
