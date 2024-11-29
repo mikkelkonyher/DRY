@@ -31,6 +31,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: #111827;
+  background-image: linear-gradient(225deg, #111827 0%, #5b347e 50%, #31729a 100%);
+
+
+
+
   color: rgba(255, 255, 255, 0.87);
 }
 
