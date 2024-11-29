@@ -6,6 +6,7 @@ import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import PostComment from "../../Components/PostComments.jsx";
 import config from "../../../config.jsx";
+import './CardDetails.css';
 
 function CardDetails() {
     const { id } = useParams();
@@ -146,7 +147,7 @@ function CardDetails() {
     if (!gearItem) return <div>Loading...</div>;
 
     return (
-        <div className="gear-card">
+        <div className="gear-carddetails">
             <h3>{gearItem.brand} {gearItem.model}</h3>
             <h4><strong>Pris: </strong>{gearItem.price} kr. </h4>
 

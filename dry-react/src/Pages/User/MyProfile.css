@@ -1,7 +1,7 @@
 .sell-card {
     border: none; /* Remove the existing border */
-    box-shadow: 0 0 0 0.2px #ccc, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
-    border-radius: 10px;
+    box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
+    border-radius: 15px;
     padding: 20px;
     width: 400px;
     background-color: #000000;
@@ -93,9 +93,10 @@ textarea {
 }
 
 /* Media query for smaller screens */
+/* Media query for smaller screens */
 @media (max-width: 600px) {
     .sell-card {
-        width: 90%; /* Reduce width for smaller screens */
+        width: 95% !important; /* Ensure consistent width for smaller screens */
         padding: 10px; /* Reduce padding for smaller screens */
     }
 
