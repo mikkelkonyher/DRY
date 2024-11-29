@@ -25,7 +25,7 @@ const pages = [
     { name: 'Øvelokaler', path: '/øvelokaler' },
     { name: 'Musikundervisning', path: '/musikundervisning' },
     { name: 'Musikproduktion', path: '/Musikproduktion' },
-    { name: 'Session musikere', path: '/sessionmusikere' }
+    { name: 'Forum', path: '/forum' }
 ];
 const settings = [
     { name: 'Min Profil', path: '/myprofile' },
