@@ -8,6 +8,7 @@ import PostComment from "../../Components/PostComments.jsx";
 import config from "../../../config.jsx";
 import './CardDetails.css';
 
+
 function CardDetails() {
     const { id } = useParams();
     const [gearItem, setGearItem] = useState(null);

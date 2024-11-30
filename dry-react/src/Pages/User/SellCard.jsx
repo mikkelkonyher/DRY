@@ -232,8 +232,8 @@ function SellCard({ item, userId }) {
                             </div>
                         ))}
                     </div>
-                    <button onClick={handleUpdate}>Save</button>
-                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                    <button className="saveButton" onClick={handleUpdate}>Save</button>
+                    <button className="cancelButton"  onClick={() => setIsEditing(false)}>Cancel</button>
                 </>
             ) : (
                 <>

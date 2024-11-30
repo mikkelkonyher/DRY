@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using DRYV1.Data;
 using Microsoft.EntityFrameworkCore;
+using AspNetCoreRateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +24,6 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
     });
 });
-
-
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -53,6 +52,16 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+// Load configuration from appsettings.json
+builder.Services.AddOptions();
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
+
+// Add rate limiting services
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,5 +76,9 @@ app.UseStaticFiles();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Enable rate limiting
+app.UseIpRateLimiting();
+
 app.MapControllers();
 app.Run();

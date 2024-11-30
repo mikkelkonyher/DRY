@@ -134,3 +134,21 @@ textarea {
 .myproductsButton{
     margin-bottom: 20px;
 }
+
+.remove-favorite-button{
+    margin-top: 10px;
+    box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
+    width:180px;
+}
+
+.saveButton{
+    margin-top: 10px;
+    box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
+    margin-bottom: 2px;
+}
+
+.cancelButton{
+    margin-top: 10px;
+    box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
+    margin-bottom: 2px;
+}
