@@ -174,7 +174,7 @@ function ResponsiveAppBar() {
                                 component={Link}
                                 to={page.path}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none', mx: 3 }}
+                                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none', mx: 2 }}
                             >
                                 {page.name}
                             </Button>
