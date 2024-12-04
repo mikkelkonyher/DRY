@@ -16,12 +16,12 @@ import { useTheme } from '@mui/material/styles';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 const pages = [
-    { name: 'Guit/Bass', path: '/GuitBass' },
+    { name: 'Guit/Bas', path: '/GuitBass' },
     { name: 'Trommer', path: '/Trommer' },
     { name: 'Keys', path: '/keys' },
     { name: 'Blæs', path: '/blæsere' },
     { name: 'Strygere', path: '/strygere' },
-    { name: 'Studio Gear', path: '/studiogear' },
+    { name: 'Studie Gear', path: '/studiogear' },
     { name: 'Øvelokaler', path: '/øvelokaler' },
     { name: 'Forum', path: '/forum' }
 ];
@@ -174,7 +174,7 @@ function ResponsiveAppBar() {
                                 component={Link}
                                 to={page.path}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none', mx: 1 }}
+                                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none', mx: 3 }}
                             >
                                 {page.name}
                             </Button>
