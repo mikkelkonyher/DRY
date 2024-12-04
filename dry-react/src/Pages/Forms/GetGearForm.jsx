@@ -6,6 +6,7 @@ import SellIcon from '@mui/icons-material/Sell';
 import config from "../../../config.jsx";
 import Pagination from '../../Components/Pagination.jsx';
 import GearCard from "./GearCard.jsx";
+import TuneIcon from '@mui/icons-material/Tune';
 
 function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     // State variables
@@ -20,6 +21,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [location, setLocation] = useState('');
     const [priceRange, setPriceRange] = useState('');
+    const [showFilters, setShowFilters] = useState(false); // State variable for filter visibility
     const itemsPerPage = 10;
 
     // Fetch gear data from API
@@ -253,54 +255,60 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                 />
                 <button className="search-button-small" onClick={handleSearch}>Søg</button>
             </div>
+            {/* Filter button */}
+            <button onClick={() => setShowFilters(!showFilters)} className="filter-button">
+                Filtre <TuneIcon style={{marginLeft: '5px'}}/>
+            </button>
             {/* Filters */}
-            <div className="selector-container">
-                <div className="selector category-filter">
-                    <select value={selectedCategory} onChange={(e) => {
-                        setSelectedCategory(e.target.value);
-                        setCurrentPage(1); // Reset to page 1 when changing the filter
-                    }}>
-                        <option value="">Alle kategorier</option>
-                        {categories.map((category) => (
-                            <option key={category} value={category}>{category}</option>
-                        ))}
-                    </select>
+            {showFilters && (
+                <div className="selector-container">
+                    <div className="selector category-filter">
+                        <select value={selectedCategory} onChange={(e) => {
+                            setSelectedCategory(e.target.value);
+                            setCurrentPage(1); // Reset to page 1 when changing the filter
+                        }}>
+                            <option value="">Alle kategorier</option>
+                            {categories.map((category) => (
+                                <option key={category} value={category}>{category}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="selector location-filter">
+                        <select name="location" value={location} onChange={(e) => {
+                            setLocation(e.target.value);
+                            setCurrentPage(1); // Reset to page 1 when changing the filter
+                        }} required>
+                            <option value="">Vælg placering</option>
+                            <option value="København og omegn">København og omegn</option>
+                            <option value="Aarhus">Aarhus</option>
+                            <option value="Odense">Odense</option>
+                            <option value="Aalborg">Aalborg</option>
+                            <option value="Sjælland">Sjælland</option>
+                            <option value="Jylland">Jylland</option>
+                            <option value="Fyn">Fyn</option>
+                            <option value="Bornholm">Bornholm</option>
+                            <option value="Færøerne">Færøerne</option>
+                            <option value="Grønland">Grønland</option>
+                            <option value="Andet">Andet</option>
+                        </select>
+                    </div>
+                    <div className="selector price-filter">
+                        <select name="priceRange" value={priceRange} onChange={(e) => {
+                            setPriceRange(e.target.value);
+                            setCurrentPage(1); // Reset to page 1 when changing the filter
+                        }} required>
+                            <option value="">Vælg pris</option>
+                            <option value="0-1000">0-1000 kr.</option>
+                            <option value="1000-5000">1000-5000 kr.</option>
+                            <option value="5000-10000">5000-10.000 kr.</option>
+                            <option value="10000-20000">10.000-20.000 kr.</option>
+                            <option value="20000-40000">20.000-40.000 kr.</option>
+                            <option value="40000-50000">40.000-50.000 kr.</option>
+                            <option value="50000-">50.000+ kr.</option>
+                        </select>
+                    </div>
                 </div>
-                <div className="selector location-filter">
-                    <select name="location" value={location} onChange={(e) => {
-                        setLocation(e.target.value);
-                        setCurrentPage(1); // Reset to page 1 when changing the filter
-                    }} required>
-                        <option value="">Vælg placering</option>
-                        <option value="København og omegn">København og omegn</option>
-                        <option value="Aarhus">Aarhus</option>
-                        <option value="Odense">Odense</option>
-                        <option value="Aalborg">Aalborg</option>
-                        <option value="Sjælland">Sjælland</option>
-                        <option value="Jylland">Jylland</option>
-                        <option value="Fyn">Fyn</option>
-                        <option value="Bornholm">Bornholm</option>
-                        <option value="Færøerne">Færøerne</option>
-                        <option value="Grønland">Grønland</option>
-                        <option value="Andet">Andet</option>
-                    </select>
-                </div>
-                <div className="selector price-filter">
-                    <select name="priceRange" value={priceRange} onChange={(e) => {
-                        setPriceRange(e.target.value);
-                        setCurrentPage(1); // Reset to page 1 when changing the filter
-                    }} required>
-                        <option value="">Vælg pris</option>
-                        <option value="0-1000">0-1000 kr.</option>
-                        <option value="1000-5000">1000-5000 kr.</option>
-                        <option value="5000-10000">5000-10.000 kr.</option>
-                        <option value="10000-20000">10.000-20.000 kr.</option>
-                        <option value="20000-40000">20.000-40.000 kr.</option>
-                        <option value="40000-50000">40.000-50.000 kr.</option>
-                        <option value="50000-">50.000+ kr.</option>
-                    </select>
-                </div>
-            </div>
+            )}
             {/* No search results message */}
             {noSearchResults && <p>Fandt ingen match</p>}
             {/* Gear list */}
