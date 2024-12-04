@@ -23,8 +23,6 @@ const pages = [
     { name: 'Strygere', path: '/strygere' },
     { name: 'Studio Gear', path: '/studiogear' },
     { name: 'Øvelokaler', path: '/øvelokaler' },
-    { name: 'Musikundervisning', path: '/musikundervisning' },
-    { name: 'Musikproduktion', path: '/Musikproduktion' },
     { name: 'Forum', path: '/forum' }
 ];
 const settings = [
@@ -176,32 +174,32 @@ function ResponsiveAppBar() {
                                 component={Link}
                                 to={page.path}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none' }}
+                                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none', mx: 1 }}
                             >
                                 {page.name}
                             </Button>
                         ))}
-                        {!isAuthenticated && (
-                            <Button
-                                component={Link}
-                                to="/signup"
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none' }}
-                            >
-                                Signup
-                            </Button>
-                        )}
                     </Box>
                     <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
-                        {isAuthenticated ? (
+                        {!isAuthenticated ? (
                             <>
                                 <Typography
-                                    component="a"
-                                    onClick={handleLogout}
-                                    sx={{ my: 2, color: 'red', cursor: 'pointer', textDecoration: 'none', textTransform: 'none' }}
+                                    component={Link}
+                                    to="/login"
+                                    sx={{ my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none' }}
                                 >
-                                    LOGOUT
+                                    LOGIN
                                 </Typography>
+                                <Typography
+                                    component={Link}
+                                    to="/signup"
+                                    sx={{ my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none', ml: 2 }}
+                                >
+                                    SIGNUP
+                                </Typography>
+                            </>
+                        ) : (
+                            <>
                                 <Tooltip title="Min Profil og Inbox">
                                     <IconButton
                                         onClick={handleOpenUserMenu}
@@ -209,7 +207,6 @@ function ResponsiveAppBar() {
                                             p: 0,
                                             marginRight: '10px',
                                             [theme.breakpoints.down('sm')]: {
-
                                                 marginLeft: 'auto', // Ensure it stays within the viewport
                                                 marginRight: '45px', // Add some left margin
                                             },
@@ -247,16 +244,16 @@ function ResponsiveAppBar() {
                                             </Typography>
                                         </MenuItem>
                                     ))}
+                                    <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>
+                                        <Typography
+                                            component="a"
+                                            sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit', textTransform: 'none' }}
+                                        >
+                                            LOGOUT
+                                        </Typography>
+                                    </MenuItem>
                                 </Menu>
                             </>
-                        ) : (
-                            <Typography
-                                component={Link}
-                                to="/login"
-                                sx={{ my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none' }}
-                            >
-                                LOGIN
-                            </Typography>
                         )}
                     </Box>
                 </Toolbar>
