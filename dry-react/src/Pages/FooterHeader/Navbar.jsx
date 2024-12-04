@@ -249,7 +249,7 @@ function ResponsiveAppBar() {
                                             component="a"
                                             sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit', textTransform: 'none' }}
                                         >
-                                            LOGOUT
+                                            Logout
                                         </Typography>
                                     </MenuItem>
                                 </Menu>
