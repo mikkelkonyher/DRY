@@ -25,16 +25,8 @@
     <ItemGroup>
       <Folder Include="wwwroot\" />
       <Folder Include="wwwroot\assets\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="wwwroot\assets\apmvmqid.5x5.jpg" />
-      <None Include="wwwroot\assets\Fender-Anniversary-American-Professional-II-Stratocaster-El-guitar-2-Color-Sunburst-01.png" />
-      <None Include="wwwroot\assets\kkstqssh.w2x.jpg" />
-      <None Include="wwwroot\assets\mic3mgzc.r4e.jpg" />
-      <None Include="wwwroot\assets\opdwjdph.hyj.jpg" />
-      <None Include="wwwroot\assets\s-l1600.jpg" />
-      <None Include="wwwroot\assets\v02_B3A38547FCF118C2F581CFACF66D693E.jpg" />
+      <Folder Include="wwwroot\assets\uploads\musicgear\" />
+      <Folder Include="wwwroot\uploads\musicgear\" />
     </ItemGroup>
 
 </Project>
