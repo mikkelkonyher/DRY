@@ -213,52 +213,23 @@ function MyProfile() {
                 return;
             }
 
+            const requestBody = { id: userId, name: userName, email: userEmail };
+            if (profileImageUrl) {
+                requestBody.profileImageUrl = profileImageUrl;
+            }
+
             const response = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                body: JSON.stringify({ id: userId, name: userName, email: userEmail })
+                body: JSON.stringify(requestBody)
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update user');
-            }
-
-            if (profileImage) {
-                const formData = new FormData();
-                formData.append('imageFiles', profileImage);
-
-                const imageResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}/profile-image`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    },
-                    body: formData
-                });
-
-                if (!imageResponse.ok) {
-                    throw new Error('Failed to upload profile image');
-                }
-
-                // Update profile image URL
-                const imageUrl = await imageResponse.text();
-                setProfileImageUrl(imageUrl);
-
-                // Save the profile image URL to the user profile
-                const updateUserResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    },
-                    body: JSON.stringify({ profileImageUrl: imageUrl })
-                });
-
-                if (!updateUserResponse.ok) {
-                    throw new Error('Failed to update user profile image URL');
-                }
+                const errorText = await response.text();
+                throw new Error(`Failed to update user: ${errorText}`);
             }
 
             setIsEditing(false);
