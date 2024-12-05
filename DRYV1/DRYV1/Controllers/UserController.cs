@@ -1,5 +1,6 @@
 using DRYV1.Data;
 using DRYV1.Models;
+using DRYV1.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,14 +25,14 @@ namespace DRYV1.Controllers
                 {
                     Id = u.Id,
                     Name = u.Name,
-                    Email = u.Email
-                    
+                    Email = u.Email,
+                    ProfileImageUrl = u.ProfileImageUrl // Include this property
                 })
                 .ToListAsync();
 
             return Ok(users);
         }
-        
+
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDTO>> GetUserById(int id)
         {
@@ -41,7 +42,8 @@ namespace DRYV1.Controllers
                 {
                     Id = u.Id,
                     Name = u.Name,
-                    Email = u.Email
+                    Email = u.Email,
+                    ProfileImageUrl = u.ProfileImageUrl // Include this property
                 })
                 .FirstOrDefaultAsync();
 
@@ -52,7 +54,7 @@ namespace DRYV1.Controllers
 
             return Ok(user);
         }
-        
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO updatedUser)
         {
@@ -103,9 +105,9 @@ namespace DRYV1.Controllers
 
             return NoContent();
         }
-        
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+
+        [HttpPut("{id}/profile-image")]
+        public async Task<IActionResult> UpdateProfileImage(int id, [FromForm] List<IFormFile> imageFiles)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null)
@@ -113,10 +115,18 @@ namespace DRYV1.Controllers
                 return NotFound("User not found.");
             }
 
-            _context.Users.Remove(user);
+            if (imageFiles != null && imageFiles.Any())
+            {
+                var uploadPath = "uploads/profile_images";
+                var baseUrl = $"{Request.Scheme}://{Request.Host}/";
+                var imageUrls = await ImageUploadHelper.UploadImagesAsync(imageFiles, uploadPath, baseUrl);
+                user.ProfileImageUrl = imageUrls.FirstOrDefault();
+            }
+
+            _context.Users.Update(user);
             await _context.SaveChangesAsync();
+
             return NoContent();
         }
-     
     }
 }
