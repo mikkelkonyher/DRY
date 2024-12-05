@@ -1,13 +1,10 @@
-.sell-card .description {
-    white-space: pre-wrap; /* Preserve whitespace and line breaks */
-}
-
-.sell-card {
+.gear-card {
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.sell-card:hover {
+.gear-card:hover {
 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
     transform: scale(1.01); /* Increase size on hover */
 }

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import config from "../../../config.jsx";
+import './GearCard.css';
 
 function GearCard({ item, handleImageClick, userId }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -40,7 +41,8 @@ function GearCard({ item, handleImageClick, userId }) {
         checkFavoriteStatus();
     }, [item.id, userId]);
 
-    const handleFavoriteClick = async () => {
+    const handleFavoriteClick = async (e) => {
+        e.stopPropagation();
         if (!userId) {
             alert('Login for at tilføje favoritter');
             return;
@@ -68,20 +70,22 @@ function GearCard({ item, handleImageClick, userId }) {
         }
     };
 
-    const handleNextImage = () => {
+    const handleNextImage = (e) => {
+        e.stopPropagation();
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % item.imagePaths.length);
     };
 
-    const handlePrevImage = () => {
+    const handlePrevImage = (e) => {
+        e.stopPropagation();
         setCurrentImageIndex((prevIndex) => (prevIndex - 1 + item.imagePaths.length) % item.imagePaths.length);
     };
 
-    const handleViewDetailsClick = () => {
+    const handleCardClick = () => {
         navigate(`/gear/${item.id}`);
     };
 
     return (
-        <div className="gear-card">
+        <div className="gear-card" onClick={handleCardClick}>
             <h3>{item.brand} {item.model}</h3>
             <h4><strong>Pris: </strong>{item.price} kr. </h4>
 
@@ -95,11 +99,9 @@ function GearCard({ item, handleImageClick, userId }) {
                 </button>
                 <button className="nav-button left" onClick={handlePrevImage}>&lt;</button>
                 <img src={item.imagePaths[currentImageIndex]} alt={`${item.brand} ${item.model}`}
-                     className="gear-image" onClick={() => handleImageClick(item.imagePaths[currentImageIndex])}/>
+                     className="gear-image" onClick={(e) => { e.stopPropagation(); handleImageClick(item.imagePaths[currentImageIndex]); }}/>
                 <button className="nav-button right" onClick={handleNextImage}>&gt;</button>
             </div>
-
-            <button className="view-details-button" onClick={handleViewDetailsClick}>Vis produkt</button>
         </div>
     );
 }

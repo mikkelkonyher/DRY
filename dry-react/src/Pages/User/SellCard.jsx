@@ -41,7 +41,8 @@ function SellCard({ item, userId }) {
         checkFavoriteStatus();
     }, [item.id, userId]);
 
-    const handleFavoriteClick = async () => {
+    const handleFavoriteClick = async (e) => {
+        e.stopPropagation();
         if (!userId) {
             alert('Login for at tilføje favoritter');
             return;
@@ -75,7 +76,8 @@ function SellCard({ item, userId }) {
         }
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (e) => {
+        e.stopPropagation();
         const confirmed = window.confirm('Er du sikker på at du vil slette produktet?');
         if (!confirmed) return;
 
@@ -93,7 +95,8 @@ function SellCard({ item, userId }) {
         }
     };
 
-    const handleUpdate = async () => {
+    const handleUpdate = async (e) => {
+        e.stopPropagation();
         try {
             const itemToUpdate = { ...updatedItem, id: item.id };
             console.log('Updated item:', itemToUpdate);
@@ -134,10 +137,12 @@ function SellCard({ item, userId }) {
     };
 
     const handleNewImagesChange = (e) => {
+        e.stopPropagation();
         setNewImages([...e.target.files]);
     };
 
-    const handleImageDelete = (image) => {
+    const handleImageDelete = (image, e) => {
+        e.stopPropagation();
         setImagesToDelete([...imagesToDelete, image]);
         setUpdatedItem({
             ...updatedItem,
@@ -145,7 +150,8 @@ function SellCard({ item, userId }) {
         });
     };
 
-    const handleImageClick = (src) => {
+    const handleImageClick = (src, e) => {
+        e.stopPropagation();
         setSelectedImage(src);
     };
 
@@ -153,12 +159,20 @@ function SellCard({ item, userId }) {
         setSelectedImage(null);
     };
 
-    const handleViewDetailsClick = () => {
-        navigate(`/gear/${item.id}`);
+    const handleCardClick = () => {
+        if (!isEditing) {
+            navigate(`/gear/${item.id}`);
+        }
+    };
+
+    const handleCancel = (e) => {
+        e.stopPropagation();
+        setIsEditing(false);
+        navigate('/myprofile');
     };
 
     return (
-        <div className="sell-card">
+        <div className="sell-card" onClick={handleCardClick}>
             {isEditing ? (
                 <>
                     <input
@@ -228,12 +242,12 @@ function SellCard({ item, userId }) {
                         {updatedItem.imagePaths.map((imagePath, index) => (
                             <div key={index} className="image-item">
                                 <img src={imagePath} alt={`${item.brand} ${item.model}`} className="sell-gear-image" />
-                                <button onClick={() => handleImageDelete(imagePath)}>Delete</button>
+                                <button onClick={(e) => handleImageDelete(imagePath, e)}>Delete</button>
                             </div>
                         ))}
                     </div>
                     <button className="saveButton" onClick={handleUpdate}>Save</button>
-                    <button className="cancelButton"  onClick={() => setIsEditing(false)}>Cancel</button>
+                    <button className="cancelButton" onClick={handleCancel}>Cancel</button>
                 </>
             ) : (
                 <>
@@ -242,26 +256,25 @@ function SellCard({ item, userId }) {
                     <div className="image-container">
                         {item.imagePaths && item.imagePaths.length > 0 ? (
                             <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
-                                 className="sell-gear-image" onClick={() => handleImageClick(item.imagePaths[0])} />
+                                 className="sell-gear-image" onClick={(e) => handleImageClick(item.imagePaths[0], e)} />
                         ) : (
                             <p>No images available</p>
                         )}
                     </div>
                     {item.userId === userId ? (
                         <>
-                            <button className="delete-button" onClick={handleDelete}>
+                            <button className="delete-button" onClick={(e) => handleDelete(e)}>
                                 Slet
                             </button>
-                            <button onClick={() => setIsEditing(true)}>Edit</button>
+                            <button onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}>Edit</button>
                         </>
                     ) : (
-                        <button className="favorite-button" onClick={handleFavoriteClick}>
+                        <button className="favorite-button" onClick={(e) => handleFavoriteClick(e)}>
 
                         </button>
                     )}
-                    <button className="view-details-button" onClick={handleViewDetailsClick}>Vis produkt</button>
                     {isFavorite && (
-                        <button className="remove-favorite-button" onClick={handleFavoriteClick}>
+                        <button className="remove-favorite-button" onClick={(e) => handleFavoriteClick(e)}>
                             Fjern fra favoritter
                         </button>
                     )}
