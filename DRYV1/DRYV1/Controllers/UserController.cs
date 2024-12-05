@@ -117,6 +117,13 @@ namespace DRYV1.Controllers
 
             if (imageFiles != null && imageFiles.Any())
             {
+                // Delete the existing profile image if it exists
+                if (!string.IsNullOrEmpty(user.ProfileImageUrl))
+                {
+                    var existingImagePath = user.ProfileImageUrl.Replace($"{Request.Scheme}://{Request.Host}/", "");
+                    ImageUploadHelper.DeleteImage(existingImagePath);
+                }
+
                 var uploadPath = "uploads/profile_images";
                 var baseUrl = $"{Request.Scheme}://{Request.Host}/";
                 var imageUrls = await ImageUploadHelper.UploadImagesAsync(imageFiles, uploadPath, baseUrl);

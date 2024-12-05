@@ -13,7 +13,7 @@ namespace DRYV1.Models
         
         public bool IsValidated { get; set; } = false;
         
-        public string ProfileImageUrl { get; set; }
+        public string? ProfileImageUrl { get; set; }
         
         public List<MusicGear> MusicGear { get; set; } = new List<MusicGear>();
         

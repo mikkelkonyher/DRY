@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import SellCard from "./SellCard.jsx";
 import config from '../../../config.jsx';
 import './MyProfile.css';
-
 
 function MyProfile() {
     const [gear, setGear] = useState([]);
@@ -21,6 +20,9 @@ function MyProfile() {
     const [errorMessage, setErrorMessage] = useState('');
     const [confirmDelete, setConfirmDelete] = useState('');
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [profileImage, setProfileImage] = useState(null);
+    const [profileImageUrl, setProfileImageUrl] = useState('');
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -48,6 +50,18 @@ function MyProfile() {
                 setUserId(user.id);
                 setUserName(user.name);
                 setUserEmail(user.email);
+
+                // Fetch profile image URL
+                const userDetailResponse = await fetch(`${config.apiBaseUrl}/api/User/${user.id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (userDetailResponse.ok) {
+                    const userDetails = await userDetailResponse.json();
+                    setProfileImageUrl(userDetails.profileImageUrl);
+                }
 
             } catch (error) {
                 console.error('Error fetching user ID:', error);
@@ -104,8 +118,63 @@ function MyProfile() {
         }
     };
 
-    const handleImageClick = (src) => {
-        // Handle image click if needed
+    const handleImageClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setProfileImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfileImageUrl(reader.result);
+            };
+            reader.readAsDataURL(file);
+
+            // Upload the image immediately
+            const formData = new FormData();
+            formData.append('imageFiles', file);
+
+            try {
+                const imageResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}/profile-image`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: formData
+                });
+
+                if (!imageResponse.ok) {
+                    const errorText = await imageResponse.text();
+                    throw new Error(`Failed to upload profile image: ${errorText}`);
+                }
+
+                // Update profile image URL
+                const imageUrl = await imageResponse.text();
+                setProfileImageUrl(imageUrl);
+
+                // Save the profile image URL to the user profile
+                const updateUserResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ id: userId, name: userName, email: userEmail, profileImageUrl: imageUrl })
+                });
+
+                if (!updateUserResponse.ok) {
+                    const errorText = await updateUserResponse.text();
+                    throw new Error(`Failed to update user profile image URL: ${errorText}`);
+                }
+
+                // Reload the page to fetch the updated image
+                window.location.reload();
+            } catch (error) {
+                console.error('Error uploading profile image:', error);
+            }
+        }
     };
 
     const handleEdit = () => {
@@ -157,13 +226,47 @@ function MyProfile() {
                 throw new Error('Failed to update user');
             }
 
+            if (profileImage) {
+                const formData = new FormData();
+                formData.append('imageFiles', profileImage);
+
+                const imageResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}/profile-image`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: formData
+                });
+
+                if (!imageResponse.ok) {
+                    throw new Error('Failed to upload profile image');
+                }
+
+                // Update profile image URL
+                const imageUrl = await imageResponse.text();
+                setProfileImageUrl(imageUrl);
+
+                // Save the profile image URL to the user profile
+                const updateUserResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ profileImageUrl: imageUrl })
+                });
+
+                if (!updateUserResponse.ok) {
+                    throw new Error('Failed to update user profile image URL');
+                }
+            }
+
             setIsEditing(false);
             setErrorMessage('');
         } catch (error) {
             console.error('Error updating user:', error);
         }
     };
-
     const handleCancel = () => {
         setIsEditing(false);
         setShowDeleteConfirm(false);
@@ -207,9 +310,19 @@ function MyProfile() {
 
     return (
         <div className="my-profile">
-            <img className="ninja"
-                 src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'><path fill='%23712cf9' d='M7.75 13c-.01-.35.15-.69.42-.92c.75.16 1.45.47 2.08.92c0 .68-.56 1.24-1.25 1.24S7.76 13.69 7.75 13m6 0c.63-.44 1.33-.75 2.08-.91c.27.23.43.57.42.91c0 .7-.56 1.26-1.25 1.26s-1.25-.56-1.25-1.26M12 9c-2.77-.04-5.5.65-7.93 2L4 12c0 1.23.29 2.44.84 3.54a47.6 47.6 0 0 1 14.32 0c.55-1.1.84-2.31.84-3.54l-.07-1A15.85 15.85 0 0 0 12 9m0-7a10 10 0 0 1 10 10a10 10 0 0 1-10 10A10 10 0 0 1 2 12A10 10 0 0 1 12 2'></path></svg>"
-                 alt="Ninja Icon"/>
+            {profileImageUrl ? (
+                <img className="profile-image" src={profileImageUrl} alt="Profile" onClick={handleImageClick} />
+            ) : (
+                <div className="default-profile-image" onClick={handleImageClick}>
+                    Upload profilbillede
+                </div>
+            )}
+            <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+            />
             {isEditing ? (
                 <div className="edit-profile">
                     <Link to="/forgot-password">

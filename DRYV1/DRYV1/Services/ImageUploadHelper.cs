@@ -72,5 +72,15 @@ namespace DRYV1.Services
                 }
             }
         }
+        
+        
+        public static void DeleteImage(string imagePath)
+        {
+            var fullPath = Path.Combine("wwwroot", imagePath);
+            if (File.Exists(fullPath))
+            {
+                File.Delete(fullPath);
+            }
+        }
     }
 }

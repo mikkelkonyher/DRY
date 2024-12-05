@@ -152,3 +152,29 @@ textarea {
     box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
     margin-bottom: 2px;
 }
+
+.profile-image {
+    width: 300px; /* Adjust the size as needed */
+    height: 300px; /* Adjust the size as needed */
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover; /* Ensures the image covers the entire area */
+    display: block;
+    margin: 0 auto; /* Centers the image horizontally */
+    margin-bottom: 20px;
+}
+
+.default-profile-image {
+    width: 300px; /* Adjust the size as needed */
+    height: 300px; /* Adjust the size as needed */
+    border-radius: 50%; /* Makes the image round */
+    background-color: white; /* White background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: black; /* Text color */
+    font-size: 16px; /* Adjust the font size as needed */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin: 0 auto; /* Centers the image horizontally */
+    margin-bottom: 20px;
+}
