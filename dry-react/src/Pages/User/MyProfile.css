@@ -154,13 +154,20 @@ textarea {
 }
 
 .profile-image {
-    width: 300px; /* Adjust the size as needed */
-    height: 300px; /* Adjust the size as needed */
+    width: 250px; /* Adjust the size as needed */
+    height: 250px; /* Adjust the size as needed */
     border-radius: 50%; /* Makes the image round */
     object-fit: cover; /* Ensures the image covers the entire area */
     display: block;
     margin: 0 auto; /* Centers the image horizontally */
     margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+    .profile-image {
+        width: 150px; /* Adjust the size for smaller screens */
+        height: 150px; /* Adjust the size for smaller screens */
+    }
 }
 
 .default-profile-image {
