@@ -168,12 +168,13 @@ function CardDetails() {
 
             <div className="more-info-container">
                 <p>{gearItem.description}</p>
+                <p><strong>🤍</strong> {gearItem.favoriteCount}</p>
                 <p><strong>Lokation:</strong> {gearItem.location}</p>
                 <p><strong>Stand:</strong> {gearItem.condition}</p>
                 <p><strong>År:</strong> {gearItem.year}</p>
                 <p><strong>Sælger:</strong> {users[gearItem.userId]?.name || 'Ukendt'}</p>
-                <p>Oprettet: {new Date(gearItem.listingDate).toLocaleDateString()}</p>
-                <p><strong>🤍</strong> {gearItem.favoriteCount}</p>
+                <p><strong>Oprettet:</strong> {new Date(gearItem.listingDate).toLocaleDateString()}</p>
+
             </div>
 
             <button onClick={() => alert(`Skriv til sælger: ${users[gearItem.userId]?.email || 'Ukendt'}`)}>
