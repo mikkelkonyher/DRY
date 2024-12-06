@@ -1,0 +1,19 @@
+.homegear-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 16px;
+    text-align: left;
+    background-color: black;
+}
+
+.homegear-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.homegear-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
