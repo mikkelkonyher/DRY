@@ -323,7 +323,13 @@ function ResponsiveAppBar() {
                     </Box>
                 </Toolbar>
 
-                <form onSubmit={handleSearchSubmit} style={{display: 'flex', justifyContent: 'center', border: '0px', marginTop: '-25px', marginBottom: '10px'}}>
+                <form onSubmit={handleSearchSubmit} style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    border: '0px',
+                    marginTop: '-25px',
+                    marginBottom: '10px'
+                }}>
                     <TextField
                         variant="outlined"
                         placeholder="Søg i alt udstyr..."
@@ -332,26 +338,33 @@ function ResponsiveAppBar() {
                         onChange={handleSearchChange}
                         sx={{
                             backgroundColor: 'black',
-                            width: {xs: '100%', sm: '400px'},
+                            width: {xs: '100%', sm: '500px'},
                             height: '40px',
+                            borderRadius: '20px', // Apply border radius directly here
+
                             '& .MuiOutlinedInput-root': {
+                                borderRadius: '20px', // Ensure border radius is applied here as well
                                 '& fieldset': {
                                     border: 'none',
+                                    borderRadius: '15px', // Apply border radius to fieldset
                                 },
                                 '&:hover fieldset': {
                                     border: 'none',
+                                    borderRadius: '15px', // Apply border radius to fieldset on hover
                                 },
                                 '&.Mui-focused fieldset': {
                                     border: 'none',
+                                    borderRadius: '15px', // Apply border radius to fieldset when focused
                                 },
                             },
                             '& .MuiOutlinedInput-notchedOutline': {
-                                borderRadius: '0',
+                                borderRadius: '15px', // Ensure border radius is applied here as well
                             },
                             '& .MuiInputBase-input': {
                                 color: 'white',
                                 fontSize: '0.8rem',
-                                height: '40px',
+                                height: '45px',
+                                borderRadius: '15px', // Apply border radius to input
                             }
                         }}
                         InputProps={{
