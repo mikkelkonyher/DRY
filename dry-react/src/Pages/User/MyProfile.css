@@ -52,6 +52,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid #ffffff;
     box-sizing: border-box; /* Ensure padding and border are included in the width */
+    margin-top: 50px;
 }
 
 .gear-list {

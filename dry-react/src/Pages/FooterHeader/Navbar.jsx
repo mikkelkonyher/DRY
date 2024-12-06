@@ -91,7 +91,7 @@ function ResponsiveAppBar() {
             if (error.response && error.response.status === 404) {
                 navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match.' } });
             } else {
-                navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Error fetching search results.' } });
+                navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match.' } });
             }
         }
     };
@@ -323,7 +323,7 @@ function ResponsiveAppBar() {
                     </Box>
                 </Toolbar>
 
-                <form onSubmit={handleSearchSubmit} style={{display: 'flex', justifyContent: 'center', border: '0px', marginTop: '-30px', marginBottom: '10px'}}>
+                <form onSubmit={handleSearchSubmit} style={{display: 'flex', justifyContent: 'center', border: '0px', marginTop: '-25px', marginBottom: '10px'}}>
                     <TextField
                         variant="outlined"
                         placeholder="Søg i alt udstyr..."

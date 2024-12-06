@@ -42,7 +42,7 @@ function SearchResults() {
             setUsers(userMap);
         } catch (error) {
             console.error('Error fetching gear or users:', error);
-            setErrorMessage('Error fetching search results.');
+            setErrorMessage('Fandt ingen match på søgning.');
         }
     };
 
