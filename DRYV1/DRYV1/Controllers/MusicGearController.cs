@@ -200,6 +200,59 @@ namespace DRYV1.Controllers
 
             return Ok(musicGear);
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> GetAll(
+            int pageNumber = 1, 
+            int pageSize = 10, 
+            string location = null, 
+            decimal? minPrice = null, 
+            decimal? maxPrice = null,
+            string query = null)
+        {
+            var queryable = _context.MusicGear.AsQueryable();
+
+            if (!string.IsNullOrEmpty(location))
+            {
+                var normalizedLocation = location.Trim().ToLower();
+                queryable = queryable.Where(d => d.Location.ToLower().Contains(normalizedLocation));
+            }
+
+            if (minPrice.HasValue)
+            {
+                queryable = queryable.Where(d => d.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                queryable = queryable.Where(d => d.Price <= maxPrice.Value);
+            }
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                queryable = queryable.Where(d => keywords.All(k => d.Brand.ToLower().Contains(k) ||
+                                                                   d.Model.ToLower().Contains(k) ||
+                                                                   d.Year.ToString().Contains(k) ||
+                                                                   d.Description.ToLower().Contains(k) ||
+                                                                   d.Location.ToLower().Contains(k)));
+            }
+
+            var totalItems = await queryable.CountAsync();
+            var musicGear = await queryable
+                .OrderByDescending(d => d.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var response = new
+            {
+                TotalItems = totalItems,
+                Items = musicGear
+            };
+
+            return Ok(response);
+        }
 
     }
 }
