@@ -27,3 +27,7 @@
 .image-preview-container p {
     color: black; /* Ensure the "Hovedbillede" text is black */
 }
+
+.sellHeadline{
+    margin-top: 50px;
+}

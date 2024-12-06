@@ -252,7 +252,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
     return (
         <DndProvider backend={HTML5Backend}>
             <div>
-                <h2>Sælg {gearType}</h2>
+                <h2 className="sellHeadline">Sælg {gearType}</h2>
                 <form onSubmit={handleSubmit}>
                     {successMessage && <p className="success-message" style={{color: 'green'}}>{successMessage}</p>}
                     {errorMessage && <p className="error-message" style={{color: 'red'}}>{errorMessage}</p>}
