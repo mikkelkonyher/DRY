@@ -10,11 +10,12 @@ import './SearchResults.css';
 
 function SearchResults() {
     const location = useLocation();
-    const [gear, setGear] = useState([]);
+    const [gear, setGear] = useState(location.state?.searchResults || []);
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
+    const [errorMessage, setErrorMessage] = useState(location.state?.errorMessage || '');
     const itemsPerPage = 10;
 
     const fetchGear = async (pageNumber = 1) => {
@@ -27,6 +28,7 @@ function SearchResults() {
             const data = await response.json();
             setGear(data.items);
             setTotalItems(data.totalItems);
+            setErrorMessage(data.items.length === 0 ? 'No results found.' : '');
 
             const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
             if (!userResponse.ok) {
@@ -40,11 +42,14 @@ function SearchResults() {
             setUsers(userMap);
         } catch (error) {
             console.error('Error fetching gear or users:', error);
+            setErrorMessage('Error fetching search results.');
         }
     };
 
     useEffect(() => {
-        fetchGear(currentPage);
+        if (location.state?.searchQuery) {
+            fetchGear(currentPage);
+        }
     }, [location.state, currentPage]);
 
     const handleImageClick = (src) => {
@@ -74,22 +79,28 @@ function SearchResults() {
             <Typography className="search-results-title" variant="h5" sx={{ marginBottom: '20px', marginTop: '20px' }}>
                 Søge resultater:
             </Typography>
-            <Box className="search-results-list" sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                {gear.length > 0 ? (
-                    gear.map((item) => (
-                        <GearCard
-                            key={item.id}
-                            item={item}
-                            users={users}
-                            handleImageClick={handleImageClick}
-                        />
-                    ))
-                ) : (
-                    <Typography className="no-results-message" variant="h6">
-                        No results found.
-                    </Typography>
-                )}
-            </Box>
+            {errorMessage ? (
+                <Typography className="error-message" variant="h6" sx={{ color: 'red' }}>
+                    {errorMessage}
+                </Typography>
+            ) : (
+                <Box className="search-results-list" sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+                    {gear.length > 0 ? (
+                        gear.map((item) => (
+                            <GearCard
+                                key={item.id}
+                                item={item}
+                                users={users}
+                                handleImageClick={handleImageClick}
+                            />
+                        ))
+                    ) : (
+                        <Typography className="no-results-message" variant="h6">
+                            No results found.
+                        </Typography>
+                    )}
+                </Box>
+            )}
             <Pagination
                 className="pagination"
                 currentPage={currentPage}
