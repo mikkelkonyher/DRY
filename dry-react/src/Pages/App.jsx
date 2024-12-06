@@ -21,6 +21,7 @@ import ForgotPassword from "./LoginSignup/ForgotPassword.jsx";
 import ResetPassword from "./LoginSignup/ResetPassword.jsx";
 import MyProfile from "./User/MyProfile.jsx";
 import Footer from "./FooterHeader/Footer.jsx";
+import SearchResults from "./FooterHeader/SearchResults.jsx";
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/reset-password/:token" element={<ResetPassword />}/>
                     <Route path="/myprofile" element={<MyProfile />} />
+                    <Route path="/search-results" element={<SearchResults />} />
                 </Routes>
             </Box>
 

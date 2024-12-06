@@ -17,6 +17,8 @@ import { useTheme } from '@mui/material/styles';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
+import axios from 'axios';
+import config from "../../../config.jsx";
 
 const pages = [
     { name: 'Guit/Bas', path: '/GuitBass' },
@@ -37,6 +39,7 @@ function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [isAuthenticated, setIsAuthenticated] = React.useState(!!localStorage.getItem('token'));
+    const [searchQuery, setSearchQuery] = React.useState('');
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -61,11 +64,35 @@ function ResponsiveAppBar() {
         navigate('/login');
     };
 
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    const handleSearchSubmit = async (event) => {
+        event.preventDefault();
+        const pageNumber = 1;
+        const pageSize = 10;
+        try {
+            const response = await axios.get(`${config.apiBaseUrl}/api/MusicGear/search`, {
+                params: {
+                    query: searchQuery,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize
+                }
+            });
+            console.log('API Response:', response.data); // Log the API response
+            const searchResults = response.data;
+            navigate('/search-results', { state: { searchResults, searchQuery } });
+        } catch (error) {
+            console.error('Error fetching search results:', error);
+        }
+    };
+
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none', width: '100%', padding: '10px 0', backdropFilter: 'blur(10px)', marginBottom: '20px' }}>
-            <Container maxWidth="xl" sx={{ padding: '0 0px' }}>
+        <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none', width: '100%', padding: '0px 0', backdropFilter: 'blur(50px)', marginBottom: '20px' }}>
+            <Container maxWidth="xl" sx={{padding: '0 0px'}}>
                 <Toolbar disableGutters>
-                    <Box sx={{ flexGrow: 0, display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{flexGrow: 0, display: 'flex', justifyContent: 'center'}}>
                         <Typography
                             variant="h6"
                             noWrap
@@ -73,7 +100,7 @@ function ResponsiveAppBar() {
                             href="/"
                             sx={{
                                 mr: 2,
-                                display: { xs: 'none', lg: 'flex' },
+                                display: {xs: 'none', lg: 'flex'},
                                 fontFamily: 'monospace',
                                 fontWeight: 100,
                                 letterSpacing: '.2rem',
@@ -86,7 +113,7 @@ function ResponsiveAppBar() {
                         </Typography>
                     </Box>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' }, justifyContent: 'center' }}>
+                    <Box sx={{flexGrow: 1, display: {xs: 'flex', lg: 'none'}, justifyContent: 'center'}}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -95,7 +122,7 @@ function ResponsiveAppBar() {
                             onClick={handleOpenNavMenu}
                             color="inherit"
                         >
-                            <MenuIcon />
+                            <MenuIcon/>
                         </IconButton>
                         <Menu
                             id="menu-appbar"
@@ -112,7 +139,7 @@ function ResponsiveAppBar() {
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
-                                display: { xs: 'block', lg: 'none' },
+                                display: {xs: 'block', lg: 'none'},
                                 '& .MuiPaper-root': {
                                     backgroundColor: 'black', // Set background color to black
                                 }
@@ -122,12 +149,17 @@ function ResponsiveAppBar() {
                                 <MenuItem
                                     key={page.name}
                                     onClick={handleCloseNavMenu}
-                                    sx={{ color: 'white' }} // Set text color to white
+                                    sx={{color: 'white'}} // Set text color to white
                                 >
                                     <Typography
                                         component={Link}
                                         to={page.path}
-                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit', textTransform: 'none' }}
+                                        sx={{
+                                            textAlign: 'center',
+                                            textDecoration: 'none',
+                                            color: 'inherit',
+                                            textTransform: 'none'
+                                        }}
                                     >
                                         {page.name}
                                     </Typography>
@@ -136,12 +168,17 @@ function ResponsiveAppBar() {
                             {!isAuthenticated && (
                                 <MenuItem
                                     onClick={handleCloseNavMenu}
-                                    sx={{ color: 'white' }} // Set text color to white
+                                    sx={{color: 'white'}} // Set text color to white
                                 >
                                     <Typography
                                         component={Link}
                                         to="/signup"
-                                        sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit', textTransform: 'none' }}
+                                        sx={{
+                                            textAlign: 'center',
+                                            textDecoration: 'none',
+                                            color: 'inherit',
+                                            textTransform: 'none'
+                                        }}
                                     >
                                         Signup
                                     </Typography>
@@ -157,14 +194,14 @@ function ResponsiveAppBar() {
                         href="/"
                         sx={{
                             mr: 2,
-                            display: { xs: 'flex', lg: 'none' },
+                            display: {xs: 'flex', lg: 'none'},
                             flexGrow: 1,
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
-                            fontSize: { xs: '1.2rem', sm: '1.5rem' }, // Smaller font size on small screens
+                            fontSize: {xs: '1.2rem', sm: '1.5rem'}, // Smaller font size on small screens
                             textTransform: 'none', // Ensure text is not uppercase
                             justifyContent: 'center'
                         }}
@@ -172,34 +209,34 @@ function ResponsiveAppBar() {
                         GearNinja
                     </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: 'center' }}>
+                    <Box sx={{flexGrow: 1, display: {xs: 'none', lg: 'flex'}, justifyContent: 'center'}}>
                         {pages.map((page) => (
                             <Button
                                 key={page.name}
                                 component={Link}
                                 to={page.path}
                                 onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none', mx: 2 }}
+                                sx={{my: 2, color: 'white', display: 'block', textTransform: 'none', mx: 2}}
                             >
                                 {page.name}
                             </Button>
                         ))}
                     </Box>
 
-                    <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center'}}>
                         {!isAuthenticated ? (
                             <>
                                 <Typography
                                     component={Link}
                                     to="/login"
-                                    sx={{ my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none' }}
+                                    sx={{my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none'}}
                                 >
                                     LOGIN
                                 </Typography>
                                 <Typography
                                     component={Link}
                                     to="/signup"
-                                    sx={{ my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none', ml: 2 }}
+                                    sx={{my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none', ml: 2}}
                                 >
                                     SIGNUP
                                 </Typography>
@@ -218,13 +255,16 @@ function ResponsiveAppBar() {
                                             },
                                         }}
                                     >
-                                        <Avatar sx={{ bgcolor: '#6366f1' }}>
-                                            <AccountBoxIcon sx={{ color: 'white' }} />
+                                        <Avatar sx={{bgcolor: '#6366f1'}}>
+                                            <AccountBoxIcon sx={{color: 'white'}}/>
                                         </Avatar>
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
-                                    sx={{ mt: '45px', '& .MuiPaper-root': { backgroundColor: 'black' } }} // Set background color to black
+                                    sx={{
+                                        mt: '45px',
+                                        '& .MuiPaper-root': {backgroundColor: 'black'}
+                                    }} // Set background color to black
                                     id="menu-appbar"
                                     anchorEl={anchorElUser}
                                     anchorOrigin={{
@@ -240,20 +280,31 @@ function ResponsiveAppBar() {
                                     onClose={handleCloseUserMenu}
                                 >
                                     {settings.map((setting) => (
-                                        <MenuItem key={setting.name} onClick={handleCloseUserMenu} sx={{ color: 'white' }}>
+                                        <MenuItem key={setting.name} onClick={handleCloseUserMenu}
+                                                  sx={{color: 'white'}}>
                                             <Typography
                                                 component={Link}
                                                 to={setting.path}
-                                                sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit', textTransform: 'none' }}
+                                                sx={{
+                                                    textAlign: 'center',
+                                                    textDecoration: 'none',
+                                                    color: 'inherit',
+                                                    textTransform: 'none'
+                                                }}
                                             >
                                                 {setting.name}
                                             </Typography>
                                         </MenuItem>
                                     ))}
-                                    <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>
+                                    <MenuItem onClick={handleLogout} sx={{color: 'red'}}>
                                         <Typography
                                             component="a"
-                                            sx={{ textAlign: 'center', textDecoration: 'none', color: 'inherit', textTransform: 'none' }}
+                                            sx={{
+                                                textAlign: 'center',
+                                                textDecoration: 'none',
+                                                color: 'inherit',
+                                                textTransform: 'none'
+                                            }}
                                         >
                                             Logout
                                         </Typography>
@@ -263,32 +314,47 @@ function ResponsiveAppBar() {
                         )}
                     </Box>
                 </Toolbar>
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
+
+                <form onSubmit={handleSearchSubmit} style={{display: 'flex', justifyContent: 'center', border: '0px', marginTop: '-30px', marginBottom: '10px'}}>
                     <TextField
                         variant="outlined"
                         placeholder="Søg i alt udstyr..."
                         size="small"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
                         sx={{
                             backgroundColor: 'black',
-                            borderRadius: 0.5,
-                            width: { xs: '100%', sm: '400px' }, // Adjust width for larger size
-                            height: '50px', // Adjust height for taller size
+                            width: {xs: '100%', sm: '400px'},
+                            height: '40px',
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    border: 'none',
+                                },
+                                '&:hover fieldset': {
+                                    border: 'none',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    border: 'none',
+                                },
+                            },
+                            '& .MuiOutlinedInput-notchedOutline': {
+                                borderRadius: '0',
+                            },
                             '& .MuiInputBase-input': {
                                 color: 'white',
                                 fontSize: '0.8rem',
-                                height: '40px', // Adjust input height for taller size
-                                padding: '10px' // Adjust padding for better spacing
+                                height: '40px',
                             }
                         }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <SearchIcon sx={{ color: 'white' }} />
+                                    <SearchIcon sx={{color: 'white'}}/>
                                 </InputAdornment>
                             )
                         }}
                     />
-                </Box>
+                </form>
             </Container>
         </AppBar>
     );

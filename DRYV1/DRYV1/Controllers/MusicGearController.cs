@@ -22,20 +22,25 @@ namespace DRYV1.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> Search(string query, string type = "")
+        public async Task<IActionResult> Search(
+            string query,
+            int pageNumber = 1,
+            int pageSize = 10)
         {
             var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var results = await _context.MusicGear
-                .Where(g => (string.IsNullOrEmpty(type) ||
-                             (g is GuitBassGear && ((GuitBassGear)g).GuitBassType.ToLower().Contains(type.ToLower())) ||
-                             (g is DrumsGear && ((DrumsGear)g).DrumsGearType.ToLower().Contains(type.ToLower()))) &&
-                            keywords.All(k => g.Brand.ToLower().Contains(k) ||
+            var queryable = _context.MusicGear
+                .Where(g => keywords.All(k => g.Brand.ToLower().Contains(k) ||
                                               g.Model.ToLower().Contains(k) ||
                                               g.Year.ToString().Contains(k) ||
                                               g.Description.ToLower().Contains(k) ||
-                                              g.Location.ToLower().Contains(k) ||
-                                              (g is GuitBassGear && ((GuitBassGear)g).GuitBassType.ToLower().Contains(k)) ||
-                                              (g is DrumsGear && ((DrumsGear)g).DrumsGearType.ToLower().Contains(k))))
+                                              g.Location.ToLower().Contains(k)))
+                .AsQueryable();
+
+            var totalItems = await queryable.CountAsync();
+            var results = await queryable
+                .OrderByDescending(g => g.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             if (!results.Any())
@@ -43,7 +48,13 @@ namespace DRYV1.Controllers
                 return NotFound("No matching records found.");
             }
 
-            return Ok(results);
+            var response = new
+            {
+                TotalItems = totalItems,
+                Items = results
+            };
+
+            return Ok(response);
         }
         
         [HttpGet("user/{userId}")]
