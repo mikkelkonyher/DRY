@@ -11,9 +11,12 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const pages = [
     { name: 'Guit/Bas', path: '/GuitBass' },
@@ -59,28 +62,29 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none', width: '100%', padding: '10px 0', backdropFilter: 'blur(10px)' }}>
-            <Container maxWidth="xl" sx={{ padding: '0 20px' }}>
+        <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none', width: '100%', padding: '10px 0', backdropFilter: 'blur(10px)', marginBottom: '20px' }}>
+            <Container maxWidth="xl" sx={{ padding: '0 0px' }}>
                 <Toolbar disableGutters>
-
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'none', lg: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 100,
-                            letterSpacing: '.2rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                            textTransform: 'none', // Ensure text is not uppercase
-                        }}
-                    >
-                        GearNinja
-                    </Typography>
+                    <Box sx={{ flexGrow: 0, display: 'flex', justifyContent: 'center' }}>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            href="/"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'none', lg: 'flex' },
+                                fontFamily: 'monospace',
+                                fontWeight: 100,
+                                letterSpacing: '.2rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                                textTransform: 'none', // Ensure text is not uppercase
+                            }}
+                        >
+                            GearNinja
+                        </Typography>
+                    </Box>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' }, justifyContent: 'center' }}>
                         <IconButton
@@ -167,7 +171,8 @@ function ResponsiveAppBar() {
                     >
                         GearNinja
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, alignItems: 'center', justifyContent: 'center' }}>
+
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' }, justifyContent: 'center' }}>
                         {pages.map((page) => (
                             <Button
                                 key={page.name}
@@ -180,6 +185,7 @@ function ResponsiveAppBar() {
                             </Button>
                         ))}
                     </Box>
+
                     <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
                         {!isAuthenticated ? (
                             <>
@@ -257,6 +263,32 @@ function ResponsiveAppBar() {
                         )}
                     </Box>
                 </Toolbar>
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
+                    <TextField
+                        variant="outlined"
+                        placeholder="Søg i alt udstyr..."
+                        size="small"
+                        sx={{
+                            backgroundColor: 'black',
+                            borderRadius: 0.5,
+                            width: { xs: '100%', sm: '400px' }, // Adjust width for larger size
+                            height: '50px', // Adjust height for taller size
+                            '& .MuiInputBase-input': {
+                                color: 'white',
+                                fontSize: '0.8rem',
+                                height: '40px', // Adjust input height for taller size
+                                padding: '10px' // Adjust padding for better spacing
+                            }
+                        }}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <SearchIcon sx={{ color: 'white' }} />
+                                </InputAdornment>
+                            )
+                        }}
+                    />
+                </Box>
             </Container>
         </AppBar>
     );
