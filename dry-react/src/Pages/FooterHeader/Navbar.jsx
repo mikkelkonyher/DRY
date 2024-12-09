@@ -73,7 +73,6 @@ function ResponsiveAppBar() {
         const pageNumber = 1;
         const pageSize = 10;
         try {
-            // Clear the error message before making a new search request
             navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: '' } });
 
             const response = await axios.get(`${config.apiBaseUrl}/api/MusicGear/search`, {
@@ -83,17 +82,17 @@ function ResponsiveAppBar() {
                     pageSize: pageSize
                 }
             });
-            console.log('API Response:', response.data); // Log the API response
+            console.log('API Response:', response.data);
             const searchResults = response.data;
             navigate('/search-results', { state: { searchResults, searchQuery } });
         } catch (error) {
             console.error('Error fetching search results:', error);
-            if (error.response && error.response.status === 404) {
-                navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match.' } });
-            } else {
-                navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match.' } });
-            }
+            navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match.' } });
         }
+    };
+
+    const handleSearchIconClick = () => {
+        handleSearchSubmit(new Event('submit'));
     };
 
     return (
@@ -114,7 +113,7 @@ function ResponsiveAppBar() {
                                 letterSpacing: '.2rem',
                                 color: 'inherit',
                                 textDecoration: 'none',
-                                textTransform: 'none', // Ensure text is not uppercase
+                                textTransform: 'none',
                             }}
                         >
                             GearNinja
@@ -149,7 +148,7 @@ function ResponsiveAppBar() {
                             sx={{
                                 display: {xs: 'block', lg: 'none'},
                                 '& .MuiPaper-root': {
-                                    backgroundColor: 'black', // Set background color to black
+                                    backgroundColor: 'black',
                                 }
                             }}
                         >
@@ -157,7 +156,7 @@ function ResponsiveAppBar() {
                                 <MenuItem
                                     key={page.name}
                                     onClick={handleCloseNavMenu}
-                                    sx={{color: 'white'}} // Set text color to white
+                                    sx={{color: 'white'}}
                                 >
                                     <Typography
                                         component={Link}
@@ -176,7 +175,7 @@ function ResponsiveAppBar() {
                             {!isAuthenticated && (
                                 <MenuItem
                                     onClick={handleCloseNavMenu}
-                                    sx={{color: 'white'}} // Set text color to white
+                                    sx={{color: 'white'}}
                                 >
                                     <Typography
                                         component={Link}
@@ -209,8 +208,8 @@ function ResponsiveAppBar() {
                             letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
-                            fontSize: {xs: '1.2rem', sm: '1.5rem'}, // Smaller font size on small screens
-                            textTransform: 'none', // Ensure text is not uppercase
+                            fontSize: {xs: '1.2rem', sm: '1.5rem'},
+                            textTransform: 'none',
                             justifyContent: 'center'
                         }}
                     >
@@ -258,8 +257,8 @@ function ResponsiveAppBar() {
                                             p: 0,
                                             marginRight: '10px',
                                             [theme.breakpoints.down('sm')]: {
-                                                marginLeft: 'auto', // Ensure it stays within the viewport
-                                                marginRight: '45px', // Add some left margin
+                                                marginLeft: 'auto',
+                                                marginRight: '45px',
                                             },
                                         }}
                                     >
@@ -272,7 +271,7 @@ function ResponsiveAppBar() {
                                     sx={{
                                         mt: '45px',
                                         '& .MuiPaper-root': {backgroundColor: 'black'}
-                                    }} // Set background color to black
+                                    }}
                                     id="menu-appbar"
                                     anchorEl={anchorElUser}
                                     anchorOrigin={{
@@ -340,37 +339,39 @@ function ResponsiveAppBar() {
                             backgroundColor: 'black',
                             width: {xs: '100%', sm: '500px'},
                             height: '40px',
-                            borderRadius: '20px', // Apply border radius directly here
+                            borderRadius: '20px',
 
                             '& .MuiOutlinedInput-root': {
-                                borderRadius: '20px', // Ensure border radius is applied here as well
+                                borderRadius: '20px',
                                 '& fieldset': {
                                     border: 'none',
-                                    borderRadius: '15px', // Apply border radius to fieldset
+                                    borderRadius: '20px',
                                 },
                                 '&:hover fieldset': {
                                     border: 'none',
-                                    borderRadius: '15px', // Apply border radius to fieldset on hover
+                                    borderRadius: '20px',
                                 },
                                 '&.Mui-focused fieldset': {
                                     border: 'none',
-                                    borderRadius: '15px', // Apply border radius to fieldset when focused
+                                    borderRadius: '20px',
                                 },
                             },
                             '& .MuiOutlinedInput-notchedOutline': {
-                                borderRadius: '15px', // Ensure border radius is applied here as well
+                                borderRadius: '20px',
                             },
                             '& .MuiInputBase-input': {
                                 color: 'white',
                                 fontSize: '0.8rem',
                                 height: '45px',
-                                borderRadius: '15px', // Apply border radius to input
+                                borderRadius: '20px',
                             }
                         }}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <SearchIcon sx={{color: 'white'}}/>
+                                    <IconButton onClick={handleSearchIconClick}>
+                                        <SearchIcon sx={{color: 'white'}}/>
+                                    </IconButton>
                                 </InputAdornment>
                             )
                         }}
