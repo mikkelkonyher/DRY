@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Home.css';
 import config from '../../config.jsx';
 import HomeGearCard from "./HomeGearCard.jsx";
-import AcUnitIcon from '@mui/icons-material/AcUnit';
+
 
 function Home() {
     const [musicGear, setMusicGear] = useState([]);
@@ -25,12 +25,8 @@ function Home() {
 
     return (
         <div className="home-container">
-            <h1>Hej Troels <AcUnitIcon/></h1>
-            <div className="homegear-list">
-                {musicGear.map((item) => (
-                    <HomeGearCard key={item.id} item={item} />
-                ))}
-            </div>
+
+
         </div>
     );
 }
