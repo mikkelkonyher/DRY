@@ -24,6 +24,8 @@ namespace DRYV1.Data
         public DbSet<Favorite> Favorites { get; set; } 
         
         public DbSet<RehearsalRoom> RehearsalRooms { get; set; }
+        
+        public DbSet<RehearsalRoomFavorites> RehearsalRoomFavorites { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

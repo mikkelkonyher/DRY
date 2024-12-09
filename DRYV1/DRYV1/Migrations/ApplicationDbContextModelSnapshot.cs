@@ -196,6 +196,30 @@ namespace DRYV1.Migrations
                     b.ToTable("RehearsalRooms");
                 });
 
+            modelBuilder.Entity("DRYV1.Models.RehearsalRoomFavorites", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("RehearsalRoomid")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RehearsalRoomid");
+
+                    b.ToTable("RehearsalRoomFavorites");
+                });
+
             modelBuilder.Entity("DRYV1.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -343,6 +367,17 @@ namespace DRYV1.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DRYV1.Models.RehearsalRoomFavorites", b =>
+                {
+                    b.HasOne("DRYV1.Models.MusicUtilities.RehearsalRoom", "RehearsalRoom")
+                        .WithMany()
+                        .HasForeignKey("RehearsalRoomid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RehearsalRoom");
                 });
 
             modelBuilder.Entity("DRYV1.Models.DrumsGear", b =>
