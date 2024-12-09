@@ -169,6 +169,7 @@ textarea {
     .profile-image {
         width: 150px; /* Adjust the size for smaller screens */
         height: 150px; /* Adjust the size for smaller screens */
+        margin-top: -5px;
     }
 }
 

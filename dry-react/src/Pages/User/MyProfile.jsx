@@ -335,8 +335,8 @@ function MyProfile() {
                             placeholder="Bekræft ændring af email"
                         />
                     )}
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={handleCancel}>Cancel</button>
+                    <button onClick={handleSave}>Gem</button>
+                    <button onClick={handleCancel}>Annuller</button>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </div>
             ) : (
@@ -344,7 +344,7 @@ function MyProfile() {
                     <h2> GearNinja: {userName}</h2>
                     <p><strong>Brugernavn:</strong> {userName}</p>
                     <p><strong>Email:</strong> {userEmail}</p>
-                    <button onClick={handleEdit}>Edit</button>
+                    <button onClick={handleEdit}>Rediger</button>
                 </div>
             )}
             {!isEditing && (

@@ -299,8 +299,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         <option value="Jylland">Jylland</option>
                         <option value="Fyn">Fyn</option>
                         <option value="Bornholm">Bornholm</option>
-                        <option value="Færøerne">Færøerne</option>
-                        <option value="Grønland">Grønland</option>
                         <option value="Andet">Andet</option>
                     </select>
 

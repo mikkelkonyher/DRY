@@ -212,8 +212,6 @@ function SellCard({ item, userId }) {
                         <option value="Jylland">Jylland</option>
                         <option value="Fyn">Fyn</option>
                         <option value="Bornholm">Bornholm</option>
-                        <option value="Færøerne">Færøerne</option>
-                        <option value="Grønland">Grønland</option>
                         <option value="Andet">Andet</option>
                     </select>
                     <select
@@ -242,12 +240,12 @@ function SellCard({ item, userId }) {
                         {updatedItem.imagePaths.map((imagePath, index) => (
                             <div key={index} className="image-item">
                                 <img src={imagePath} alt={`${item.brand} ${item.model}`} className="sell-gear-image" />
-                                <button onClick={(e) => handleImageDelete(imagePath, e)}>Delete</button>
+                                <button onClick={(e) => handleImageDelete(imagePath, e)}>Slet billede</button>
                             </div>
                         ))}
                     </div>
-                    <button className="saveButton" onClick={handleUpdate}>Save</button>
-                    <button className="cancelButton" onClick={handleCancel}>Cancel</button>
+                    <button className="saveButton" onClick={handleUpdate}>Gem</button>
+                    <button className="cancelButton" onClick={handleCancel}>Annuller</button>
                 </>
             ) : (
                 <>
@@ -266,7 +264,7 @@ function SellCard({ item, userId }) {
                             <button className="delete-button" onClick={(e) => handleDelete(e)}>
                                 Slet
                             </button>
-                            <button onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}>Edit</button>
+                            <button onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}>Rediger</button>
                         </>
                     ) : (
                         <button className="favorite-button" onClick={(e) => handleFavoriteClick(e)}>
