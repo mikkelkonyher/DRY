@@ -149,8 +149,8 @@ function CardDetails() {
 
     return (
         <div className="gear-carddetails">
-            <h3>{gearItem.brand} {gearItem.model}</h3>
-            <h4><strong>Pris: </strong>{gearItem.price} kr. </h4>
+            <h4>{gearItem.brand} {gearItem.model}</h4>
+            <h5><strong>Pris: </strong>{gearItem.price} kr. </h5>
 
             <div className="image-container">
                 <button
@@ -168,12 +168,13 @@ function CardDetails() {
 
             <div className="more-info-container">
                 <p>{gearItem.description}</p>
-                <p><strong>🤍</strong> {gearItem.favoriteCount}</p>
+
                 <p><strong>Lokation:</strong> {gearItem.location}</p>
                 <p><strong>Stand:</strong> {gearItem.condition}</p>
                 <p><strong>År:</strong> {gearItem.year}</p>
                 <p><strong>Sælger:</strong> {users[gearItem.userId]?.name || 'Ukendt'}</p>
                 <p><strong>Oprettet:</strong> {new Date(gearItem.listingDate).toLocaleDateString()}</p>
+                <p><strong>🤍</strong> {gearItem.favoriteCount}</p>
 
             </div>
 

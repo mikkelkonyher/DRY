@@ -106,7 +106,7 @@
 .gear-image {
     width: 100%;
     max-width: 400px;
-    height: 400px;
+    height: 300px;
     border-radius: 10px;
     display: block;
     margin: 10px auto;
@@ -140,7 +140,7 @@
 
     .gear-image {
         max-width: 100%; /* Ensure the image fits within the card */
-        height: 300px; /* Set a smaller height for smaller screens */
+        height: 200px; /* Set a smaller height for smaller screens */
         object-fit: cover;
     }
 

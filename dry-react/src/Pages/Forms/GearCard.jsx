@@ -86,8 +86,8 @@ function GearCard({ item, handleImageClick, userId }) {
 
     return (
         <div className="gear-card" onClick={handleCardClick}>
-            <h3>{item.brand} {item.model}</h3>
-            <h4><strong>Pris: </strong>{item.price} kr. </h4>
+            <h4>{item.brand} {item.model}</h4>
+            <h5><strong>Pris: </strong>{item.price} kr. </h5>
 
             <div className="image-container">
                 <button
