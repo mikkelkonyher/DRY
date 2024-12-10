@@ -77,7 +77,8 @@ function RehearsalRoomCard({ item, handleImageClick, userId }) {
     return (
         <div className="rehearsal-room-card" onClick={handleCardClick}>
             <h3>{item.name}</h3>
-            <p><strong>Lokale type:</strong> {item.type}</p>
+            <p><strong>{item.type}, {item.location}</strong> </p>
+
             <div className="image-container">
                 <button
                     className="favorite-button"

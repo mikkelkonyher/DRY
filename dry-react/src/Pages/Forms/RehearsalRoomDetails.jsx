@@ -169,13 +169,15 @@ function RehearsalRoomDetails() {
                 <p>{roomItem.description}</p>
 
                 <p><strong>Lokation:</strong> {roomItem.location}</p>
+                <p><strong>Adresse:</strong> {roomItem.address}</p>
+                <p><strong>Udlejer:</strong> {users[roomItem.userId]?.name || 'Ukendt'}</p>
                 <p><strong>Størrelse:</strong> {roomItem.roomSize} m²</p>
                 <p><strong>Oprettet:</strong> {new Date(roomItem.listingDate).toLocaleDateString()}</p>
                 <p><strong>🤍</strong> {roomItem.favoriteCount}</p>
             </div>
 
             <button onClick={() => alert(`Skriv til sælger: ${users[roomItem.userId]?.email || 'Ukendt'}`)}>
-                Skriv til sælger
+                Skriv til udlejer
             </button>
             <div className="comments-section">
                 <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
