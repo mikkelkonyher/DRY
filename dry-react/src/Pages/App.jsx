@@ -23,6 +23,7 @@ import MyProfile from "./User/MyProfile.jsx";
 import Footer from "./FooterHeader/Footer.jsx";
 import SearchResults from "./FooterHeader/SearchResults.jsx";
 import GetRehearsalRoomForm from "./Forms/GetRehearsalRoomForm.jsx";
+import RehearsalRoomDetails from "./Forms/RehearsalRoomDetails.jsx";
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
                     <Route path="/myprofile" element={<MyProfile />} />
                     <Route path="/search-results" element={<SearchResults />} />
                     <Route path="/rehearsal-rooms" element={<GetRehearsalRoomForm />} />
+                    <Route path="/RehearsalRoomDetails/:id" element={<RehearsalRoomDetails />} />
                 </Routes>
             </Box>
 

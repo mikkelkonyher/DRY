@@ -14,15 +14,12 @@ function RehearsalRoomCard({ item, handleImageClick, userId }) {
     useEffect(() => {
         if (!userId) return;
 
-        // Check if the item is already a favorite when the component mounts
         const checkFavoriteStatus = async () => {
             try {
-                const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
+                const checkUrl = new URL(`${config.apiBaseUrl}/api/RehearsalRoomFavorites/${userId}`);
                 const checkResponse = await fetch(checkUrl, {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                 });
 
                 if (!checkResponse.ok) {
@@ -30,7 +27,7 @@ function RehearsalRoomCard({ item, handleImageClick, userId }) {
                 }
 
                 const favorites = await checkResponse.json();
-                const favoriteStatus = favorites.some(favorite => favorite.rehearsalRoomId === item.id);
+                const favoriteStatus = favorites.some(favorite => favorite.rehearsalRoomid === item.id);
                 setIsFavorite(favoriteStatus);
             } catch (error) {
                 console.error('Error checking favorite status:', error);
@@ -53,16 +50,20 @@ function RehearsalRoomCard({ item, handleImageClick, userId }) {
         }
 
         try {
-            const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
+            const url = new URL(`${config.apiBaseUrl}/api/RehearsalRoomFavorites`);
             url.searchParams.append('userId', userId);
             url.searchParams.append('rehearsalRoomId', item.id);
+            const method = isFavorite ? 'DELETE' : 'POST';
 
             const response = await fetch(url, {
-                method: isFavorite ? 'DELETE' : 'POST',
+                method,
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            if (!response.ok) throw new Error('Network response was not ok');
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Network response was not ok: ${errorText}`);
+            }
             setIsFavorite(!isFavorite);
         } catch (error) {
             console.error('Error toggling favorite:', error);
@@ -93,7 +94,7 @@ function RehearsalRoomCard({ item, handleImageClick, userId }) {
                 />
             </div>
             <div className="rehearsal-room-details left-align">
-
+                {/* Add other details here */}
             </div>
         </div>
     );

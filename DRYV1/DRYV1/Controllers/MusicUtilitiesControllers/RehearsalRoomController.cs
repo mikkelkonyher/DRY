@@ -128,6 +128,10 @@ namespace DRYV1.Controllers
                 return NotFound("RehearsalRoom not found.");
             }
 
+            // Delete related comments
+            var comments = _context.Comments.Where(c => c.RehearsalRoomId == id);
+            _context.Comments.RemoveRange(comments);
+
             // Ensure the paths are relative to wwwroot
             var relativeImagePaths = rehearsalRoom.ImagePaths.Select(p => p.Replace($"{Request.Scheme}://{Request.Host}/", "")).ToList();
             ImageUploadHelper.DeleteImages(relativeImagePaths);
