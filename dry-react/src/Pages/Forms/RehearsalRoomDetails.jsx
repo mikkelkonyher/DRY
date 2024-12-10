@@ -195,7 +195,7 @@ function RehearsalRoomDetails() {
                         ) : (
                             <p>Ingen kommentarer.</p>
                         )}
-                        <PostComment gearId={roomItem.id} onCommentPosted={handleCommentPosted} />
+                        <PostComment rehearsalRoomId={roomItem.id} userId={userId} onCommentPosted={handleCommentPosted} />
                     </>
                 )}
             </div>
