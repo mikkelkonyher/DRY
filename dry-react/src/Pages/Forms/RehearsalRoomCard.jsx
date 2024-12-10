@@ -7,10 +7,9 @@ import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import config from "../../../config.jsx";
 import './RehearsalRoomCard.css';
 
-function RehearsalRoomCard({ item, users, handleImageClick, userId }) {
+function RehearsalRoomCard({ item, handleImageClick, userId }) {
     const [isFavorite, setIsFavorite] = useState(false);
     const navigate = useNavigate();
-    const user = users[item.userId];
 
     useEffect(() => {
         if (!userId) return;
@@ -49,7 +48,7 @@ function RehearsalRoomCard({ item, users, handleImageClick, userId }) {
         }
 
         if (userId === item.userId) {
-            alert('Du kan ikke tilføje dit eget lokale til favoritter');
+            alert('Du kan ikke tilføje dit eget produkt til favoritter');
             return;
         }
 
@@ -71,33 +70,14 @@ function RehearsalRoomCard({ item, users, handleImageClick, userId }) {
     };
 
     const handleCardClick = () => {
-        navigate(`/rehearsalroom/${item.id}`);
+        navigate(`/RehearsalRoomDetails/${item.id}`);
     };
 
     return (
         <div className="rehearsal-room-card" onClick={handleCardClick}>
             <h3>{item.name}</h3>
             <p><strong>Lokale type:</strong> {item.type}</p>
-
-
-            <img
-                src={item.imagePaths[0]}
-                alt={item.name}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    handleImageClick(item.imagePaths[0]);
-                }}
-                className="rehearsal-room-image"
-            />
-            <div className="rehearsal-room-details left-align">
-
-                <p><strong>Adresse:</strong> {item.address}</p>
-                <p><strong>By:</strong> {item.location}</p>
-                <p><strong>Pris:</strong> {item.price} kr. {item.paymentType} </p>
-                <p><strong>Størrelse:</strong> {item.roomSize} m²</p>
-                <p><strong>Favoritter:</strong> {item.favoriteCount}</p>
-                {user && <p><strong>Udlejer:</strong> {user.name}</p>}
-                <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
+            <div className="image-container">
                 <button
                     className="favorite-button"
                     onClick={handleFavoriteClick}
@@ -105,6 +85,15 @@ function RehearsalRoomCard({ item, users, handleImageClick, userId }) {
                 >
                     <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart}/>
                 </button>
+                <img
+                    src={item.imagePaths[0]}
+                    alt={item.name}
+                    onClick={(e) => { e.stopPropagation(); handleImageClick(item.imagePaths[0]); }}
+                    className="rehearsal-room-image"
+                />
+            </div>
+            <div className="rehearsal-room-details left-align">
+
             </div>
         </div>
     );
@@ -112,7 +101,6 @@ function RehearsalRoomCard({ item, users, handleImageClick, userId }) {
 
 RehearsalRoomCard.propTypes = {
     item: PropTypes.object.isRequired,
-    users: PropTypes.object.isRequired,
     handleImageClick: PropTypes.func.isRequired,
     userId: PropTypes.number, // Make userId optional
 };

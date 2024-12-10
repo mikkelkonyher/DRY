@@ -10,7 +10,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 function GetRehearsalRoom() {
     // Define API endpoint and categories directly
     const apiEndpoint = `${config.apiBaseUrl}/api/RehearsalRoom`;
-    const categories = ["Musikstudie", "øvelokale", "koncertsal", "andet"];
+    const categories = ["Musikstudie", "Øvelokale", "andet"];
 
     // State variables
     const [rooms, setRooms] = useState([]);
