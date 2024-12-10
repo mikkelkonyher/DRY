@@ -20,8 +20,15 @@ public class Forum
     public int UserId { get; set; }
 
     public int LikeCount { get; set; }
-    
-    public List<string>? ImagePaths { get; set; } = new List<string>();
-    
+
     public List<Comment> Comments { get; set; } = new List<Comment>();
+}
+
+public class ForumUpdateDTO
+{
+    public int Id { get; set; }
+    public string Subject { get; set; }
+    public string Body { get; set; }
+    public int UserId { get; set; }
+    
 }
