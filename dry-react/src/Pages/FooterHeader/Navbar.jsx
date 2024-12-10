@@ -27,7 +27,7 @@ const pages = [
     { name: 'Blæs', path: '/blæsere' },
     { name: 'Strygere', path: '/strygere' },
     { name: 'Studie Gear', path: '/studiogear' },
-    { name: 'Øvelokaler', path: '/øvelokaler' },
+    { name: 'Øvelokaler', path: '/rehearsal-rooms' },
     { name: 'Forum', path: '/forum' }
 ];
 const settings = [

@@ -1,0 +1,352 @@
+.rehearsal-room-card {
+    border: none; /* Remove the existing border */
+    box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
+    border-radius: 15px;
+    padding: 20px;
+    width: 500px;
+    background-color: #000000;
+    color: #ffffff;
+    margin: 20px auto; /* Center the card horizontally */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content inside the card */
+    margin-top: 30px; /* Add space above the card */
+    position: relative; /* Add relative positioning */
+}
+
+.favorite-button {
+    position: absolute;
+    top: -75px; /* Position the button just above the image */
+    left: 50%; /* Center the button horizontally */
+    transform: translateX(-50%); /* Adjust for the button's width */
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 40px;
+    color: red;
+    margin-left: 200px;
+    outline: none; /* Remove the blue edge */
+    width: auto; /* Make the button less wide */
+    padding: 5px; /* Add some padding for better click area */
+}
+
+.favorite-button:hover {
+    background: none;
+    color: darkred;
+}
+
+@media (max-width: 600px) {
+    .favorite-button {
+        top: -60px; /* Adjust position for smaller screens */
+        font-size: 30px; /* Adjust font size for smaller screens */
+        margin-left: 100px; /* Adjust margin for smaller screens */
+    }
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 1;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5; /* Add opacity */
+}
+
+.nav-button:hover {
+    opacity: 1; /* Change opacity on hover */
+    background-color: #ffffff;
+}
+
+.nav-button.left {
+    left: 10px; /* Adjust position to stay inside the image */
+}
+
+.nav-button.right {
+    right: 10px; /* Adjust position to stay inside the image */
+}
+
+@media (max-width: 600px) {
+    .nav-button {
+        font-size: 12px; /* Adjust font size for smaller screens */
+        width: 25px; /* Adjust width for smaller screens */
+        height: 25px; /* Adjust height for smaller screens */
+    }
+
+    .nav-button.left {
+        left: 5px; /* Adjust position for smaller screens */
+    }
+
+    .nav-button.right {
+        right: 5px; /* Adjust position for smaller screens */
+    }
+}
+
+.rehearsal-room-image {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    border-radius: 10px;
+    display: block;
+    margin: 10px auto;
+    object-fit: contain;
+}
+
+.toggle-images-button2 {
+    font-size: 0.8em;
+    padding: 5px 10px;
+    background-color: #bccac9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.more-info-container {
+    text-align: left; /* Align text to the left */
+    width: 100%; /* Ensure the container takes the full width of its parent */
+    padding: 10px; /* Add some padding for better spacing */
+    white-space: pre-wrap; /* Preserve whitespace and line breaks */
+}
+
+@media (max-width: 600px) {
+    .rehearsal-room-card {
+        width: 95%; /* Adjust width for smaller screens */
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .rehearsal-room-image {
+        max-width: 100%; /* Ensure the image fits within the card */
+        height: 200px; /* Set a smaller height for smaller screens */
+        object-fit: cover;
+    }
+
+    .toggle-images-button, .show-comments-button, .sell-button {
+        width: 100%; /* Make buttons full width */
+        font-size: 1em; /* Adjust font size */
+    }
+}
+
+.toggle-images-button:hover {
+    background-color: cyan;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.show-comments-button {
+    font-size: 0.8em;
+    padding: 5px 10px;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.show-comments-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.comment-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: #2b2d30;
+    color: #ffffff;
+    resize: none; /* Prevent resizing */
+}
+
+.clear-filters-button:hover {
+    background-color: #4cacaf;
+}
+
+.search-bar2 {
+    display: flex;
+    justify-content: center; /* Center the input element horizontally */
+    width: 100%; /* Ensure the div takes the full width of its container */
+}
+
+.search-bar2 input {
+    width: 500px; /* Set the width of the input element */
+    border-radius: 10px;
+    margin-left: 30px;
+}
+
+.sell-button:hover {
+    background-color: #712cf9; /* Change background color on hover */
+}
+
+@media (max-width: 600px) {
+    .search-bar2 input {
+        width: 70%; /* Adjust width for smaller screens */
+    }
+}
+
+.comment {
+    background-color: #26282e; /* Light grey background */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ffffff; /* Thin white border */
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Ensure text wraps within the card */
+    max-width: 100%; /* Ensure the comment does not exceed the card width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    white-space: pre-wrap; /* Ensure text wraps to the next line */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+}
+
+.comments-section {
+    width: 100%;
+    overflow: hidden;
+}
+
+.search-button-small {
+    padding: 5px 10px; /* Increase the top and bottom padding */
+    font-size: 12px;
+    width: 55px;
+    margin-left: 5px;
+    border-radius: 10px;
+    background-color: #6366f1;
+    cursor: pointer;
+    text-align: center; /* Center the text inside the button */
+    height: 38px;
+    margin-top: 10px;
+}
+
+.search-button-small:hover {
+    background-color: #712cf9;
+}
+
+.sell-button-container {
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    width: 100%; /* Ensure the container takes the full width of its parent */
+    margin-top: 20px;
+}
+
+.sell-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid #6366f1; /* Corrected border property */
+    border-radius: 25px;
+    cursor: pointer;
+    width: 300px; /* Set a specific width */
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.selector-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap; /* Allow selectors to wrap to the next line */
+}
+
+.selector-container .selector select {
+    padding: 15px; /* Increase padding */
+    font-size: 12px; /* Increase font size */
+    margin: 0 10px; /* Add some space between the selectors */
+    border: 1px solid #ccc; /* Add border */
+}
+
+@media (max-width: 600px) {
+    .selector-container {
+        display: flex;
+        flex-direction: column; /* Stack selectors vertically */
+        align-items: center; /* Center the selectors horizontally */
+        width: 100%; /* Ensure the container takes the full width of its parent */
+    }
+
+    .selector-container .selector {
+        width: 100%; /* Ensure all selectors have the same width */
+    }
+
+    .selector-container .selector select {
+        width: 100%; /* Make selectors full width on small screens */
+        margin: 10px 0; /* Add space between selectors vertically */
+        font-size: 12px; /* Increase font size for readability */
+    }
+
+    .selector-container .selector select option {
+        font-size: 30px; /* Increase font size for options */
+    }
+}
+
+@media (max-width: 700px) {
+    .sell-button {
+        width: 100%; /* Adjust width for smaller screens */
+        padding: 5px 10px; /* Adjust padding for smaller screens */
+    }
+}
+
+.view-details-button:hover {
+    background-color: transparent;
+}
+
+.view-details-button {
+    width: 130px;
+    margin-top: 10px;
+    box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
+}
+
+.filter-button {
+    max-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* Center horizontally */
+    margin-top: 15px;
+    box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1);
+}

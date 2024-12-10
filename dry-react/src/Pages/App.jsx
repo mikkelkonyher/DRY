@@ -22,6 +22,7 @@ import ResetPassword from "./LoginSignup/ResetPassword.jsx";
 import MyProfile from "./User/MyProfile.jsx";
 import Footer from "./FooterHeader/Footer.jsx";
 import SearchResults from "./FooterHeader/SearchResults.jsx";
+import GetRehearsalRoomForm from "./Forms/GetRehearsalRoomForm.jsx";
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
                     <Route path="/reset-password/:token" element={<ResetPassword />}/>
                     <Route path="/myprofile" element={<MyProfile />} />
                     <Route path="/search-results" element={<SearchResults />} />
+                    <Route path="/rehearsal-rooms" element={<GetRehearsalRoomForm />} />
                 </Routes>
             </Box>
 
