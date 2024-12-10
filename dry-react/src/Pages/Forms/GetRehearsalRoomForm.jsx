@@ -226,7 +226,7 @@ function GetRehearsalRoom() {
                 <Link to="/SellRehearsalRoom">
                     <button className="sell-button">
                         <SellIcon style={{marginRight: '5px'}}/>
-                        Sælg Øvelokale
+                        Udlej Øvelokale/Musikstudie
                     </button>
                 </Link>
             </div>
@@ -274,8 +274,6 @@ function GetRehearsalRoom() {
                             <option value="Jylland">Jylland</option>
                             <option value="Fyn">Fyn</option>
                             <option value="Bornholm">Bornholm</option>
-                            <option value="Færøerne">Færøerne</option>
-                            <option value="Grønland">Grønland</option>
                             <option value="Andet">Andet</option>
                         </select>
                     </div>
