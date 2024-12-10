@@ -1,3 +1,5 @@
+//MusicGear favorites
+
 namespace DRYV1.Models
 {
     public class Favorite

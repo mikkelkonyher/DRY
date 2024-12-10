@@ -14,11 +14,11 @@ public class RehearsalRoom : IImageUploadable
     public decimal Price { get; set; }
     public int RoomSize { get; set; }
     public string Type { get; set; } // rehearsal room, recording studio, music school etc.
+    
     public int FavoriteCount { get; set; }
     public List<string> ImagePaths { get; set; } = new List<string>();
+    
     public List<Comment> Comments { get; set; } = new List<Comment>();
-    
-    
     public int UserId { get; set; } // Foreign key property
     
 }

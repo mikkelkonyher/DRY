@@ -13,12 +13,15 @@ namespace DRYV1.Models
         public User User { get; set; } // Navigation property
         public MusicGear MusicGear { get; set; } // Navigation property
         public RehearsalRoom RehearsalRoom { get; set; } // Navigation property
+        public Forum Forum { get; set; } // Navigation property
     }
 
     public class CommentDTO
     {
         public int? MusicGearId { get; set; }
         public int? RehearsalRoomId { get; set; }
+        
+        public int? ForumId { get; set; }
         public int UserId { get; set; }
         public string Text { get; set; }
     }
