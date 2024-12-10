@@ -76,22 +76,28 @@ function RehearsalRoomCard({ item, users, handleImageClick, userId }) {
 
     return (
         <div className="rehearsal-room-card" onClick={handleCardClick}>
+            <h3>{item.name}</h3>
+            <p><strong>Lokale type:</strong> {item.type}</p>
+
+
             <img
                 src={item.imagePaths[0]}
                 alt={item.name}
-                onClick={(e) => { e.stopPropagation(); handleImageClick(item.imagePaths[0]); }}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    handleImageClick(item.imagePaths[0]);
+                }}
                 className="rehearsal-room-image"
             />
-            <div className="rehearsal-room-details">
-                <h3>{item.name}</h3>
-                <p>{item.address}</p>
-                <p>{item.location}</p>
-                <p>{item.description}</p>
-                <p>{item.paymentType}: {item.price} kr.</p>
-                <p>Størrelse: {item.roomSize} m²</p>
-                <p>Type: {item.type}</p>
-                <p>Favoritter: {item.favoriteCount}</p>
-                {user && <p>Udlejer: {user.name}</p>}
+            <div className="rehearsal-room-details left-align">
+
+                <p><strong>Adresse:</strong> {item.address}</p>
+                <p><strong>By:</strong> {item.location}</p>
+                <p><strong>Pris:</strong> {item.price} kr. {item.paymentType} </p>
+                <p><strong>Størrelse:</strong> {item.roomSize} m²</p>
+                <p><strong>Favoritter:</strong> {item.favoriteCount}</p>
+                {user && <p><strong>Udlejer:</strong> {user.name}</p>}
+                <p><strong>Oprettet:</strong> {new Date(item.listingDate).toLocaleDateString()}</p>
                 <button
                     className="favorite-button"
                     onClick={handleFavoriteClick}
