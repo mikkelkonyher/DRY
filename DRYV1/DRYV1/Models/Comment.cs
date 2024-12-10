@@ -7,6 +7,8 @@ namespace DRYV1.Models
         public int Id { get; set; }
         public int? MusicGearId { get; set; } // Foreign key to MusicGear
         public int? RehearsalRoomId { get; set; } // Foreign key to RehearsalRoom
+        
+        public int? ForumId { get; set; } // Foreign key to Forum
         public int UserId { get; set; } // Foreign key to User
         public string Text { get; set; }
         public DateTime CreatedAt { get; set; }

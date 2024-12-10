@@ -1,5 +1,6 @@
 using DRYV1.Data;
 using DRYV1.Models;
+using DRYV1.Models.MusicUtilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +32,7 @@ namespace DRYV1.Controllers
                 return BadRequest("Invalid UserId.");
             }
 
-            // Validate if the MusicGearId or RehearsalRoomId exists
+            // Validate if the MusicGearId, RehearsalRoomId, or ForumId exists
             if (commentDto.MusicGearId.HasValue && commentDto.MusicGearId.Value > 0)
             {
                 var musicGearExists = await _context.MusicGear.AnyAsync(mg => mg.Id == commentDto.MusicGearId.Value);
@@ -48,15 +49,24 @@ namespace DRYV1.Controllers
                     return BadRequest("Invalid RehearsalRoomId.");
                 }
             }
+            else if (commentDto.ForumId.HasValue && commentDto.ForumId.Value > 0)
+            {
+                var forumExists = await _context.Forums.AnyAsync(f => f.Id == commentDto.ForumId.Value);
+                if (!forumExists)
+                {
+                    return BadRequest("Invalid ForumId.");
+                }
+            }
             else
             {
-                return BadRequest("Either MusicGearId or RehearsalRoomId must be provided.");
+                return BadRequest("Either MusicGearId, RehearsalRoomId, or ForumId must be provided.");
             }
 
             var comment = new Comment
             {
                 MusicGearId = commentDto.MusicGearId.HasValue && commentDto.MusicGearId.Value > 0 ? commentDto.MusicGearId : null,
                 RehearsalRoomId = commentDto.RehearsalRoomId.HasValue && commentDto.RehearsalRoomId.Value > 0 ? commentDto.RehearsalRoomId : null,
+                ForumId = commentDto.ForumId.HasValue && commentDto.ForumId.Value > 0 ? commentDto.ForumId : null,
                 UserId = commentDto.UserId,
                 Text = commentDto.Text,
                 CreatedAt = DateTime.UtcNow
@@ -78,6 +88,7 @@ namespace DRYV1.Controllers
                     c.Id,
                     c.MusicGearId,
                     c.RehearsalRoomId,
+                    c.ForumId,
                     c.UserId,
                     c.Text,
                     c.CreatedAt,
@@ -133,6 +144,31 @@ namespace DRYV1.Controllers
                 {
                     c.Id,
                     c.RehearsalRoomId,
+                    c.UserId,
+                    c.Text,
+                    c.CreatedAt,
+                    User = new UserDTO
+                    {
+                        Id = c.User.Id,
+                        Name = c.User.Name,
+                        Email = c.User.Email
+                    }
+                })
+                .ToListAsync();
+
+            return Ok(comments);
+        }
+
+        [HttpGet("api/Forum/{forumId}/comments")]
+        public async Task<IActionResult> GetCommentsByForumId(int forumId)
+        {
+            var comments = await _context.Comments
+                .Where(c => c.ForumId == forumId)
+                .Include(c => c.User)
+                .Select(c => new
+                {
+                    c.Id,
+                    c.ForumId,
                     c.UserId,
                     c.Text,
                     c.CreatedAt,
