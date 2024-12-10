@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Picker from '@emoji-mart/react';
 import config from "../../config.jsx";
 
-function PostComment({ rehearsalRoomId, onCommentPosted }) {
+function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted }) {
     const [commentText, setCommentText] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [userId, setUserId] = useState(null);
@@ -58,7 +58,7 @@ function PostComment({ rehearsalRoomId, onCommentPosted }) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ musicGearId: 0, rehearsalRoomId, forumId: 0, userId, text: commentText })
+                body: JSON.stringify({ musicGearId, rehearsalRoomId, forumId, userId, text: commentText })
             });
 
             if (!response.ok) {
@@ -124,7 +124,9 @@ function PostComment({ rehearsalRoomId, onCommentPosted }) {
 }
 
 PostComment.propTypes = {
-    rehearsalRoomId: PropTypes.number.isRequired,
+    musicGearId: PropTypes.number,
+    rehearsalRoomId: PropTypes.number,
+    forumId: PropTypes.number,
     onCommentPosted: PropTypes.func.isRequired,
 };
 
