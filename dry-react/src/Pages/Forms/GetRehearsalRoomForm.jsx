@@ -223,7 +223,7 @@ function GetRehearsalRoom() {
         <div>
             {/* Sell button */}
             <div className="sell-button-container">
-                <Link to="/SellRehearsalRoom">
+                <Link to="/CreateRehearsalRoom">
                     <button className="sell-button">
                         <SellIcon style={{marginRight: '5px'}}/>
                         Udlej Øvelokale/Musikstudie
