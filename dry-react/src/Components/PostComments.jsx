@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Picker from '@emoji-mart/react';
 import config from "../../config.jsx";
 
 function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted }) {
     const [commentText, setCommentText] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [userId, setUserId] = useState(null);
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -76,8 +74,6 @@ function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted })
         }
     };
 
-    const addEmoji = (emoji) => setCommentText(commentText + emoji.native);
-
     const calculateRows = (text) => {
         const lines = text.split('\n').length;
         const extraLines = Math.floor(text.length / 50); // Adjust based on average line length
@@ -95,29 +91,6 @@ function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted })
                 required
                 rows={calculateRows(commentText)}
             />
-            <button
-                type="button"
-                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '1.5em',
-                    margin: '0 5px',
-                    padding: '0',
-                    borderRadius: '50%',
-                    width: '30px',
-                    height: '30px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'grey',
-
-                }}
-            >
-                🥷
-            </button>
-            {showEmojiPicker && <Picker onEmojiSelect={addEmoji} />}
             <button type="submit">Post Kommentar</button>
         </form>
     );
