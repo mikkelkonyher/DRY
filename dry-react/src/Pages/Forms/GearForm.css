@@ -1,4 +1,4 @@
-/* src/Pages/GearForm.css */
+/* CSS For All Creating Gear/RehearsalRoom Pages */
 .image-previews {
     display: flex;
     flex-wrap: wrap;
@@ -25,7 +25,7 @@
 }
 
 .image-preview-container p {
-    color: black; /* Ensure the "Hovedbillede" text is black */
+    color: #6dd94f; /* Ensure the "Hovedbillede" text is black */
 }
 
 .sellHeadline{
