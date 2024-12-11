@@ -238,7 +238,7 @@ function GetRehearsalRoom() {
                     className="search-bar2"
                     value={searchQuery}
                     onChange={handleSearchChange}
-                    placeholder="Søg efter navn, adresse etc..."
+                    placeholder="Søg efter adresse, størrelse, lokaletype etc..."
                 />
                 <button className="search-button-small" onClick={handleSearch}>Søg</button>
             </div>

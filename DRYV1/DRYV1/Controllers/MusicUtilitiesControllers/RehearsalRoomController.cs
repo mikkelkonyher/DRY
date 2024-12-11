@@ -52,7 +52,8 @@ namespace DRYV1.Controllers
                                                                    r.Address.ToLower().Contains(k) ||
                                                                    r.Description.ToLower().Contains(k) ||
                                                                    r.Location.ToLower().Contains(k) ||
-                                                                   r.Type.ToLower().Contains(k)));
+                                                                   r.Type.ToLower().Contains(k) ||
+                                                                   r.RoomSize.ToString().Contains(k)));
             }
 
             var totalItems = await queryable.CountAsync();
