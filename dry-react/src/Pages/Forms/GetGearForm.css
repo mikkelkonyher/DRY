@@ -217,7 +217,7 @@
 .search-bar2 {
     display: flex;
     justify-content: center; /* Center the input element horizontally */
-    width: 100%; /* Ensure the div takes the full width of its container */
+    width: 500px; /* Ensure the div takes the full width of its container */
 }
 
 .search-bar2 input {
@@ -231,8 +231,14 @@
 }
 
 @media (max-width: 600px) {
+    .search-bar2 {
+        width: 100%; /* Adjust width for smaller screens */
+        margin-left: 0; /* Remove left margin for smaller screens */
+    }
+
     .search-bar2 input {
-        width: 70%; /* Adjust width for smaller screens */
+        width: 100%; /* Adjust width for smaller screens */
+        margin-left: 0; /* Remove left margin for smaller screens */
     }
 }
 
