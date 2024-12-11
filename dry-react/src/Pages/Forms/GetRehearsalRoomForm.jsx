@@ -230,18 +230,6 @@ function GetRehearsalRoom() {
                     </button>
                 </Link>
             </div>
-            {/* Search bar */}
-            <div className="search-bar2">
-                <input
-                    type="text"
-                    name="search"
-                    className="search-bar2"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    placeholder="Søg efter adresse, størrelse, lokaletype etc..."
-                />
-                <button className="search-button-small" onClick={handleSearch}>Søg</button>
-            </div>
             {/* Filter button */}
             <button onClick={() => setShowFilters(!showFilters)} className="filter-button">
                 Filtre <TuneIcon style={{marginLeft: '5px'}}/>
@@ -249,6 +237,17 @@ function GetRehearsalRoom() {
             {/* Filters */}
             {showFilters && (
                 <div className="selector-container">
+                    <div className="search-bar2">
+                        <input
+                            type="text"
+                            name="search"
+                            className="search-bar2"
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            placeholder="Søg efter adresse, størrelse, lokaletype etc..."
+                        />
+                        <button className="search-button-small" onClick={handleSearch}>Søg</button>
+                    </div>
                     <div className="selector category-filter">
                         <select value={selectedCategory} onChange={(e) => {
                             setSelectedCategory(e.target.value);
