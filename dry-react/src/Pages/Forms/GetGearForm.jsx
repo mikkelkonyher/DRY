@@ -243,18 +243,6 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                     </button>
                 </Link>
             </div>
-            {/* Search bar */}
-            <div className="search-bar2">
-                <input
-                    type="text"
-                    name="search"
-                    className="search-bar2"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    placeholder="Søg efter brand, model etc..."
-                />
-                <button className="search-button-small" onClick={handleSearch}>Søg</button>
-            </div>
             {/* Filter button */}
             <button onClick={() => setShowFilters(!showFilters)} className="filter-button">
                 Filtre <TuneIcon style={{marginLeft: '5px'}}/>
@@ -262,6 +250,17 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             {/* Filters */}
             {showFilters && (
                 <div className="selector-container">
+                    <div className="search-bar2">
+                        <input
+                            type="text"
+                            name="search"
+                            className="search-bar2"
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            placeholder="Søg efter brand, model etc. i katagorien"
+                        />
+                        <button className="search-button-small" onClick={handleSearch}>Søg</button>
+                    </div>
                     <div className="selector category-filter">
                         <select value={selectedCategory} onChange={(e) => {
                             setSelectedCategory(e.target.value);
