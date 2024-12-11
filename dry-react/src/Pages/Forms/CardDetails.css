@@ -16,7 +16,7 @@
 
 @media (max-width: 600px) {
     .gear-carddetails {
-        width: 400px; /* Adjust width for smaller screens */
+        width: 320px; /* Adjust width for smaller screens */
         padding: 10px; /* Adjust padding for smaller screens */
     }
 }
