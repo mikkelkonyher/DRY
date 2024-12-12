@@ -16,6 +16,7 @@ function SearchResults() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
     const [errorMessage, setErrorMessage] = useState(location.state?.errorMessage || '');
+    const [userId, setUserId] = useState(null);
     const itemsPerPage = 10;
 
     const fetchGear = async (pageNumber = 1) => {
@@ -52,6 +53,38 @@ function SearchResults() {
         }
     }, [location.state, currentPage]);
 
+    useEffect(() => {
+        const fetchUserId = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return; // Exit if no token is found
+
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const email = payload.sub;
+                if (!email) throw new Error('Email not found in token');
+
+                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
+                    headers: {
+                        'accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!userResponse.ok) throw new Error('Failed to fetch users');
+
+                const users = await userResponse.json();
+                const user = users.find(user => user.email === email);
+                if (!user) throw new Error('User not found');
+
+                setUserId(user.id);
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+            }
+        };
+
+        fetchUserId();
+    }, []);
+
     const handleImageClick = (src) => {
         setSelectedImage(src);
     };
@@ -74,6 +107,56 @@ function SearchResults() {
         });
     };
 
+    const handleToggleFavorite = async (gearId) => {
+        try {
+            if (!userId) throw new Error('User ID not found');
+
+            const gearItem = gear.find(item => item.id === gearId);
+            if (!gearItem) throw new Error('Gear item not found');
+
+            if (userId === gearItem.userId) {
+                alert('Du kan ikke tilføje egne produkter til favoritter');
+                return;
+            }
+
+            const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
+            const checkResponse = await fetch(checkUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!checkResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const favorites = await checkResponse.json();
+            const isFavorite = favorites.some(favorite => favorite.musicGearId === gearId);
+
+            const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
+            url.searchParams.append('userId', userId);
+            url.searchParams.append('musicGearId', gearId);
+
+            const response = await fetch(url, {
+                method: isFavorite ? 'DELETE' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const responseBody = await response.text();
+            const favoriteData = responseBody ? JSON.parse(responseBody) : {};
+            console.log(isFavorite ? 'Favorite removed:' : 'Favorite added:', favoriteData);
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        }
+    };
+
     return (
         <Box className="search-results-container" sx={{ padding: '20px' }}>
             <Typography className="search-results-title" variant="h5" sx={{ marginBottom: '20px', marginTop: '20px' }}>
@@ -92,6 +175,8 @@ function SearchResults() {
                                 item={item}
                                 users={users}
                                 handleImageClick={handleImageClick}
+                                handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
+                                userId={userId}
                             />
                         ))
                     ) : (
