@@ -79,10 +79,10 @@ function ForumCard({ item, userId, users }) {
     return (
         <div className="forum-card" onClick={handleCardClick}>
             <h3>{item.subject}</h3>
-            <p>{item.body}</p>
+            <p>{item.body.substring(0, 100)}{item.body.length > 100 ? '... Se mere' : ''}</p>
             <p><strong>Indlæg af: {userName}</strong></p>
             <p><strong>Oprettet: {new Date(item.createdAt).toLocaleString()}</strong></p>
-            <p><strong> <ThumbUpIcon/> {item.likeCount}</strong></p>
+            <p><ThumbUpIcon/> {item.likeCount}</p>
 
             <div className="like-container">
                 <button
@@ -90,7 +90,7 @@ function ForumCard({ item, userId, users }) {
                     onClick={handleLikeClick}
                     title={isLiked ? 'Remove like' : 'Add like'}
                 >
-                    {isLiked ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
+                    {isLiked ? <ThumbUpIcon/> : <ThumbUpOutlinedIcon/>}
                 </button>
             </div>
         </div>

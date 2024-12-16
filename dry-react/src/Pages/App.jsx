@@ -26,6 +26,7 @@ import GetRehearsalRoomForm from "./Forms/GetRehearsalRoomForm.jsx";
 import RehearsalRoomDetails from "./Forms/RehearsalRoomDetails.jsx";
 import CreateRehearsalRoom from "./Forms/CreateRehearsalRoom.jsx";
 import GetForumForm from "./Forms/Forum/GetForumForm.jsx";
+import ForumDetails from "./Forms/Forum/ForumDetails.jsx";
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
                     <Route path="/RehearsalRoomDetails/:id" element={<RehearsalRoomDetails />} />
                     <Route path="/CreateRehearsalRoom" element={<CreateRehearsalRoom />} />
                     <Route path="/forum" element={<GetForumForm />} />
+                    <Route path="/ForumDetails/:id" element={<ForumDetails />} />
                 </Routes>
             </Box>
 
