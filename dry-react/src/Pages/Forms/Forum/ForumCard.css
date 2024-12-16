@@ -1,0 +1,58 @@
+/* src/Pages/Forms/Forum/ForumCard.css */
+
+.forum-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+    width: 100%; /* Adjust the width as needed */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.forum-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.forum-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.forum-card p {
+    margin: 8px 0;
+    color: #666;
+}
+
+.forum-card strong {
+    color: #333;
+}
+
+.like-container {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.like-button:hover {
+    color: #0056b3;
+}
+
+.like-button:focus {
+    outline: none;
+}
