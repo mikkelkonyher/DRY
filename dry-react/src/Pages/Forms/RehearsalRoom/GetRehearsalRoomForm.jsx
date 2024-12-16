@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './GetGearForm.css';
+import '../Gear/GetGearForm.css';
 import SellIcon from '@mui/icons-material/Sell';
-import config from "../../../config.jsx";
-import Pagination from '../../Components/Pagination.jsx';
+import config from "../../../../config.jsx";
+import Pagination from '../../../Components/Pagination.jsx';
 import RehearsalRoomCard from "./RehearsalRoomCard.jsx";
 import TuneIcon from '@mui/icons-material/Tune';
 

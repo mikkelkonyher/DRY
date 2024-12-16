@@ -1,5 +1,5 @@
 import React from 'react';
-import GearForm from '../../Forms/GearForm.jsx';
+import GearForm from '../../Forms/Gear/GearForm.jsx';
 import config from "../../../../config.jsx";
 
 function CreateStudioGear() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateGearForm from '../../Forms/GearForm.jsx';
+import CreateGearForm from '../../Forms/Gear/GearForm.jsx';
 import config from "../../../../config.jsx";
 
 function CreateHornsGear() {

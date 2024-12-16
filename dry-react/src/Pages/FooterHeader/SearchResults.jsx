@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import GearCard from "../Forms/GearCard.jsx"; // Adjust the import path as necessary
+import GearCard from "../Forms/Gear/GearCard.jsx"; // Adjust the import path as necessary
 import Pagination from '../../Components/Pagination.jsx';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
-import config from '../../../config.jsx';
-import './GearForm.css';
+import config from '../../../../config.jsx';
+import '../Gear/GearForm.css';
 
 
 const API_ENDPOINT = `${config.apiBaseUrl}/api/RehearsalRoom`;

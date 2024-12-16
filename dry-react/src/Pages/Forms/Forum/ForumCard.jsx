@@ -9,8 +9,7 @@ import './ForumCard.css';
 
 function ForumCard({ item, userId, users }) {
     const [isLiked, setIsLiked] = useState(false);
-    const navigate = useNavigate();
-
+    useNavigate();
     useEffect(() => {
         if (!userId) return;
 
@@ -71,7 +70,7 @@ function ForumCard({ item, userId, users }) {
     };
 
     const handleCardClick = () => {
-        navigate(`/ForumDetails/${item.id}`);
+        window.open(`/ForumDetails/${item.id}`, '_blank');
     };
 
     const userName = users[item.userId]?.name || 'Unknown User';

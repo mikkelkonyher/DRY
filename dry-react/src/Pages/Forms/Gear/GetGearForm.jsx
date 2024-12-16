@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './GetGearForm.css';
 import SellIcon from '@mui/icons-material/Sell';
-import config from "../../../config.jsx";
-import Pagination from '../../Components/Pagination.jsx';
+import config from "../../../../config.jsx";
+import Pagination from '../../../Components/Pagination.jsx';
 import GearCard from "./GearCard.jsx";
 import TuneIcon from '@mui/icons-material/Tune';
 

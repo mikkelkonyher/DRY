@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import config from "../../../config.jsx";
+import config from "../../../../config.jsx";
 import './GearForm.css';
 
 //DraggableImage component

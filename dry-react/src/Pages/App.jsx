@@ -11,7 +11,7 @@ import CreateStringsGear from "./AllMusicGear/StringsGear/CreateStringsGear.jsx"
 import GetStringsGear from "./AllMusicGear/StringsGear/GetStringsGear.jsx";
 import CreateHornsGear from "./AllMusicGear/HornsGear/CreateHornsGear.jsx";
 import GetHornsGear from "./AllMusicGear/HornsGear/GetHornsGear.jsx";
-import CardDetails from "./Forms/CardDetails.jsx";
+import CardDetails from "./Forms/Gear/CardDetails.jsx";
 import ResponsiveAppBar from './FooterHeader/Navbar';
 import Box from '@mui/material/Box';
 import Home from "./Home.jsx";
@@ -22,9 +22,9 @@ import ResetPassword from "./LoginSignup/ResetPassword.jsx";
 import MyProfile from "./User/MyProfile.jsx";
 import Footer from "./FooterHeader/Footer.jsx";
 import SearchResults from "./FooterHeader/SearchResults.jsx";
-import GetRehearsalRoomForm from "./Forms/GetRehearsalRoomForm.jsx";
-import RehearsalRoomDetails from "./Forms/RehearsalRoomDetails.jsx";
-import CreateRehearsalRoom from "./Forms/CreateRehearsalRoom.jsx";
+import GetRehearsalRoomForm from "./Forms/RehearsalRoom/GetRehearsalRoomForm.jsx";
+import RehearsalRoomDetails from "./Forms/RehearsalRoom/RehearsalRoomDetails.jsx";
+import CreateRehearsalRoom from "./Forms/RehearsalRoom/CreateRehearsalRoom.jsx";
 import GetForumForm from "./Forms/Forum/GetForumForm.jsx";
 import ForumDetails from "./Forms/Forum/ForumDetails.jsx";
 
