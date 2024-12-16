@@ -161,7 +161,7 @@ function SellCard({ item, userId }) {
 
     const handleCardClick = () => {
         if (!isEditing) {
-            navigate(`/gear/${item.id}`);
+            window.open(`/gear/${item.id}`, '_blank');
         }
     };
 
