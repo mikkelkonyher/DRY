@@ -1,0 +1,48 @@
+
+
+.comment {
+    background-color: #26282e; /* Light grey background */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ffffff; /* Thin white border */
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Ensure text wraps within the card */
+    max-width: 100%; /* Ensure the comment does not exceed the card width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    white-space: pre-wrap; /* Ensure text wraps to the next line */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+}
+
+.comments-section {
+    width: 100%;
+    overflow: hidden;
+}
+
+.comment-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: #2b2d30;
+    color: #ffffff;
+    resize: none; /* Prevent resizing */
+}
+
+.show-comments-button {
+    font-size: 0.8em;
+    padding: 5px 10px;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.show-comments-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}

@@ -30,7 +30,6 @@
     padding: 5px; /* Add some padding for better click area */
 }
 
-
 .favorite-button:hover {
     background: none;
     color: darkred;
@@ -42,11 +41,6 @@
         font-size: 30px; /* Adjust font size for smaller screens */
         margin-left: 100px; /* Adjust margin for smaller screens */
     }
-}
-
-.image-container {
-    position: relative;
-    display: inline-block;
 }
 
 .image-container {
@@ -113,8 +107,6 @@
     object-fit: contain;
 }
 
-
-
 .toggle-images-button2 {
     font-size: 0.8em;
     padding: 5px 10px;
@@ -136,7 +128,6 @@
     .gear-card {
         width: 100%; /* Adjust width for smaller screens */
         padding: 10px /* Adjust padding for smaller screens */
-
     }
 
     .gear-image {
@@ -184,33 +175,6 @@
     cursor: pointer;
 }
 
-.show-comments-button {
-    font-size: 0.8em;
-    padding: 5px 10px;
-    background-color: transparent;
-    border: 1px solid white;
-    border-radius: 5px;
-    color: #ffffff;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.show-comments-button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.comment-input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    background-color: #2b2d30;
-    color: #ffffff;
-    resize: none; /* Prevent resizing */
-}
-
 .clear-filters-button:hover {
     background-color: #4cacaf;
 }
@@ -241,26 +205,6 @@
         width: 100%; /* Adjust width for smaller screens */
         margin-left: 0; /* Remove left margin for smaller screens */
     }
-}
-
-.comment {
-    background-color: #26282e; /* Light grey background */
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ffffff; /* Thin white border */
-    word-wrap: break-word; /* Break long words */
-    overflow-wrap: break-word; /* Ensure text wraps within the card */
-    max-width: 100%; /* Ensure the comment does not exceed the card width */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    white-space: pre-wrap; /* Ensure text wraps to the next line */
-    overflow: hidden; /* Hide overflow content */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
-}
-
-.comments-section {
-    width: 100%;
-    overflow: hidden;
 }
 
 .search-button-small {
@@ -348,10 +292,9 @@
 
 .view-details-button:hover {
     background-color: transparent;
-
 }
 
-.view-details-button{
+.view-details-button {
     width: 130px;
     margin-top: 10px;
     box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
