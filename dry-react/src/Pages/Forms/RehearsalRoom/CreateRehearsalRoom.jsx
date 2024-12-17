@@ -264,7 +264,7 @@ function CreateRehearsalRoom() {
                     </select>
 
                     <input type="number" name="price" value={rehearsalRoom.price} onChange={handleChange} placeholder="Pris" required />
-                    <input type="number" name="roomSize" value={rehearsalRoom.roomSize} onChange={handleChange} placeholder="Størrelse i 2m" required />
+                    <input type="number" name="roomSize" value={rehearsalRoom.roomSize} onChange={handleChange} placeholder="Størrelse i m2" required />
 
                     <select name="type" value={rehearsalRoom.type} onChange={handleChange} required>
                         <option value="">Vælg type</option>
