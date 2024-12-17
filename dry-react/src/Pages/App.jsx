@@ -28,6 +28,7 @@ import CreateRehearsalRoom from "./Forms/RehearsalRoom/CreateRehearsalRoom.jsx";
 import GetForumForm from "./Forms/Forum/GetForumForm.jsx";
 import ForumDetails from "./Forms/Forum/ForumDetails.jsx";
 import CreateForum from "./Forms/Forum/CreateForum.jsx";
+import SellGear from "./SellGear.jsx";
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
                     <Route path="/forum" element={<GetForumForm />} />
                     <Route path="/ForumDetails/:id" element={<ForumDetails />} />
                     <Route path="/CreateForum" element={<CreateForum />} />
+                    <Route path="/sell-gear" element={<SellGear />} />
                 </Routes>
             </Box>
 

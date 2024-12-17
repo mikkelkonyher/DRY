@@ -3,6 +3,7 @@ import './Home.css';
 import config from '../../config.jsx';
 import HomeGearCard from "./HomeGearCard.jsx";
 import heroImage from '../assets/Hero_itt2.png';
+import { Link } from 'react-router-dom';
 
 function Home() {
     const [musicGear, setMusicGear] = useState([]);
@@ -43,7 +44,7 @@ function Home() {
             <div className="hero-container" style={{ backgroundImage: `url(${heroImage})` }}>
                 <div className="hero-box">
                     <h1>Gør dit gear til guld</h1>
-                    <button className="hero-button">Upload en artikel nu</button>
+                    <Link to="/sell-gear" className="hero-button">Upload en artikel nu</Link>
                 </div>
             </div>
             <h2>Populære artikler</h2>
