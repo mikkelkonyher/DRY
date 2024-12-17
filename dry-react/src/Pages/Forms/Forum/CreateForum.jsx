@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import config from '../../../../config.jsx';
+import './CreateForum.css';
 
 const CreateForum = () => {
     const [subject, setSubject] = useState('');
@@ -56,13 +56,21 @@ const CreateForum = () => {
         formData.append('UserId', userId);
 
         try {
-            const response = await axios.post(`${config.apiBaseUrl}/api/Forum`, formData, {
+            const response = await fetch(`${config.apiBaseUrl}/api/Forum`, {
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
+                body: formData
             });
-            console.log('Success:', response.data);
-            setSuccessMessage('Forum post created successfully!');
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log('Success:', data);
+            setSuccessMessage('Indlægget er oprettet');
             setSubject('');
             setBody('');
         } catch (error) {
@@ -74,7 +82,7 @@ const CreateForum = () => {
         <form onSubmit={handleSubmit}>
             {successMessage && <div className="success-message">{successMessage}</div>}
             <div>
-                <label htmlFor="subject">Subject *</label>
+                <label htmlFor="subject">Emne *</label>
                 <input
                     type="text"
                     id="subject"
@@ -84,7 +92,7 @@ const CreateForum = () => {
                 />
             </div>
             <div>
-                <label htmlFor="body">Body *</label>
+                <label htmlFor="body">Indhold *</label>
                 <textarea
                     id="body"
                     value={body}
@@ -92,7 +100,7 @@ const CreateForum = () => {
                     required
                 />
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit">Opret</button>
         </form>
     );
 };

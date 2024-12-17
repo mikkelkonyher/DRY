@@ -6,7 +6,6 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import config from "../../../../config.jsx";
 import './ForumCard.css';
 
-
 function ForumCard({ item, userId, users }) {
     const [isLiked, setIsLiked] = useState(false);
     useNavigate();
@@ -77,20 +76,22 @@ function ForumCard({ item, userId, users }) {
 
     return (
         <div className="forum-card" onClick={handleCardClick}>
-            <h3>{item.subject}</h3>
-            <p>{item.body.substring(0, 100)}{item.body.length > 100 ? '... Se mere' : ''}</p>
-            <p><strong>Indlæg af: {userName}</strong></p>
-            <p><strong>Oprettet: {new Date(item.createdAt).toLocaleString()}</strong></p>
-            <p><ThumbUpIcon/> {item.likeCount}</p>
+            <div className="forum-card-content">
+                <h3>{item.subject}</h3>
+                <p>{item.body.substring(0, 100)}{item.body.length > 100 ? '... Se mere' : ''}</p>
+                <p><strong>Indlæg af: {userName}</strong></p>
+                <p><strong>Oprettet: {new Date(item.createdAt).toLocaleString()}</strong></p>
+                <p><ThumbUpIcon/> {item.likeCount}</p>
 
-            <div className="like-container">
-                <button
-                    className="like-button"
-                    onClick={handleLikeClick}
-                    title={isLiked ? 'Remove like' : 'Add like'}
-                >
-                    {isLiked ? <ThumbUpIcon/> : <ThumbUpOutlinedIcon/>}
-                </button>
+                <div className="like-container">
+                    <button
+                        className="like-button"
+                        onClick={handleLikeClick}
+                        title={isLiked ? 'Remove like' : 'Add like'}
+                    >
+                        {isLiked ? <ThumbUpIcon/> : <ThumbUpOutlinedIcon/>}
+                    </button>
+                </div>
             </div>
         </div>
     );
