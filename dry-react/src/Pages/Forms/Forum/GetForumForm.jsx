@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../Gear/GetGearForm.css';
-import SellIcon from '@mui/icons-material/Sell';
 import config from "../../../../config.jsx";
 import Pagination from '../../../Components/Pagination.jsx';
 import ForumCard from "./ForumCard.jsx";
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import './GetForumForm.css'
 
 function GetForumForm() {
     // Define API endpoint
@@ -134,6 +133,7 @@ function GetForumForm() {
                         item={item}
                         users={users}
                         userId={userId}
+                        className="forum-card"
                     />
                 ))}
             </div>
