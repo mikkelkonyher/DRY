@@ -1,19 +1,103 @@
+.homegear-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
 .homegear-card {
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin: 16px;
-    text-align: left;
-    background-color: black;
+    position: relative;
+    padding: 8px;
+    margin: 12px;
+    text-align: center;
+    background-color: #131313;
+    background: linear-gradient(135deg, #1e1e1e, #131313);
+    width: 175px;
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 0 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    box-sizing: border-box;
+    border: 1px solid #444;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 12px;
 }
 
 .homegear-image {
-    max-width: 100%;
+    width: 100%;
     height: auto;
+    max-height: 150px;
+    object-fit: contain;
+    margin-top: auto; /* Push the image to the bottom */
+    margin-bottom: 10px;
+}
+.homegear-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
 }
 
-.homegear-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+
+.homegear-title, .homegear-price {
+    width: 100%;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
+.homegear-title h3{
+    margin: 0;
+    display: block;
+    max-width: 100%;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.homegear-price h4 {
+    margin-top: 0;
+    display: block;
+    max-width: 100%;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+
+
+.homegear-title {
+    font-size: 0.8em;
+    font-weight: 900;
+    color: #4cacaf;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0; /* Adjust this value to reduce space */
+
+}
+
+.homegear-price {
+    font-size: 0.9em;
+
+    color: #4cacaf;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
