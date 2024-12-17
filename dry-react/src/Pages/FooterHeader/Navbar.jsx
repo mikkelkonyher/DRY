@@ -19,6 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import axios from 'axios';
 import config from "../../../config.jsx";
+import logo from '../../assets/logo.png';
 
 const pages = [
     { name: 'Guit/Bas', path: '/GuitBass' },
@@ -99,25 +100,16 @@ function ResponsiveAppBar() {
         <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none', width: '100%', padding: '0px 0', backdropFilter: 'blur(50px)', marginBottom: '20px' }}>
             <Container maxWidth="xl" sx={{padding: '0 0px'}}>
                 <Toolbar disableGutters>
-                    <Box sx={{flexGrow: 0, display: 'flex', justifyContent: 'center'}}>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="a"
-                            href="/"
-                            sx={{
-                                mr: 2,
-                                display: {xs: 'none', lg: 'flex'},
-                                fontFamily: 'monospace',
-                                fontWeight: 100,
-                                letterSpacing: '.2rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                                textTransform: 'none',
-                            }}
-                        >
-                            GearNinja
-                        </Typography>
+                    <Box
+                        component="a"
+                        href="/"
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'none', lg: 'flex' },
+                            alignItems: 'center',
+                        }}
+                    >
+                        <img src={logo} alt="Logo" style={{ height: '40px' }} />
                     </Box>
 
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', lg: 'none'}, justifyContent: 'center'}}>
@@ -194,27 +186,18 @@ function ResponsiveAppBar() {
                         </Menu>
                     </Box>
 
-                    <Typography
-                        variant="h5"
-                        noWrap
+                    <Box
                         component="a"
                         href="/"
                         sx={{
                             mr: 2,
-                            display: {xs: 'flex', lg: 'none'},
+                            display: { xs: 'flex', lg: 'none' },
                             flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                            fontSize: {xs: '1.2rem', sm: '1.5rem'},
-                            textTransform: 'none',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
                         }}
                     >
-                        GearNinja
-                    </Typography>
+                        <img src={logo} alt="Logo" style={{ height: '40px' }} />
+                    </Box>
 
                     <Box sx={{flexGrow: 1, display: {xs: 'none', lg: 'flex'}, justifyContent: 'center'}}>
                         {pages.map((page) => (
