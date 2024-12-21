@@ -71,7 +71,7 @@ function RehearsalRoomCard({ item, handleImageClick, userId }) {
     };
 
     const handleCardClick = () => {
-        window.open(`/RehearsalRoomDetails/${item.id}`, '_blank');
+        navigate(`/RehearsalRoomDetails/${item.id}`);
     };
 
     return (

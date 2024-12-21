@@ -81,7 +81,7 @@ function GearCard({ item, handleImageClick, userId }) {
     };
 
     const handleCardClick = () => {
-        window.open(`/gear/${item.id}`, '_blank');
+        navigate(`/gear/${item.id}`);
     };
 
     return (
