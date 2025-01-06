@@ -9,10 +9,6 @@ textarea {
     box-sizing: border-box;
 }
 
-input[type="file"] {
-    margin: 10px 0;
-}
-
 .image-previews {
     display: flex;
     flex-wrap: wrap;
