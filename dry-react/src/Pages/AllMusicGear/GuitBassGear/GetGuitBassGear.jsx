@@ -1,6 +1,5 @@
 import React from 'react';
 import GetGearForm from '../../Forms/Gear/GetGearForm.jsx';
-import './GetGuiBassGear.css';
 import config from "../../../../config.jsx";
 
 function GetGuitBassGear() {

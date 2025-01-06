@@ -1,6 +1,5 @@
 import React from 'react';
 import GearForm from '../../Forms/Gear/GearForm.jsx';
-import './CreateDrumsGear.css';
 import config from "../../../../config.jsx";
 
 function CreateDrumsGear() {
