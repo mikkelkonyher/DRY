@@ -13,6 +13,7 @@ function SellCard({ item, userId }) {
     const [isFavorite, setIsFavorite] = useState(false);
     const navigate = useNavigate();
 
+    // Check if the item is a favorite
     useEffect(() => {
         if (!userId) return;
 
@@ -41,6 +42,7 @@ function SellCard({ item, userId }) {
         checkFavoriteStatus();
     }, [item.id, userId]);
 
+    // Handle favorite click
     const handleFavoriteClick = async (e) => {
         e.stopPropagation();
         if (!userId) {
@@ -76,6 +78,7 @@ function SellCard({ item, userId }) {
         }
     };
 
+    // Handle delete item
     const handleDelete = async (e) => {
         e.stopPropagation();
         const confirmed = window.confirm('Er du sikker på at du vil slette produktet?');
@@ -95,6 +98,7 @@ function SellCard({ item, userId }) {
         }
     };
 
+    // Handle update item
     const handleUpdate = async (e) => {
         e.stopPropagation();
         try {
@@ -136,11 +140,13 @@ function SellCard({ item, userId }) {
         }
     };
 
+    // Handle new images change
     const handleNewImagesChange = (e) => {
         e.stopPropagation();
         setNewImages([...e.target.files]);
     };
 
+    // Handle image delete
     const handleImageDelete = (image, e) => {
         e.stopPropagation();
         setImagesToDelete([...imagesToDelete, image]);
@@ -150,21 +156,25 @@ function SellCard({ item, userId }) {
         });
     };
 
+    // Handle image click
     const handleImageClick = (src, e) => {
         e.stopPropagation();
         setSelectedImage(src);
     };
 
+    // Close modal
     const closeModal = () => {
         setSelectedImage(null);
     };
 
+    // Handle card click
     const handleCardClick = () => {
         if (!isEditing) {
             navigate(`/gear/${item.id}`);
         }
     };
 
+    // Handle cancel
     const handleCancel = (e) => {
         e.stopPropagation();
         setIsEditing(false);
@@ -175,6 +185,7 @@ function SellCard({ item, userId }) {
         <div className="sell-card" onClick={handleCardClick}>
             {isEditing ? (
                 <>
+                    {/* Editing form */}
                     <input
                         type="text"
                         value={updatedItem.brand}
@@ -249,6 +260,7 @@ function SellCard({ item, userId }) {
                 </>
             ) : (
                 <>
+                    {/* Display item details */}
                     <h3>{item.brand} {item.model}</h3>
                     <h4><strong>Pris: </strong>{item.price} kr. </h4>
                     <div className="image-container">
