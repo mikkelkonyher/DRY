@@ -5,6 +5,7 @@ import config from '../../../config.jsx';
 import './MyProfile.css';
 
 function MyProfile() {
+    // State variables
     const [gear, setGear] = useState([]);
     const [favoriteGear, setFavoriteGear] = useState([]);
     const [users, setUsers] = useState({});
@@ -24,6 +25,7 @@ function MyProfile() {
     const [profileImageUrl, setProfileImageUrl] = useState('');
     const fileInputRef = useRef(null);
 
+    // Fetch user ID and profile image URL
     useEffect(() => {
         const fetchUserId = async () => {
             try {
@@ -71,6 +73,7 @@ function MyProfile() {
         fetchUserId();
     }, []);
 
+    // Fetch user gear and users
     useEffect(() => {
         if (!userId) return;
 
@@ -101,6 +104,7 @@ function MyProfile() {
         fetchUserGear();
     }, [userId]);
 
+    // Fetch favorite gear
     const fetchFavoriteGear = async () => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Favorites/${userId}`);
@@ -118,10 +122,12 @@ function MyProfile() {
         }
     };
 
+    // Handle profile image click
     const handleImageClick = () => {
         fileInputRef.current.click();
     };
 
+    // Handle profile image file change
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -177,6 +183,7 @@ function MyProfile() {
         }
     };
 
+    // Handle edit button click
     const handleEdit = () => {
         setIsEditing(true);
         setIsEmailChanging(false);
@@ -186,6 +193,7 @@ function MyProfile() {
         setShowFavoriteCards(false);
     };
 
+    // Handle save button click
     const handleSave = async () => {
         if (!userName || !userEmail || userEmail === "string" || userName === "string") {
             console.error('Invalid user data');
@@ -238,6 +246,8 @@ function MyProfile() {
             console.error('Error updating user:', error);
         }
     };
+
+    // Handle cancel button click
     const handleCancel = () => {
         setIsEditing(false);
         setShowDeleteConfirm(false);
@@ -245,6 +255,7 @@ function MyProfile() {
         setUserEmail(originalEmail);
     };
 
+    // Handle delete button click
     const handleDelete = async () => {
         if (!showDeleteConfirm) {
             setShowDeleteConfirm(true);
@@ -281,6 +292,7 @@ function MyProfile() {
 
     return (
         <div className="my-profile">
+            {/* Profile image */}
             {profileImageUrl ? (
                 <img className="profile-image" src={profileImageUrl} alt="Profile" onClick={handleImageClick} />
             ) : (
@@ -294,6 +306,7 @@ function MyProfile() {
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
             />
+            {/* Edit profile form */}
             {isEditing ? (
                 <div className="edit-profile">
                     <Link to="/forgot-password">
@@ -347,6 +360,7 @@ function MyProfile() {
                     <button onClick={handleEdit}>Rediger</button>
                 </div>
             )}
+            {/* Show sell and favorite cards */}
             {!isEditing && (
                 <>
                     <button className="myproductsButton" onClick={() => setShowSellCards(!showSellCards)}>
@@ -360,6 +374,7 @@ function MyProfile() {
                     </button>
                 </>
             )}
+            {/* Sell cards */}
             {showSellCards && (
                 <div className="gear-list">
                     {gear.map((item) => (
@@ -374,6 +389,7 @@ function MyProfile() {
                     ))}
                 </div>
             )}
+            {/* Favorite cards */}
             {showFavoriteCards && (
                 <div className="gear-list">
                     {favoriteGear.map((item) => (
