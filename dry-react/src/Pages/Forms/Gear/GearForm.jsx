@@ -275,8 +275,10 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     </select>
 
                     {/* Gear details input fields */}
-                    <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke" required/>
-                    <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model" required/>
+                    <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke"
+                           required/>
+                    <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model"
+                           required/>
                     <textarea
                         name="description"
                         value={gear.description}
@@ -285,7 +287,8 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         required
                         maxLength={2000}
                     />
-                    <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris" required/>
+                    <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris"
+                           required/>
 
                     {/* Gear condition selection */}
                     <select name="condition" value={gear.condition} onChange={handleChange} required>
@@ -297,7 +300,8 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     </select>
 
                     {/* Gear year and location input fields */}
-                    <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År" required/>
+                    <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År"
+                           required/>
                     <select name="location" value={gear.location} onChange={handleChange} required>
                         <option value="">Vælg placering</option>
                         <option value="København og omegn">København og omegn</option>
@@ -321,8 +325,9 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         ))}
                     </div>
 
-                    {/* Submit button */}
-                    <button type="submit">Opret Produkt</button>
+                    <div className="parent-div">
+                        <button type="submit" className="submitproduct-button">Opret Produkt</button>
+                    </div>
                 </form>
             </div>
         </DndProvider>

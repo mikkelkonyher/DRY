@@ -188,3 +188,14 @@ textarea {
     margin: 0 auto; /* Centers the image horizontally */
     margin-bottom: 20px;
 }
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4cacaf;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}

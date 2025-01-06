@@ -182,13 +182,13 @@
 .search-bar2 {
     display: flex;
     justify-content: center; /* Center the input element horizontally */
-    width: 500px; /* Ensure the div takes the full width of its container */
+    width: 300px; /* Reduced width of the div */
 }
 
 .search-bar2 input {
-    width: 500px; /* Set the width of the input element */
+    width: 300px; /* Reduced width of the input element */
     border-radius: 10px;
-    margin-left: 30px;
+    margin-left: 15px; /* Adjusted margin */
 }
 
 .sell-button:hover {
@@ -248,9 +248,10 @@
 
 .selector-container {
     display: flex;
-    justify-content: center;
+    align-items: center;
     margin-top: 20px;
     flex-wrap: wrap; /* Allow selectors to wrap to the next line */
+    width: 100%;
 }
 
 .selector-container .selector select {

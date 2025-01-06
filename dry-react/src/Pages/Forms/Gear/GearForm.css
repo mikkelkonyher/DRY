@@ -1,4 +1,3 @@
-
 .image-previews {
     display: flex;
     flex-wrap: wrap;
@@ -30,4 +29,17 @@
 
 .sellHeadline{
     margin-top: 50px;
+}
+
+.submitproduct-button{
+    width: 200px;
+    margin-top: 20px;
+
+}
+
+/* Parent div for submit button, to center it. */
+.parent-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
