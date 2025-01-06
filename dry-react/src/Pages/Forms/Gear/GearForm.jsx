@@ -5,17 +5,19 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import config from "../../../../config.jsx";
 import './GearForm.css';
 
-//DraggableImage component
+// DraggableImage component
 const ItemType = {
     IMAGE: 'image',
 };
 
 function DraggableImage({ src, index, moveImage }) {
+    // useDrag hook for dragging functionality
     const [, ref] = useDrag({
         type: ItemType.IMAGE,
         item: { index },
     });
 
+    // useDrop hook for dropping functionality
     const [, drop] = useDrop({
         accept: ItemType.IMAGE,
         hover: (draggedItem) => {
@@ -41,8 +43,9 @@ DraggableImage.propTypes = {
     moveImage: PropTypes.func.isRequired,
 };
 
-//GearForm component
+// GearForm component
 function GearForm({ gearType, categories, apiEndpoint }) {
+    // State variables
     const [gear, setGear] = useState({
         brand: '',
         model: '',
@@ -61,6 +64,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // Fetch user ID
     useEffect(() => {
         const fetchUserId = async () => {
             try {
@@ -104,6 +108,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         fetchUserId();
     }, []);
 
+    // Handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
         setGear((prevGear) => ({
@@ -112,6 +117,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         }));
     };
 
+    // Handle file change
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
@@ -136,6 +142,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         setErrorMessage('');
     };
 
+    // Handle remove image
     const handleRemoveImage = (index) => {
         const newImageFiles = [...imageFiles];
         const newImagePreviews = [...imagePreviews];
@@ -147,6 +154,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         setImagePreviews(newImagePreviews);
     };
 
+    // Move image
     const moveImage = (fromIndex, toIndex) => {
         if (toIndex === -1) {
             handleRemoveImage(fromIndex);
@@ -166,6 +174,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         setImagePreviews(newImagePreviews);
     };
 
+    // Handle form submit
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
@@ -257,6 +266,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     {successMessage && <p className="success-message" style={{color: 'green'}}>{successMessage}</p>}
                     {errorMessage && <p className="error-message" style={{color: 'red'}}>{errorMessage}</p>}
 
+                    {/* Gear type selection */}
                     <select name="type" value={gear.type} onChange={handleChange} required>
                         <option value="">Vælg {gearType} kategori</option>
                         {categories.map((category) => (
@@ -264,21 +274,20 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         ))}
                     </select>
 
-                    <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke"
-                           required/>
-                    <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model"
-                           required/>
+                    {/* Gear details input fields */}
+                    <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke" required/>
+                    <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model" required/>
                     <textarea
                         name="description"
                         value={gear.description}
                         onChange={handleChange}
                         placeholder="Beskrivelse max 2000 tegn"
                         required
-                        maxLength={2000} // Assuming an average word length of 5 characters
+                        maxLength={2000}
                     />
-                    <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris"
-                           required/>
+                    <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris" required/>
 
+                    {/* Gear condition selection */}
                     <select name="condition" value={gear.condition} onChange={handleChange} required>
                         <option value="">Vælg tilstand</option>
                         <option value="Ny">Ny</option>
@@ -287,8 +296,8 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         <option value="Brugt">Brugt</option>
                     </select>
 
-                    <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År"
-                           required/>
+                    {/* Gear year and location input fields */}
+                    <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År" required/>
                     <select name="location" value={gear.location} onChange={handleChange} required>
                         <option value="">Vælg placering</option>
                         <option value="København og omegn">København og omegn</option>
@@ -302,14 +311,17 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         <option value="Andet">Andet</option>
                     </select>
 
+                    {/* File input for images */}
                     <input type="file" multiple onChange={handleFileChange}/>
 
+                    {/* Image previews */}
                     <div className="image-previews">
                         {imagePreviews.map((src, index) => (
                             <DraggableImage key={index} src={src} index={index} moveImage={moveImage}/>
                         ))}
                     </div>
 
+                    {/* Submit button */}
                     <button type="submit">Opret Produkt</button>
                 </form>
             </div>
