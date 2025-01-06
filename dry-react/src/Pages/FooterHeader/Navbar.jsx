@@ -21,6 +21,7 @@ import axios from 'axios';
 import config from "../../../config.jsx";
 import logo from '../../assets/logo.png';
 
+// Define navigation pages and user settings
 const pages = [
     { name: 'Guit/Bas', path: '/GuitBass' },
     { name: 'Trommer', path: '/Trommer' },
@@ -37,6 +38,7 @@ const settings = [
 ];
 
 function ResponsiveAppBar() {
+    // State management
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [isAuthenticated, setIsAuthenticated] = React.useState(!!localStorage.getItem('token'));
@@ -44,38 +46,37 @@ function ResponsiveAppBar() {
     const theme = useTheme();
     const navigate = useNavigate();
 
+    // Handlers for opening and closing menus
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
-
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
 
+    // Logout handler
     const handleLogout = () => {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
         navigate('/login');
     };
 
+    // Search handlers
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
-
     const handleSearchSubmit = async (event) => {
         event.preventDefault();
         const pageNumber = 1;
         const pageSize = 10;
         try {
             navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: '' } });
-
             const response = await axios.get(`${config.apiBaseUrl}/api/MusicGear/search`, {
                 params: {
                     query: searchQuery,
@@ -91,7 +92,6 @@ function ResponsiveAppBar() {
             navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match.' } });
         }
     };
-
     const handleSearchIconClick = () => {
         handleSearchSubmit(new Event('submit'));
     };
@@ -100,6 +100,7 @@ function ResponsiveAppBar() {
         <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none', width: '100%', padding: '0px 0', backdropFilter: 'blur(50px)', marginBottom: '20px' }}>
             <Container maxWidth="xl" sx={{padding: '0 0px'}}>
                 <Toolbar disableGutters>
+                    {/* Logo for large screens */}
                     <Box
                         component="a"
                         href="/"
@@ -112,8 +113,9 @@ function ResponsiveAppBar() {
                         <img src={logo} alt="Logo" style={{ height: '40px' }} />
                     </Box>
 
+                    {/* Burger menu for small screens */}
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', lg: 'none'}, justifyContent: 'center'}}>
-                        <IconButton
+                        <IconButton // Open navigation menu
                             size="large"
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
@@ -123,7 +125,7 @@ function ResponsiveAppBar() {
                         >
                             <MenuIcon/>
                         </IconButton>
-                        <Menu
+                        <Menu // Navigation menu for small screens
                             id="menu-appbar"
                             anchorEl={anchorElNav}
                             anchorOrigin={{
@@ -137,14 +139,14 @@ function ResponsiveAppBar() {
                             }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
-                            sx={{
+                            sx={{ // Styling for the menu
                                 display: {xs: 'block', lg: 'none'},
                                 '& .MuiPaper-root': {
                                     backgroundColor: 'black',
                                 }
                             }}
                         >
-                            {pages.map((page) => (
+                            {pages.map((page) => ( // Map over pages and create a menu item for each page
                                 <MenuItem
                                     key={page.name}
                                     onClick={handleCloseNavMenu}
@@ -164,9 +166,9 @@ function ResponsiveAppBar() {
                                     </Typography>
                                 </MenuItem>
                             ))}
-                            {!isAuthenticated && (
+                            {!isAuthenticated && ( // Show login and signup buttons if user is not authenticated
                                 <MenuItem
-                                    onClick={handleCloseNavMenu}
+                                    onClick={handleCloseNavMenu} // Close the menu when a menu item is clicked
                                     sx={{color: 'white'}}
                                 >
                                     <Typography
@@ -186,6 +188,7 @@ function ResponsiveAppBar() {
                         </Menu>
                     </Box>
 
+                    {/* Logo for small screens */}
                     <Box
                         component="a"
                         href="/"
@@ -199,6 +202,7 @@ function ResponsiveAppBar() {
                         <img src={logo} alt="Logo" style={{ height: '40px' }} />
                     </Box>
 
+                    {/* Navigation buttons for large screens */}
                     <Box sx={{flexGrow: 1, display: {xs: 'none', lg: 'flex'}, justifyContent: 'center'}}>
                         {pages.map((page) => (
                             <Button
@@ -213,6 +217,7 @@ function ResponsiveAppBar() {
                         ))}
                     </Box>
 
+                    {/* User profile and authentication buttons */}
                     <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center'}}>
                         {!isAuthenticated ? (
                             <>
@@ -305,13 +310,13 @@ function ResponsiveAppBar() {
                     </Box>
                 </Toolbar>
 
+                {/* Search bar */}
                 <form onSubmit={handleSearchSubmit} style={{
                     display: 'flex',
                     justifyContent: 'center',
                     border: '0px',
                     marginTop: '-25px',
                     marginBottom: '10px'
-
                 }}>
                     <TextField
                         variant="outlined"
@@ -324,7 +329,6 @@ function ResponsiveAppBar() {
                             width: {xs: '100%', sm: '500px'},
                             height: '40px',
                             borderRadius: '20px',
-
                             '& .MuiOutlinedInput-root': {
                                 borderRadius: '20px',
                                 '& fieldset': {
