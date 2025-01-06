@@ -239,7 +239,7 @@ function ResponsiveAppBar() {
                         ) : (
                             <>
                                 <Tooltip title="Min Profil og Inbox">
-                                    <IconButton
+                                    <IconButton // User profile menu
                                         onClick={handleOpenUserMenu}
                                         sx={{
                                             p: 0,
@@ -277,7 +277,7 @@ function ResponsiveAppBar() {
                                     {settings.map((setting) => (
                                         <MenuItem key={setting.name} onClick={handleCloseUserMenu}
                                                   sx={{color: 'white'}}>
-                                            <Typography
+                                            <Typography // User settings
                                                 component={Link}
                                                 to={setting.path}
                                                 sx={{
@@ -292,7 +292,7 @@ function ResponsiveAppBar() {
                                         </MenuItem>
                                     ))}
                                     <MenuItem onClick={handleLogout} sx={{color: 'red'}}>
-                                        <Typography
+                                        <Typography // Logout button
                                             component="a"
                                             sx={{
                                                 textAlign: 'center',
