@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DRYV1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5d0b701140d34e0c34f920332acdc73067381af6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+272bcd2e9f5f802bf08b26cc8c46fc6689a33ba9")]
 [assembly: System.Reflection.AssemblyProductAttribute("DRYV1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DRYV1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

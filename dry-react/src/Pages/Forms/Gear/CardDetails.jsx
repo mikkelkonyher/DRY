@@ -19,6 +19,7 @@ function CardDetails() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
 
+    // Fetch user ID from token
     useEffect(() => {
         const fetchUserId = async () => {
             try {
@@ -51,6 +52,7 @@ function CardDetails() {
         fetchUserId();
     }, []);
 
+    // Fetch gear item and related data
     useEffect(() => {
         const fetchGearItem = async () => {
             try {
@@ -92,6 +94,7 @@ function CardDetails() {
         fetchGearItem();
     }, [id, userId]);
 
+    // Handle favorite button click
     const handleFavoriteClick = async () => {
         if (!userId) {
             alert('Login for at tilføje favoritter');
@@ -120,6 +123,7 @@ function CardDetails() {
         }
     };
 
+    // Handle image navigation
     const handleNextImage = () => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % gearItem.imagePaths.length);
     };
@@ -128,11 +132,13 @@ function CardDetails() {
         setCurrentImageIndex((prevIndex) => (prevIndex - 1 + gearItem.imagePaths.length) % gearItem.imagePaths.length);
     };
 
+    // Handle image click to open modal
     const handleImageClick = (imagePath) => {
         setSelectedImage(imagePath);
         setIsModalOpen(true);
     };
 
+    // Handle comment posted
     const handleCommentPosted = async () => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${id}/comments`);
@@ -148,9 +154,11 @@ function CardDetails() {
 
     return (
         <div className="gear-carddetails">
+            {/* Gear item details */}
             <h4>{gearItem.brand} {gearItem.model}</h4>
             <h5><strong>Pris: </strong>{gearItem.price} kr. </h5>
 
+            {/* Image carousel */}
             <div className="image-container">
                 <button
                     className="favorite-button"
@@ -165,21 +173,23 @@ function CardDetails() {
                 <button className="nav-button right" onClick={handleNextImage}>&gt;</button>
             </div>
 
+            {/* More info */}
             <div className="more-info-container">
                 <p>{gearItem.description}</p>
-
                 <p><strong>Lokation:</strong> {gearItem.location}</p>
                 <p><strong>Stand:</strong> {gearItem.condition}</p>
                 <p><strong>År:</strong> {gearItem.year}</p>
                 <p><strong>Sælger:</strong> {users[gearItem.userId]?.name || 'Ukendt'}</p>
                 <p><strong>Oprettet:</strong> {new Date(gearItem.listingDate).toLocaleDateString()}</p>
                 <p><strong>🤍</strong> {gearItem.favoriteCount}</p>
-
             </div>
 
+            {/* Contact seller */}
             <button onClick={() => alert(`Skriv til sælger: ${users[gearItem.userId]?.email || 'Ukendt'}`)}>
                 Skriv til sælger
             </button>
+
+            {/* Comments section */}
             <div className="comments-section">
                 <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
                     {showComments ? 'Skjul kommentarer' : 'Kommenter'}
@@ -203,6 +213,7 @@ function CardDetails() {
                 )}
             </div>
 
+            {/* Image modal */}
             {isModalOpen && (
                 <div className="modal" onClick={() => setIsModalOpen(false)}>
                     <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
