@@ -68,8 +68,10 @@ function ForumCard({ item, userId, users }) {
         }
     };
 
+    const navigate = useNavigate();
+
     const handleCardClick = () => {
-        window.open(`/ForumDetails/${item.id}`, '_blank');
+        navigate(`/ForumDetails/${item.id}`);
     };
 
     const userName = users[item.userId]?.name || 'Unknown User';

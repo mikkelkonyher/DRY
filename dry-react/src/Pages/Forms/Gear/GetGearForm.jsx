@@ -21,7 +21,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [location, setLocation] = useState('');
     const [priceRange, setPriceRange] = useState('');
-    const [showFilters, setShowFilters] = useState(false); // State variable for filter visibility
+    const [showFilters, setShowFilters] = useState(false);
     const itemsPerPage = 10;
 
     // Fetch gear data from API
@@ -34,10 +34,10 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                 url.searchParams.append(gearTypeKey, selectedCategory);
             }
             if (location) {
-                url.searchParams.append('location', location); // Append location to the URL
+                url.searchParams.append('location', location);
             }
             if (priceRange) {
-                const [minPrice, maxPrice] = priceRange.split('-').map(Number); // Split the price range and convert to numbers
+                const [minPrice, maxPrice] = priceRange.split('-').map(Number);
                 if (minPrice) {
                     url.searchParams.append('minPrice', minPrice);
                 }
@@ -55,7 +55,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             }
             const data = await response.json();
 
-            console.log('API response:', data); // Log the response to debug
+            console.log('API response:', data);
 
             if (!data.items) {
                 throw new Error('items property is undefined');
@@ -80,6 +80,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         }
     };
 
+    // Fetch gear data when dependencies change
     useEffect(() => {
         fetchGear();
     }, [apiEndpoint, currentPage, selectedCategory, location, priceRange]);
@@ -89,7 +90,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         const fetchUserId = async () => {
             try {
                 const token = localStorage.getItem('token');
-                if (!token) return; // Exit if no token is found
+                if (!token) return;
 
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const email = payload.sub;
@@ -124,7 +125,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
 
     // Handle search button click
     const handleSearch = () => {
-        setCurrentPage(1); // Set current page to 1 before fetching search results
+        setCurrentPage(1);
         fetchGear(true);
     };
 
@@ -164,17 +165,14 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         try {
             if (!userId) throw new Error('User ID not found');
 
-            // Find the gear item by gearId
             const gearItem = gear.find(item => item.id === gearId);
             if (!gearItem) throw new Error('Gear item not found');
 
-            // Prevent favoriting own created cards
             if (userId === gearItem.userId) {
                 alert('Du kan ikke tilføje egne produkter til favoritter');
                 return;
             }
 
-            // Check if the item is already a favorite
             const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
             const checkResponse = await fetch(checkUrl, {
                 method: 'GET',
@@ -190,7 +188,6 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             const favorites = await checkResponse.json();
             const isFavorite = favorites.some(favorite => favorite.musicGearId === gearId);
 
-            // Toggle favorite
             const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
             url.searchParams.append('userId', userId);
             url.searchParams.append('musicGearId', gearId);
@@ -264,7 +261,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                     <div className="selector category-filter">
                         <select value={selectedCategory} onChange={(e) => {
                             setSelectedCategory(e.target.value);
-                            setCurrentPage(1); // Reset to page 1 when changing the filter
+                            setCurrentPage(1);
                         }}>
                             <option value="">Alle kategorier</option>
                             {categories.map((category) => (
@@ -275,7 +272,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                     <div className="selector location-filter">
                         <select name="location" value={location} onChange={(e) => {
                             setLocation(e.target.value);
-                            setCurrentPage(1); // Reset to page 1 when changing the filter
+                            setCurrentPage(1);
                         }} required>
                             <option value="">Vælg placering</option>
                             <option value="København og omegn">København og omegn</option>
@@ -294,7 +291,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                     <div className="selector price-filter">
                         <select name="priceRange" value={priceRange} onChange={(e) => {
                             setPriceRange(e.target.value);
-                            setCurrentPage(1); // Reset to page 1 when changing the filter
+                            setCurrentPage(1);
                         }} required>
                             <option value="">Vælg pris</option>
                             <option value="0-1000">0-1000 kr.</option>
@@ -318,7 +315,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                         item={item}
                         users={users}
                         handleImageClick={handleImageClick}
-                        handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
+                        handleFavorite={handleToggleFavorite}
                         userId={userId}
                     />
                 ))}
