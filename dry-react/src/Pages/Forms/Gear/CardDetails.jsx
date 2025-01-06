@@ -26,24 +26,24 @@ function CardDetails() {
                 const token = localStorage.getItem('token');
                 if (!token) return;
 
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                const email = payload.sub;
+                const payload = JSON.parse(atob(token.split('.')[1])); // Decode token payload
+                const email = payload.sub; // Extract email from payload
                 if (!email) throw new Error('Email not found in token');
 
                 const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
                     headers: {
-                        'accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'accept': 'application/json',// Specify JSON response
+                        'Authorization': `Bearer ${token}`// Add token to headers
                     }
                 });
 
                 if (!userResponse.ok) throw new Error('Failed to fetch users');
 
                 const users = await userResponse.json();
-                const user = users.find(user => user.email === email);
+                const user = users.find(user => user.email === email); // Find user by email
                 if (!user) throw new Error('User not found');
 
-                setUserId(user.id);
+                setUserId(user.id); // Set user ID
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }
