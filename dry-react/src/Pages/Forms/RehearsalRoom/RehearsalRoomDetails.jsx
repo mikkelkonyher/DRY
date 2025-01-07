@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import PostComment from "../../../Components/PostComments.jsx";
+import MessageToCard from "../../MessageSystem/MessageToCard.jsx";
 import config from "../../../../config.jsx";
 import '../Gear/CardDetails.css';
 
@@ -18,6 +19,7 @@ function RehearsalRoomDetails() {
     const [userId, setUserId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
+    const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -176,9 +178,20 @@ function RehearsalRoomDetails() {
                 <p><strong>🤍</strong> {roomItem.favoriteCount}</p>
             </div>
 
-            <button onClick={() => alert(`Skriv til sælger: ${users[roomItem.userId]?.email || 'Ukendt'}`)}>
+            <button onClick={() => setIsMessageModalOpen(true)}>
                 Skriv til udlejer
             </button>
+
+            {/* Message modal */}
+            {isMessageModalOpen && (
+                <div className="modal" onClick={() => setIsMessageModalOpen(false)}>
+                    <span className="close" onClick={() => setIsMessageModalOpen(false)}>&times;</span>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <MessageToCard senderId={userId} receiverId={roomItem.userId} />
+                    </div>
+                </div>
+            )}
+
             <div className="comments-section">
                 <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
                     {showComments ? 'Skjul kommentarer' : 'Kommenter'}
