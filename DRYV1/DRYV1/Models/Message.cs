@@ -9,6 +9,7 @@ public class Message
     
     public string? Subject { get; set; }
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+
 }
 
 public class MessageDTO
