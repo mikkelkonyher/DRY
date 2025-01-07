@@ -67,5 +67,22 @@ namespace DRYV1.Controllers
 
             return CreatedAtAction(nameof(GetMessages), new { userId = message.SenderId }, messageDTO);
         }
+        
+        [HttpPost("markAsRead")]
+        public async Task<IActionResult> MarkMessagesAsRead([FromBody] MarkMessagesAsReadDto dto)
+        {
+            var messages = await _context.Messages
+                .Where(m => dto.MessageIds.Contains(m.Id))
+                .ToListAsync();
+
+            foreach (var message in messages)
+            {
+                message.Read = true;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Messages marked as read");
+        }
     }
 }

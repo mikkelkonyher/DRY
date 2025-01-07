@@ -25,22 +25,22 @@ const MessageInterface = () => {
 
                 const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
                     headers: {
-                        'accept': 'application/json', // Specify JSON response
-                        'Authorization': `Bearer ${token}` // Add token to headers
+                        'accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     }
                 });
 
                 if (!userResponse.ok) throw new Error('Failed to fetch users');
 
                 const users = await userResponse.json();
-                const user = users.find(user => user.email === email); // Find user by email
+                const user = users.find(user => user.email === email);
                 if (!user) throw new Error('User not found');
 
-                setUserId(user.id); // Set user ID
+                setUserId(user.id);
                 setUsers(users.reduce((acc, user) => {
                     acc[user.id] = user;
                     return acc;
-                }, {})); // Store users in state
+                }, {}));
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }
@@ -145,13 +145,12 @@ const MessageInterface = () => {
         }
     };
 
-    // Group messages by chatId
     const groupedMessages = messages.reduce((acc, message) => {
         const chatId = message.senderId === userId ? message.receiverId : message.senderId;
         if (!acc[chatId]) {
-            acc[chatId] = [];
+            acc[chatId] = { messages: [] };
         }
-        acc[chatId].push(message);
+        acc[chatId].messages.push(message);
         return acc;
     }, {});
 
@@ -174,7 +173,7 @@ const MessageInterface = () => {
                             <button className="close-button" onClick={() => setSelectedChat(null)}>Close</button>
                         </div>
                         <div className="messages">
-                            {groupedMessages[selectedChat].map(message => (
+                            {groupedMessages[selectedChat].messages.map(message => (
                                 <div key={message.id} className={`message ${message.senderId === userId ? 'sent' : 'received'}`}>
                                     <strong>{message.senderUsername}:</strong> {message.content} <em>({new Date(message.timestamp).toLocaleString()})</em>
                                 </div>

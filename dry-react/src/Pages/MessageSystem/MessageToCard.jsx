@@ -10,6 +10,16 @@ const MessageToCard = ({ senderId, receiverId }) => {
         e.preventDefault();
         if (!message.trim()) return;
 
+        if (!senderId) {
+            setStatus('Log ind for skrive beskeder');
+            return;
+        }
+
+        if (senderId === receiverId) {
+            setStatus('Du kan ikke skrive til dig selv');
+            return;
+        }
+
         const messageData = {
             senderId,
             receiverId,
