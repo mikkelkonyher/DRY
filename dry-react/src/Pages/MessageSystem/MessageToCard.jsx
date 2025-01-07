@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import config from "../../../config.jsx";
 
 const MessageToCard = ({ senderId, receiverId }) => {
+    const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
     const [status, setStatus] = useState('');
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
-        if (!message.trim()) return;
+        if (!subject.trim() || !message.trim()) return;
 
         if (!senderId) {
             setStatus('Log ind for skrive beskeder');
@@ -23,6 +24,7 @@ const MessageToCard = ({ senderId, receiverId }) => {
         const messageData = {
             senderId,
             receiverId,
+            subject,
             content: message
         };
 
@@ -38,6 +40,7 @@ const MessageToCard = ({ senderId, receiverId }) => {
 
             if (response.ok) {
                 setStatus('Besked sendt');
+                setSubject('');
                 setMessage('');
             } else {
                 setStatus('Failed to send message');
@@ -51,6 +54,12 @@ const MessageToCard = ({ senderId, receiverId }) => {
     return (
         <div className="message-to-card">
             <form onSubmit={handleSendMessage}>
+                <input
+                    type="text"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    placeholder="Emne"
+                />
                 <textarea
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}

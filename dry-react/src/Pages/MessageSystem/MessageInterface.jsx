@@ -131,13 +131,16 @@ const MessageInterface = () => {
                 {selectedChat && (
                     <div className="chat-box">
                         <div className="chat-box-header">
-                            <strong>{users[selectedChat]?.name || 'Chat unidentified'}</strong>
+                            <strong> Chat med: {users[selectedChat]?.name || 'Chat unidentified'}</strong>
                             <button className="close-button" onClick={() => setSelectedChat(null)}>Close</button>
                         </div>
                         <div className="messages">
                             {groupedMessages[selectedChat].messages.map(message => (
-                                <div key={message.id} className={`message ${message.senderId === userId ? 'sent' : 'received'}`}>
-                                    <strong>{message.senderUsername}:</strong> {message.content} <em>({new Date(message.timestamp).toLocaleString()})</em>
+                                <div key={message.id}
+                                     className={`message ${message.senderId === userId ? 'sent' : 'received'}`}>
+                                    <strong>{message.senderUsername}:</strong> {message.content}
+                                    <em>({new Date(message.timestamp).toLocaleString()})</em>
+                                    <div className="message-subject">{message.subject}</div>
                                 </div>
                             ))}
                         </div>
