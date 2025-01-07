@@ -8,6 +8,9 @@ const MessageInterface = () => {
     const [selectedChat, setSelectedChat] = useState(null);
     const [users, setUsers] = useState({});
     const [newMessage, setNewMessage] = useState('');
+    const [isNewChat, setIsNewChat] = useState(false);
+    const [newChatReceiverId, setNewChatReceiverId] = useState('');
+    const [newChatContent, setNewChatContent] = useState('');
 
     // Fetch user ID from token
     useEffect(() => {
@@ -108,6 +111,40 @@ const MessageInterface = () => {
         }
     };
 
+    const handleNewChatSubmit = async (e) => {
+        e.preventDefault();
+        if (!newChatContent.trim() || !newChatReceiverId.trim()) return;
+
+        const messageData = {
+            senderId: userId,
+            receiverId: newChatReceiverId,
+            content: newChatContent
+        };
+
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/api/Messages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(messageData)
+            });
+
+            if (response.ok) {
+                const newMessageData = await response.json();
+                setMessages(prevMessages => [...prevMessages, newMessageData]);
+                setNewChatReceiverId('');
+                setNewChatContent('');
+                setIsNewChat(false);
+            } else {
+                console.error('Failed to send message');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     // Group messages by chatId
     const groupedMessages = messages.reduce((acc, message) => {
         const chatId = message.senderId === userId ? message.receiverId : message.senderId;
@@ -120,38 +157,62 @@ const MessageInterface = () => {
 
     return (
         <div className="message-interface-container">
-            <div className="chat-list">
-                <h2>Chats</h2>
-                {Object.keys(groupedMessages).map(chatId => (
-                    <div key={chatId} className="chat-item" onClick={() => handleChatClick(chatId)}>
-                        <strong>{users[chatId]?.name || 'Chat unidentified'}</strong>
-                    </div>
-                ))}
-            </div>
-            {selectedChat && (
-                <div className="chat-box">
-                    <div className="chat-box-header">
-                        <strong>{users[selectedChat]?.name || 'Chat unidentified'}</strong>
-                        <button onClick={() => setSelectedChat(null)}>Close</button>
-                    </div>
-                    <div className="messages">
-                        {groupedMessages[selectedChat].map(message => (
-                            <div key={message.id} className={`message ${message.senderId === userId ? 'sent' : 'received'}`}>
-                                <strong>{message.senderUsername}:</strong> {message.content} <em>({new Date(message.timestamp).toLocaleString()})</em>
-                            </div>
-                        ))}
-                    </div>
-                    <form className="message-form" onSubmit={handleSendMessage}>
-                        <input
-                            type="text"
-                            value={newMessage}
-                            onChange={(e) => setNewMessage(e.target.value)}
-                            placeholder="Type your message..."
-                        />
-                        <button type="submit">Send</button>
-                    </form>
+            <div className="message-interface">
+                <div className="chat-list">
+                    <h2>Chats</h2>
+                    {Object.keys(groupedMessages).map(chatId => (
+                        <div key={chatId} className="chat-item" onClick={() => handleChatClick(chatId)}>
+                            <strong>{users[chatId]?.name || 'Chat unidentified'}</strong>
+                        </div>
+                    ))}
+                    <button onClick={() => setIsNewChat(true)}>New Chat</button>
                 </div>
-            )}
+                {selectedChat && (
+                    <div className="chat-box">
+                        <div className="chat-box-header">
+                            <strong>{users[selectedChat]?.name || 'Chat unidentified'}</strong>
+                            <button className="close-button" onClick={() => setSelectedChat(null)}>Close</button>
+                        </div>
+                        <div className="messages">
+                            {groupedMessages[selectedChat].map(message => (
+                                <div key={message.id} className={`message ${message.senderId === userId ? 'sent' : 'received'}`}>
+                                    <strong>{message.senderUsername}:</strong> {message.content} <em>({new Date(message.timestamp).toLocaleString()})</em>
+                                </div>
+                            ))}
+                        </div>
+                        <form className="message-form" onSubmit={handleSendMessage}>
+                            <input
+                                type="text"
+                                value={newMessage}
+                                onChange={(e) => setNewMessage(e.target.value)}
+                                placeholder="Type your message..."
+                            />
+                            <button type="submit">Send</button>
+                        </form>
+                    </div>
+                )}
+                {isNewChat && (
+                    <div className="new-chat-form">
+                        <h2>New Chat</h2>
+                        <form onSubmit={handleNewChatSubmit}>
+                            <input
+                                type="text"
+                                value={newChatReceiverId}
+                                onChange={(e) => setNewChatReceiverId(e.target.value)}
+                                placeholder="Receiver ID"
+                            />
+                            <input
+                                type="text"
+                                value={newChatContent}
+                                onChange={(e) => setNewChatContent(e.target.value)}
+                                placeholder="Message content"
+                            />
+                            <button type="submit">Send</button>
+                            <button type="button" onClick={() => setIsNewChat(false)}>Cancel</button>
+                        </form>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
