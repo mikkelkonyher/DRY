@@ -32,6 +32,7 @@ namespace DRYV1.Controllers
                     ReceiverId = m.ReceiverId,
                     ReceiverUsername = _context.Users.FirstOrDefault(u => u.Id == m.ReceiverId).Name,
                     Content = m.Content,
+                    Subject = m.Subject,
                     Timestamp = m.Timestamp
                 })
                 .ToListAsync();
@@ -48,6 +49,7 @@ namespace DRYV1.Controllers
                 SenderId = messageCreateDTO.SenderId,
                 ReceiverId = messageCreateDTO.ReceiverId,
                 Content = messageCreateDTO.Content,
+                Subject = messageCreateDTO.Subject,
                 Timestamp = DateTime.UtcNow
             };
 
@@ -62,27 +64,11 @@ namespace DRYV1.Controllers
                 ReceiverId = message.ReceiverId,
                 ReceiverUsername = _context.Users.FirstOrDefault(u => u.Id == message.ReceiverId).Name,
                 Content = message.Content,
+                Subject = message.Subject,
                 Timestamp = message.Timestamp
             };
 
             return CreatedAtAction(nameof(GetMessages), new { userId = message.SenderId }, messageDTO);
-        }
-        
-        [HttpPost("markAsRead")]
-        public async Task<IActionResult> MarkMessagesAsRead([FromBody] MarkMessagesAsReadDto dto)
-        {
-            var messages = await _context.Messages
-                .Where(m => dto.MessageIds.Contains(m.Id))
-                .ToListAsync();
-
-            foreach (var message in messages)
-            {
-                message.Read = true;
-            }
-
-            await _context.SaveChangesAsync();
-
-            return Ok("Messages marked as read");
         }
     }
 }

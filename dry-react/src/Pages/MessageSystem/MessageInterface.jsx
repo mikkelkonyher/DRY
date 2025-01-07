@@ -8,9 +8,6 @@ const MessageInterface = () => {
     const [selectedChat, setSelectedChat] = useState(null);
     const [users, setUsers] = useState({});
     const [newMessage, setNewMessage] = useState('');
-    const [isNewChat, setIsNewChat] = useState(false);
-    const [newChatReceiverId, setNewChatReceiverId] = useState('');
-    const [newChatContent, setNewChatContent] = useState('');
 
     // Fetch user ID from token
     useEffect(() => {
@@ -111,40 +108,6 @@ const MessageInterface = () => {
         }
     };
 
-    const handleNewChatSubmit = async (e) => {
-        e.preventDefault();
-        if (!newChatContent.trim() || !newChatReceiverId.trim()) return;
-
-        const messageData = {
-            senderId: userId,
-            receiverId: newChatReceiverId,
-            content: newChatContent
-        };
-
-        try {
-            const response = await fetch(`${config.apiBaseUrl}/api/Messages`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify(messageData)
-            });
-
-            if (response.ok) {
-                const newMessageData = await response.json();
-                setMessages(prevMessages => [...prevMessages, newMessageData]);
-                setNewChatReceiverId('');
-                setNewChatContent('');
-                setIsNewChat(false);
-            } else {
-                console.error('Failed to send message');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
     const groupedMessages = messages.reduce((acc, message) => {
         const chatId = message.senderId === userId ? message.receiverId : message.senderId;
         if (!acc[chatId]) {
@@ -164,7 +127,6 @@ const MessageInterface = () => {
                             <strong>{users[chatId]?.name || 'Chat unidentified'}</strong>
                         </div>
                     ))}
-                    <button onClick={() => setIsNewChat(true)}>Ny Besked</button>
                 </div>
                 {selectedChat && (
                     <div className="chat-box">
@@ -187,27 +149,6 @@ const MessageInterface = () => {
                                 placeholder="Type your message..."
                             />
                             <button type="submit">Send</button>
-                        </form>
-                    </div>
-                )}
-                {isNewChat && (
-                    <div className="new-chat-form">
-                        <h2>New Chat</h2>
-                        <form onSubmit={handleNewChatSubmit}>
-                            <input
-                                type="text"
-                                value={newChatReceiverId}
-                                onChange={(e) => setNewChatReceiverId(e.target.value)}
-                                placeholder="Receiver ID"
-                            />
-                            <input
-                                type="text"
-                                value={newChatContent}
-                                onChange={(e) => setNewChatContent(e.target.value)}
-                                placeholder="Message content"
-                            />
-                            <button type="submit">Send</button>
-                            <button type="button" onClick={() => setIsNewChat(false)}>Cancel</button>
                         </form>
                     </div>
                 )}
