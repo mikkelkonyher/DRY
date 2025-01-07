@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import PostComment from "../../../Components/PostComments.jsx";
+import MessageToCard from "../../MessageSystem/MessageToCard.jsx";
 import config from "../../../../config.jsx";
 import './CardDetails.css';
 
@@ -18,6 +19,7 @@ function CardDetails() {
     const [userId, setUserId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
+    const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
     // Fetch user ID from token
     useEffect(() => {
@@ -185,9 +187,19 @@ function CardDetails() {
             </div>
 
             {/* Contact seller */}
-            <button onClick={() => alert(`Skriv til sælger: ${users[gearItem.userId]?.email || 'Ukendt'}`)}>
+            <button onClick={() => setIsMessageModalOpen(true)}>
                 Skriv til sælger
             </button>
+
+            {/* Message modal */}
+            {isMessageModalOpen && (
+                <div className="modal" onClick={() => setIsMessageModalOpen(false)}>
+                    <span className="close" onClick={() => setIsMessageModalOpen(false)}>&times;</span>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <MessageToCard senderId={userId} receiverId={gearItem.userId} />
+                    </div>
+                </div>
+            )}
 
             {/* Comments section */}
             <div className="comments-section">

@@ -159,13 +159,13 @@ const MessageInterface = () => {
         <div className="message-interface-container">
             <div className="message-interface">
                 <div className="chat-list">
-                    <h2>Chats</h2>
+                    <h2>Inbox</h2>
                     {Object.keys(groupedMessages).map(chatId => (
                         <div key={chatId} className="chat-item" onClick={() => handleChatClick(chatId)}>
                             <strong>{users[chatId]?.name || 'Chat unidentified'}</strong>
                         </div>
                     ))}
-                    <button onClick={() => setIsNewChat(true)}>New Chat</button>
+                    <button onClick={() => setIsNewChat(true)}>Ny Besked</button>
                 </div>
                 {selectedChat && (
                     <div className="chat-box">
