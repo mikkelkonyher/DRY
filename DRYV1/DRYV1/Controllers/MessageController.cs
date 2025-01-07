@@ -70,5 +70,21 @@ namespace DRYV1.Controllers
 
             return CreatedAtAction(nameof(GetMessages), new { userId = message.SenderId }, messageDTO);
         }
+
+        // DELETE: api/Messages/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMessage(int id)
+        {
+            var message = await _context.Messages.FindAsync(id);
+            if (message == null)
+            {
+                return NotFound();
+            }
+
+            _context.Messages.Remove(message);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

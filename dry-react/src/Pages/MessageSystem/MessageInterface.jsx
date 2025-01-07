@@ -111,9 +111,12 @@ const MessageInterface = () => {
     const groupedMessages = messages.reduce((acc, message) => {
         const chatId = message.senderId === userId ? message.receiverId : message.senderId;
         if (!acc[chatId]) {
-            acc[chatId] = { messages: [] };
+            acc[chatId] = { messages: [], latestSubject: '' };
         }
         acc[chatId].messages.push(message);
+        if (message.subject) {
+            acc[chatId].latestSubject = message.subject; // Update the latest subject only if it's not empty
+        }
         return acc;
     }, {});
 
@@ -125,15 +128,13 @@ const MessageInterface = () => {
                     {Object.keys(groupedMessages).map(chatId => (
                         <div key={chatId} className="chat-item" onClick={() => handleChatClick(chatId)}>
                             <strong>{users[chatId]?.name || 'Chat unidentified'}</strong>
+                            <div className="chat-subject">{groupedMessages[chatId].latestSubject || 'No subject'}</div>
                         </div>
                     ))}
                 </div>
                 {selectedChat && (
                     <div className="chat-box">
-                        <div className="chat-box-header">
-                            <strong> Chat med: {users[selectedChat]?.name || 'Chat unidentified'}</strong>
-                            <button className="close-button" onClick={() => setSelectedChat(null)}>Close</button>
-                        </div>
+
                         <div className="messages">
                             {groupedMessages[selectedChat].messages.map(message => (
                                 <div key={message.id}
