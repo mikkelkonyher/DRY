@@ -29,6 +29,7 @@ import GetForumForm from "./Forms/Forum/GetForumForm.jsx";
 import ForumDetails from "./Forms/Forum/ForumDetails.jsx";
 import CreateForum from "./Forms/Forum/CreateForum.jsx";
 import SellGear from "./SellGear.jsx";
+import MessageInterface from "./MessageSystem/MessageInterface.jsx";
 
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
                     <Route path="/ForumDetails/:id" element={<ForumDetails />} />
                     <Route path="/CreateForum" element={<CreateForum />} />
                     <Route path="/sell-gear" element={<SellGear />} />
+                    <Route path="/inbox" element={<MessageInterface />} />
                 </Routes>
             </Box>
 
