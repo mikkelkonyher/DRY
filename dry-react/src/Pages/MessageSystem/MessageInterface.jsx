@@ -125,7 +125,7 @@ const MessageInterface = () => {
         <div className="message-interface-container">
             <div className="message-interface">
                 <div className="chat-list">
-                    <h2>Inbox</h2>
+                    <h2>Chats</h2>
                     {chats.map(chat => (
                         <div key={chat.id} className="chat-item" onClick={() => handleChatClick(chat.id)}>
                             <strong>{chat.subject}</strong>
