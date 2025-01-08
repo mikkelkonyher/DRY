@@ -80,6 +80,11 @@ const MessageInterface = () => {
         if (!newMessage.trim()) return;
 
         const receiverId = selectedChat;
+        if (!users[receiverId]) {
+            alert('Bruger eksisterer ikke længere');
+            return;
+        }
+
         const messageData = {
             senderId: userId,
             receiverId,
@@ -127,7 +132,7 @@ const MessageInterface = () => {
                     <h2>Inbox</h2>
                     {Object.keys(groupedMessages).map(chatId => (
                         <div key={chatId} className="chat-item" onClick={() => handleChatClick(chatId)}>
-                            <strong>{users[chatId]?.name || 'Chat unidentified'}</strong>
+                            <strong>{users[chatId]?.name || 'Slettet bruger'}</strong>
                             <div className="chat-subject">{groupedMessages[chatId].latestSubject || 'No subject'}</div>
                         </div>
                     ))}
@@ -141,7 +146,7 @@ const MessageInterface = () => {
                                      className={`message ${message.senderId === userId ? 'sent' : 'received'}`}>
                                     <strong>{message.senderUsername}:</strong> {message.content}
                                     <em>({new Date(message.timestamp).toLocaleString()})</em>
-                                    <div className="message-subject">{message.subject}</div>
+                                    <div className="message-subject"><strong>{message.subject}</strong></div>
                                 </div>
                             ))}
                         </div>
