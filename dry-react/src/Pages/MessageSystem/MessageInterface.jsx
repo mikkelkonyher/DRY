@@ -129,6 +129,11 @@ const MessageInterface = () => {
                     {chats.map(chat => (
                         <div key={chat.id} className="chat-item" onClick={() => handleChatClick(chat.id)}>
                             <strong>{chat.subject}</strong>
+                            <span>
+        {chat.messages[0].senderId === userId
+            ? ` - ${chat.messages[0].receiverUsername}`
+            : ` - ${chat.messages[0].senderUsername}`}
+    </span>
                         </div>
                     ))}
                 </div>
@@ -139,8 +144,7 @@ const MessageInterface = () => {
                                 <div key={message.id}
                                      className={`message ${message.senderId === userId ? 'sent' : 'received'}`}>
                                     <strong>{message.senderUsername || 'Deleted user'}:</strong> {message.content}
-                                    <em>({new Date(message.timestamp).toLocaleString()})</em>
-                                    <div className="message-subject"><strong>{message.subject}</strong></div>
+                                    <div><em>({new Date(message.timestamp).toLocaleString()})</em></div>
                                 </div>
                             ))}
                         </div>
