@@ -116,21 +116,26 @@ const MessageInterface = () => {
     const groupedMessages = messages.reduce((acc, message) => {
         const chatId = message.senderId === userId ? message.receiverId : message.senderId;
         if (!acc[chatId]) {
-            acc[chatId] = { messages: [], latestSubject: '' };
+            acc[chatId] = { messages: [], latestSubject: '', latestTimestamp: '' };
         }
         acc[chatId].messages.push(message);
         if (message.subject) {
             acc[chatId].latestSubject = message.subject; // Update the latest subject only if it's not empty
         }
+        acc[chatId].latestTimestamp = message.timestamp; // Update the latest timestamp
         return acc;
     }, {});
+
+    const sortedChatIds = Object.keys(groupedMessages).sort((a, b) =>
+        new Date(groupedMessages[b].latestTimestamp) - new Date(groupedMessages[a].latestTimestamp)
+    );
 
     return (
         <div className="message-interface-container">
             <div className="message-interface">
                 <div className="chat-list">
                     <h2>Inbox</h2>
-                    {Object.keys(groupedMessages).map(chatId => (
+                    {sortedChatIds.map(chatId => (
                         <div key={chatId} className="chat-item" onClick={() => handleChatClick(chatId)}>
                             <strong>{users[chatId]?.name || 'Slettet bruger'}</strong>
                             <div className="chat-subject">{groupedMessages[chatId].latestSubject || 'No subject'}</div>
@@ -144,7 +149,7 @@ const MessageInterface = () => {
                             {groupedMessages[selectedChat].messages.map(message => (
                                 <div key={message.id}
                                      className={`message ${message.senderId === userId ? 'sent' : 'received'}`}>
-                                    <strong>{message.senderUsername}:</strong> {message.content}
+                                    <strong>{message.senderUsername || 'Slettet bruger'}:</strong> {message.content}
                                     <em>({new Date(message.timestamp).toLocaleString()})</em>
                                     <div className="message-subject"><strong>{message.subject}</strong></div>
                                 </div>
