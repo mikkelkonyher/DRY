@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Migrations\" />
       <Folder Include="wwwroot\" />
       <Folder Include="wwwroot\assets\" />
       <Folder Include="wwwroot\assets\uploads\musicgear\" />

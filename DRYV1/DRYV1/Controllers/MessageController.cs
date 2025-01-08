@@ -33,43 +33,73 @@ namespace DRYV1.Controllers
                     ReceiverUsername = _context.Users.FirstOrDefault(u => u.Id == m.ReceiverId).Name,
                     Content = m.Content,
                     Subject = m.Subject,
-                    Timestamp = m.Timestamp
+                    Timestamp = m.Timestamp,
+                    IsRead = m.IsRead,
+                    ChatId = m.ChatId,
+                   
                 })
                 .ToListAsync();
 
             return Ok(messages);
         }
 
-        // POST: api/Messages
-        [HttpPost]
-        public async Task<ActionResult<MessageDTO>> SendMessage(MessageCreateDTO messageCreateDTO)
+       [HttpPost]
+public async Task<ActionResult<MessageDTO>> SendMessage(MessageCreateDTO messageCreateDTO)
+{
+    // Check if a chat with the same subject already exists between the sender and receiver
+    var chat = await _context.Chats
+        .Include(c => c.Messages)
+        .FirstOrDefaultAsync(c => c.Subject == messageCreateDTO.Subject && c.Messages.Any(m =>
+            (m.SenderId == messageCreateDTO.SenderId && m.ReceiverId == messageCreateDTO.ReceiverId) ||
+            (m.SenderId == messageCreateDTO.ReceiverId && m.ReceiverId == messageCreateDTO.SenderId)));
+
+    if (chat == null)
+    {
+        // Create a new chat if it doesn't exist
+        if (!string.IsNullOrEmpty(messageCreateDTO.Subject))
         {
-            var message = new Message
+            chat = new Chat
             {
-                SenderId = messageCreateDTO.SenderId,
-                ReceiverId = messageCreateDTO.ReceiverId,
-                Content = messageCreateDTO.Content,
-                Subject = messageCreateDTO.Subject,
-                Timestamp = DateTime.UtcNow
+                Subject = messageCreateDTO.Subject
             };
-
-            _context.Messages.Add(message);
+            _context.Chats.Add(chat);
             await _context.SaveChangesAsync();
-
-            var messageDTO = new MessageDTO
-            {
-                Id = message.Id,
-                SenderId = message.SenderId,
-                SenderUsername = _context.Users.FirstOrDefault(u => u.Id == message.SenderId).Name,
-                ReceiverId = message.ReceiverId,
-                ReceiverUsername = _context.Users.FirstOrDefault(u => u.Id == message.ReceiverId).Name,
-                Content = message.Content,
-                Subject = message.Subject,
-                Timestamp = message.Timestamp
-            };
-
-            return CreatedAtAction(nameof(GetMessages), new { userId = message.SenderId }, messageDTO);
         }
+        else
+        {
+            return BadRequest("Subject is required to create a new chat.");
+        }
+    }
+
+    var message = new Message
+    {
+        SenderId = messageCreateDTO.SenderId,
+        ReceiverId = messageCreateDTO.ReceiverId,
+        Content = messageCreateDTO.Content,
+        Subject = messageCreateDTO.Subject,
+        Timestamp = DateTime.UtcNow,
+        ChatId = chat.Id,
+        Chat = chat
+    };
+
+    _context.Messages.Add(message);
+    await _context.SaveChangesAsync();
+
+    var messageDTO = new MessageDTO
+    {
+        Id = message.Id,
+        SenderId = message.SenderId,
+        SenderUsername = _context.Users.FirstOrDefault(u => u.Id == message.SenderId).Name,
+        ReceiverId = message.ReceiverId,
+        ReceiverUsername = _context.Users.FirstOrDefault(u => u.Id == message.ReceiverId).Name,
+        Content = message.Content,
+        Subject = message.Subject,
+        Timestamp = message.Timestamp,
+        ChatId = message.ChatId,
+    };
+
+    return CreatedAtAction(nameof(GetMessages), new { userId = message.SenderId }, messageDTO);
+}
 
         // DELETE: api/Messages/{id}
         [HttpDelete("{id}")]

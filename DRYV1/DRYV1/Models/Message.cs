@@ -6,9 +6,14 @@ public class Message
     public int SenderId { get; set; }
     public int ReceiverId { get; set; }
     public string Content { get; set; }
-    
     public string? Subject { get; set; }
+    
+    public bool IsRead { get; set; } = false;
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+    
+    public int ChatId { get; set; }
+    
+    public Chat Chat { get; set; }
 
 }
 
@@ -22,7 +27,13 @@ public class MessageDTO
     public string Content { get; set; }
     
     public string? Subject { get; set; }
+    
+    public bool IsRead { get; set; } = false;
     public DateTime Timestamp { get; set; }
+    
+    public int ChatId { get; set; }
+    
+    
 }
 
 public class MessageCreateDTO
@@ -31,6 +42,11 @@ public class MessageCreateDTO
     public int ReceiverId { get; set; }
     
     public string? Subject { get; set; }
+
     public string Content { get; set; }
+    
+    public int ChatId { get; set; }
+    
+    
 }
 

@@ -23,6 +23,23 @@ namespace DRYV1.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("DRYV1.Models.Chat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
             modelBuilder.Entity("DRYV1.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -119,9 +136,15 @@ namespace DRYV1.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ChatId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("ReceiverId")
                         .HasColumnType("integer");
@@ -136,6 +159,8 @@ namespace DRYV1.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
 
                     b.ToTable("Messages");
                 });
@@ -457,6 +482,17 @@ namespace DRYV1.Migrations
                     b.Navigation("Forum");
                 });
 
+            modelBuilder.Entity("DRYV1.Models.Message", b =>
+                {
+                    b.HasOne("DRYV1.Models.Chat", "Chat")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+                });
+
             modelBuilder.Entity("DRYV1.Models.MusicGear", b =>
                 {
                     b.HasOne("DRYV1.Models.User", null)
@@ -538,6 +574,11 @@ namespace DRYV1.Migrations
                         .HasForeignKey("DRYV1.Models.StudioGear", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DRYV1.Models.Chat", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("DRYV1.Models.MusicGear", b =>

@@ -3,10 +3,9 @@ import config from "../../../config.jsx";
 import './MessageInterface.css'; // Import the CSS file for styling
 
 const MessageInterface = () => {
-    const [messages, setMessages] = useState([]);
-    const [userId, setUserId] = useState(null);
+    const [chats, setChats] = useState([]);
     const [selectedChat, setSelectedChat] = useState(null);
-    const [users, setUsers] = useState({});
+    const [userId, setUserId] = useState(null);
     const [newMessage, setNewMessage] = useState('');
 
     // Fetch user ID from token
@@ -34,10 +33,6 @@ const MessageInterface = () => {
                 if (!user) throw new Error('User not found');
 
                 setUserId(user.id);
-                setUsers(users.reduce((acc, user) => {
-                    acc[user.id] = user;
-                    return acc;
-                }, {}));
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }
@@ -46,28 +41,28 @@ const MessageInterface = () => {
         fetchUserId();
     }, []);
 
-    // Fetch messages
+    // Fetch chats
     useEffect(() => {
         if (userId) {
-            const fetchMessages = async () => {
+            const fetchChats = async () => {
                 try {
-                    const response = await fetch(`${config.apiBaseUrl}/api/Messages/${userId}`, {
+                    const response = await fetch(`${config.apiBaseUrl}/api/Chats`, {
                         headers: {
                             'accept': 'application/json'
                         }
                     });
                     if (response.ok) {
                         const data = await response.json();
-                        setMessages(data);
+                        setChats(data);
                     } else {
-                        console.error('Failed to fetch messages');
+                        console.error('Failed to fetch chats');
                     }
                 } catch (error) {
                     console.error('Error:', error);
                 }
             };
 
-            fetchMessages();
+            fetchChats();
         }
     }, [userId]);
 
@@ -79,16 +74,11 @@ const MessageInterface = () => {
         e.preventDefault();
         if (!newMessage.trim()) return;
 
-        const receiverId = selectedChat;
-        if (!users[receiverId]) {
-            alert('Bruger eksisterer ikke længere');
-            return;
-        }
-
         const messageData = {
             senderId: userId,
-            receiverId,
-            content: newMessage
+            receiverId: selectedChat,
+            content: newMessage,
+            chatId: selectedChat
         };
 
         try {
@@ -103,7 +93,9 @@ const MessageInterface = () => {
 
             if (response.ok) {
                 const newMessageData = await response.json();
-                setMessages(prevMessages => [...prevMessages, newMessageData]);
+                setChats(prevChats => prevChats.map(chat =>
+                    chat.id === selectedChat ? { ...chat, messages: [...chat.messages, newMessageData] } : chat
+                ));
                 setNewMessage('');
             } else {
                 console.error('Failed to send message');
@@ -113,43 +105,24 @@ const MessageInterface = () => {
         }
     };
 
-    const groupedMessages = messages.reduce((acc, message) => {
-        const chatId = message.senderId === userId ? message.receiverId : message.senderId;
-        if (!acc[chatId]) {
-            acc[chatId] = { messages: [], latestSubject: '', latestTimestamp: '' };
-        }
-        acc[chatId].messages.push(message);
-        if (message.subject) {
-            acc[chatId].latestSubject = message.subject; // Update the latest subject only if it's not empty
-        }
-        acc[chatId].latestTimestamp = message.timestamp; // Update the latest timestamp
-        return acc;
-    }, {});
-
-    const sortedChatIds = Object.keys(groupedMessages).sort((a, b) =>
-        new Date(groupedMessages[b].latestTimestamp) - new Date(groupedMessages[a].latestTimestamp)
-    );
-
     return (
         <div className="message-interface-container">
             <div className="message-interface">
                 <div className="chat-list">
                     <h2>Inbox</h2>
-                    {sortedChatIds.map(chatId => (
-                        <div key={chatId} className="chat-item" onClick={() => handleChatClick(chatId)}>
-                            <strong>{users[chatId]?.name || 'Slettet bruger'}</strong>
-                            <div className="chat-subject">{groupedMessages[chatId].latestSubject || 'No subject'}</div>
+                    {chats.map(chat => (
+                        <div key={chat.id} className="chat-item" onClick={() => handleChatClick(chat.id)}>
+                            <strong>{chat.subject}</strong>
                         </div>
                     ))}
                 </div>
                 {selectedChat && (
                     <div className="chat-box">
-
                         <div className="messages">
-                            {groupedMessages[selectedChat].messages.map(message => (
+                            {chats.find(chat => chat.id === selectedChat).messages.map(message => (
                                 <div key={message.id}
                                      className={`message ${message.senderId === userId ? 'sent' : 'received'}`}>
-                                    <strong>{message.senderUsername || 'Slettet bruger'}:</strong> {message.content}
+                                    <strong>{message.senderUsername || 'Deleted user'}:</strong> {message.content}
                                     <em>({new Date(message.timestamp).toLocaleString()})</em>
                                     <div className="message-subject"><strong>{message.subject}</strong></div>
                                 </div>
