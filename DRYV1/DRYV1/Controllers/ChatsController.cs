@@ -66,18 +66,32 @@ namespace DRYV1.Controllers
             return CreatedAtAction(nameof(GetChats), new { id = chat.Id }, chat);
         }
 
-        // GET: api/Chats/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Chat>> GetChat(int id)
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<IEnumerable<ChatDTO>>> GetChats(int userId)
         {
-            var chat = await _context.Chats.FindAsync(id);
+            var chats = await _context.Chats
+                .Include(c => c.Messages)
+                .Where(c => c.Messages.Any(m => m.SenderId == userId || m.ReceiverId == userId))
+                .Select(c => new ChatDTO
+                {
+                    Id = c.Id,
+                    Subject = c.Subject,
+                    Messages = c.Messages.Select(m => new MessageDTO
+                    {
+                        Id = m.Id,
+                        SenderId = m.SenderId,
+                        SenderUsername = _context.Users.FirstOrDefault(u => u.Id == m.SenderId).Name,
+                        ReceiverId = m.ReceiverId,
+                        ReceiverUsername = _context.Users.FirstOrDefault(u => u.Id == m.ReceiverId).Name,
+                        Content = m.Content,
+                        Subject = m.Subject,
+                        Timestamp = m.Timestamp,
+                        ChatId = m.ChatId
+                    }).ToList()
+                })
+                .ToListAsync();
 
-            if (chat == null)
-            {
-                return NotFound();
-            }
-
-            return chat;
+            return Ok(chats);
         }
 
         // DELETE: api/Chats/{id}

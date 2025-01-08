@@ -47,7 +47,7 @@ const MessageInterface = () => {
         if (userId) {
             const fetchChats = async () => {
                 try {
-                    const response = await fetch(`${config.apiBaseUrl}/api/Chats`, {
+                    const response = await fetch(`${config.apiBaseUrl}/api/Chats/${userId}`, {
                         headers: {
                             'accept': 'application/json'
                         }
@@ -130,10 +130,10 @@ const MessageInterface = () => {
                         <div key={chat.id} className="chat-item" onClick={() => handleChatClick(chat.id)}>
                             <strong>{chat.subject}</strong>
                             <span>
-        {chat.messages[0].senderId === userId
-            ? ` - ${chat.messages[0].receiverUsername}`
-            : ` - ${chat.messages[0].senderUsername}`}
-    </span>
+                                {chat.messages[0].senderId === userId
+                                    ? ` - ${chat.messages[0].receiverUsername}`
+                                    : ` - ${chat.messages[0].senderUsername}`}
+                            </span>
                         </div>
                     ))}
                 </div>
