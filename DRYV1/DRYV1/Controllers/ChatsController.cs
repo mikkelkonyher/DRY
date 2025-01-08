@@ -76,18 +76,20 @@ namespace DRYV1.Controllers
                 {
                     Id = c.Id,
                     Subject = c.Subject,
-                    Messages = c.Messages.Select(m => new MessageDTO
-                    {
-                        Id = m.Id,
-                        SenderId = m.SenderId,
-                        SenderUsername = _context.Users.FirstOrDefault(u => u.Id == m.SenderId).Name,
-                        ReceiverId = m.ReceiverId,
-                        ReceiverUsername = _context.Users.FirstOrDefault(u => u.Id == m.ReceiverId).Name,
-                        Content = m.Content,
-                        Subject = m.Subject,
-                        Timestamp = m.Timestamp,
-                        ChatId = m.ChatId
-                    }).ToList()
+                    Messages = c.Messages
+                        .OrderBy(m => m.Timestamp) // Order messages by Timestamp in ascending order
+                        .Select(m => new MessageDTO
+                        {
+                            Id = m.Id,
+                            SenderId = m.SenderId,
+                            SenderUsername = _context.Users.FirstOrDefault(u => u.Id == m.SenderId).Name,
+                            ReceiverId = m.ReceiverId,
+                            ReceiverUsername = _context.Users.FirstOrDefault(u => u.Id == m.ReceiverId).Name,
+                            Content = m.Content,
+                            Subject = m.Subject,
+                            Timestamp = m.Timestamp,
+                            ChatId = m.ChatId
+                        }).ToList()
                 })
                 .ToListAsync();
 
