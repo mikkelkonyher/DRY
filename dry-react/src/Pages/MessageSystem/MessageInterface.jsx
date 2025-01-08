@@ -7,6 +7,7 @@ const MessageInterface = () => {
     const [selectedChat, setSelectedChat] = useState(null);
     const [userId, setUserId] = useState(null);
     const [newMessage, setNewMessage] = useState('');
+    const [error, setError] = useState('');
 
     // Fetch user ID from token
     useEffect(() => {
@@ -74,31 +75,23 @@ const MessageInterface = () => {
         e.preventDefault();
         if (!newMessage.trim()) return;
 
-        let selectedChatData = chats.find(chat => chat.id === selectedChat);
-        let chatId = selectedChat;
-        let receiverId;
-
+        const selectedChatData = chats.find(chat => chat.id === selectedChat);
         if (!selectedChatData) {
-            // Check if a chat with the same subject exists
-            selectedChatData = chats.find(chat => chat.subject === newMessage.subject);
-            if (selectedChatData) {
-                chatId = selectedChatData.id;
-                receiverId = selectedChatData.messages[0].receiverId;
-            } else {
-                // If no chat with the same subject exists, create a new chat
-                chatId = null;
-                receiverId = null; // Set receiverId to null or handle it accordingly
-            }
-        } else {
-            receiverId = selectedChatData.messages[0].receiverId;
+            setError('Selected chat does not exist.');
+            return;
         }
+
+        const chatId = selectedChatData.id; // Use the existing chat ID
+        const receiverId = selectedChatData.messages[0].senderId === userId
+            ? selectedChatData.messages[0].receiverId
+            : selectedChatData.messages[0].senderId; // Ensure the correct receiverId is used
 
         const messageData = {
             senderId: userId,
             receiverId: receiverId,
-            subject: selectedChatData ? selectedChatData.subject : newMessage.subject, // Keep the same subject
+            subject: selectedChatData.subject, // Keep the same subject
             content: newMessage,
-            chatId: chatId // Use the existing or new chatId
+            chatId: chatId // Use the existing chatId
         };
 
         try {
@@ -114,16 +107,12 @@ const MessageInterface = () => {
             if (response.ok) {
                 const newMessageData = await response.json();
                 setChats(prevChats => {
-                    const chatExists = prevChats.some(chat => chat.id === chatId);
-                    if (chatExists) {
-                        return prevChats.map(chat =>
-                            chat.id === chatId ? { ...chat, messages: [...chat.messages, newMessageData] } : chat
-                        );
-                    } else {
-                        return [...prevChats, { id: chatId, subject: newMessage.subject, messages: [newMessageData] }];
-                    }
+                    return prevChats.map(chat =>
+                        chat.id === chatId ? { ...chat, messages: [...chat.messages, newMessageData] } : chat
+                    );
                 });
                 setNewMessage('');
+                setError('');
             } else {
                 console.error('Failed to send message');
             }
@@ -164,6 +153,7 @@ const MessageInterface = () => {
                             />
                             <button type="submit">Send</button>
                         </form>
+                        {error && <p className="error-message">{error}</p>}
                     </div>
                 )}
             </div>
