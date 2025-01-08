@@ -74,11 +74,31 @@ const MessageInterface = () => {
         e.preventDefault();
         if (!newMessage.trim()) return;
 
+        let selectedChatData = chats.find(chat => chat.id === selectedChat);
+        let chatId = selectedChat;
+        let receiverId;
+
+        if (!selectedChatData) {
+            // Check if a chat with the same subject exists
+            selectedChatData = chats.find(chat => chat.subject === newMessage.subject);
+            if (selectedChatData) {
+                chatId = selectedChatData.id;
+                receiverId = selectedChatData.messages[0].receiverId;
+            } else {
+                // If no chat with the same subject exists, create a new chat
+                chatId = null;
+                receiverId = null; // Set receiverId to null or handle it accordingly
+            }
+        } else {
+            receiverId = selectedChatData.messages[0].receiverId;
+        }
+
         const messageData = {
             senderId: userId,
-            receiverId: selectedChat,
+            receiverId: receiverId,
+            subject: selectedChatData ? selectedChatData.subject : newMessage.subject, // Keep the same subject
             content: newMessage,
-            chatId: selectedChat
+            chatId: chatId // Use the existing or new chatId
         };
 
         try {
@@ -93,9 +113,16 @@ const MessageInterface = () => {
 
             if (response.ok) {
                 const newMessageData = await response.json();
-                setChats(prevChats => prevChats.map(chat =>
-                    chat.id === selectedChat ? { ...chat, messages: [...chat.messages, newMessageData] } : chat
-                ));
+                setChats(prevChats => {
+                    const chatExists = prevChats.some(chat => chat.id === chatId);
+                    if (chatExists) {
+                        return prevChats.map(chat =>
+                            chat.id === chatId ? { ...chat, messages: [...chat.messages, newMessageData] } : chat
+                        );
+                    } else {
+                        return [...prevChats, { id: chatId, subject: newMessage.subject, messages: [newMessageData] }];
+                    }
+                });
                 setNewMessage('');
             } else {
                 console.error('Failed to send message');

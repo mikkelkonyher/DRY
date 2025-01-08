@@ -45,10 +45,21 @@ namespace DRYV1.Controllers
             return Ok(chats);
         }
 
-        // POST: api/Chats
         [HttpPost]
         public async Task<ActionResult<Chat>> CreateChat(Chat chat)
         {
+            // Check if a chat with the same subject and sender already exists
+            var existingChat = await _context.Chats
+                .Include(c => c.Messages)
+                .FirstOrDefaultAsync(c => c.Subject == chat.Subject && c.Messages.Any(m => m.SenderId == chat.Messages.First().SenderId));
+
+            if (existingChat != null)
+            {
+                // Return the existing chat
+                return Ok(existingChat);
+            }
+
+            // Create a new chat if it doesn't exist
             _context.Chats.Add(chat);
             await _context.SaveChangesAsync();
 
