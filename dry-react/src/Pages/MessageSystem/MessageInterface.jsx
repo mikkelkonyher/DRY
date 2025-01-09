@@ -88,21 +88,23 @@ const MessageInterface = () => {
             });
 
             if (response.ok) {
-                setChats(prevChats =>
-                    prevChats.map(chat =>
-                        chat.id === chatId
-                            ? {
+                // Update the state of the chats array directly
+                setChats(prevChats => {
+                    return prevChats.map(chat => {
+                        if (chat.id === chatId) {
+                            return {
                                 ...chat,
                                 messages: chat.messages.map(message => ({
                                     ...message,
                                     isReadReceiver: message.receiverId === userId ? true : message.isReadReceiver,
                                     isReadSender: message.senderId === userId ? true : message.isReadSender
                                 })),
-                                hasUnreadMessages: false
-                            }
-                            : chat
-                    )
-                );
+                                hasUnreadMessages: false // Set hasUnreadMessages to false
+                            };
+                        }
+                        return chat;
+                    });
+                });
             } else {
                 console.error('Failed to mark messages as read');
             }
