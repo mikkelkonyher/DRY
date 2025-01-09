@@ -8,7 +8,8 @@ public class Message
     public string Content { get; set; }
     public string? Subject { get; set; }
     
-    public bool IsRead { get; set; } = false;
+    public bool IsReadSender { get; set; } = false;
+    public bool IsReadReceiver { get; set; } = false;
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
     
     public int ChatId { get; set; }
@@ -28,7 +29,8 @@ public class MessageDTO
     
     public string? Subject { get; set; }
     
-    public bool IsRead { get; set; } = false;
+    public bool IsReadSender { get; set; } = false;
+    public bool IsReadReceiver { get; set; } = false;
     public DateTime Timestamp { get; set; }
     
     public int ChatId { get; set; }

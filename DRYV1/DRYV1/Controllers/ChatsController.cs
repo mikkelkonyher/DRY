@@ -88,6 +88,8 @@ namespace DRYV1.Controllers
                             Content = m.Content,
                             Subject = m.Subject,
                             Timestamp = m.Timestamp,
+                            IsReadSender = m.IsReadSender,
+                            IsReadReceiver = m.IsReadReceiver,
                             ChatId = m.ChatId
                         }).ToList()
                 })
@@ -111,5 +113,39 @@ namespace DRYV1.Controllers
 
             return NoContent();
         }
+        
+        [HttpPut("{chatId}/markAllAsRead/{userId}")]
+        public async Task<IActionResult> MarkAllMessagesAsRead(int chatId, int userId)
+        {
+            var chat = await _context.Chats
+                .Include(c => c.Messages)
+                .FirstOrDefaultAsync(c => c.Id == chatId);
+
+            if (chat == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var message in chat.Messages)
+            {
+                if (message.ReceiverId == userId && !message.IsReadReceiver)
+                {
+                    // Mark as read for the receiver
+                    message.IsReadReceiver = true;
+                    _context.Entry(message).State = EntityState.Modified;
+                }
+                else if (message.SenderId == userId && !message.IsReadSender)
+                {
+                    // Optionally mark as read for the sender
+                    message.IsReadSender = true;
+                    _context.Entry(message).State = EntityState.Modified;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+     
     }
 }

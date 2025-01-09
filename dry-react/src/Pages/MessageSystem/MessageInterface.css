@@ -146,3 +146,13 @@
 .new-chat-form button:hover {
     background-color: #3b34cc;
 }
+
+.chat-item.unread {
+    font-weight: bold;
+    background-color: #f9f9f9;
+}
+
+.unread-message {
+    border-left: 4px solid #ff4500;
+    background-color: #fff4e6;
+}

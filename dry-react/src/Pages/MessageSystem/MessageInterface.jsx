@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import config from "../../../config.jsx";
-import './MessageInterface.css'; // Import the CSS file for styling
+import './MessageInterface.css';
 
 const MessageInterface = () => {
     const [chats, setChats] = useState([]);
@@ -44,33 +44,84 @@ const MessageInterface = () => {
 
     // Fetch chats
     useEffect(() => {
-        if (userId) {
-            const fetchChats = async () => {
-                try {
-                    const response = await fetch(`${config.apiBaseUrl}/api/Chats/${userId}`, {
-                        headers: {
-                            'accept': 'application/json'
-                        }
-                    });
-                    if (response.ok) {
-                        const data = await response.json();
-                        setChats(data);
-                    } else {
-                        console.error('Failed to fetch chats');
+        const fetchChats = async () => {
+            try {
+                if (!userId) return;
+                const response = await fetch(`${config.apiBaseUrl}/api/Chats/${userId}`, {
+                    headers: {
+                        'accept': 'application/json'
                     }
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            };
+                });
 
-            fetchChats();
-        }
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Fetched chats:', data); // Log fetched data
+                    // Check if each chat has unread messages for the receiver
+                    const updatedChats = data.map(chat => {
+                        const hasUnreadMessages = chat.messages.some(
+                            message => message.receiverId === userId && !message.isReadReceiver
+                        );
+                        console.log(`Chat ${chat.id} has unread messages:`, hasUnreadMessages); // Log unread status
+                        return { ...chat, hasUnreadMessages };
+                    });
+                    setChats(updatedChats);
+                } else {
+                    console.error('Failed to fetch chats');
+                }
+            } catch (error) {
+                console.error('Error fetching chats:', error);
+            }
+        };
+
+        fetchChats();
     }, [userId]);
 
-    const handleChatClick = (chatId) => {
-        setSelectedChat(selectedChat === chatId ? null : chatId);
+    // Mark all messages as read
+    const markAllMessagesAsRead = async (chatId) => {
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/api/Chats/${chatId}/markAllAsRead/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'accept': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                setChats(prevChats =>
+                    prevChats.map(chat =>
+                        chat.id === chatId
+                            ? {
+                                ...chat,
+                                messages: chat.messages.map(message => ({
+                                    ...message,
+                                    isReadReceiver: message.receiverId === userId ? true : message.isReadReceiver,
+                                    isReadSender: message.senderId === userId ? true : message.isReadSender
+                                })),
+                                hasUnreadMessages: false
+                            }
+                            : chat
+                    )
+                );
+            } else {
+                console.error('Failed to mark messages as read');
+            }
+        } catch (error) {
+            console.error('Error marking messages as read:', error);
+        }
     };
 
+    // Handle chat click
+    const handleChatClick = (chatId) => {
+        if (selectedChat !== chatId) {
+            setSelectedChat(chatId);
+            markAllMessagesAsRead(chatId); // Mark messages as read for the current chat
+        } else {
+            setSelectedChat(null);
+        }
+    };
+
+    // Handle send message
     const handleSendMessage = async (e) => {
         e.preventDefault();
         if (!newMessage.trim()) return;
@@ -81,17 +132,17 @@ const MessageInterface = () => {
             return;
         }
 
-        const chatId = selectedChatData.id; // Use the existing chat ID
+        const chatId = selectedChatData.id;
         const receiverId = selectedChatData.messages[0].senderId === userId
             ? selectedChatData.messages[0].receiverId
-            : selectedChatData.messages[0].senderId; // Ensure the correct receiverId is used
+            : selectedChatData.messages[0].senderId;
 
         const messageData = {
             senderId: userId,
             receiverId: receiverId,
-            subject: selectedChatData.subject, // Keep the same subject
+            subject: selectedChatData.subject,
             content: newMessage,
-            chatId: chatId // Use the existing chatId
+            chatId: chatId
         };
 
         try {
@@ -117,7 +168,7 @@ const MessageInterface = () => {
                 console.error('Failed to send message');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error sending message:', error);
         }
     };
 
@@ -126,23 +177,36 @@ const MessageInterface = () => {
             <div className="message-interface">
                 <div className="chat-list">
                     <h2>Chats</h2>
-                    {chats.map(chat => (
-                        <div key={chat.id} className="chat-item" onClick={() => handleChatClick(chat.id)}>
-                            <strong>{chat.subject}</strong>
-                            <span>
-                                {chat.messages[0].senderId === userId
-                                    ? ` - ${chat.messages[0].receiverUsername}`
-                                    : ` - ${chat.messages[0].senderUsername}`}
-                            </span>
-                        </div>
-                    ))}
+                    {chats.map(chat => {
+                        const unreadMessages = chat.messages.filter(
+                            message => message.receiverId === userId && !message.isReadReceiver
+                        ).length;
+
+                        return (
+                            <div
+                                key={chat.id}
+                                className={`chat-item ${chat.hasUnreadMessages ? 'unread' : ''}`}
+                                onClick={() => handleChatClick(chat.id)}
+                            >
+                                <strong>{chat.subject}</strong>
+                                <span>
+                                    {chat.messages[0].senderId === userId
+                                        ? ` - ${chat.messages[0].receiverUsername}`
+                                        : ` - ${chat.messages[0].senderUsername}`}
+                                    {unreadMessages > 0 && ` (${unreadMessages} unread)`}
+                                </span>
+                            </div>
+                        );
+                    })}
                 </div>
                 {selectedChat && (
                     <div className="chat-box">
                         <div className="messages">
                             {chats.find(chat => chat.id === selectedChat).messages.map(message => (
-                                <div key={message.id}
-                                     className={`message ${message.senderId === userId ? 'sent' : 'received'}`}>
+                                <div
+                                    key={message.id}
+                                    className={`message ${message.senderId === userId ? 'sent' : 'received'}`}
+                                >
                                     <strong>{message.senderUsername || 'Deleted user'}:</strong> {message.content}
                                     <div><em>({new Date(message.timestamp).toLocaleString()})</em></div>
                                 </div>
@@ -153,7 +217,7 @@ const MessageInterface = () => {
                                 type="text"
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
-                                placeholder="Type your message..."
+                                placeholder="Type a message..."
                             />
                             <button type="submit">Send</button>
                         </form>

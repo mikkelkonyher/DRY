@@ -34,7 +34,8 @@ namespace DRYV1.Controllers
                     Content = m.Content,
                     Subject = m.Subject,
                     Timestamp = m.Timestamp,
-                    IsRead = m.IsRead,
+                    IsReadSender = m.IsReadSender,
+                    IsReadReceiver = m.IsReadReceiver,
                     ChatId = m.ChatId,
                    
                 })
@@ -110,5 +111,7 @@ namespace DRYV1.Controllers
 
             return NoContent();
         }
+        
+       
     }
 }
