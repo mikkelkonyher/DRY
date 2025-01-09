@@ -219,7 +219,7 @@ const MessageInterface = () => {
                                 type="text"
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
-                                placeholder="Type a message..."
+                                placeholder="Skriv besked..."
                             />
                             <button type="submit">Send</button>
                         </form>
