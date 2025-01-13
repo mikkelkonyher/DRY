@@ -71,7 +71,9 @@ namespace DRYV1.Controllers
         {
             var chats = await _context.Chats
                 .Include(c => c.Messages)
-                .Where(c => c.Messages.Any(m => m.SenderId == userId || m.ReceiverId == userId))
+                .Where(c => (c.Messages.Any(m => m.SenderId == userId || m.ReceiverId == userId)) &&
+                            !(c.IsDeletedBySender && c.Messages.Any(m => m.SenderId == userId)) &&
+                            !(c.IsDeletedByReceiver && c.Messages.Any(m => m.ReceiverId == userId)))
                 .Select(c => new ChatDTO
                 {
                     Id = c.Id,
