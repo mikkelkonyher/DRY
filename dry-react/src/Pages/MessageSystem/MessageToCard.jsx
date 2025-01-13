@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import config from "../../../config.jsx";
+import './MessageToCard.css';
 
 const MessageToCard = ({ senderId, receiverId }) => {
     const [subject, setSubject] = useState('');
