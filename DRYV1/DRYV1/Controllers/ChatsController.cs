@@ -97,6 +97,44 @@ namespace DRYV1.Controllers
 
             return Ok(chats);
         }
+        
+        [HttpPut("{chatId}/softDelete/{userId}")]
+        public async Task<IActionResult> SoftDeleteChat(int chatId, int userId)
+        {
+            var chat = await _context.Chats
+                .Include(c => c.Messages)
+                .FirstOrDefaultAsync(c => c.Id == chatId);
+            if (chat == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (chat.Messages.Any(m => m.SenderId == userId))
+            {
+                chat.IsDeletedBySender = true;
+            }
+            else if (chat.Messages.Any(m => m.ReceiverId == userId))
+            {
+                chat.IsDeletedByReceiver = true;
+            }
+            else
+            {
+                return BadRequest("User is not part of this chat.");
+            }
+
+            _context.Entry(chat).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+        
+        
 
         // DELETE: api/Chats/{id}
         [HttpDelete("{id}")]

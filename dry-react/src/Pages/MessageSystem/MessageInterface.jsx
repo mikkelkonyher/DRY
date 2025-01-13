@@ -174,6 +174,32 @@ const MessageInterface = () => {
         }
     };
 
+    // Handle soft delete chat
+    const handleSoftDeleteChat = async (e, chatId) => {
+        e.stopPropagation(); // Stop event propagation
+        const confirmDelete = window.confirm("Er du sikker på at du vil slette denne chat?");
+        if (!confirmDelete) return;
+
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/api/Chats/${chatId}/softDelete/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'accept': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                // Remove the chat from the state
+                setChats(prevChats => prevChats.filter(chat => chat.id !== chatId));
+            } else {
+                console.error('Failed to soft delete chat');
+            }
+        } catch (error) {
+            console.error('Error soft deleting chat:', error);
+        }
+    };
+
     return (
         <div className="message-interface-container">
             <div className="message-interface">
@@ -197,6 +223,7 @@ const MessageInterface = () => {
                                         : ` - ${chat.messages[0].senderUsername}`}
                                     {unreadMessages > 0 && ` (${unreadMessages} unread)`}
                                 </span>
+                                <button onClick={(e) => handleSoftDeleteChat(e, chat.id)}>Delete</button>
                             </div>
                         );
                     })}
