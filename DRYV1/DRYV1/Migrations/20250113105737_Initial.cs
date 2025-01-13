@@ -19,7 +19,9 @@ namespace DRYV1.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Subject = table.Column<string>(type: "text", nullable: false)
+                    Subject = table.Column<string>(type: "text", nullable: false),
+                    IsDeletedBySender = table.Column<bool>(type: "boolean", nullable: false),
+                    IsDeletedByReceiver = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,7 +72,8 @@ namespace DRYV1.Migrations
                     ReceiverId = table.Column<int>(type: "integer", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     Subject = table.Column<string>(type: "text", nullable: true),
-                    IsRead = table.Column<bool>(type: "boolean", nullable: false),
+                    IsReadSender = table.Column<bool>(type: "boolean", nullable: false),
+                    IsReadReceiver = table.Column<bool>(type: "boolean", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ChatId = table.Column<int>(type: "integer", nullable: false)
                 },

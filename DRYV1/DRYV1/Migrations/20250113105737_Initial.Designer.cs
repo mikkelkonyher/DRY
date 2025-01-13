@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DRYV1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250108094315_Initial")]
+    [Migration("20250113105737_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -33,6 +33,12 @@ namespace DRYV1.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeletedByReceiver")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeletedBySender")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Subject")
                         .IsRequired()
@@ -146,7 +152,10 @@ namespace DRYV1.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsRead")
+                    b.Property<bool>("IsReadReceiver")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsReadSender")
                         .HasColumnType("boolean");
 
                     b.Property<int>("ReceiverId")
