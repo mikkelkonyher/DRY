@@ -182,4 +182,29 @@ public class AuthController : ControllerBase
 
         return Ok(new { Message = "Password has been reset successfully." });
     }
+    
+    [HttpGet("get-user-id")]
+    public async Task<IActionResult> GetUserIdFromCookie()
+    {
+        if (Request.Cookies.TryGetValue("AuthToken", out var token))
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            var email = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+
+            if (email == null)
+            {
+                return BadRequest(new { Message = "Invalid token." });
+            }
+
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+            {
+                return BadRequest(new { Message = "User not found." });
+            }
+
+            return Ok(new { UserId = user.Id });
+        }
+        return BadRequest(new { Message = "Token not found in cookies." });
+    }
 }
