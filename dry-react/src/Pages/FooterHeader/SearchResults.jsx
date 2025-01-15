@@ -6,6 +6,7 @@ import Pagination from '../../Components/Pagination.jsx';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import config from "../../../config.jsx";
+import Cookies from 'js-cookie';
 import './SearchResults.css';
 
 function SearchResults() {
@@ -56,7 +57,7 @@ function SearchResults() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) return; // Exit if no token is found
 
                 const payload = JSON.parse(atob(token.split('.')[1]));

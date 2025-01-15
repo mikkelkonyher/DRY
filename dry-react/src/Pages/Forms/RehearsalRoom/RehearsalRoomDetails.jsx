@@ -8,6 +8,7 @@ import PostComment from "../../../Components/PostComments.jsx";
 import MessageToCard from "../../MessageSystem/MessageToCard.jsx";
 import config from "../../../../config.jsx";
 import '../Gear/CardDetails.css';
+import Cookies from 'js-cookie';
 
 function RehearsalRoomDetails() {
     const { id } = useParams();
@@ -24,7 +25,7 @@ function RehearsalRoomDetails() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) return;
 
                 const payload = JSON.parse(atob(token.split('.')[1]));

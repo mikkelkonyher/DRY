@@ -4,7 +4,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
 import config from '../../../../config.jsx';
 import '../Gear/GearForm.css';
-
+import Cookies from 'js-cookie';
 
 const API_ENDPOINT = `${config.apiBaseUrl}/api/RehearsalRoom`;
 
@@ -67,7 +67,7 @@ function CreateRehearsalRoom() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) {
                     throw new Error('No token found');
                 }
@@ -171,7 +171,7 @@ function CreateRehearsalRoom() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('AuthToken');
         if (!token) {
             setErrorMessage('Login for at oprette et produkt');
             return;

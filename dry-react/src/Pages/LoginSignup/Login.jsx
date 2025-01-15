@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
 import LoginIcon from '@mui/icons-material/Login';
+import Cookies from 'js-cookie';
 import config from "../../../config.jsx";
 
 const Login = () => {
@@ -15,8 +16,9 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${config.apiBaseUrl}/api/Auth/login`, { email, password });
-            localStorage.setItem('token', response.data.token);
+            const response = await axios.post(`${config.apiBaseUrl}/api/Auth/login`, { email, password }, { withCredentials: true });
+            const { token } = response.data;
+            Cookies.set('AuthToken', token, { expires: 7 });
             setSuccess('Login successful!');
             setError('');
             navigate('/');

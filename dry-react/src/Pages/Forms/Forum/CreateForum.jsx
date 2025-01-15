@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import config from '../../../../config.jsx';
 import './CreateForum.css';
+import Cookies from 'js-cookie';
 
 const CreateForum = () => {
     const [subject, setSubject] = useState('');
@@ -11,7 +12,7 @@ const CreateForum = () => {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) {
                     throw new Error('No token found');
                 }
@@ -59,7 +60,7 @@ const CreateForum = () => {
             const response = await fetch(`${config.apiBaseUrl}/api/Forum`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                 },
                 body: formData
             });

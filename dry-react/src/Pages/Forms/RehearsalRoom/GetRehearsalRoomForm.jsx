@@ -6,6 +6,7 @@ import config from "../../../../config.jsx";
 import Pagination from '../../../Components/Pagination.jsx';
 import RehearsalRoomCard from "./RehearsalRoomCard.jsx";
 import TuneIcon from '@mui/icons-material/Tune';
+import Cookies from 'js-cookie';
 
 function GetRehearsalRoom() {
     // Define API endpoint and categories directly
@@ -88,7 +89,7 @@ function GetRehearsalRoom() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) return; // Exit if no token is found
 
                 const payload = JSON.parse(atob(token.split('.')[1]));

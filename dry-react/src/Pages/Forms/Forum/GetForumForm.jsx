@@ -4,7 +4,8 @@ import config from "../../../../config.jsx";
 import Pagination from '../../../Components/Pagination.jsx';
 import ForumCard from "./ForumCard.jsx";
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import './GetForumForm.css'
+import './GetForumForm.css';
+import Cookies from 'js-cookie';
 
 function GetForumForm() {
     // Define API endpoint
@@ -64,7 +65,7 @@ function GetForumForm() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) return; // Exit if no token is found
 
                 const payload = JSON.parse(atob(token.split('.')[1]));

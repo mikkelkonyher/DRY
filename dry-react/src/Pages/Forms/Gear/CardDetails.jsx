@@ -8,6 +8,7 @@ import PostComment from "../../../Components/PostComments.jsx";
 import MessageToCard from "../../MessageSystem/MessageToCard.jsx";
 import config from "../../../../config.jsx";
 import './CardDetails.css';
+import Cookies from 'js-cookie';
 
 function CardDetails() {
     const { id } = useParams();
@@ -25,7 +26,7 @@ function CardDetails() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) return;
 
                 const payload = JSON.parse(atob(token.split('.')[1])); // Decode token payload

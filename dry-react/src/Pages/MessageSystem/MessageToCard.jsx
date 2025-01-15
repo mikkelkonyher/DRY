@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import config from "../../../config.jsx";
 import './MessageToCard.css';
+import Cookies from 'js-cookie';
 
 const MessageToCard = ({ senderId, receiverId }) => {
     const [subject, setSubject] = useState('');
@@ -34,7 +35,7 @@ const MessageToCard = ({ senderId, receiverId }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                 },
                 body: JSON.stringify(messageData)
             });

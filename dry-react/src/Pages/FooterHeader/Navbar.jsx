@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import { AuthContext } from '../../AuthContext';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -18,10 +19,10 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import axios from 'axios';
-import config from "../../../config.jsx";
+import Cookies from 'js-cookie';
+import config from '../../../config.jsx';
 import logo from '../../assets/logo.png';
 
-// Define navigation pages and user settings
 const pages = [
     { name: 'Guit/Bas', path: '/GuitBass' },
     { name: 'Trommer', path: '/Trommer' },
@@ -38,15 +39,13 @@ const settings = [
 ];
 
 function ResponsiveAppBar() {
-    // State management
+    const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const [isAuthenticated, setIsAuthenticated] = React.useState(!!localStorage.getItem('token'));
     const [searchQuery, setSearchQuery] = React.useState('');
     const theme = useTheme();
     const navigate = useNavigate();
 
-    // Handlers for opening and closing menus
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -60,14 +59,12 @@ function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
-    // Logout handler
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        Cookies.remove('AuthToken');
         setIsAuthenticated(false);
         navigate('/login');
     };
 
-    // Search handlers
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
@@ -100,7 +97,6 @@ function ResponsiveAppBar() {
         <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none', width: '100%', padding: '0px 0', backdropFilter: 'blur(50px)', marginBottom: '20px' }}>
             <Container maxWidth="xl" sx={{padding: '0 0px'}}>
                 <Toolbar disableGutters>
-                    {/* Logo for large screens */}
                     <Box
                         component="a"
                         href="/"
@@ -113,9 +109,8 @@ function ResponsiveAppBar() {
                         <img src={logo} alt="Logo" style={{ height: '40px' }} />
                     </Box>
 
-                    {/* Burger menu for small screens */}
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', lg: 'none'}, justifyContent: 'center'}}>
-                        <IconButton // Open navigation menu
+                        <IconButton
                             size="large"
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
@@ -125,7 +120,7 @@ function ResponsiveAppBar() {
                         >
                             <MenuIcon/>
                         </IconButton>
-                        <Menu // Navigation menu for small screens
+                        <Menu
                             id="menu-appbar"
                             anchorEl={anchorElNav}
                             anchorOrigin={{
@@ -139,14 +134,14 @@ function ResponsiveAppBar() {
                             }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
-                            sx={{ // Styling for the menu
+                            sx={{
                                 display: {xs: 'block', lg: 'none'},
                                 '& .MuiPaper-root': {
                                     backgroundColor: 'black',
                                 }
                             }}
                         >
-                            {pages.map((page) => ( // Map over pages and create a menu item for each page
+                            {pages.map((page) => (
                                 <MenuItem
                                     key={page.name}
                                     onClick={handleCloseNavMenu}
@@ -166,9 +161,9 @@ function ResponsiveAppBar() {
                                     </Typography>
                                 </MenuItem>
                             ))}
-                            {!isAuthenticated && ( // Show login and signup buttons if user is not authenticated
+                            {!isAuthenticated && (
                                 <MenuItem
-                                    onClick={handleCloseNavMenu} // Close the menu when a menu item is clicked
+                                    onClick={handleCloseNavMenu}
                                     sx={{color: 'white'}}
                                 >
                                     <Typography
@@ -188,7 +183,6 @@ function ResponsiveAppBar() {
                         </Menu>
                     </Box>
 
-                    {/* Logo for small screens */}
                     <Box
                         component="a"
                         href="/"
@@ -202,7 +196,6 @@ function ResponsiveAppBar() {
                         <img src={logo} alt="Logo" style={{ height: '40px' }} />
                     </Box>
 
-                    {/* Navigation buttons for large screens */}
                     <Box sx={{flexGrow: 1, display: {xs: 'none', lg: 'flex'}, justifyContent: 'center'}}>
                         {pages.map((page) => (
                             <Button
@@ -217,7 +210,6 @@ function ResponsiveAppBar() {
                         ))}
                     </Box>
 
-                    {/* User profile and authentication buttons */}
                     <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center'}}>
                         {!isAuthenticated ? (
                             <>
@@ -239,7 +231,7 @@ function ResponsiveAppBar() {
                         ) : (
                             <>
                                 <Tooltip title="Min Profil og Inbox">
-                                    <IconButton // User profile menu
+                                    <IconButton
                                         onClick={handleOpenUserMenu}
                                         sx={{
                                             p: 0,
@@ -277,7 +269,7 @@ function ResponsiveAppBar() {
                                     {settings.map((setting) => (
                                         <MenuItem key={setting.name} onClick={handleCloseUserMenu}
                                                   sx={{color: 'white'}}>
-                                            <Typography // User settings
+                                            <Typography
                                                 component={Link}
                                                 to={setting.path}
                                                 sx={{
@@ -292,7 +284,7 @@ function ResponsiveAppBar() {
                                         </MenuItem>
                                     ))}
                                     <MenuItem onClick={handleLogout} sx={{color: 'red'}}>
-                                        <Typography // Logout button
+                                        <Typography
                                             component="a"
                                             sx={{
                                                 textAlign: 'center',
@@ -310,7 +302,6 @@ function ResponsiveAppBar() {
                     </Box>
                 </Toolbar>
 
-                {/* Search bar */}
                 <form onSubmit={handleSearchSubmit} style={{
                     display: 'flex',
                     justifyContent: 'center',

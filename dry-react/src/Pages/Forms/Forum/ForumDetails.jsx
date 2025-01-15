@@ -8,6 +8,7 @@ import PostComments from "../../../Components/PostComments.jsx";
 import config from "../../../../config.jsx";
 import './ForumDetails.css';
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import Cookies from 'js-cookie';
 
 function ForumDetails() {
     const { id } = useParams();
@@ -20,7 +21,7 @@ function ForumDetails() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) return;
 
                 const payload = JSON.parse(atob(token.split('.')[1]));

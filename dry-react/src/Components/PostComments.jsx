@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import config from "../../config.jsx";
+import Cookies from 'js-cookie';
 
 function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted }) {
     const [commentText, setCommentText] = useState('');
@@ -10,7 +11,7 @@ function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted })
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) throw new Error('No token found');
 
                 const payload = JSON.parse(atob(token.split('.')[1]));
@@ -43,7 +44,7 @@ function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted })
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('AuthToken');
         if (!token) {
             setErrorMessage('Login for at skrive en kommentar');
             return;

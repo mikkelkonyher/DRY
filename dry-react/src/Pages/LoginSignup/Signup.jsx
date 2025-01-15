@@ -41,6 +41,7 @@ function Signup() {
                     email: formData.email,
                     password: formData.password,
                 }),
+                credentials: 'include' // Ensure cookies are sent and received
             });
 
             if (signupResponse.status === 400) {

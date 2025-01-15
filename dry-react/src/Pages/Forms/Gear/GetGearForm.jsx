@@ -7,6 +7,7 @@ import config from "../../../../config.jsx";
 import Pagination from '../../../Components/Pagination.jsx';
 import GearCard from "./GearCard.jsx";
 import TuneIcon from '@mui/icons-material/Tune';
+import Cookies from 'js-cookie';
 
 function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     // State variables
@@ -89,7 +90,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) return;
 
                 const payload = JSON.parse(atob(token.split('.')[1]));

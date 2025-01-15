@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import config from "../../../config.jsx";
 import './MessageInterface.css';
+import Cookies from 'js-cookie';
 
 const MessageInterface = () => {
     const [chats, setChats] = useState([]);
@@ -13,7 +14,7 @@ const MessageInterface = () => {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) return;
 
                 const payload = JSON.parse(atob(token.split('.')[1])); // Decode token payload
@@ -82,7 +83,7 @@ const MessageInterface = () => {
             const response = await fetch(`${config.apiBaseUrl}/api/Chats/${chatId}/markAllAsRead/${userId}`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`,
                     'accept': 'application/json',
                 },
             });
@@ -152,7 +153,7 @@ const MessageInterface = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                 },
                 body: JSON.stringify(messageData)
             });
@@ -184,7 +185,7 @@ const MessageInterface = () => {
             const response = await fetch(`${config.apiBaseUrl}/api/Chats/${chatId}/softDelete/${userId}`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`,
                     'accept': 'application/json',
                 },
             });

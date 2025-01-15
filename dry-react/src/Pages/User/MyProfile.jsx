@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import SellCard from "./SellCard.jsx";
 import config from '../../../config.jsx';
 import './MyProfile.css';
+import Cookies from 'js-cookie';
 
 function MyProfile() {
     // State variables
@@ -29,7 +30,7 @@ function MyProfile() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) throw new Error('No token found');
 
                 const payload = JSON.parse(atob(token.split('.')[1]));
@@ -146,7 +147,7 @@ function MyProfile() {
                 const imageResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}/profile-image`, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                     },
                     body: formData
                 });
@@ -165,7 +166,7 @@ function MyProfile() {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                     },
                     body: JSON.stringify({ id: userId, name: userName, email: userEmail, profileImageUrl: imageUrl })
                 });
@@ -230,7 +231,7 @@ function MyProfile() {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                 },
                 body: JSON.stringify(requestBody)
             });
@@ -274,7 +275,7 @@ function MyProfile() {
             const response = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                 }
             });
 

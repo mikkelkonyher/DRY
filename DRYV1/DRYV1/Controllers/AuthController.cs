@@ -4,6 +4,11 @@ using System.Threading.Tasks;
 using DRYV1.Data;
 using DRYV1.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Security.Claims;
+using System.Text;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -12,12 +17,15 @@ public class AuthController : ControllerBase
     private readonly ApplicationDbContext _context;
     private readonly JwtService _jwtService;
     private readonly EmailService _emailService;
+    private readonly IConfiguration _configuration;
+    private readonly int _jwtExpirationMinutes = 30; // Token expiration time
 
-    public AuthController(ApplicationDbContext context, JwtService jwtService, EmailService emailService)
+    public AuthController(ApplicationDbContext context, JwtService jwtService, EmailService emailService, IConfiguration configuration)
     {
         _context = context;
         _jwtService = jwtService;
         _emailService = emailService;
+        _configuration = configuration;
     }
 
     [HttpPost("signup")]
@@ -97,11 +105,43 @@ public class AuthController : ControllerBase
             return Unauthorized(new { Message = "Email not verified. Please check your email to verify your account." });
         }
 
-        var token = _jwtService.GenerateToken(user);
+        var token = GenerateJwtToken(user.Email);
 
-        return Ok(new { Token = token });
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true, // Use this in production (requires HTTPS)
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddMinutes(_jwtExpirationMinutes)
+        };
+
+        Response.Cookies.Append("AuthToken", token, cookieOptions);
+
+        return Ok(new { Message = "Login successful", Token = token });
     }
-    
+
+    private string GenerateJwtToken(string email)
+    {
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+        var jwtSettings = _configuration.GetSection("JwtSettings");
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            issuer: jwtSettings["Issuer"],
+            audience: jwtSettings["Audience"],
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(_jwtExpirationMinutes),
+            signingCredentials: creds);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword([FromBody] string email)
     {

@@ -4,6 +4,7 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import config from "../../../../config.jsx";
 import './GearForm.css';
+import Cookies from 'js-cookie';
 
 // DraggableImage component
 const ItemType = {
@@ -11,13 +12,11 @@ const ItemType = {
 };
 
 function DraggableImage({ src, index, moveImage }) {
-    // useDrag hook for dragging functionality
     const [, ref] = useDrag({
         type: ItemType.IMAGE,
         item: { index },
     });
 
-    // useDrop hook for dropping functionality
     const [, drop] = useDrop({
         accept: ItemType.IMAGE,
         hover: (draggedItem) => {
@@ -45,7 +44,6 @@ DraggableImage.propTypes = {
 
 // GearForm component
 function GearForm({ gearType, categories, apiEndpoint }) {
-    // State variables
     const [gear, setGear] = useState({
         brand: '',
         model: '',
@@ -68,7 +66,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = Cookies.get('AuthToken');
                 if (!token) {
                     throw new Error('No token found');
                 }
@@ -177,7 +175,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
     // Handle form submit
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('AuthToken');
         if (!token) {
             setErrorMessage('Login for at oprette et produkt');
             return;

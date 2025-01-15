@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './Pages/App';
 import './index.css';
 import { checkToken } from './authUtils';
+import { AuthProvider } from './AuthContext';
+
 
 function Main() {
     useEffect(() => {
@@ -16,7 +18,9 @@ function Main() {
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <BrowserRouter>
-            <Main />
+            <AuthProvider>
+                <Main />
+            </AuthProvider>
         </BrowserRouter>
     </StrictMode>,
 );
