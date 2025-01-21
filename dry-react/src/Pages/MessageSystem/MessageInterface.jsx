@@ -14,27 +14,27 @@ const MessageInterface = () => {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = Cookies.get('AuthToken');
+                const token = Cookies.get('AuthToken'); // Get token from cookie
                 if (!token) return;
 
                 const payload = JSON.parse(atob(token.split('.')[1])); // Decode token payload
                 const email = payload.sub; // Extract email from payload
                 if (!email) throw new Error('Email not found in token');
 
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
+                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, { // Fetch users
                     headers: {
                         'accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${token}` // Send token in header
                     }
                 });
 
                 if (!userResponse.ok) throw new Error('Failed to fetch users');
 
-                const users = await userResponse.json();
+                const users = await userResponse.json(); // Parse response
                 const user = users.find(user => user.email === email);
                 if (!user) throw new Error('User not found');
 
-                setUserId(user.id);
+                setUserId(user.id); // Set user ID in state
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }

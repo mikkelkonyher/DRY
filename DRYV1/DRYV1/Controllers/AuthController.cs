@@ -93,46 +93,46 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDTO loginDTO)
     {
-        var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == loginDTO.Email);
+        var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == loginDTO.Email); // Get user by email
 
-        if (user == null || !BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password))
+        if (user == null || !BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password)) // Check if user exists and password is correct
         {
             return Unauthorized(new { Message = "Incorrect email or password." });
         }
 
-        if (!user.IsValidated)
+        if (!user.IsValidated) 
         {
             return Unauthorized(new { Message = "Email not verified. Please check your email to verify your account." });
         }
 
-        var token = GenerateJwtToken(user.Email);
+        var token = GenerateJwtToken(user.Email); // Generate JWT token
 
-        var cookieOptions = new CookieOptions
+        var cookieOptions = new CookieOptions 
         {
-            HttpOnly = true,
-            Secure = true, // Use this in production (requires HTTPS)
-            SameSite = SameSiteMode.Strict,
-            Expires = DateTime.UtcNow.AddMinutes(_jwtExpirationMinutes)
+            HttpOnly = true, // Prevents JavaScript from accessing the cookie
+            Secure = true, // Ensures that the cookie is sent only over HTTPS
+            SameSite = SameSiteMode.Strict, // Prevents the browser from sending the cookie along with cross-site requests
+            Expires = DateTime.UtcNow.AddMinutes(_jwtExpirationMinutes) 
         };
 
-        Response.Cookies.Append("AuthToken", token, cookieOptions);
+        Response.Cookies.Append("AuthToken", token, cookieOptions); // Add token to cookies
 
         return Ok(new { Message = "Login successful", Token = token });
     }
 
-    private string GenerateJwtToken(string email)
+    private string GenerateJwtToken(string email) // Generate JWT token
     {
-        var claims = new[]
+        var claims = new[] 
         {
-            new Claim(JwtRegisteredClaimNames.Sub, email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new Claim(JwtRegisteredClaimNames.Sub, email), 
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // Unique identifier for the token
         };
 
-        var jwtSettings = _configuration.GetSection("JwtSettings");
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var jwtSettings = _configuration.GetSection("JwtSettings"); // Get JWT settings from appsettings.json
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"])); 
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); // Create signing credentials
 
-        var token = new JwtSecurityToken(
+        var token = new JwtSecurityToken( 
             issuer: jwtSettings["Issuer"],
             audience: jwtSettings["Audience"],
             claims: claims,
@@ -186,24 +186,24 @@ public class AuthController : ControllerBase
     [HttpGet("get-user-id")]
     public async Task<IActionResult> GetUserIdFromCookie()
     {
-        if (Request.Cookies.TryGetValue("AuthToken", out var token))
+        if (Request.Cookies.TryGetValue("AuthToken", out var token)) // Get token from cookies
         {
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
-            var email = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+            var handler = new JwtSecurityTokenHandler(); 
+            var jwtToken = handler.ReadJwtToken(token); // Read token
+            var email = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value; // Get email from token
 
             if (email == null)
             {
                 return BadRequest(new { Message = "Invalid token." });
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email); // Get user by email
             if (user == null)
             {
                 return BadRequest(new { Message = "User not found." });
             }
 
-            return Ok(new { UserId = user.Id });
+            return Ok(new { UserId = user.Id }); 
         }
         return BadRequest(new { Message = "Token not found in cookies." });
     }
