@@ -4,8 +4,8 @@ import config from "../../../config.jsx";
 import './MessageToCard.css';
 import Cookies from 'js-cookie';
 
-const MessageToCard = ({ senderId, receiverId }) => {
-    const [subject, setSubject] = useState('');
+const MessageToCard = ({ senderId, receiverId, brand, model }) => {
+    const [subject, setSubject] = useState(`${brand} ${model}`);
     const [message, setMessage] = useState('');
     const [status, setStatus] = useState('');
 
@@ -42,7 +42,7 @@ const MessageToCard = ({ senderId, receiverId }) => {
 
             if (response.ok) {
                 setStatus('Besked sendt');
-                setSubject('');
+                setSubject(`${brand} ${model}`);
                 setMessage('');
             } else {
                 setStatus('Failed to send message');
@@ -77,6 +77,8 @@ const MessageToCard = ({ senderId, receiverId }) => {
 MessageToCard.propTypes = {
     senderId: PropTypes.number.isRequired,
     receiverId: PropTypes.number.isRequired,
+    brand: PropTypes.string.isRequired,
+    model: PropTypes.string.isRequired,
 };
 
 export default MessageToCard;

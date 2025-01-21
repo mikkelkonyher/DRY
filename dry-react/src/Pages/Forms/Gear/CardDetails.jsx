@@ -197,7 +197,12 @@ function CardDetails() {
                 <div className="modal" onClick={() => setIsMessageModalOpen(false)}>
                     <span className="close" onClick={() => setIsMessageModalOpen(false)}>&times;</span>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <MessageToCard senderId={userId} receiverId={gearItem.userId} />
+                        <MessageToCard
+                            senderId={userId}
+                            receiverId={gearItem.userId}
+                            brand={gearItem.brand}
+                            model={gearItem.model}
+                        />
                     </div>
                 </div>
             )}
