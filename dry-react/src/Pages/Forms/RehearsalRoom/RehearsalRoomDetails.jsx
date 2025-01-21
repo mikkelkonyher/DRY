@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import PostComment from "../../../Components/PostComments.jsx";
-import MessageToCard from "../../MessageSystem/MessageToCard.jsx";
+import MessageToRehearsalRoom from "../../MessageSystem/MessageToRehersalRoom.jsx";
 import config from "../../../../config.jsx";
 import '../Gear/CardDetails.css';
 import Cookies from 'js-cookie';
@@ -188,7 +188,11 @@ function RehearsalRoomDetails() {
                 <div className="modal" onClick={() => setIsMessageModalOpen(false)}>
                     <span className="close" onClick={() => setIsMessageModalOpen(false)}>&times;</span>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <MessageToCard senderId={userId} receiverId={roomItem.userId} />
+                        <MessageToRehearsalRoom
+                            senderId={userId}
+                            receiverId={roomItem.userId}
+                            subject={roomItem.name}
+                        />
                     </div>
                 </div>
             )}
