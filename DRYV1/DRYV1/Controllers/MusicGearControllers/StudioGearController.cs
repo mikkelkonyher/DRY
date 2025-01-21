@@ -98,7 +98,7 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        
     
         public async Task<IActionResult> Create([FromForm] StudioGear studioGear, [FromForm] List<IFormFile> imageFiles)
         {

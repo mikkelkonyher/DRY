@@ -98,7 +98,7 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+       
         public async Task<IActionResult> Create([FromForm] KeysGear keysGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == keysGear.UserId);
