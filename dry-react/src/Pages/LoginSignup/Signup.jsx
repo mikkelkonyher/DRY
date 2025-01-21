@@ -25,6 +25,10 @@ function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (formData.password.length < 8) {
+            setErrorMessage('Password must be at least 8 characters long.');
+            return;
+        }
         if (formData.password !== formData.confirmPassword) {
             setErrorMessage('Passwords do not match.');
             return;
@@ -104,6 +108,7 @@ function Signup() {
                         value={formData.password}
                         onChange={handleChange}
                         placeholder="Adgangskode"
+                        minLength="8"
                         required
                     />
                     <label htmlFor="confirmPassword" className="signup-label">Bekræft adgangskode</label>
