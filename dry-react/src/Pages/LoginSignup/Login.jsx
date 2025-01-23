@@ -15,6 +15,11 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const consent = Cookies.get('necessaryCookiesConsent');
+        if (!consent) {
+            setError('You must accept necessary cookies to log in.');
+            return;
+        }
         try {
             const response = await axios.post(`${config.apiBaseUrl}/api/Auth/login`, { email, password }, { withCredentials: true });
             const { token } = response.data;
