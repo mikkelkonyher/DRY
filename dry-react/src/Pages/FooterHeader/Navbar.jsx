@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../../AuthContext';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -39,7 +39,7 @@ const settings = [
 ];
 
 function ResponsiveAppBar() {
-    const { isAuthenticated, setIsAuthenticated } = React.useContext(AuthContext);
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [searchQuery, setSearchQuery] = React.useState('');

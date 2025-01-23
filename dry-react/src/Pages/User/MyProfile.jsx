@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import SellCard from "./SellCard.jsx";
 import config from '../../../config.jsx';
 import './MyProfile.css';
 import Cookies from 'js-cookie';
+import { AuthContext } from "../../AuthContext.jsx";
 
 function MyProfile() {
     // State variables
@@ -25,6 +26,7 @@ function MyProfile() {
     const [profileImage, setProfileImage] = useState(null);
     const [profileImageUrl, setProfileImageUrl] = useState('');
     const fileInputRef = useRef(null);
+    const { setIsAuthenticated } = useContext(AuthContext);
 
     // Fetch user ID and profile image URL
     useEffect(() => {
@@ -283,7 +285,11 @@ function MyProfile() {
                 throw new Error('Failed to delete user');
             }
 
-            // Handle successful deletion (e.g., redirect to login page)
+            // Update authentication state
+            setIsAuthenticated(false);
+            Cookies.remove('AuthToken');
+
+            // Redirect to login page
             window.location.href = '/login';
         } catch (error) {
             console.error('Error deleting user:', error);
