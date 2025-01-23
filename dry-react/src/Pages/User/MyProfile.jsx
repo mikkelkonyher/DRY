@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import SellCard from "./SellCard.jsx";
+import SellRehearsalRoom from "./SellRehearsalRoom.jsx";
 import config from '../../../config.jsx';
 import './MyProfile.css';
 import Cookies from 'js-cookie';
@@ -10,6 +11,8 @@ function MyProfile() {
     // State variables
     const [gear, setGear] = useState([]);
     const [favoriteGear, setFavoriteGear] = useState([]);
+    const [rehearsalRooms, setRehearsalRooms] = useState([]);
+    const [favoriteRehearsalRooms, setFavoriteRehearsalRooms] = useState([]);
     const [users, setUsers] = useState({});
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState('');
@@ -76,18 +79,25 @@ function MyProfile() {
         fetchUserId();
     }, []);
 
-    // Fetch user gear and users
+    // Fetch user gear and rehearsal rooms
     useEffect(() => {
         if (!userId) return;
 
-        const fetchUserGear = async () => {
+        const fetchUserGearAndRooms = async () => {
             try {
-                const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/user/${userId}`);
-                if (!response.ok) {
+                const gearResponse = await fetch(`${config.apiBaseUrl}/api/MusicGear/user/${userId}`);
+                if (!gearResponse.ok) {
                     throw new Error('Network response was not ok');
                 }
-                const data = await response.json();
-                setGear(data);
+                const gearData = await gearResponse.json();
+                setGear(gearData);
+
+                const roomResponse = await fetch(`${config.apiBaseUrl}/api/RehearsalRoom/${userId}`);
+                if (!roomResponse.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const roomData = await roomResponse.json();
+                setRehearsalRooms(roomData);
 
                 const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
                 if (!userResponse.ok) {
@@ -100,28 +110,39 @@ function MyProfile() {
                 }, {});
                 setUsers(userMap);
             } catch (error) {
-                console.error('Error fetching user gear or users:', error);
+                console.error('Error fetching user gear, rooms, or users:', error);
             }
         };
 
-        fetchUserGear();
+        fetchUserGearAndRooms();
     }, [userId]);
 
-    // Fetch favorite gear
-    const fetchFavoriteGear = async () => {
+    // Fetch favorite gear and rehearsal rooms
+    const fetchFavoriteGearAndRooms = async () => {
         try {
-            const response = await fetch(`${config.apiBaseUrl}/api/Favorites/${userId}`);
-            if (!response.ok) {
+            const favoriteGearResponse = await fetch(`${config.apiBaseUrl}/api/Favorites/${userId}`);
+            if (!favoriteGearResponse.ok) {
                 throw new Error('Network response was not ok');
             }
-            const favoriteData = await response.json();
-            const favoriteGearData = favoriteData.map(fav => ({
+            const favoriteGearData = await favoriteGearResponse.json();
+            const favoriteGearItems = favoriteGearData.map(fav => ({
                 ...fav.musicGear,
                 isFavorite: true
             }));
-            setFavoriteGear(favoriteGearData);
+            setFavoriteGear(favoriteGearItems);
+
+            const favoriteRoomResponse = await fetch(`${config.apiBaseUrl}/api/RehearsalRoomFavorites/${userId}`);
+            if (!favoriteRoomResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const favoriteRoomData = await favoriteRoomResponse.json();
+            const favoriteRoomItems = favoriteRoomData.map(fav => ({
+                ...fav.rehearsalRoom,
+                isFavorite: true
+            }));
+            setFavoriteRehearsalRooms(favoriteRoomItems);
         } catch (error) {
-            console.error('Error fetching favorite gear:', error);
+            console.error('Error fetching favorite gear or rooms:', error);
         }
     };
 
@@ -375,7 +396,7 @@ function MyProfile() {
                     </button>
                     <button onClick={() => {
                         setShowFavoriteCards(!showFavoriteCards);
-                        if (!showFavoriteCards) fetchFavoriteGear();
+                        if (!showFavoriteCards) fetchFavoriteGearAndRooms();
                     }}>
                         {showFavoriteCards ? 'Skjul favoritter' : 'Se alle favoritter'}
                     </button>
@@ -394,6 +415,13 @@ function MyProfile() {
                             isFavorite={false}
                         />
                     ))}
+                    {rehearsalRooms.map((room) => (
+                        <SellRehearsalRoom
+                            key={room.id}
+                            room={room}
+                            userId={userId}
+                        />
+                    ))}
                 </div>
             )}
             {/* Favorite cards */}
@@ -407,6 +435,13 @@ function MyProfile() {
                             handleImageClick={handleImageClick}
                             userId={userId}
                             isFavorite={true}
+                        />
+                    ))}
+                    {favoriteRehearsalRooms.map((room) => (
+                        <SellRehearsalRoom
+                            key={room.id}
+                            room={room}
+                            userId={userId}
                         />
                     ))}
                 </div>
