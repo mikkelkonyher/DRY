@@ -92,22 +92,22 @@ function MyProfile() {
                 const gearData = await gearResponse.json();
                 setGear(gearData);
 
-                const roomResponse = await fetch(`${config.apiBaseUrl}/api/RehearsalRoom/${userId}`);
+                const roomResponse = await fetch(`${config.apiBaseUrl}/api/RehearsalRoom/user/${userId}`);
                 if (!roomResponse.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const roomData = await roomResponse.json();
-                setRehearsalRooms(roomData);
+                setRehearsalRooms(roomData.items || []);
 
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
+                const userResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}`);
                 if (!userResponse.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const userData = await userResponse.json();
-                const userMap = userData.reduce((acc, user) => {
+                const userMap = Array.isArray(userData) ? userData.reduce((acc, user) => {
                     acc[user.id] = user;
                     return acc;
-                }, {});
+                }, {}) : {};
                 setUsers(userMap);
             } catch (error) {
                 console.error('Error fetching user gear, rooms, or users:', error);
