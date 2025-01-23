@@ -30,6 +30,7 @@ import ForumDetails from "./Forms/Forum/ForumDetails.jsx";
 import CreateForum from "./Forms/Forum/CreateForum.jsx";
 import SellGear from "./SellGear.jsx";
 import MessageInterface from "./MessageSystem/MessageInterface.jsx";
+import CookieConsent from "../Components/CookieConsent.jsx";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             <ResponsiveAppBar />
             <Box sx={{ marginTop: '84px', padding: '20px' }}>
                 <Routes>
+
                     <Route path="/SellGuiBassGear" element={<CreateGuitBassGear />} />
                     <Route path="/SellDrumsGear" element={<CreateDrumsGear />} />
                     <Route path="/SellStudioGear" element={<CreateStudioGear />} />
@@ -68,7 +70,7 @@ function App() {
                     <Route path="/inbox" element={<MessageInterface />} />
                 </Routes>
             </Box>
-
+            <CookieConsent />
             <Footer />
         </>
     );
