@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp as solidThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as regularThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import PostComments from "../../../Components/PostComments.jsx";
+import MessageToForum from "../../MessageSystem/MessageToForum.jsx";
 import config from "../../../../config.jsx";
 import './ForumDetails.css';
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -21,6 +22,7 @@ function ForumDetails() {
     const [isEditing, setIsEditing] = useState(false);
     const [editSubject, setEditSubject] = useState('');
     const [editBody, setEditBody] = useState('');
+    const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -244,6 +246,23 @@ function ForumDetails() {
             >
                 <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
             </button>
+
+            <button onClick={() => setIsMessageModalOpen(true)}>
+                Skriv til bruger
+            </button>
+
+            {isMessageModalOpen && (
+                <div className="modal" onClick={() => setIsMessageModalOpen(false)}>
+                    <span className="close" onClick={() => setIsMessageModalOpen(false)}>&times;</span>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <MessageToForum
+                            senderId={userId}
+                            receiverId={forumItem.userId}
+                            subject={forumItem.subject}
+                        />
+                    </div>
+                </div>
+            )}
 
             <div className="comments-section">
                 <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
