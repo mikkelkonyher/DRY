@@ -183,5 +183,20 @@ namespace DRYV1.Controllers
 
             return Ok(comments);
         }
+        
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
+            {
+                return NotFound("Comment not found.");
+            }
+
+            _context.Comments.Remove(comment);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

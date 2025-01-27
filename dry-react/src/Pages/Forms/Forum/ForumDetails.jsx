@@ -130,6 +130,26 @@ function ForumDetails() {
         }
     };
 
+    const handleDeleteComment = async (commentId) => {
+        const isConfirmed = window.confirm("Er du sikker på at du vil slette denne kommentar?");
+        if (!isConfirmed) return;
+
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/api/Comment/${commentId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${Cookies.get('AuthToken')}` },
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
+            setForumItem(prevItem => ({
+                ...prevItem,
+                comments: prevItem.comments.filter(comment => comment.id !== commentId)
+            }));
+        } catch (error) {
+            console.error('Error deleting comment:', error);
+        }
+    };
+
     if (!forumItem) return <div>Loading...</div>;
 
     return (
@@ -164,6 +184,9 @@ function ForumDetails() {
                                     <div key={comment.id} className="comment">
                                         <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
                                         <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
+                                        {comment.userId === userId && (
+                                            <button onClick={() => handleDeleteComment(comment.id)}>Slet kommentar</button>
+                                        )}
                                     </div>
                                 ))
                         ) : (

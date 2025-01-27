@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "km5TUrs044sVPQT2mnsbXDUNU/3hF7w3sZKSMuBkQDI=",
+  "Hash": "F4KRAFrljbZUFdc2tMfVm/CqqG9v72wNQDA0TlnTocU=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -1989,6 +1989,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/lcrj0fxc.byv.webp"
+    },
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/leo3ogto.uop.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/musicgear/leo3ogto.uop#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ey2m16e2w0",
+      "Integrity": "dpEIC2x0qNFk9NCMWuqy8QsjPo+Lf0zd9Y6ROX0+zE0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/leo3ogto.uop.jpg"
     },
     {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/lj0nnwwr.qmv.jpg",
@@ -12049,6 +12070,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-NI8a1gOnwwGSYBAuO/lel44BnrBLZGXjg5HmnJRMniU="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/leo3ogto.uop.ey2m16e2w0.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/leo3ogto.uop.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "49386"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dpEIC2x0qNFk9NCMWuqy8QsjPo+Lf0zd9Y6ROX0+zE0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 26 Jan 2025 11:12:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ey2m16e2w0"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/musicgear/leo3ogto.uop.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-dpEIC2x0qNFk9NCMWuqy8QsjPo+Lf0zd9Y6ROX0+zE0="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/leo3ogto.uop.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/leo3ogto.uop.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "49386"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"dpEIC2x0qNFk9NCMWuqy8QsjPo+Lf0zd9Y6ROX0+zE0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 26 Jan 2025 11:12:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-dpEIC2x0qNFk9NCMWuqy8QsjPo+Lf0zd9Y6ROX0+zE0="
         }
       ]
     },
