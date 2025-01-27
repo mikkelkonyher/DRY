@@ -19,8 +19,6 @@ function GetForumForm() {
     const [totalItems, setTotalItems] = useState(0);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchInput, setSearchInput] = useState('');
-    const [usernameQuery, setUsernameQuery] = useState('');
-    const [usernameInput, setUsernameInput] = useState('');
     const itemsPerPage = 10;
 
     // Fetch forum data from API
@@ -31,9 +29,7 @@ function GetForumForm() {
             url.searchParams.append('pageSize', itemsPerPage);
             if (searchQuery) {
                 url.searchParams.append('query', searchQuery);
-            }
-            if (usernameQuery) {
-                url.searchParams.append('userName', usernameQuery);
+                url.searchParams.append('userName', searchQuery);
             }
 
             const response = await fetch(url);
@@ -48,8 +44,7 @@ function GetForumForm() {
                 throw new Error('items property is undefined');
             }
 
-            const sortedData = data.items.sort((a, b) => b.id - a.id);
-            setForums(sortedData);
+            setForums(data.items);
             setTotalItems(data.totalItems);
 
             const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
@@ -69,7 +64,7 @@ function GetForumForm() {
 
     useEffect(() => {
         fetchForums();
-    }, [currentPage, searchQuery, usernameQuery]);
+    }, [currentPage, searchQuery]);
 
     // Fetch user ID from token
     useEffect(() => {
@@ -130,15 +125,9 @@ function GetForumForm() {
         setSearchInput(e.target.value);
     };
 
-    // Handle username input change
-    const handleUsernameInputChange = (e) => {
-        setUsernameInput(e.target.value);
-    };
-
     // Handle search button click
     const handleSearchClick = () => {
         setSearchQuery(searchInput);
-        setUsernameQuery(usernameInput);
     };
 
     return (
@@ -158,31 +147,28 @@ function GetForumForm() {
             <div className="search-bar-container">
                 <input
                     type="text"
-                    placeholder="Search by subject or body"
+                    placeholder="Search by subject, body, or username"
                     value={searchInput}
                     onChange={handleSearchInputChange}
-                    className="search-input"
-                />
-                <input
-                    type="text"
-                    placeholder="Search by username"
-                    value={usernameInput}
-                    onChange={handleUsernameInputChange}
                     className="search-input"
                 />
                 <button onClick={handleSearchClick} className="search-button">Search</button>
             </div>
             {/* Forum list */}
             <div className="gear-list">
-                {forums.map((item) => (
-                    <ForumCard
-                        key={item.id}
-                        item={item}
-                        users={users}
-                        userId={userId}
-                        className="forum-card"
-                    />
-                ))}
+                {forums.length > 0 ? (
+                    forums.map((item) => (
+                        <ForumCard
+                            key={item.id}
+                            item={item}
+                            users={users}
+                            userId={userId}
+                            className="forum-card"
+                        />
+                    ))
+                ) : (
+                    <p>No forums found.</p>
+                )}
             </div>
             {/* Pagination */}
             <Pagination

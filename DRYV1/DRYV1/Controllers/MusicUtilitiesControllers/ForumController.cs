@@ -20,8 +20,7 @@ namespace DRYV1.Controllers
         public async Task<IActionResult> GetAll(
             int pageNumber = 1, 
             int pageSize = 10, 
-            string query = null,
-            string userName = null)
+            string query = null)
         {
             var queryable = _context.Forums.AsQueryable();
 
@@ -29,16 +28,11 @@ namespace DRYV1.Controllers
             {
                 var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 queryable = queryable.Where(f => keywords.All(k => f.Subject.ToLower().Contains(k) ||
-                                                                   f.Body.ToLower().Contains(k)));
-            }
-
-            if (!string.IsNullOrEmpty(userName))
-            {
-                var normalizedUserName = userName.Trim().ToLower();
-                queryable = queryable.Where(f => _context.Users
-                    .Where(u => u.Name.ToLower().Contains(normalizedUserName))
-                    .Select(u => u.Id)
-                    .Contains(f.UserId));
+                                                                   f.Body.ToLower().Contains(k) ||
+                                                                   _context.Users
+                                                                       .Where(u => u.Name.ToLower().Contains(k))
+                                                                       .Select(u => u.Id)
+                                                                       .Contains(f.UserId)));
             }
 
             var totalItems = await queryable.CountAsync();
