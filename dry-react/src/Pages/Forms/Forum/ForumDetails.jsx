@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp as solidThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as regularThumbsUp } from '@fortawesome/free-regular-svg-icons';
@@ -12,11 +12,15 @@ import Cookies from 'js-cookie';
 
 function ForumDetails() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [forumItem, setForumItem] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [users, setUsers] = useState({});
     const [userId, setUserId] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editSubject, setEditSubject] = useState('');
+    const [editBody, setEditBody] = useState('');
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -119,6 +123,51 @@ function ForumDetails() {
         }
     };
 
+    const handleEditClick = () => {
+        setEditSubject(forumItem.subject);
+        setEditBody(forumItem.body);
+        setIsEditing(true);
+    };
+
+    const handleSaveClick = async () => {
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/api/Forum/update/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`
+                },
+                body: JSON.stringify({ id, subject: editSubject, body: editBody, userId })
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            const updatedItem = response.status !== 204 ? await response.json() : forumItem;
+            setForumItem(updatedItem);
+            setIsEditing(false);
+            window.location.reload();
+        } catch (error) {
+            console.error('Error saving forum:', error);
+        }
+    };
+
+    const handleDeleteClick = async () => {
+        const isConfirmed = window.confirm("Er du sikker på at du vil slette dette indlæg?");
+        if (!isConfirmed) return;
+
+        try {
+            const response = await fetch(`${config.apiBaseUrl}/api/Forum/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${Cookies.get('AuthToken')}` },
+            });
+
+            if (!response.ok) throw new Error('Network response was not ok');
+            navigate('/Forums');
+        } catch (error) {
+            console.error('Error deleting forum:', error);
+        }
+    };
+
     const handleCommentPosted = async () => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/Forum/${id}/comments`);
@@ -154,14 +203,39 @@ function ForumDetails() {
 
     return (
         <div className="forum-details">
-            <h4>{forumItem.subject}</h4>
-            <p>{forumItem.body}</p>
+            {isEditing ? (
+                <div>
+                    <input
+                        type="text"
+                        value={editSubject}
+                        onChange={(e) => setEditSubject(e.target.value)}
+                    />
+                    <textarea
+                        value={editBody}
+                        onChange={(e) => setEditBody(e.target.value)}
+                    />
+                    <button onClick={handleSaveClick}>Save</button>
+                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                </div>
+            ) : (
+                <>
+                    <h4>{forumItem.subject}</h4>
+                    <p>{forumItem.body}</p>
+                </>
+            )}
 
             <div className="more-info-container">
                 <p><strong>Indlæg af:</strong> {users[forumItem.userId]?.name || 'Ukendt'}</p>
                 <p><strong>Oprettet:</strong> {new Date(forumItem.createdAt).toLocaleDateString()}</p>
                 <p><ThumbUpIcon/>  {forumItem.likeCount}</p>
             </div>
+
+            {userId === forumItem.userId && !isEditing && (
+                <div className="edit-delete-buttons">
+                    <button onClick={handleEditClick}>Rediger</button>
+                    <button onClick={handleDeleteClick}>Slet</button>
+                </div>
+            )}
 
             <button
                 className="like-button"
