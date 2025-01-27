@@ -20,7 +20,8 @@ namespace DRYV1.Controllers
         public async Task<IActionResult> GetAll(
             int pageNumber = 1, 
             int pageSize = 10, 
-            string query = null)
+            string query = null,
+            string userName = null)
         {
             var queryable = _context.Forums.AsQueryable();
 
@@ -29,6 +30,15 @@ namespace DRYV1.Controllers
                 var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 queryable = queryable.Where(f => keywords.All(k => f.Subject.ToLower().Contains(k) ||
                                                                    f.Body.ToLower().Contains(k)));
+            }
+
+            if (!string.IsNullOrEmpty(userName))
+            {
+                var normalizedUserName = userName.Trim().ToLower();
+                queryable = queryable.Where(f => _context.Users
+                    .Where(u => u.Name.ToLower().Contains(normalizedUserName))
+                    .Select(u => u.Id)
+                    .Contains(f.UserId));
             }
 
             var totalItems = await queryable.CountAsync();
@@ -124,5 +134,21 @@ namespace DRYV1.Controllers
 
             return NoContent();
         }
+        
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetByUserId(int userId)
+        {
+            var forums = await _context.Forums
+                .Where(f => f.UserId == userId)
+                .ToListAsync();
+
+            if (forums == null || !forums.Any())
+            {
+                return NotFound("No forums found for the specified user.");
+            }
+
+            return Ok(forums);
+        }
+        
     }
 }

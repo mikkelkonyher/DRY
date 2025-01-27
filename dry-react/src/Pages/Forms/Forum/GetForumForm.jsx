@@ -17,6 +17,10 @@ function GetForumForm() {
     const [currentPage, setCurrentPage] = useState(1);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchInput, setSearchInput] = useState('');
+    const [usernameQuery, setUsernameQuery] = useState('');
+    const [usernameInput, setUsernameInput] = useState('');
     const itemsPerPage = 10;
 
     // Fetch forum data from API
@@ -25,6 +29,12 @@ function GetForumForm() {
             const url = new URL(apiEndpoint);
             url.searchParams.append('pageNumber', currentPage);
             url.searchParams.append('pageSize', itemsPerPage);
+            if (searchQuery) {
+                url.searchParams.append('query', searchQuery);
+            }
+            if (usernameQuery) {
+                url.searchParams.append('userName', usernameQuery);
+            }
 
             const response = await fetch(url);
             if (!response.ok) {
@@ -59,7 +69,7 @@ function GetForumForm() {
 
     useEffect(() => {
         fetchForums();
-    }, [currentPage]);
+    }, [currentPage, searchQuery, usernameQuery]);
 
     // Fetch user ID from token
     useEffect(() => {
@@ -115,8 +125,25 @@ function GetForumForm() {
         });
     };
 
+    // Handle search input change
+    const handleSearchInputChange = (e) => {
+        setSearchInput(e.target.value);
+    };
+
+    // Handle username input change
+    const handleUsernameInputChange = (e) => {
+        setUsernameInput(e.target.value);
+    };
+
+    // Handle search button click
+    const handleSearchClick = () => {
+        setSearchQuery(searchInput);
+        setUsernameQuery(usernameInput);
+    };
+
     return (
         <div>
+
             {/* Sell button */}
             <div className="sell-button-container">
                 <Link to="/CreateForum">
@@ -125,6 +152,25 @@ function GetForumForm() {
                         Opret nyt indlæg
                     </button>
                 </Link>
+            </div>
+
+            {/* Search bar */}
+            <div className="search-bar-container">
+                <input
+                    type="text"
+                    placeholder="Search by subject or body"
+                    value={searchInput}
+                    onChange={handleSearchInputChange}
+                    className="search-input"
+                />
+                <input
+                    type="text"
+                    placeholder="Search by username"
+                    value={usernameInput}
+                    onChange={handleUsernameInputChange}
+                    className="search-input"
+                />
+                <button onClick={handleSearchClick} className="search-button">Search</button>
             </div>
             {/* Forum list */}
             <div className="gear-list">

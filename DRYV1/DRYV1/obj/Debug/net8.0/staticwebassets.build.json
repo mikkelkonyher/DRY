@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "F4KRAFrljbZUFdc2tMfVm/CqqG9v72wNQDA0TlnTocU=",
+  "Hash": "rvxdLv9c2VCdOLtfuEczRJMRhC5o+Jm8oXRRYnVsgAE=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -2411,6 +2411,27 @@
       "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/qmtexn4a.qp2.jpg"
     },
     {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/qp2ueals.f1w.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/musicgear/qp2ueals.f1w#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ju6ysjizyx",
+      "Integrity": "1QAINR7WelzY3GxY0ciLr6z1MMgbz5P9X581o/t7vd4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/qp2ueals.f1w.jpg"
+    },
+    {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/qubadrbs.5lk.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
@@ -3480,6 +3501,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/45ey3ppi.z2d.jpg"
+    },
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/4oqjix3v.k3o.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/rehearsalrooms/4oqjix3v.k3o#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "rj2xuvzcxl",
+      "Integrity": "2YpOM+HL3W2XcSvI07S+jbY2u/uBXggpesSyKpUhrpg=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/4oqjix3v.k3o.jpg"
     },
     {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/5l4cbax4.zwj.jpg",
@@ -12096,7 +12138,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 26 Jan 2025 11:12:44 GMT"
+          "Value": "Mon, 27 Jan 2025 09:57:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -12141,7 +12183,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 26 Jan 2025 11:12:44 GMT"
+          "Value": "Mon, 27 Jan 2025 09:57:25 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13710,6 +13752,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-PSNbl7XQhm8aKf/CHXbVujKBubvocMzrejy/jzRGM4k="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/qp2ueals.f1w.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/qp2ueals.f1w.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "32354"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"1QAINR7WelzY3GxY0ciLr6z1MMgbz5P9X581o/t7vd4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Jan 2025 09:57:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-1QAINR7WelzY3GxY0ciLr6z1MMgbz5P9X581o/t7vd4="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/qp2ueals.f1w.ju6ysjizyx.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/qp2ueals.f1w.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "32354"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"1QAINR7WelzY3GxY0ciLr6z1MMgbz5P9X581o/t7vd4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Jan 2025 09:57:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ju6ysjizyx"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/musicgear/qp2ueals.f1w.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-1QAINR7WelzY3GxY0ciLr6z1MMgbz5P9X581o/t7vd4="
         }
       ]
     },
@@ -17892,6 +18016,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-BlYclS46K/Ta8aUhUKcvRcIxFC5WVc/A/kDirWSvjRo="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/4oqjix3v.k3o.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/4oqjix3v.k3o.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "59176"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"2YpOM+HL3W2XcSvI07S+jbY2u/uBXggpesSyKpUhrpg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Jan 2025 09:57:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-2YpOM+HL3W2XcSvI07S+jbY2u/uBXggpesSyKpUhrpg="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/4oqjix3v.k3o.rj2xuvzcxl.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/4oqjix3v.k3o.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "59176"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"2YpOM+HL3W2XcSvI07S+jbY2u/uBXggpesSyKpUhrpg=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 27 Jan 2025 09:57:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "rj2xuvzcxl"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/rehearsalrooms/4oqjix3v.k3o.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-2YpOM+HL3W2XcSvI07S+jbY2u/uBXggpesSyKpUhrpg="
         }
       ]
     },
