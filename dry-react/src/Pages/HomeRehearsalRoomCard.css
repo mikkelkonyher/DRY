@@ -1,4 +1,4 @@
-.homegear-card {
+.Homerehearsal-room-card {
     display: grid;
     grid-template-rows: 8fr 2fr 2fr;
     position: relative;
@@ -18,20 +18,22 @@
     margin-bottom: 12px;
 }
 
-.homegear-card:hover {
+.Homerehearsal-room-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
 }
 
-.homegear-image {
+.Homerehearsal-room-image {
     width: 100%;
-    height: 100%;
+    height: auto;
     max-height: 150px;
-    object-fit: cover;
+    object-fit: contain;
+    margin-top: auto;
+    margin-bottom: 10px;
     grid-row: 1 / 2;
 }
 
-.homegear-title, .homegear-price {
+.Homerehearsal-room-title, .Homerehearsal-room-price {
     width: 100%;
     text-align: left;
     overflow: hidden;
@@ -39,8 +41,36 @@
     white-space: nowrap;
 }
 
-.homegear-title {
-    font-size: 0.9em;
+.Homerehearsal-room-title h3 {
+    margin: 0;
+    display: block;
+    max-width: 100%;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-weight: 700;
+    margin-bottom: 0;
+    grid-row: 2 / 3;
+}
+
+.Homerehearsal-room-price h4 {
+    margin-top: 0;
+    display: block;
+    max-width: 100%;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-weight: 400;
+    margin-bottom: 0;
+    grid-row: 3 / 4;
+}
+
+.Homerehearsal-room-title {
+    font-size: 0.8em;
     font-weight: 900;
     color: #4cacaf;
     text-align: left;
@@ -50,10 +80,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 0;
-    grid-row: 2 / 3;
 }
 
-.homegear-price {
+.Homerehearsal-room-price {
     font-size: 0.9em;
     color: #4cacaf;
     text-align: left;
@@ -62,5 +91,4 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    grid-row: 3 / 4;
 }

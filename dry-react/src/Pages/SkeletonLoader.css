@@ -1,0 +1,47 @@
+.skeleton-card {
+    display: grid;
+    grid-template-rows: 8fr 2fr 2fr;
+    position: relative;
+    padding: 10px;
+    margin: 12px;
+    width: 175px;
+    height: 260px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.skeleton-image, .skeleton-title, .skeleton-price {
+    background: linear-gradient(90deg, #1e1e1e 25%, #2e2e2e 50%, #1e1e1e 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 150px;
+    border-radius: 4px;
+}
+
+.skeleton-title {
+    width: 80%;
+    height: 20px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.skeleton-price {
+    width: 60%;
+    height: 20px;
+    border-radius: 4px;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}

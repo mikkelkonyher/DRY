@@ -3,11 +3,10 @@
 .home-container {
     padding: 20px;
     max-width: 1200px;
-    margin: 0 auto;
-    font-family: Roboto, Arial, sans-serif;
+    margin: 30px auto 0;
+    font-family: 'Roboto', Arial, sans-serif;
     line-height: 1.6;
     color: #4cacaf;
-    margin-top: 30px;
 }
 
 .home-container h1 {
@@ -24,21 +23,68 @@
 .home-container h2 {
     font-size: 1.2em;
     font-weight: 700;
-    margin-top: 16px;
-    margin-bottom: 0;
-    margin-left: 28px;
+    margin: 60px 0 0 20px;
     text-align: left;
     text-shadow: 1px 1px 2px #131313;
 }
 
-@media (max-width: 600px) {
-    .home-container h1 {
-        font-size: 2em;
-    }
+.hero-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 1200px;
+    height: auto;
+    background: center / cover no-repeat;
+}
 
-    .home-container p {
-        font-size: 1em;
-    }
+.hero-box {
+    width: 240px; /* Adjusted width */
+    height: 240px; /* Adjusted height */
+    padding: 20px;
+    margin: 60px;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0.85;
+}
+
+.hero-box h1 {
+    font-size: 2em;
+    margin-top: 32px;
+    color: #31729a;
+}
+
+.hero-button {
+    margin-top: auto;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #31729a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    align-self: center;
+}
+
+.hero-button:hover {
+    background-color: #3a8a8a;
+}
+
+.hero-box:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    opacity: 1;
 }
 
 .carousel-container {
@@ -48,68 +94,19 @@
     white-space: nowrap;
     padding: 20px;
     border-radius: 10px;
-    max-width: 800px;
-    margin: 0 auto; /* Center the carousel container */
+    max-width: 1100px;
+    margin: 0 auto;
 }
-
 
 .carousel-container::-webkit-scrollbar {
     display: none;
-}
-
-.hero-container {
-    position: relative;
-    width: 100%;
-    height: 500px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.hero-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 12px;
-    margin: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    width: 225px;
-    height: 275px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    border-radius: 10px;
-    box-sizing: border-box;
-    color: #000000;
-    font-family: Roboto, sans-serif;
-}
-
-.hero-button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    font-size: 1em;
-    color: white;
-    background-color: #31729a;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-family: Roboto, sans-serif;
-    font-weight: 900;
-}
-
-.hero-button:hover {
-    background-color: #3a8a8a;
 }
 
 .homegear-title, .homegear-price {
     width: 100%;
     text-align: left;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -118,9 +115,52 @@
 .homegear-title h3, .homegear-price h4 {
     display: block;
     max-width: 100%;
-    white-space: normal; /* Allow text to wrap */
-    overflow: hidden; /* Hide the overflow text */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
-    word-wrap: break-word; /* Break long words to a new line */
-    overflow-wrap: break-word; /* Ensure compatibility with different browsers */
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 1200px) {
+    .hero-container {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .home-container {
+        padding: 10px;
+    }
+
+    .home-container h1 {
+        font-size: 2em;
+    }
+
+    .home-container p {
+        font-size: 1em;
+    }
+
+    .hero-container {
+        flex-direction: column;
+        align-items: start;
+        padding: 10px;
+    }
+
+    .hero-box {
+        max-width: 140px;
+        height: auto;
+        padding: 12px;
+        margin: 24px;
+    }
+
+    .hero-box h1 {
+        font-size: 1.5em;
+    }
+
+    .hero-button {
+        font-size: 0.9em;
+        padding: 8px 16px;
+    }
 }
