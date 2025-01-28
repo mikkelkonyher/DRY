@@ -12,10 +12,12 @@ namespace DRYV1.Controllers
     public class MessagesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly EmailService _emailService;
 
-        public MessagesController(ApplicationDbContext context)
+        public MessagesController(ApplicationDbContext context, EmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         // GET: api/Messages/{userId}
@@ -93,6 +95,14 @@ namespace DRYV1.Controllers
                 ChatId = message.ChatId,
             };
 
+            // Send email notification
+            var inboxUrl = "http://localhost:5173/inbox";
+            var receiver = await _context.Users.FindAsync(messageCreateDTO.ReceiverId);
+            if (receiver != null)
+            {
+                await _emailService.SendEmailAsync(receiver.Email, "Ny besked modtaget", $"Du har modtaget en ny besked fra {messageDTO.SenderUsername}. Klik <a href=\"{inboxUrl}\">her</a> For gå til din inbox.");
+            }
+
             return CreatedAtAction(nameof(GetMessages), new { userId = message.SenderId }, messageDTO);
         }
 
@@ -111,7 +121,5 @@ namespace DRYV1.Controllers
 
             return NoContent();
         }
-        
-       
     }
 }
