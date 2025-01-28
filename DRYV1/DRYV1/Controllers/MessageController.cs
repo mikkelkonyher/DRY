@@ -100,7 +100,7 @@ namespace DRYV1.Controllers
             var receiver = await _context.Users.FindAsync(messageCreateDTO.ReceiverId);
             if (receiver != null)
             {
-                await _emailService.SendEmailAsync(receiver.Email, "Ny besked modtaget", $"Du har modtaget en ny besked fra {messageDTO.SenderUsername}. Klik <a href=\"{inboxUrl}\">her</a> For gå til din inbox.");
+                await _emailService.SendEmailAsync(receiver.Email, "Ny besked modtaget", $"Du har modtaget en ny besked fra {messageDTO.SenderUsername}. Klik <a href=\"{inboxUrl}\">her</a> for at gå til din inbox.");
             }
 
             return CreatedAtAction(nameof(GetMessages), new { userId = message.SenderId }, messageDTO);
