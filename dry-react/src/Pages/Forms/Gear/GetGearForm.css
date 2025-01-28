@@ -12,8 +12,15 @@
     align-items: center; /* Center the content inside the card */
     margin-top: 30px; /* Add space above the card */
     position: relative; /* Add relative positioning */
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
+.gear-card:hover {
+
+
+    transform: scale(1.01); /* Increase size on hover */
+}
 .favorite-button {
     position: absolute;
     top: -75px; /* Position the button just above the image */
