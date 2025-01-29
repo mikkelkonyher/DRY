@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import SkeletonLoader from './SkeletonLoader.jsx';
 import HomeRehearsalRoomCard from "./HomeRehearsalRoomCard.jsx";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import SellIcon from '@mui/icons-material/Sell';
 
 function Home() {
     const [popularMusicGear, setPopularMusicGear] = useState([]);
@@ -77,9 +78,15 @@ function Home() {
             <p className="subheadline">
                 Skabt af musikere, for musikere
             </p>
-                <button className="opret-dig-button">
-                    Opret dig <ArrowForwardIcon />
-                </button>
+                <div className="landingpagebuttons">
+                    <button className="sellgear-button">
+                        Sælg udstyr <SellIcon className="icon-spacing" />
+                    </button>
+                    <button className="opret-dig-button">
+                        Opret dig <ArrowForwardIcon className="icon-spacing" />
+                    </button>
+
+                </div>
             </div>
             <h2>Populære artikler</h2>
             <div className="carousel-container">

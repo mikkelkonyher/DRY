@@ -85,6 +85,7 @@
     -webkit-background-clip: text;
     color: transparent;
     text-align: center;
+
 }
 
 .subheadline {
@@ -225,6 +226,24 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    color: black;
+    background-color: white;
+    height: 4em;
+    border-radius: 30px;
+    width: 14em;
+    font-family: 'Geist', sans-serif;
+}
+
+.landingpagebuttons {
+    display: flex;
+    gap: 10px; /* Adjust the gap as needed */
+}
+
+.sellgear-button{
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: white;
     background-color: transparent;
     height: 4em;
@@ -238,6 +257,16 @@
 .opret-dig-button:hover {
 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: scale(1.05); /* Increase size by 5% */
+    transform: scale(1.02); /* Increase size by 5% */
+    background-color: white;
 }
 
+.sellgear-button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02); /* Increase size by 5% */
+    background-color: #712cf9;
+}
+
+.icon-spacing {
+    margin-left: 8px; /* Adjust the space as needed */
+}
