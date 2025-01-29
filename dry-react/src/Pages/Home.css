@@ -96,10 +96,31 @@
     border-radius: 10px;
     max-width: 1100px;
     margin: 0 auto;
+    scrollbar-width: none; /* For Firefox */
+    scrollbar-gutter: stable; /* For all browsers */
 }
 
 .carousel-container::-webkit-scrollbar {
-    display: none;
+    height: 8px; /* Adjust the height of the scrollbar */
+}
+
+.carousel-container::-webkit-scrollbar-track {
+    background: transparent; /* Background of the scrollbar track */
+    border-radius: 10px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb {
+    background-color: #4cacaf; /* Color of the scrollbar thumb */
+    border-radius: 10px;
+    border: 2px solid transparent; /* Padding around the thumb */
+}
+
+.carousel-container:hover {
+    scrollbar-width: thin; /* For Firefox */
+}
+
+.carousel-container:hover::-webkit-scrollbar {
+    display: block; /* Show scrollbar on hover */
 }
 
 .homegear-title, .homegear-price {
