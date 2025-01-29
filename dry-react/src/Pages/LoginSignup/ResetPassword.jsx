@@ -51,6 +51,7 @@ const ResetPassword = () => {
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         required
+                        minLength="8"
                     />
                 </div>
                 <div className="form-group">
