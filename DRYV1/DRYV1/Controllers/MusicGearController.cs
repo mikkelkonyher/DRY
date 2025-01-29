@@ -264,6 +264,29 @@ namespace DRYV1.Controllers
 
             return Ok(response);
         }
+        
+        [HttpGet("GetByFavoriteCount")]
+        public async Task<IActionResult> GetByFavoriteCount(
+            int pageNumber = 1,
+            int pageSize = 10)
+        {
+            var queryable = _context.MusicGear.AsQueryable();
+
+            var totalItems = await queryable.CountAsync();
+            var musicGear = await queryable
+                .OrderByDescending(d => d.FavoriteCount)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var response = new
+            {
+                TotalItems = totalItems,
+                Items = musicGear
+            };
+
+            return Ok(response);
+        }
 
     }
 }
