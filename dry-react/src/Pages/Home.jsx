@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import './Home.css';
 import config from '../../config.jsx';
 import HomeGearCard from "./HomeGearCard.jsx";
-import { Link } from 'react-router-dom';
 import SkeletonLoader from './SkeletonLoader.jsx';
 import HomeRehearsalRoomCard from "./HomeRehearsalRoomCard.jsx";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import SellIcon from '@mui/icons-material/Sell';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
     const [popularMusicGear, setPopularMusicGear] = useState([]);
     const [latestMusicGear, setLatestMusicGear] = useState([]);
     const [rehearsalRooms, setRehearsalRooms] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPopularMusicGear = async () => {
@@ -79,10 +80,10 @@ function Home() {
                 Skabt af musikere, for musikere
             </p>
                 <div className="landingpagebuttons">
-                    <button className="sellgear-button">
+                    <button className="sellgear-button" onClick={() => navigate('/sell-gear')}>
                         Sælg udstyr <SellIcon className="icon-spacing" />
                     </button>
-                    <button className="opret-dig-button">
+                    <button className="opret-dig-button" onClick={() => navigate('/signup')}>
                         Opret dig <ArrowForwardIcon className="icon-spacing" />
                     </button>
 
