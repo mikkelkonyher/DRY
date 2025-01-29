@@ -1,29 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
-import './HomeRehearsalRoomCard.css';
+import { Link } from 'react-router-dom';
+import './HomeGearCard.css'; // Reuse the same CSS file
 
 function HomeRehearsalRoomCard({ item }) {
-    const navigate = useNavigate();
-
-    const handleCardClick = () => {
-        navigate(`/RehearsalRoomDetails/${item.id}`);
-    };
-
     return (
-        <div className="Homerehearsal-room-card" onClick={handleCardClick}>
-            {item.imagePaths && item.imagePaths.length > 0 ? (
-                <img className="Homerehearsal-room-image" src={item.imagePaths[0]} alt={item.name} />
-            ) : (
-                <p>Ingen billeder tilgængelige</p>
-            )}
-            <div className="Homerehearsal-room-title">
-                <h3>{item.name}</h3>
+        <Link to={`/RehearsalRoomDetails/${item.id}`} className="homegear-card-link">
+            <div className="homegear-card">
+                {item.isNew && <div className="badge">New</div>}
+                <div className="homegear-title">
+                    <h3>{item.name}</h3>
+                </div>
+                <div className="homegear-price">
+                    <h4>{item.price} DKK {item.paymentType}</h4>
+                </div>
+                {item.imagePaths && item.imagePaths.length > 0 ? (
+                    <img src={item.imagePaths[0]} alt={item.name} className="homegear-image" />
+                ) : (
+                    <p>Ingen billeder tilgængelige</p>
+                )}
             </div>
-            <div className="Homerehearsal-room-price">
-                <h4>{item.price} DKK {item.paymentType}</h4>
-            </div>
-        </div>
+        </Link>
     );
 }
 
