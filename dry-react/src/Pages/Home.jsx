@@ -88,7 +88,7 @@ function Home() {
                         </button>
                     ) : (
                         <button className="opret-dig-button" onClick={() => navigate('/signup')}>
-                            Opret dig <ArrowForwardIcon className="icon-spacing" />
+                            Opret profil <ArrowForwardIcon className="icon-spacing" />
                         </button>
                     )}
                 </div>
