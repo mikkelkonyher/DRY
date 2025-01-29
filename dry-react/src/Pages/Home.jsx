@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './Home.css';
 import config from '../../config.jsx';
 import HomeGearCard from "./HomeGearCard.jsx";
@@ -7,6 +7,7 @@ import HomeRehearsalRoomCard from "./HomeRehearsalRoomCard.jsx";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import SellIcon from '@mui/icons-material/Sell';
 import { useNavigate } from 'react-router-dom';
+import {AuthContext} from "../AuthContext.jsx";
 
 function Home() {
     const [popularMusicGear, setPopularMusicGear] = useState([]);
@@ -14,6 +15,7 @@ function Home() {
     const [rehearsalRooms, setRehearsalRooms] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { isAuthenticated } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchPopularMusicGear = async () => {
@@ -72,21 +74,23 @@ function Home() {
     return (
         <div className="home-container">
             <div className="headline-container">
-            <h1 className="hero-text">
-                Gør dit gear til guld
-            </h1>
+                <h1 className="hero-text">
+                    Gør dit gear til guld
+                </h1>
 
-            <p className="subheadline">
-                Skabt af musikere, for musikere
-            </p>
+                <p className="subheadline">
+                    Skabt af musikere, for musikere
+                </p>
                 <div className="landingpagebuttons">
-                    <button className="sellgear-button" onClick={() => navigate('/sell-gear')}>
-                        Sælg udstyr <SellIcon className="icon-spacing" />
-                    </button>
-                    <button className="opret-dig-button" onClick={() => navigate('/signup')}>
-                        Opret dig <ArrowForwardIcon className="icon-spacing" />
-                    </button>
-
+                    {isAuthenticated ? (
+                        <button className="sellgear-button" onClick={() => navigate('/sell-gear')}>
+                            Sælg udstyr <SellIcon className="icon-spacing" />
+                        </button>
+                    ) : (
+                        <button className="opret-dig-button" onClick={() => navigate('/signup')}>
+                            Opret dig <ArrowForwardIcon className="icon-spacing" />
+                        </button>
+                    )}
                 </div>
             </div>
             <h2>Populære artikler</h2>
