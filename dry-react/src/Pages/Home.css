@@ -1,12 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist&display=swap');
 
 .home-container {
     padding: 20px;
     max-width: 1200px;
     margin: 30px auto 0;
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Geist', sans-serif;
     line-height: 1.6;
     color: #4cacaf;
+}
+
+.headline-container {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center;
+    align-items: center;
+
 }
 
 .home-container h1 {
@@ -25,8 +34,12 @@
     font-weight: 700;
     margin: 60px 0 0 20px;
     text-align: left;
-    text-shadow: 1px 1px 2px #131313;
+    font-family: 'Geist', sans-serif;
+    background: linear-gradient(to right, white, rgb(221, 197, 239));
+    -webkit-background-clip: text;
+    color: transparent;
 }
+
 
 .hero-container {
     display: flex;
@@ -51,7 +64,7 @@
     border-radius: 15px;
     box-sizing: border-box;
     color: #333;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Geist', sans-serif;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     opacity: 0.85;
 }
@@ -60,6 +73,28 @@
     font-size: 2em;
     margin-top: 32px;
     color: #31729a;
+}
+
+
+
+.hero-text {
+    font-size: 4em !important;
+
+    font-family: 'Geist', sans-serif;
+    background: linear-gradient(to right, white, #8c5cad, rgb(221, 197, 239));
+    -webkit-background-clip: text;
+    color: transparent;
+    text-align: center;
+}
+
+.subheadline {
+    font-size: 2em !important; /* Adjust the size as needed */
+    font-family: 'Geist', sans-serif;
+    background: linear-gradient(to right, white, #8c5cad, rgb(221, 197, 239));
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-top: -10px;
+
 }
 
 .hero-button {
@@ -77,9 +112,7 @@
     align-self: center;
 }
 
-.hero-button:hover {
-    background-color: #3a8a8a;
-}
+
 
 .hero-box:hover {
     transform: translateY(-1px);
@@ -185,3 +218,26 @@
         padding: 8px 16px;
     }
 }
+
+.opret-dig-button {
+
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: transparent;
+    height: 4em;
+    border-color: #712cf9;
+    border-radius: 30px;
+    width: 14em;
+    font-family: 'Geist', sans-serif;
+}
+
+
+.opret-dig-button:hover {
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05); /* Increase size by 5% */
+}
+

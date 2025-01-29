@@ -5,7 +5,6 @@
     padding: 10px;
     margin: 12px;
     text-align: center;
-    background-color: #131313;
     background: linear-gradient(135deg, #1e1e1e, #131313);
     width: 175px;
     height: 260px;
@@ -16,6 +15,7 @@
     border: 1px solid #444;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 12px;
+    font-family: 'Geist', sans-serif;
 }
 
 .homegear-card:hover {
@@ -42,7 +42,7 @@
 .homegear-title {
     font-size: 0.9em;
     font-weight: 900;
-    color: #4cacaf;
+    color: white;
     text-align: left;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -51,11 +51,12 @@
     text-overflow: ellipsis;
     margin-bottom: 0;
     grid-row: 2 / 3;
+    font-family: 'Geist', sans-serif;
 }
 
 .homegear-price {
     font-size: 0.9em;
-    color: #4cacaf;
+    color: white;
     text-align: left;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -63,4 +64,5 @@
     overflow: hidden;
     text-overflow: ellipsis;
     grid-row: 3 / 4;
+    font-family: 'Geist', sans-serif;
 }

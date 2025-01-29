@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './Home.css';
 import config from '../../config.jsx';
 import HomeGearCard from "./HomeGearCard.jsx";
-import heroImage from '../assets/Hero_itt2.png';
 import { Link } from 'react-router-dom';
 import SkeletonLoader from './SkeletonLoader.jsx';
 import HomeRehearsalRoomCard from "./HomeRehearsalRoomCard.jsx";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 function Home() {
     const [popularMusicGear, setPopularMusicGear] = useState([]);
@@ -69,11 +69,17 @@ function Home() {
 
     return (
         <div className="home-container">
-            <div className="hero-container" style={{backgroundImage: `url(${heroImage})`}}>
-                <div className="hero-box">
-                    <h1>Gør dit gear til guld</h1>
-                    <Link to="/sell-gear" className="hero-button">Upload en artikel nu</Link>
-                </div>
+            <div className="headline-container">
+            <h1 className="hero-text">
+                Gør dit gear til guld
+            </h1>
+
+            <p className="subheadline">
+                Skabt af musikere, for musikere
+            </p>
+                <button className="opret-dig-button">
+                    Opret dig <ArrowForwardIcon />
+                </button>
             </div>
             <h2>Populære artikler</h2>
             <div className="carousel-container">
