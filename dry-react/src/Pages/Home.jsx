@@ -16,7 +16,7 @@ function Home() {
     useEffect(() => {
         const fetchPopularMusicGear = async () => {
             try {
-                const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/GetByFavoriteCount?pageNumber=1&pageSize=20`);
+                const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/GetByFavoriteCount?pageNumber=1&pageSize=30`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -32,7 +32,7 @@ function Home() {
 
         const fetchLatestMusicGear = async () => {
             try {
-                const response = await fetch(`${config.apiBaseUrl}/api/MusicGear?pageNumber=1&pageSize=20`);
+                const response = await fetch(`${config.apiBaseUrl}/api/MusicGear?pageNumber=1&pageSize=30`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -48,7 +48,7 @@ function Home() {
 
         const fetchRehearsalRooms = async () => {
             try {
-                const response = await fetch(`${config.apiBaseUrl}/api/RehearsalRoom?pageNumber=1&pageSize=20`);
+                const response = await fetch(`${config.apiBaseUrl}/api/RehearsalRoom?pageNumber=1&pageSize=30`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
