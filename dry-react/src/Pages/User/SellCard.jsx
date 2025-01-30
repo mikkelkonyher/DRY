@@ -262,7 +262,7 @@ function SellCard({ item, userId }) {
                 <>
                     {/* Display item details */}
                     <h3>{item.brand} {item.model}</h3>
-                    <h4><strong>Pris: </strong>{item.price} kr. </h4>
+                    <h4><strong>Pris: </strong>{item.price.toLocaleString('da-DK')} kr. </h4>
                     <div className="image-container">
                         {item.imagePaths && item.imagePaths.length > 0 ? (
                             <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}

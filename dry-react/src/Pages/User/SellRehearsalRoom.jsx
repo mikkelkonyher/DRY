@@ -220,7 +220,7 @@ function SellRehearsalRoom({ room, userId }) {
                 <>
                     {/* Display room details */}
                     <h3>{room.name}</h3>
-                    <h4><strong>Price: </strong>{room.price} kr. </h4>
+                    <h4><strong>Pris: </strong>{room.price.toLocaleString('da-DK')} kr. </h4>
                     <div className="image-container">
                         {room.imagePaths && room.imagePaths.length > 0 ? (
                             <img src={room.imagePaths[0]} alt={`${room.name}`}

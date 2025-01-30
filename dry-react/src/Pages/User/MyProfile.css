@@ -174,10 +174,10 @@ textarea {
 }
 
 .default-profile-image {
-    width: 300px; /* Adjust the size as needed */
-    height: 300px; /* Adjust the size as needed */
+    width: 200px; /* Adjust the size as needed */
+    height: 200px; /* Adjust the size as needed */
     border-radius: 50%; /* Makes the image round */
-    background-color: transparent;
+    background-color: rgb(108 41 238);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -187,7 +187,14 @@ textarea {
     cursor: pointer; /* Pointer cursor on hover */
     margin: 0 auto; /* Centers the image horizontally */
     margin-bottom: 20px;
-    margin-top: -150px;
+    margin-top: -100px;
+}
+
+.default-profile-image img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 @media (max-width: 600px) {
@@ -195,6 +202,7 @@ textarea {
         width: 150px; /* Adjust the size for smaller screens */
         height: 150px; /* Adjust the size for smaller screens */
         margin-top: -5px;
+        object-fit: cover; /* Ensures the image covers the entire area */
     }
 }
 

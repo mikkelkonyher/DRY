@@ -6,6 +6,20 @@ import config from '../../../config.jsx';
 import './MyProfile.css';
 import Cookies from 'js-cookie';
 import { AuthContext } from "../../AuthContext.jsx";
+import defaultProfileImage from '../../assets/3675952-200.png'; // Import the new image
+
+const ninjaNames = [
+    "Shadow Reaper",
+    "Ghost Fang",
+    "Bloodmoon Shinobi",
+    "Silent Phantom",
+    "Nightfall Ronin",
+    "Dagger Viper",
+    "Stormblade Sensei",
+    "Void Stalker",
+    "Obsidian Kage",
+    "Venom Shuriken"
+];
 
 function MyProfile() {
     // State variables
@@ -28,6 +42,7 @@ function MyProfile() {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [profileImage, setProfileImage] = useState(null);
     const [profileImageUrl, setProfileImageUrl] = useState('');
+    const [randomNinjaName, setRandomNinjaName] = useState('');
     const fileInputRef = useRef(null);
     const { setIsAuthenticated } = useContext(AuthContext);
 
@@ -77,6 +92,12 @@ function MyProfile() {
         };
 
         fetchUserId();
+    }, []);
+
+    // Set a random ninja name
+    useEffect(() => {
+        const randomName = ninjaNames[Math.floor(Math.random() * ninjaNames.length)];
+        setRandomNinjaName(randomName);
     }, []);
 
     // Fetch user gear and rehearsal rooms
@@ -248,6 +269,8 @@ function MyProfile() {
             const requestBody = { id: userId, name: userName, email: userEmail };
             if (profileImageUrl) {
                 requestBody.profileImageUrl = profileImageUrl;
+            } else {
+                requestBody.profileImageUrl = defaultProfileImage; // Set to default profile image if no profile image URL
             }
 
             const response = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
@@ -325,9 +348,7 @@ function MyProfile() {
                 <img className="profile-image" src={profileImageUrl} alt="Profile" onClick={handleImageClick} />
             ) : (
                 <div className="default-profile-image" onClick={handleImageClick}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15em" height="15em" viewBox="0 0 24 24">
-                        <path fill="#712cf9" d="M7.75 13c-.01-.35.15-.69.42-.92c.75.16 1.45.47 2.08.92c0 .68-.56 1.24-1.25 1.24S7.76 13.69 7.75 13m6 0c.63-.44 1.33-.75 2.08-.91c.27.23.43.57.42.91c0 .7-.56 1.26-1.25 1.26s-1.25-.56-1.25-1.26M12 9c-2.77-.04-5.5.65-7.93 2L4 12c0 1.23.29 2.44.84 3.54a47.6 47.6 0 0 1 14.32 0c.55-1.1.84-2.31.84-3.54l-.07-1A15.85 15.85 0 0 0 12 9m0-7a10 10 0 0 1 10 10a10 10 0 0 1-10 10A10 10 0 0 1 2 12A10 10 0 0 1 12 2"></path>
-                    </svg>
+                    <img src={defaultProfileImage} alt="Default Profile" style={{ width: '15em', height: '15em' }} />
                 </div>
             )}
             <input
@@ -384,7 +405,7 @@ function MyProfile() {
                 </div>
             ) : (
                 <div className="profile-info">
-                    <h2>{userName}</h2>
+                    <h2>{`${randomNinjaName} ${userName}`}</h2>
 
                     <button onClick={handleEdit}>Rediger</button>
                 </div>
