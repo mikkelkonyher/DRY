@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist&display=swap');
+
+
+* {
+    font-family: 'Geist', sans-serif;
+}
+
+.form-container {
+    width: 100%; /* Ensure the container takes the full width */
+    max-width: 1600px; /* Increase the maximum width */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px; /* Add padding for better spacing */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+form.createPostForm {
+    width: 100%; /* Ensure the form takes the full width of the container */
+    height: auto; /* Adjust the height as needed */
+    padding: 20px; /* Add padding for better spacing */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.body-textarea {
+    width: 100%; /* Adjust the width as needed */
+    height: 250px; /* Adjust the height as needed */
+    padding: 10px; /* Add padding for better spacing */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.centered-heading {
+    text-align: center;
+    margin-top: 25%;
+    font-family: 'Geist', sans-serif;
+    background: linear-gradient(to right, white, #8c5cad, rgb(221, 197, 239));
+    -webkit-background-clip: text;
+    color: transparent;
+}

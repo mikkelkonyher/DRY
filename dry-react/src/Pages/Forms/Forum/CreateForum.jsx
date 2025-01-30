@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import config from '../../../../config.jsx';
 import './CreateForum.css';
 import Cookies from 'js-cookie';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 
 const CreateForum = () => {
     const [subject, setSubject] = useState('');
@@ -80,29 +81,35 @@ const CreateForum = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            {successMessage && <div className="success-message">{successMessage}</div>}
-            <div>
-                <label htmlFor="subject">Emne *</label>
-                <input
-                    type="text"
-                    id="subject"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    required
-                />
+        <div>
+            <h2 className="centered-heading">Opret forum indlæg <EditNoteIcon/></h2>
+            <div className="form-container">
+                <form className="createPostForm" onSubmit={handleSubmit}>
+                    {successMessage && <div className="success-message">{successMessage}</div>}
+                    <div>
+                        <label htmlFor="subject">Emne *</label>
+                        <input
+                            type="text"
+                            id="subject"
+                            value={subject}
+                            onChange={(e) => setSubject(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="body">Indhold *</label>
+                        <textarea
+                            id="body"
+                            className="body-textarea"
+                            value={body}
+                            onChange={(e) => setBody(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <button type="submit">Opret</button>
+                </form>
             </div>
-            <div>
-                <label htmlFor="body">Indhold *</label>
-                <textarea
-                    id="body"
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
-                    required
-                />
-            </div>
-            <button type="submit">Opret</button>
-        </form>
+        </div>
     );
 };
 

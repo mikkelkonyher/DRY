@@ -216,8 +216,8 @@ function ForumDetails() {
                         value={editBody}
                         onChange={(e) => setEditBody(e.target.value)}
                     />
-                    <button onClick={handleSaveClick}>Save</button>
-                    <button onClick={() => setIsEditing(false)}>Cancel</button>
+                    <button className="forumsavebutton" onClick={handleSaveClick}>Save</button>
+                    <button className="forumcancelbutton" onClick={() => setIsEditing(false)}>Cancel</button>
                 </div>
             ) : (
                 <>
@@ -247,7 +247,7 @@ function ForumDetails() {
                 <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
             </button>
 
-            <button onClick={() => setIsMessageModalOpen(true)}>
+            <button className="forumMessageButton" onClick={() => setIsMessageModalOpen(true)}>
                 Skriv til bruger
             </button>
 

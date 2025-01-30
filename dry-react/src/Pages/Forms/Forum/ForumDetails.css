@@ -76,36 +76,14 @@
     outline: none;
 }
 
-.comments-section {
-    margin-top: 16px;
-    width: 90%; /* Make the comments section less wide */
-    margin-left: auto;
-    margin-right: auto;
+.show-comments-button{
+    background-color: black;
 }
 
-.show-comments-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #007bff;
-    transition: color 0.3s ease;
-}
-
-.show-comments-button:hover {
-    color: #0056b3;
-}
-
-.show-comments-button:focus {
-    outline: none;
-}
-
-.comment {
-    border-top: 1px solid #ddd;
-    padding-top: 8px;
-    margin-top: 8px;
-    color: #fff; /* Change text color to white */
-}
-
-.comment strong {
-    color: #fff; /* Change username color to white */
+.show-comments-button:hover,
+.edit-delete-buttons:hover,
+.forumsavebutton:hover,
+.forumcancelbutton:hover,
+.forumMessageButton:hover{
+    background-color: #2e2828;
 }
