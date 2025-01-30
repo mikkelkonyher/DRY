@@ -382,9 +382,8 @@ function MyProfile() {
                 </div>
             ) : (
                 <div className="profile-info">
-                    <h2> GearNinja: {userName}</h2>
-                    <p><strong>Brugernavn:</strong> {userName}</p>
-                    <p><strong>Email:</strong> {userEmail}</p>
+                    <h2>{userName}</h2>
+
                     <button onClick={handleEdit}>Rediger</button>
                 </div>
             )}

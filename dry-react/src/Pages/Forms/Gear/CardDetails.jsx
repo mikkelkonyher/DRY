@@ -243,7 +243,9 @@ function CardDetails() {
                                         <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
                                         <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
                                         {comment.userId === userId && (
-                                            <button onClick={() => handleDeleteComment(comment.id)}>Slet kommentar</button>
+                                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                <button className="deleteCommentButton" onClick={() => handleDeleteComment(comment.id)}>Slet kommentar</button>
+                                            </div>
                                         )}
                                     </div>
                                 ))

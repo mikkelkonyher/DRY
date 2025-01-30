@@ -20,3 +20,11 @@
         padding: 10px; /* Adjust padding for smaller screens */
     }
 }
+
+/* Is CSS for all delete comments button: Forum details, RehearsalroomDetails etc. */
+.deleteCommentButton{
+    background-color: red;
+    width: 10em;
+    font-size: 0.7em;
+}
+
