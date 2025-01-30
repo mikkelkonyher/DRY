@@ -8,20 +8,19 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import config from '../../../config.jsx';
 import logo from '../../assets/logo.png';
+import userImage from '../../assets/886497-200.png';
 
 const pages = [
     { name: 'Guit/Bas', path: '/GuitBass' },
@@ -262,9 +261,7 @@ function ResponsiveAppBar() {
                                             },
                                         }}
                                     >
-                                        <Avatar sx={{bgcolor: '#6366f1'}}>
-                                            <AccountBoxIcon sx={{color: 'white'}}/>
-                                        </Avatar>
+                                        <img src={userImage} alt="User" style={{ height: '45px', borderRadius: '50%', backgroundColor: 'rgb(113 44 249)' }} />
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
