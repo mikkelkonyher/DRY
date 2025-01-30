@@ -5,6 +5,12 @@
     font-family: 'Geist', sans-serif;
 }
 
+
+create-forum-container{
+
+    justify-items: center;
+}
+
 .form-container {
     width: 100%; /* Ensure the container takes the full width */
     max-width: 1600px; /* Increase the maximum width */
@@ -29,9 +35,25 @@ form.createPostForm {
 
 .centered-heading {
     text-align: center;
-    margin-top: 25%;
+    margin-top: 15%;
     font-family: 'Geist', sans-serif;
     background: linear-gradient(to right, white, #8c5cad, rgb(221, 197, 239));
     -webkit-background-clip: text;
     color: transparent;
+    font-size: 3em;
+    margin-left: 0.7em;
 }
+
+@media(max-width: 768px){
+    .centered-heading{
+        font-size: 2em;
+    }
+}
+
+
+
+
+.postForumButton{
+
+}
+

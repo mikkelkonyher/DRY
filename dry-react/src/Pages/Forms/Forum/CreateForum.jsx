@@ -9,6 +9,8 @@ const CreateForum = () => {
     const [body, setBody] = useState('');
     const [userId, setUserId] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [charCount, setCharCount] = useState(0);
+    const maxChars = 8000;
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -75,38 +77,48 @@ const CreateForum = () => {
             setSuccessMessage('Indlægget er oprettet');
             setSubject('');
             setBody('');
+            setCharCount(0);
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
+    const handleBodyChange = (e) => {
+        setBody(e.target.value);
+        setCharCount(e.target.value.length);
+    };
+
     return (
-        <div>
+        <div className="create-forum-container">
             <h2 className="centered-heading">Opret forum indlæg <EditNoteIcon/></h2>
             <div className="form-container">
                 <form className="createPostForm" onSubmit={handleSubmit}>
                     {successMessage && <div className="success-message">{successMessage}</div>}
                     <div>
-                        <label htmlFor="subject">Emne *</label>
+
                         <input
                             type="text"
                             id="subject"
                             value={subject}
                             onChange={(e) => setSubject(e.target.value)}
                             required
+                            placeholder={'Emne*'}
                         />
                     </div>
                     <div>
-                        <label htmlFor="body">Indhold *</label>
+
                         <textarea
                             id="body"
                             className="body-textarea"
                             value={body}
-                            onChange={(e) => setBody(e.target.value)}
+                            onChange={handleBodyChange}
+                            maxLength={maxChars}
                             required
+                            placeholder={'Skriv dit indlæg her...*'}
                         />
+                        <div>{charCount}/{maxChars} characters</div>
                     </div>
-                    <button type="submit">Opret</button>
+                    <button className="postForumButton" type="submit">Opret opslag</button>
                 </form>
             </div>
         </div>
