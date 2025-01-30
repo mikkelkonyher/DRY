@@ -98,6 +98,16 @@
 
 }
 
+@media(max-width: 768px){
+    .hero-text{
+        font-size: 2em !important;
+    }
+
+    .subheadline{
+        font-size: 1.5em !important;
+    }
+}
+
 .hero-button {
     margin-top: auto;
     padding: 10px 20px;
