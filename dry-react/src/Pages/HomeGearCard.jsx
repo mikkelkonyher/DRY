@@ -12,7 +12,7 @@ function HomeGearCard({ item }) {
                     <h3>{item.brand} {item.model}</h3>
                 </div>
                 <div className="homegear-price">
-                    <h4><strong></strong>{item.price} DKK</h4>
+                    <h4><strong></strong>{item.price.toLocaleString('da-DK')} DKK</h4>
                 </div>
                 {item.imagePaths && item.imagePaths.length > 0 ? (
                     <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`} className="homegear-image" />

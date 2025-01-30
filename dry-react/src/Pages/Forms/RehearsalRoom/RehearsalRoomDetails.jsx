@@ -172,7 +172,7 @@ function RehearsalRoomDetails() {
     return (
         <div className="gear-carddetails">
             <h4>{roomItem.name}</h4>
-            <h5><strong>Pris: </strong>{roomItem.price} kr. {roomItem.paymentType}</h5>
+            <h5><strong>Pris: </strong>{roomItem.price.toLocaleString('da-DK')} kr. {roomItem.paymentType}</h5>
 
             <div className="image-container">
                 <button

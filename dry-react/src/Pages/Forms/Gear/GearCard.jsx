@@ -87,7 +87,7 @@ function GearCard({ item, handleImageClick, userId }) {
     return (
         <div className="gear-card" onClick={handleCardClick}>
             <h4>{item.brand} {item.model}</h4>
-            <h5><strong>Pris: </strong>{item.price} kr. </h5>
+            <h5><strong>Pris: </strong>{item.price.toLocaleString('da-DK')} kr. </h5>
 
             <div className="image-container">
                 <button

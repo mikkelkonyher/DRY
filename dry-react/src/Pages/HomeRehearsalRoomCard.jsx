@@ -12,7 +12,7 @@ function HomeRehearsalRoomCard({ item }) {
                     <h3>{item.name}</h3>
                 </div>
                 <div className="homegear-price">
-                    <h4>{item.price} DKK {item.paymentType}</h4>
+                    <h4>{item.price.toLocaleString('da-DK')} DKK {item.paymentType}</h4>
                 </div>
                 {item.imagePaths && item.imagePaths.length > 0 ? (
                     <img src={item.imagePaths[0]} alt={item.name} className="homegear-image" />

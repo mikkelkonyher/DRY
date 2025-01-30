@@ -180,7 +180,7 @@ function CardDetails() {
         <div className="gear-carddetails">
             {/* Gear item details */}
             <h4>{gearItem.brand} {gearItem.model}</h4>
-            <h5><strong>Pris: </strong>{gearItem.price} kr. </h5>
+            <h5><strong>Pris: </strong>{gearItem.price.toLocaleString('da-DK')} kr. </h5>
 
             {/* Image carousel */}
             <div className="image-container">
