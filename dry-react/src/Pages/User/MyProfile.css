@@ -177,7 +177,7 @@ textarea {
     width: 300px; /* Adjust the size as needed */
     height: 300px; /* Adjust the size as needed */
     border-radius: 50%; /* Makes the image round */
-    background-color: transparent; 
+    background-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -187,6 +187,15 @@ textarea {
     cursor: pointer; /* Pointer cursor on hover */
     margin: 0 auto; /* Centers the image horizontally */
     margin-bottom: 20px;
+    margin-top: -150px;
+}
+
+@media (max-width: 600px) {
+    .default-profile-image {
+        width: 150px; /* Adjust the size for smaller screens */
+        height: 150px; /* Adjust the size for smaller screens */
+        margin-top: -5px;
+    }
 }
 
 button {
