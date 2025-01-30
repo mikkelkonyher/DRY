@@ -33,6 +33,7 @@ const pages = [
     { name: 'Øvelokaler', path: '/rehearsal-rooms' },
     { name: 'Forum', path: '/forum' }
 ];
+
 const settings = [
     { name: 'Min Profil', path: '/myprofile' },
     { name: 'Inbox', path: '/inbox' }
@@ -49,12 +50,15 @@ function ResponsiveAppBar() {
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
+
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
@@ -68,6 +72,7 @@ function ResponsiveAppBar() {
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
+
     const handleSearchSubmit = async (event) => {
         event.preventDefault();
         const pageNumber = 1;
@@ -89,6 +94,7 @@ function ResponsiveAppBar() {
             navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match.' } });
         }
     };
+
     const handleSearchIconClick = () => {
         handleSearchSubmit(new Event('submit'));
     };
@@ -97,6 +103,7 @@ function ResponsiveAppBar() {
         <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none', width: '100%', padding: '0px 0', backdropFilter: 'blur(50px)', marginBottom: '20px' }}>
             <Container maxWidth="xl" sx={{padding: '0 0px'}}>
                 <Toolbar disableGutters>
+                    {/* Desktop Logo */}
                     <Box
                         component="a"
                         href="/"
@@ -109,6 +116,7 @@ function ResponsiveAppBar() {
                         <img src={logo} alt="Logo" style={{ height: '40px' }} />
                     </Box>
 
+                    {/* Mobile Hamburger Icon */}
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', lg: 'none'}, justifyContent: 'center'}}>
                         <IconButton
                             size="large"
@@ -183,6 +191,7 @@ function ResponsiveAppBar() {
                         </Menu>
                     </Box>
 
+                    {/* Mobile Logo */}
                     <Box
                         component="a"
                         href="/"
@@ -193,9 +202,10 @@ function ResponsiveAppBar() {
                             justifyContent: 'center',
                         }}
                     >
-                        <img src={logo} alt="Logo" style={{ height: '40px' }} />
+                        <img src={logo} alt="Logo" style={{ height: '30px' }} />
                     </Box>
 
+                    {/* Desktop Menu */}
                     <Box sx={{flexGrow: 1, display: {xs: 'none', lg: 'flex'}, justifyContent: 'center'}}>
                         {pages.map((page) => (
                             <Button
@@ -210,6 +220,7 @@ function ResponsiveAppBar() {
                         ))}
                     </Box>
 
+                    {/* User Profile / Login / Logout */}
                     <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center'}}>
                         {!isAuthenticated ? (
                             <>
@@ -223,7 +234,16 @@ function ResponsiveAppBar() {
                                 <Typography
                                     component={Link}
                                     to="/signup"
-                                    sx={{my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none', ml: 2}}
+                                    sx={{
+                                        my: 2,
+                                        color: 'cyan',
+                                        textDecoration: 'none',
+                                        textTransform: 'none',
+                                        ml: 2,
+                                        [theme.breakpoints.down('sm')]: {
+                                            mr: 2,
+                                        },
+                                    }}
                                 >
                                     SIGNUP
                                 </Typography>
@@ -302,6 +322,7 @@ function ResponsiveAppBar() {
                     </Box>
                 </Toolbar>
 
+                {/* Search Bar */}
                 <form onSubmit={handleSearchSubmit} style={{
                     display: 'flex',
                     justifyContent: 'center',
