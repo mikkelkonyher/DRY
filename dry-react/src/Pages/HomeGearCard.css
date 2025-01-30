@@ -66,3 +66,24 @@
     grid-row: 3 / 4;
     font-family: 'Geist', sans-serif;
 }
+
+@media (max-width: 600px) {
+    .homegear-card {
+        width: 150px;
+        height: 220px;
+        padding: 8px;
+        margin: 10px;
+    }
+
+    .homegear-title {
+        font-size: 0.7em;
+    }
+
+    .homegear-price {
+        font-size: 0.7em;
+    }
+
+    .homegear-image {
+        max-height: 120px;
+    }
+}
