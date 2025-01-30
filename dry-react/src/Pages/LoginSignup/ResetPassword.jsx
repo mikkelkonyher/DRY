@@ -37,7 +37,7 @@ const ResetPassword = () => {
 
     return (
         <div className="reset-password-container">
-            <h2 className="reset-password-title">Ændre adgangskode</h2>
+            <h2 className="reset-password-title">Skift adgangskode</h2>
             {message && <p className="reset-password-message" style={{ color: 'red' }}>{message}</p>}
             {success && <p className="reset-password-message" style={{ color: 'green' }}>{success}</p>}
             <form className="reset-password-form" onSubmit={handleSubmit}>

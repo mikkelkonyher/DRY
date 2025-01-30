@@ -80,7 +80,7 @@ function Signup() {
                 <form className="signup-form" onSubmit={handleSubmit}>
                     {successMessage && <p className="signup-success-message">{successMessage}</p>}
                     {errorMessage && <p className="signup-error-message">{errorMessage}</p>}
-                    <label htmlFor="name" className="signup-label">Brugernavn</label>
+                    <label htmlFor="name" className="signup-label">Brugernavn*</label>
                     <input
                         type="text"
                         name="name"
@@ -90,7 +90,7 @@ function Signup() {
                         placeholder="Brugernavn"
                         required
                     />
-                    <label htmlFor="email" className="signup-label">Email adresse</label>
+                    <label htmlFor="email" className="signup-label">Email adresse*</label>
                     <input
                         type="email"
                         name="email"
@@ -100,7 +100,7 @@ function Signup() {
                         placeholder="Indtast email"
                         required
                     />
-                    <label htmlFor="password" className="signup-label">Adgangskode</label>
+                    <label htmlFor="password" className="signup-label">Adgangskode*</label>
                     <input
                         type="password"
                         name="password"
@@ -111,7 +111,7 @@ function Signup() {
                         minLength="8"
                         required
                     />
-                    <label htmlFor="confirmPassword" className="signup-label">Bekræft adgangskode</label>
+                    <label htmlFor="confirmPassword" className="signup-label">Bekræft adgangskode*</label>
                     <input
                         type="password"
                         name="confirmPassword"

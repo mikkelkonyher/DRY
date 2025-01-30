@@ -42,7 +42,8 @@ public class AuthController : ControllerBase
         var token = _jwtService.GenerateToken(new User { Email = userCreateDTO.Email });
         var verificationLink = Url.Action(nameof(VerifyEmail), "Auth", new { token, userCreateDTO.Name, userCreateDTO.Password }, Request.Scheme);
 
-        await _emailService.SendEmailAsync(userCreateDTO.Email, "Verify your email", $"Please verify your email by clicking <a href='{verificationLink}'>here</a>.");
+        await _emailService.SendEmailAsync(userCreateDTO.Email, "Bekræft din e-mail",
+            $"Venligst bekræft din e-mail ved at klikke <a href='{verificationLink}'>her</a>. Du bliver derefter ført videre til login-siden. 🥷");
 
         return Ok(new { Message = "Please check your email to verify your account." });
     }
@@ -153,7 +154,8 @@ public class AuthController : ControllerBase
 
         var token = _jwtService.GenerateToken(user);
         var resetLink = $"http://localhost:5173/reset-password/{token}";
-        await _emailService.SendEmailAsync(email, "Reset your password", $"Please reset your password by clicking <a href='{resetLink}'>here</a>.");
+        await _emailService.SendEmailAsync(email, "Reset din adgangskode",
+            $"Venligst nulstil din adgangskode ved at klikke <a href='{resetLink}'>her</a>.🥷");
 
         return Ok(new { Message = "Password reset link has been sent to your email." });
     }
