@@ -177,7 +177,7 @@ textarea {
     width: 300px; /* Adjust the size as needed */
     height: 300px; /* Adjust the size as needed */
     border-radius: 50%; /* Makes the image round */
-    background-color: white; /* White background */
+    background-color: transparent; 
     display: flex;
     align-items: center;
     justify-content: center;
