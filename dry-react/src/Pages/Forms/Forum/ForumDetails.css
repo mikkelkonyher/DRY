@@ -65,8 +65,8 @@
     align-items: center;
     color: #007bff;
     transition: color 0.3s ease;
-    font-size: 1.2em;
-    margin-left: -7px;
+    font-size: 1.5em;
+    margin-left: -12px;
 }
 
 .like-button:focus {
@@ -88,13 +88,13 @@
 .editButton {
     justify-content: center;
     background-color: #5dd94f;
-    width: 100px;
+    width: 70px;
 }
 
 .deleteButton {
     justify-content: center;
     background-color: #ff0000;
-    width: 100px;
+    width: 70px;
 }
 
 .show-comments-button {
