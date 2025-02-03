@@ -9,8 +9,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
     cursor: pointer;
-    width: 700px; /* Adjust the width as needed */
-    max-width: 700px; /* Set the maximum width */
+    width: 600px; /* Adjust the width as needed */
     margin-left: auto;
     margin-right: auto;
 }
@@ -79,4 +78,8 @@
     color: #666;
     word-wrap: break-word; /* Ensure long words break and wrap within the card */
     overflow-wrap: break-word; /* Ensure long words break and wrap within the card */
+}
+
+.edit-container {
+    width: 100%;
 }

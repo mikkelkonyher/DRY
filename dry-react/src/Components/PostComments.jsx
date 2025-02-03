@@ -92,7 +92,7 @@ function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted })
                 required
                 rows={calculateRows(commentText)}
             />
-            <button type="submit">Post Kommentar</button>
+            <button type="submit" className="submit-button">Post Kommentar</button>
         </form>
     );
 }

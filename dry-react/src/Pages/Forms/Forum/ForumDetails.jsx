@@ -9,6 +9,8 @@ import MessageToForum from "../../MessageSystem/MessageToForum.jsx";
 import config from "../../../../config.jsx";
 import './ForumDetails.css';
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import Cookies from 'js-cookie';
 
 function ForumDetails() {
@@ -206,7 +208,7 @@ function ForumDetails() {
     return (
         <div className="forum-details">
             {isEditing ? (
-                <div>
+                <div className="edit-container">
                     <input
                         type="text"
                         value={editSubject}
@@ -216,8 +218,8 @@ function ForumDetails() {
                         value={editBody}
                         onChange={(e) => setEditBody(e.target.value)}
                     />
-                    <button className="forumsavebutton" onClick={handleSaveClick}>Save</button>
-                    <button className="forumcancelbutton" onClick={() => setIsEditing(false)}>Cancel</button>
+                    <button className="forumsavebutton" onClick={handleSaveClick}>Gem</button>
+                    <button className="forumcancelbutton" onClick={() => setIsEditing(false)}>Annuller</button>
                 </div>
             ) : (
                 <>
@@ -227,25 +229,31 @@ function ForumDetails() {
             )}
 
             <div className="more-info-container">
-                <p><strong>Indlæg af:</strong> {users[forumItem.userId]?.name || 'Ukendt'}</p>
-                <p><strong>Oprettet:</strong> {new Date(forumItem.createdAt).toLocaleDateString()}</p>
-                <p><ThumbUpIcon/>  {forumItem.likeCount}</p>
+                <p><strong>Indlæg af: {users[forumItem.userId]?.name || 'Ukendt'}</strong></p>
+                <p><strong>Oprettet: {new Date(forumItem.createdAt).toLocaleDateString()}</strong> </p>
+            </div>
+
+            <div className="like-container">
+                <button
+                    className="like-button"
+                    onClick={handleLikeClick}
+                    title={isLiked ? 'Remove like' : 'Add like'}
+                >
+                    <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
+                </button>
+                <span>{forumItem.likeCount}</span>
             </div>
 
             {userId === forumItem.userId && !isEditing && (
                 <div className="edit-delete-buttons">
-                    <button onClick={handleEditClick}>Rediger</button>
-                    <button onClick={handleDeleteClick}>Slet</button>
+                    <button className="editButton" onClick={handleEditClick}>
+                        <EditNoteIcon />
+                    </button>
+                    <button className="deleteButton" onClick={handleDeleteClick}>
+                        <DeleteIcon />
+                    </button>
                 </div>
             )}
-
-            <button
-                className="like-button"
-                onClick={handleLikeClick}
-                title={isLiked ? 'Remove like' : 'Add like'}
-            >
-                <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
-            </button>
 
             <button className="forumMessageButton" onClick={() => setIsMessageModalOpen(true)}>
                 Skriv til bruger
@@ -275,7 +283,7 @@ function ForumDetails() {
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                                 .map((comment) => (
                                     <div key={comment.id} className="comment">
-                                        <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
+                                        <p>{comment.user?.name || 'Ukendt'}: {comment.text}</p>
                                         <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
                                         {comment.userId === userId && (
                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
