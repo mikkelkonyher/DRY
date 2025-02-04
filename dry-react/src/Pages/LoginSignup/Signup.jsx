@@ -161,11 +161,11 @@ function Signup() {
                 </form>
             </div>
             {isModalOpen && (
-                <div className="modal" ref={modalRef}>
-                    <div className="modal-content">
-                        <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+                <div className="signup-modal" ref={modalRef}>
+                    <div className="signup-modal-content">
+                        <span className="signup-close" onClick={() => setIsModalOpen(false)}>&times;</span>
                         <h2>Vilkår og betingelser</h2>
-                        <p className="terms-text">
+                        <p className="signup-terms-text">
                             1. Generelt<br />
                             Disse vilkår og betingelser gælder for brugen af GearNinja.dk. Ved at benytte vores tjenester accepterer du at overholde disse vilkår. Hvis du ikke accepterer vilkårene, skal du stoppe med at bruge tjenesten.<br /><br />
                             2. Brug af tjenesten<br />
