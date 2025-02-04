@@ -121,7 +121,12 @@ function ForumDetails() {
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
+
             setIsLiked(!isLiked);
+            setForumItem(prevItem => ({
+                ...prevItem,
+                likeCount: prevItem.likeCount + (isLiked ? -1 : 1) // Dynamically update like count
+            }));
         } catch (error) {
             console.error('Error toggling like:', error);
         }

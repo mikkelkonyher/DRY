@@ -9,6 +9,7 @@ import './ForumCard.css';
 
 function ForumCard({ item, userId, users }) {
     const [isLiked, setIsLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(item.likeCount || 0); // Store like count in state
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -64,7 +65,9 @@ function ForumCard({ item, userId, users }) {
                 const errorText = await response.text();
                 throw new Error(`Network response was not ok: ${errorText}`);
             }
+
             setIsLiked(!isLiked);
+            setLikeCount(prevCount => (isLiked ? prevCount - 1 : prevCount + 1)); // Update like count dynamically
         } catch (error) {
             console.error('Error toggling like:', error);
         }
@@ -89,9 +92,11 @@ function ForumCard({ item, userId, users }) {
                         onClick={handleLikeClick}
                         title={isLiked ? 'Remove like' : 'Add like'}
                     >
-                        <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
+                        <div className="like-content">
+                            <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
+                            <span className="like-count">{likeCount}</span>
+                        </div>
                     </button>
-                    <span>{item.likeCount}</span>
                 </div>
             </div>
         </div>
