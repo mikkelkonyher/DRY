@@ -15,13 +15,19 @@ function GetForumForm() {
     const [currentPage, setCurrentPage] = useState(1);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
+    const [showLiked, setShowLiked] = useState(false);
     const itemsPerPage = 10;
 
     const fetchForums = async () => {
         try {
-            const url = new URL(apiEndpoint);
-            url.searchParams.append('pageNumber', currentPage);
-            url.searchParams.append('pageSize', itemsPerPage);
+            let url;
+            if (showLiked && userId) {
+                url = new URL(`${config.apiBaseUrl}/api/Forum/liked/${userId}`);
+            } else {
+                url = new URL(apiEndpoint);
+                url.searchParams.append('pageNumber', currentPage);
+                url.searchParams.append('pageSize', itemsPerPage);
+            }
 
             const response = await fetch(url);
             if (!response.ok) {
@@ -31,12 +37,15 @@ function GetForumForm() {
 
             console.log('API response:', data); // Log the response to debug
 
-            if (!data.items) {
-                throw new Error('items property is undefined');
+            if (showLiked) {
+                setForums(data);
+            } else {
+                if (!data.items) {
+                    throw new Error('items property is undefined');
+                }
+                setForums(data.items);
+                setTotalItems(data.totalItems);
             }
-
-            setForums(data.items);
-            setTotalItems(data.totalItems);
 
             const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
             if (!userResponse.ok) {
@@ -54,8 +63,10 @@ function GetForumForm() {
     };
 
     useEffect(() => {
-        fetchForums();
-    }, [currentPage]);
+        if (userId !== null) {
+            fetchForums();
+        }
+    }, [currentPage, showLiked, userId]);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -116,6 +127,17 @@ function GetForumForm() {
                         Opret nyt indlæg
                     </button>
                 </Link>
+            </div>
+
+            <div className="filter-container">
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={showLiked}
+                        onChange={() => setShowLiked(!showLiked)}
+                    />
+                    Vis indlæg, du synes godt om
+                </label>
             </div>
 
             <div className="gear-list">
