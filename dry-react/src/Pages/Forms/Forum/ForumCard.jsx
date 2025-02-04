@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp as solidThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp as regularThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import config from "../../../../config.jsx";
 import './ForumCard.css';
 
 function ForumCard({ item, userId, users }) {
     const [isLiked, setIsLiked] = useState(false);
-    useNavigate();
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (!userId) return;
 
@@ -68,8 +70,6 @@ function ForumCard({ item, userId, users }) {
         }
     };
 
-    const navigate = useNavigate();
-
     const handleCardClick = () => {
         navigate(`/ForumDetails/${item.id}`);
     };
@@ -83,16 +83,15 @@ function ForumCard({ item, userId, users }) {
                 <p>{item.body.substring(0, 100)}{item.body.length > 100 ? '... Se mere' : ''}</p>
                 <p><strong>Indlæg af: {userName}</strong></p>
                 <p><strong>Oprettet: {new Date(item.createdAt).toLocaleString()}</strong></p>
-                <p><ThumbUpIcon/> {item.likeCount}</p>
-
                 <div className="like-container">
                     <button
                         className="like-button"
                         onClick={handleLikeClick}
                         title={isLiked ? 'Remove like' : 'Add like'}
                     >
-                        {isLiked ? <ThumbUpIcon/> : <ThumbUpOutlinedIcon/>}
+                        <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
                     </button>
+                    <span>{item.likeCount}</span>
                 </div>
             </div>
         </div>
@@ -101,8 +100,8 @@ function ForumCard({ item, userId, users }) {
 
 ForumCard.propTypes = {
     item: PropTypes.object.isRequired,
-    userId: PropTypes.number, // Make userId optional
-    users: PropTypes.object.isRequired, // Add users prop
+    userId: PropTypes.number,
+    users: PropTypes.object.isRequired,
 };
 
 export default ForumCard;

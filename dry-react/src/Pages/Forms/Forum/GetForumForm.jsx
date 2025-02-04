@@ -8,29 +8,20 @@ import './GetForumForm.css';
 import Cookies from 'js-cookie';
 
 function GetForumForm() {
-    // Define API endpoint
     const apiEndpoint = `${config.apiBaseUrl}/api/Forum`;
 
-    // State variables
     const [forums, setForums] = useState([]);
     const [users, setUsers] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchInput, setSearchInput] = useState('');
     const itemsPerPage = 10;
 
-    // Fetch forum data from API
     const fetchForums = async () => {
         try {
             const url = new URL(apiEndpoint);
             url.searchParams.append('pageNumber', currentPage);
             url.searchParams.append('pageSize', itemsPerPage);
-            if (searchQuery) {
-                url.searchParams.append('query', searchQuery);
-                url.searchParams.append('userName', searchQuery);
-            }
 
             const response = await fetch(url);
             if (!response.ok) {
@@ -64,14 +55,13 @@ function GetForumForm() {
 
     useEffect(() => {
         fetchForums();
-    }, [currentPage, searchQuery]);
+    }, [currentPage]);
 
-    // Fetch user ID from token
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const token = Cookies.get('AuthToken');
-                if (!token) return; // Exit if no token is found
+                if (!token) return;
 
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const email = payload.sub;
@@ -99,15 +89,12 @@ function GetForumForm() {
         fetchUserId();
     }, []);
 
-    // Scroll to top when currentPage changes
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
 
-    // Calculate total pages
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-    // Handle page change
     const handlePageChange = (direction) => {
         setCurrentPage((prevPage) => {
             let newPage = prevPage;
@@ -120,20 +107,8 @@ function GetForumForm() {
         });
     };
 
-    // Handle search input change
-    const handleSearchInputChange = (e) => {
-        setSearchInput(e.target.value);
-    };
-
-    // Handle search button click
-    const handleSearchClick = () => {
-        setSearchQuery(searchInput);
-    };
-
     return (
         <div>
-
-            {/* Sell button */}
             <div className="sell-button-container">
                 <Link to="/CreateForum">
                     <button className="sell-button">
@@ -143,18 +118,6 @@ function GetForumForm() {
                 </Link>
             </div>
 
-            {/* Search bar */}
-            <div className="search-bar-container">
-                <input
-                    type="text"
-                    placeholder="Search by subject, body, or username"
-                    value={searchInput}
-                    onChange={handleSearchInputChange}
-                    className="search-input"
-                />
-                <button onClick={handleSearchClick} className="search-button">Search</button>
-            </div>
-            {/* Forum list */}
             <div className="gear-list">
                 {forums.length > 0 ? (
                     forums.map((item) => (
@@ -170,12 +133,14 @@ function GetForumForm() {
                     <p>No forums found.</p>
                 )}
             </div>
-            {/* Pagination */}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
+
+            <div>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            </div>
         </div>
     );
 }
