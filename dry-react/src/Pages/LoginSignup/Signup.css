@@ -95,3 +95,72 @@
         font-size: 14px;
     }
 }
+
+.terms-text {
+    font-size: 0.7em;
+    color: #1a1a1a;
+    overflow-wrap: break-word; /* Ensure long words break and wrap */
+    word-wrap: break-word; /* Ensure long words break and wrap */
+    word-break: break-word; /* Ensure long words break and wrap */
+}
+
+.modal-content h2 {
+    color: black;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: auto; /* Ensure content inside modal is scrollable if it overflows */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Media query for small screens */
+@media (max-width: 600px) {
+    .signup-container {
+        padding: 20px;
+        max-width: 100%;
+        margin: 50px auto; /* Increase top margin */
+    }
+
+    .signup-input {
+        font-size: 14px;
+    }
+
+    .signup-button {
+        font-size: 14px;
+    }
+}

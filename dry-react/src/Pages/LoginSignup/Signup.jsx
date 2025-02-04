@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
 import config from "../../../config.jsx";
@@ -13,6 +13,9 @@ function Signup() {
     });
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [termsAccepted, setTermsAccepted] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const modalRef = useRef(null);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -23,8 +26,16 @@ function Signup() {
         });
     };
 
+    const handleCheckboxChange = (e) => {
+        setTermsAccepted(e.target.checked);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!termsAccepted) {
+            setErrorMessage('Du skal acceptere vilkårene og betingelserne.');
+            return;
+        }
         if (formData.password.length < 8) {
             setErrorMessage('Password must be at least 8 characters long.');
             return;
@@ -72,6 +83,23 @@ function Signup() {
             setErrorMessage('An error occurred. Please try again.');
         }
     };
+
+    const handleClickOutside = (event) => {
+        if (modalRef.current && modalRef.current.contains(event.target)) {
+            setIsModalOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        if (isModalOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isModalOpen]);
 
     return (
         <div className="signup-body">
@@ -121,9 +149,45 @@ function Signup() {
                         placeholder="Bekræft adgangskode"
                         required
                     />
+                    <label className="signup-label">
+                        <input
+                            type="checkbox"
+                            checked={termsAccepted}
+                            onChange={handleCheckboxChange}
+                        />
+                        Jeg accepterer <span onClick={() => setIsModalOpen(true)} style={{color: 'blue', textDecoration: 'underline', cursor: 'pointer'}}>vilkårene og betingelserne</span>.
+                    </label>
                     <button type="submit" className="signup-button">Signup</button>
                 </form>
             </div>
+            {isModalOpen && (
+                <div className="modal" ref={modalRef}>
+                    <div className="modal-content">
+                        <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+                        <h2>Vilkår og betingelser</h2>
+                        <p className="terms-text">
+                            1. Generelt<br />
+                            Disse vilkår og betingelser gælder for brugen af GearNinja.dk. Ved at benytte vores tjenester accepterer du at overholde disse vilkår. Hvis du ikke accepterer vilkårene, skal du stoppe med at bruge tjenesten.<br /><br />
+                            2. Brug af tjenesten<br />
+                            GearNinja.dk er en platform, der faciliterer kommunikation mellem brugere. Du må kun bruge tjenesten til lovlige formål og på måder, der ikke skader tjenesten eller andre brugere. Vi forbeholder os retten til at suspendere eller lukke din konto, hvis du overtræder disse vilkår.<br /><br />
+                            3. Brugeraftaler og betalinger<br />
+                            GearNinja.dk påtager sig ikke noget ansvar for aftaler om betalinger, køb eller salg af varer og tjenester mellem brugere. Alle betalinger og aftaler skal aftales direkte mellem brugerne. Vi anbefaler, at du tager de nødvendige forholdsregler for at sikre, at disse aftaler gennemføres på en sikker måde.<br /><br />
+                            4. Brugeroplysninger<br />
+                            Du er ansvarlig for at beskytte dine brugeroplysninger, og du skal sikre, at de er korrekte og opdaterede. GearNinja.dk er ikke ansvarlig for eventuelle problemer, der opstår som følge af falske eller misbrugte oplysninger. Del kun oplysninger med andre brugere, som du er tryg ved.<br /><br />
+                            5. Ophavsret<br />
+                            Alt indhold på GearNinja.dk, herunder tekst, billeder og andre materialer, er beskyttet af ophavsret. Du må ikke kopiere, distribuere eller på anden måde bruge indholdet uden forudgående tilladelse.<br /><br />
+                            6. Ansvarsfraskrivelse<br />
+                            GearNinja.dk leverer tjenesten “som den er”, og vi påtager os ikke ansvar for fejl, mangler eller andre problemer, der måtte opstå som følge af brug af tjenesten eller aftaler mellem brugere. Vi er heller ikke ansvarlige for betalinger eller leverancer relateret til de aftaler, der indgås mellem brugere.<br /><br />
+                            7. Ændringer<br />
+                            GearNinja.dk forbeholder sig retten til at ændre disse vilkår og betingelser. Ændringer træder i kraft, når de offentliggøres på denne side, og det er brugerens ansvar at holde sig opdateret på eventuelle ændringer.<br /><br />
+                            8. Lovgivning<br />
+                            Disse vilkår og betingelser er underlagt dansk lovgivning, og eventuelle tvister skal afgøres ved domstolene i Danmark.<br /><br />
+                            9. Kontakt<br />
+                            Hvis du har spørgsmål til disse vilkår og betingelser, kan du kontakte GearNinja.dk på Support@GearNinja.dk.
+                        </p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
