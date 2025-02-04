@@ -148,16 +148,8 @@ function GetRehearsalRoom() {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     // Handle page change
-    const handlePageChange = (direction) => {
-        setCurrentPage((prevPage) => {
-            let newPage = prevPage;
-            if (direction === 'prev' && prevPage > 1) {
-                newPage = prevPage - 1;
-            } else if (direction === 'next' && prevPage < totalPages) {
-                newPage = prevPage + 1;
-            }
-            return newPage;
-        });
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
     // Handle toggle favorite
