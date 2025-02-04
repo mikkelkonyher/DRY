@@ -66,9 +66,7 @@ function GetForumForm() {
     };
 
     useEffect(() => {
-        if (userId !== null) {
-            fetchForums();
-        }
+        fetchForums();
     }, [currentPage, showLiked, showCreated, userId]);
 
     useEffect(() => {
