@@ -38,6 +38,7 @@
     margin: 0 0 8px;
     font-size: 1.5em;
     color: #333;
+    text-align: center;
 }
 
 .forum-card p {
@@ -53,6 +54,7 @@
     display: flex;
     align-items: center;
     margin-top: 16px;
+    width: 50px;
 }
 
 .like-button {
@@ -82,4 +84,8 @@
     color: black;
     margin-left: 10px; /* Remove the left margin */
     font-size: 0.7em;
+}
+
+.info-text {
+    font-size: 0.7em; /* Adjust the font size as needed */
 }
