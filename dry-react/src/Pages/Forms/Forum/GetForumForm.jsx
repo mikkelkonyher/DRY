@@ -16,6 +16,7 @@ function GetForumForm() {
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
     const [showLiked, setShowLiked] = useState(false);
+    const [showCreated, setShowCreated] = useState(false);
     const itemsPerPage = 10;
 
     const fetchForums = async () => {
@@ -23,6 +24,8 @@ function GetForumForm() {
             let url;
             if (showLiked && userId) {
                 url = new URL(`${config.apiBaseUrl}/api/Forum/liked/${userId}`);
+            } else if (showCreated && userId) {
+                url = new URL(`${config.apiBaseUrl}/api/Forum/user/${userId}`);
             } else {
                 url = new URL(apiEndpoint);
                 url.searchParams.append('pageNumber', currentPage);
@@ -37,7 +40,7 @@ function GetForumForm() {
 
             console.log('API response:', data); // Log the response to debug
 
-            if (showLiked) {
+            if (showLiked || showCreated) {
                 setForums(data);
             } else {
                 if (!data.items) {
@@ -66,7 +69,7 @@ function GetForumForm() {
         if (userId !== null) {
             fetchForums();
         }
-    }, [currentPage, showLiked, userId]);
+    }, [currentPage, showLiked, showCreated, userId]);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -137,6 +140,14 @@ function GetForumForm() {
                         onChange={() => setShowLiked(!showLiked)}
                     />
                     Vis indlæg, du synes godt om
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={showCreated}
+                        onChange={() => setShowCreated(!showCreated)}
+                    />
+                    Vis indlæg, du har oprettet
                 </label>
             </div>
 
