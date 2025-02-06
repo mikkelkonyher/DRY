@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import config from "../../../config.jsx";
 import './MessageInterface.css';
 import Cookies from 'js-cookie';
@@ -9,6 +9,7 @@ const MessageInterface = () => {
     const [userId, setUserId] = useState(null);
     const [newMessage, setNewMessage] = useState('');
     const [error, setError] = useState('');
+    const messagesEndRef = useRef(null);
 
     // Fetch user ID from token
     useEffect(() => {
@@ -76,6 +77,13 @@ const MessageInterface = () => {
 
         fetchChats();
     }, [userId]);
+
+    // Scroll to start of last message inside chat box
+    useEffect(() => {
+        if (selectedChat && messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, [chats, selectedChat]);
 
     // Mark all messages as read
     const markAllMessagesAsRead = async (chatId) => {
@@ -237,17 +245,18 @@ const MessageInterface = () => {
                 </div>
                 {selectedChat && (
                     <div className="chat-box">
-                        <button className="back-button" onClick={() => setSelectedChat(null)}>Tilbage</button>
+                        <button className="back-button" onClick={() => setSelectedChat(null)}>Tilbage til indbakke</button>
                         <div className="messages">
                             {chats.find(chat => chat.id === selectedChat).messages.map(message => (
                                 <div
                                     key={message.id}
                                     className={`message ${message.senderId === userId ? 'sent' : 'received'}`}
                                 >
-                                    <strong>{message.senderUsername || 'Deleted user'}:</strong> {message.content}
+                                    <strong>{message.senderUsername || 'Deleted user'}:</strong> <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>{message.content}</pre>
                                     <div><em>({new Date(message.timestamp).toLocaleString()})</em></div>
                                 </div>
                             ))}
+                            <div ref={messagesEndRef} />
                         </div>
                         <form className="message-form" onSubmit={handleSendMessage}>
                             <textarea

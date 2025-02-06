@@ -94,7 +94,7 @@ h2{
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-right: 10px;
-    height: 200px;
+    height: 100px;
     text-align: left; /* Align text to the left */
     text-indent: 0; /* Ensure placeholder text is aligned to the left */
     vertical-align: top; /* Align text to the top */
@@ -288,9 +288,9 @@ h2{
     }
 
    .message-form textarea {
-       min-height: 80px; /* Minimum height */
-       max-height: 300px; /* Maximum height */
-       width: 500px;
+       min-height: 50px; /* Minimum height */
+       max-height: 200px; /* Maximum height */
+      
        border-radius: 15px;
        overflow: auto; /* Allow scrolling if content exceeds max-height */
        resize: none; /* Prevent manual resizing */
