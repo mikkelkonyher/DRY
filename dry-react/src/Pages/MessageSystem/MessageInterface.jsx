@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import config from "../../../config.jsx";
 import './MessageInterface.css';
 import Cookies from 'js-cookie';
+import inboxIcon from '../../assets/1207169-200.png'; // Import the image
 
 const MessageInterface = () => {
     const [chats, setChats] = useState([]);
@@ -205,7 +206,11 @@ const MessageInterface = () => {
         <div className="message-interface-container">
             <div className="message-interface">
                 <div className="chat-list">
-                    <h2>Chats</h2>
+
+
+                    <h2>
+                        {chats.length === 0 ? 'Ingen beskeder' : `Indbakke (${chats.reduce((total, chat) => total + chat.messages.filter(message => message.receiverId === userId && !message.isReadReceiver).length, 0)} Ulæste)`}
+                    </h2>
                     {chats.map(chat => {
                         const unreadMessages = chat.messages.filter(
                             message => message.receiverId === userId && !message.isReadReceiver
@@ -217,14 +222,18 @@ const MessageInterface = () => {
                                 className={`chat-item ${chat.hasUnreadMessages ? 'unread' : ''}`}
                                 onClick={() => handleChatClick(chat.id)}
                             >
-                                <strong>{chat.subject}</strong>
-                                <span>
+                                {chat.hasUnreadMessages && <span className="blue-dot"></span>}
+                                <strong>
                                     {chat.messages[0].senderId === userId
-                                        ? ` - ${chat.messages[0].receiverUsername}`
-                                        : ` - ${chat.messages[0].senderUsername}`}
-                                    {unreadMessages > 0 && ` (${unreadMessages} unread)`}
-                                </span>
-                                <button onClick={(e) => handleSoftDeleteChat(e, chat.id)}>Delete</button>
+                                        ? chat.messages[0].receiverUsername
+                                        : chat.messages[0].senderUsername}
+                                </strong>
+                                <br />
+                                <strong className="subject">{chat.subject}</strong>
+                                <span className="unread-count">
+    {unreadMessages > 0 && ` (${unreadMessages} ulæste)`}
+</span>
+                                <button className="softDeleteButton" onClick={(e) => handleSoftDeleteChat(e, chat.id)}>Slet</button>
                             </div>
                         );
                     })}
@@ -243,12 +252,11 @@ const MessageInterface = () => {
                             ))}
                         </div>
                         <form className="message-form" onSubmit={handleSendMessage}>
-                            <input
-                                type="text"
-                                value={newMessage}
-                                onChange={(e) => setNewMessage(e.target.value)}
-                                placeholder="Skriv besked..."
-                            />
+    <textarea
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
+        placeholder="Skriv besked..."
+    />
                             <button type="submit">Send</button>
                         </form>
                         {error && <p className="error-message">{error}</p>}

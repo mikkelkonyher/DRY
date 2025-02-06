@@ -74,6 +74,7 @@ namespace DRYV1.Controllers
                 .Where(c => (c.Messages.Any(m => m.SenderId == userId || m.ReceiverId == userId)) &&
                             !(c.IsDeletedBySender && c.Messages.Any(m => m.SenderId == userId)) &&
                             !(c.IsDeletedByReceiver && c.Messages.Any(m => m.ReceiverId == userId)))
+                .OrderByDescending(c => c.Messages.Max(m => m.Timestamp)) // Order chats by the latest message timestamp in descending order
                 .Select(c => new ChatDTO
                 {
                     Id = c.Id,
