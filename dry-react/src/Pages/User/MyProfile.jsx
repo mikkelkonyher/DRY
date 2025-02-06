@@ -107,22 +107,23 @@ function MyProfile() {
         const fetchUserGearAndRooms = async () => {
             try {
                 const gearResponse = await fetch(`${config.apiBaseUrl}/api/MusicGear/user/${userId}`);
-                if (!gearResponse.ok) {
-                    throw new Error('Network response was not ok');
+                if (gearResponse.ok) {
+                    const gearData = await gearResponse.json();
+                    setGear(gearData);
+                } else if (gearResponse.status !== 404) {
+                    throw new Error('Failed to fetch user gear');
                 }
-                const gearData = await gearResponse.json();
-                setGear(gearData);
 
                 const roomResponse = await fetch(`${config.apiBaseUrl}/api/RehearsalRoom/user/${userId}`);
                 if (!roomResponse.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Failed to fetch rehearsal rooms');
                 }
                 const roomData = await roomResponse.json();
                 setRehearsalRooms(roomData.items || []);
 
                 const userResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}`);
                 if (!userResponse.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Failed to fetch users');
                 }
                 const userData = await userResponse.json();
                 const userMap = Array.isArray(userData) ? userData.reduce((acc, user) => {
