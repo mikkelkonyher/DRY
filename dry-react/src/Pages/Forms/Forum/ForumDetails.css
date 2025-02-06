@@ -18,15 +18,15 @@
 
 @media (max-width: 600px) {
     .forum-details {
-        width: 500px; /* Adjust width for smaller screens */
+
         padding: 10px; /* Adjust padding for smaller screens */
+        width: 100%;
     }
 }
 
 @media (max-width: 480px) {
     .forum-details {
-        width: 90%;
-        max-width: 300px;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
     }
