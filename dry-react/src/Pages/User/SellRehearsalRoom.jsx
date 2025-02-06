@@ -209,12 +209,12 @@ function SellRehearsalRoom({ room, userId }) {
                         {updatedRoom.imagePaths.map((imagePath, index) => (
                             <div key={index} className="image-item">
                                 <img src={imagePath} alt={`${room.name}`} className="sell-gear-image" />
-                                <button onClick={(e) => handleImageDelete(imagePath, e)}>Delete Image</button>
+                                <button onClick={(e) => handleImageDelete(imagePath, e)}>Slet</button>
                             </div>
                         ))}
                     </div>
-                    <button className="saveButton" onClick={handleUpdate}>Save</button>
-                    <button className="cancelButton" onClick={handleCancel}>Cancel</button>
+                    <button className="saveButton" onClick={handleUpdate}>Gem</button>
+                    <button className="cancelButton" onClick={handleCancel}>Annuller</button>
                 </>
             ) : (
                 <>
@@ -232,9 +232,9 @@ function SellRehearsalRoom({ room, userId }) {
                     {room.userId === userId ? (
                         <>
                             <button className="delete-button" onClick={(e) => handleDelete(e)}>
-                                Delete
+                                Slet
                             </button>
-                            <button onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}>Edit</button>
+                            <button onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}>Rediger</button>
                         </>
                     ) : (
                         <>
