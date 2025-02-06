@@ -67,12 +67,13 @@
     font-family: 'Geist', sans-serif;
 }
 
+
 @media (max-width: 600px) {
     .homegear-card {
-        width: 150px;
-        height: 220px;
+        width: 140px;
+        height: 200px;
         padding: 8px;
-        margin: 10px;
+        margin: 8px;
     }
 
     .homegear-title {
