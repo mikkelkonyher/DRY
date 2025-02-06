@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 70px;
 
 }
 
@@ -218,9 +218,17 @@
     border-bottom: 1px solid #ccc; /* Add a thin bottom border */
     padding-bottom: 10px; /* Add some padding to create space between the border and content */
     margin-bottom: 10px; /* Add some margin to create space between chat items */
+
 }
 
 .chat-item strong:hover {
 
     cursor: pointer; /* Change cursor to pointer */
+}
+
+.selected-chat {
+    background-color: #419cff;
+    border-radius: 5px;
+    padding: 10px; /* Add padding inside the box */
+
 }

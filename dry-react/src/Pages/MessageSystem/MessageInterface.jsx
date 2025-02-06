@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import config from "../../../config.jsx";
 import './MessageInterface.css';
 import Cookies from 'js-cookie';
-import inboxIcon from '../../assets/1207169-200.png'; // Import the image
 
 const MessageInterface = () => {
     const [chats, setChats] = useState([]);
@@ -202,6 +201,8 @@ const MessageInterface = () => {
         }
     };
 
+
+
     return (
         <div className="message-interface-container">
             <div className="message-interface">
@@ -219,7 +220,7 @@ const MessageInterface = () => {
                         return (
                             <div
                                 key={chat.id}
-                                className={`chat-item ${chat.hasUnreadMessages ? 'unread' : ''}`}
+                                className={`chat-item ${chat.hasUnreadMessages ? 'unread' : ''} ${selectedChat === chat.id ? 'selected-chat' : ''}`}
                                 onClick={() => handleChatClick(chat.id)}
                             >
                                 {chat.hasUnreadMessages && <span className="blue-dot"></span>}
@@ -231,8 +232,8 @@ const MessageInterface = () => {
                                 <br />
                                 <strong className="subject">{chat.subject}</strong>
                                 <span className="unread-count">
-    {unreadMessages > 0 && ` (${unreadMessages} ulæste)`}
-</span>
+                {unreadMessages > 0 && ` (${unreadMessages} ulæste)`}
+            </span>
                                 <button className="softDeleteButton" onClick={(e) => handleSoftDeleteChat(e, chat.id)}>Slet</button>
                             </div>
                         );
