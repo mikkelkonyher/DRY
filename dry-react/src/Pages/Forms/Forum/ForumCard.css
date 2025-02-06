@@ -38,6 +38,7 @@
     margin: 0 0 8px;
     font-size: 1.5em;
     color: #333;
+    text-align: center;
 }
 
 .forum-card p {
@@ -53,6 +54,7 @@
     display: flex;
     align-items: center;
     margin-top: 16px;
+    width: 50px;
 }
 
 .like-button {
@@ -73,13 +75,17 @@
     outline: none;
 }
 
-.forum-card p {
-    margin: 8px 0;
-    color: #666;
-    word-wrap: break-word; /* Ensure long words break and wrap within the card */
-    overflow-wrap: break-word; /* Ensure long words break and wrap within the card */
+.like-content {
+    display: flex;
+    align-items: center;
 }
 
-.edit-container {
-    width: 100%;
+.like-count {
+    color: black;
+    margin-left: 10px; /* Remove the left margin */
+    font-size: 0.7em;
+}
+
+.info-text {
+    font-size: 0.7em; /* Adjust the font size as needed */
 }

@@ -1,26 +1,30 @@
 /* src/Pages/Forms/Forum/GetForumForm.css */
 
-html, body {
-    overflow-x: hidden;
+.forum-details {
+    border: none; /* Remove the existing border */
+    box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
+    border-radius: 15px;
+    padding: 20px;
+    width: 600px;
+    background-color: #ffffff; /* Change background color to white */
+    color: #000000; /* Change text color to black */
+    margin: 20px auto; /* Center the card horizontally */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Center the content inside the card */
+    margin-top: 50px; /* Add space above the card */
+    position: relative; /* Add relative positioning */
 }
 
-.forum-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px 0;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    width: 100%;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
+@media (max-width: 600px) {
+    .forum-details {
+        width: 500px; /* Adjust width for smaller screens */
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
 }
 
-@media (max-width: 768px) {
-    .forum-card {
+@media (max-width: 480px) {
+    .forum-details {
         width: 90%;
         max-width: 300px;
         margin-left: auto;
@@ -28,11 +32,136 @@ html, body {
     }
 }
 
-@media (max-width: 480px) {
-    .forum-card {
-        width: 80%;
-        max-width: 300px;
-        margin-left: auto;
-        margin-right: auto;
+.forum-details h4 {
+    margin: 0 0 8px;
+    font-size: 1.5em;
+    color: #333;
+    text-align: center; /* This centers the text */
+    align-self: center; /* This centers the h4 element */
+}
+
+.forum-details p {
+    margin: 8px 0;
+    color: #666;
+    word-wrap: break-word; /* Ensure long words break and wrap within the card */
+    overflow-wrap: break-word; /* Ensure long words break and wrap within the card */
+}
+
+.forum-details p strong {
+    color: #333;
+    text-align: start;
+    font-size: 0.7em;
+}
+
+.like-container {
+    display: flex;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #007bff;
+    transition: color 0.3s ease;
+    font-size: 1.5em;
+    margin-left: -12px;
+}
+
+.like-button:focus {
+    outline: none;
+}
+
+.edit-delete-buttons {
+    display: flex; /* Ensure the element is a flex container */
+    justify-content: center; /* Center the content horizontally */
+    gap: 10px; /* Add space between buttons */
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+.edit-delete-buttons:hover {
+    background-color: transparent;
+}
+
+.editButton {
+    justify-content: center;
+    background-color: #5dd94f;
+    width: 70px;
+}
+
+.deleteButton {
+    justify-content: center;
+    background-color: #ff0000;
+    width: 70px;
+}
+
+.show-comments-button {
+    background-color: black;
+}
+
+.forumMessageButton,
+.editButton,
+.deleteButton,
+.show-comments-button,
+.forumsavebutton,
+.forumcancelbutton,
+.deleteCommentButton {
+    transition: background-color 0.3s ease;
+}
+
+.forumMessageButton:hover,
+.editButton:hover,
+.deleteButton:hover,
+.show-comments-button:hover,
+.forumsavebutton:hover,
+.forumcancelbutton:hover,
+.deleteCommentButton:hover,
+.submit-button:hover {
+    background-color: #2e2828 !important;
+}
+
+.forum-details .comments-section .comment {
+    background-color: #26282e;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ffffff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #ffffff; /* Set text color to white */
+}
+
+.comment p,
+.comment p strong {
+    color: #ffffff; /* Set text color to white */
+}
+
+.forum-details .comments-section {
+    width: 100%;
+    overflow: hidden;
+}
+
+.forumsavebutton {
+    margin-bottom: 10px;
+}
+
+.filter-container{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

@@ -127,6 +127,16 @@
     }
 }
 
+@media (max-width: 390px) and (max-height: 844px) {
+    .hero-text {
+        font-size: 1.5em !important;
+    }
+
+    .subheadline {
+        font-size: 1em !important;
+    }
+}
+
 .hero-button {
     margin-top: auto;
     padding: 10px 20px;
@@ -165,14 +175,11 @@
 
 .carousel-container::-webkit-scrollbar {
     height: 8px; /* Adjust the height of the scrollbar */
-
-
 }
 
 .carousel-container::-webkit-scrollbar-track {
     background: transparent; /* Background of the scrollbar track */
     border-radius: 10px;
-
 }
 
 .carousel-container::-webkit-scrollbar-thumb {
@@ -181,6 +188,20 @@
     border: 2px solid transparent; /* Padding around the thumb */
 }
 
+@media (max-width: 700px) {
+    .carousel-container {
+        max-width: 300px;
+        padding: 10px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .carousel-container {
+        /* Add your styles for iPads here */
+        max-width: 650px;
+        padding: 20px;
+    }
+}
 
 
 .homegear-title, .homegear-price {

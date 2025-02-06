@@ -14,7 +14,7 @@ const MessageToForum = ({ senderId, receiverId, subject }) => {
         if (!subjectState.trim() || !message.trim()) return;
 
         if (!senderId) {
-            setStatus('Log ind for skrive beskeder');
+            setStatus('Log ind for at skrive beskeder');
             return;
         }
 

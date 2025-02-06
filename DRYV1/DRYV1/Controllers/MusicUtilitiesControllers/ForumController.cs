@@ -144,5 +144,23 @@ namespace DRYV1.Controllers
             return Ok(forums);
         }
         
+        
+        [HttpGet("liked/{userId}")]
+        public async Task<IActionResult> GetLikedForums(int userId)
+        {
+            var likedForums = await _context.ForumLikes
+                .Where(fl => fl.UserId == userId)
+                .Include(fl => fl.Forum)
+                .Select(fl => fl.Forum)
+                .ToListAsync();
+
+            if (likedForums == null || !likedForums.Any())
+            {
+                return NotFound("No liked forums found for the specified user.");
+            }
+
+            return Ok(likedForums);
+        }
+        
     }
 }

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp as solidThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp as regularThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import config from "../../../../config.jsx";
 import './ForumCard.css';
 
 function ForumCard({ item, userId, users }) {
     const [isLiked, setIsLiked] = useState(false);
-    useNavigate();
+    const [likeCount, setLikeCount] = useState(item.likeCount || 0); // Store like count in state
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (!userId) return;
 
@@ -62,13 +65,13 @@ function ForumCard({ item, userId, users }) {
                 const errorText = await response.text();
                 throw new Error(`Network response was not ok: ${errorText}`);
             }
+
             setIsLiked(!isLiked);
+            setLikeCount(prevCount => (isLiked ? prevCount - 1 : prevCount + 1)); // Update like count dynamically
         } catch (error) {
             console.error('Error toggling like:', error);
         }
     };
-
-    const navigate = useNavigate();
 
     const handleCardClick = () => {
         navigate(`/ForumDetails/${item.id}`);
@@ -81,17 +84,18 @@ function ForumCard({ item, userId, users }) {
             <div className="forum-card-content">
                 <h3>{item.subject}</h3>
                 <p>{item.body.substring(0, 100)}{item.body.length > 100 ? '... Se mere' : ''}</p>
-                <p><strong>Indlæg af: {userName}</strong></p>
-                <p><strong>Oprettet: {new Date(item.createdAt).toLocaleString()}</strong></p>
-                <p><ThumbUpIcon/> {item.likeCount}</p>
-
+                <p className="info-text"><strong>Indlæg af: {userName}</strong></p>
+                <p className="info-text"><strong>Oprettet: {new Date(item.createdAt).toLocaleString()}</strong></p>
                 <div className="like-container">
                     <button
                         className="like-button"
                         onClick={handleLikeClick}
                         title={isLiked ? 'Remove like' : 'Add like'}
                     >
-                        {isLiked ? <ThumbUpIcon/> : <ThumbUpOutlinedIcon/>}
+                        <div className="like-content">
+                            <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
+                            <span className="like-count">{likeCount}</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -101,8 +105,8 @@ function ForumCard({ item, userId, users }) {
 
 ForumCard.propTypes = {
     item: PropTypes.object.isRequired,
-    userId: PropTypes.number, // Make userId optional
-    users: PropTypes.object.isRequired, // Add users prop
+    userId: PropTypes.number,
+    users: PropTypes.object.isRequired,
 };
 
 export default ForumCard;

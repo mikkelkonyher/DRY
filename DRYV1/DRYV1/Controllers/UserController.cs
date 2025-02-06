@@ -135,7 +135,6 @@ namespace DRYV1.Controllers
 
             return NoContent();
         }
-        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -144,6 +143,18 @@ namespace DRYV1.Controllers
             {
                 return NotFound("User not found.");
             }
+
+            // Find and delete all forums created by the user
+            var userForums = await _context.Forums.Where(f => f.UserId == id).ToListAsync();
+            _context.Forums.RemoveRange(userForums);
+
+            // Find and delete all liked forums by the user
+            var likedForums = await _context.ForumLikes.Where(fl => fl.UserId == id).ToListAsync();
+            _context.ForumLikes.RemoveRange(likedForums);
+
+            // Find and delete all comments made by the user
+            var userComments = await _context.Comments.Where(c => c.UserId == id).ToListAsync();
+            _context.Comments.RemoveRange(userComments);
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();

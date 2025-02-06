@@ -118,6 +118,10 @@ function RehearsalRoomDetails() {
 
             if (!response.ok) throw new Error('Network response was not ok');
             setIsFavorite(!isFavorite);
+            setRoomItem(prevItem => ({
+                ...prevItem,
+                favoriteCount: isFavorite ? prevItem.favoriteCount - 1 : prevItem.favoriteCount + 1
+            }));
         } catch (error) {
             console.error('Error toggling favorite:', error);
         }

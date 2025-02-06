@@ -98,6 +98,7 @@ function CardDetails() {
     }, [id, userId]);
 
     // Handle favorite button click
+// Handle favorite button click
     const handleFavoriteClick = async () => {
         if (!userId) {
             alert('Login for at tilføje favoritter');
@@ -121,6 +122,10 @@ function CardDetails() {
 
             if (!response.ok) throw new Error('Network response was not ok');
             setIsFavorite(!isFavorite);
+            setGearItem(prevItem => ({
+                ...prevItem,
+                favoriteCount: isFavorite ? prevItem.favoriteCount - 1 : prevItem.favoriteCount + 1
+            }));
         } catch (error) {
             console.error('Error toggling favorite:', error);
         }
