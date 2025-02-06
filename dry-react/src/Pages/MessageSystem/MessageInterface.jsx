@@ -78,13 +78,6 @@ const MessageInterface = () => {
         fetchChats();
     }, [userId]);
 
-    // Scroll to start of last message inside chat box
-    useEffect(() => {
-        if (selectedChat && messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }, [chats, selectedChat]);
-
     // Mark all messages as read
     const markAllMessagesAsRead = async (chatId) => {
         try {
