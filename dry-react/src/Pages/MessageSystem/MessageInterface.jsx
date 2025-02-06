@@ -201,14 +201,10 @@ const MessageInterface = () => {
         }
     };
 
-
-
     return (
         <div className="message-interface-container">
             <div className="message-interface">
-                <div className="chat-list">
-
-
+                <div className={`chat-list ${selectedChat ? 'hidden' : ''}`}>
                     <h2>
                         {chats.length === 0 ? 'Ingen beskeder' : `Indbakke (${chats.reduce((total, chat) => total + chat.messages.filter(message => message.receiverId === userId && !message.isReadReceiver).length, 0)} Ulæste)`}
                     </h2>
@@ -223,17 +219,17 @@ const MessageInterface = () => {
                                 className={`chat-item ${chat.hasUnreadMessages ? 'unread' : ''} ${selectedChat === chat.id ? 'selected-chat' : ''}`}
                                 onClick={() => handleChatClick(chat.id)}
                             >
-                                {chat.hasUnreadMessages && <span className="blue-dot"></span>}
+
                                 <strong>
                                     {chat.messages[0].senderId === userId
                                         ? chat.messages[0].receiverUsername
-                                        : chat.messages[0].senderUsername}
+                                        : chat.messages[0].senderUsername} {chat.hasUnreadMessages && <span className="blue-dot"></span>}
                                 </strong>
                                 <br />
                                 <strong className="subject">{chat.subject}</strong>
                                 <span className="unread-count">
-                {unreadMessages > 0 && ` (${unreadMessages} ulæste)`}
-            </span>
+                                    {unreadMessages > 0 && ` (${unreadMessages} ulæste)`}
+                                </span>
                                 <button className="softDeleteButton" onClick={(e) => handleSoftDeleteChat(e, chat.id)}>Slet</button>
                             </div>
                         );
@@ -241,6 +237,7 @@ const MessageInterface = () => {
                 </div>
                 {selectedChat && (
                     <div className="chat-box">
+                        <button className="back-button" onClick={() => setSelectedChat(null)}>Tilbage</button>
                         <div className="messages">
                             {chats.find(chat => chat.id === selectedChat).messages.map(message => (
                                 <div
@@ -253,11 +250,11 @@ const MessageInterface = () => {
                             ))}
                         </div>
                         <form className="message-form" onSubmit={handleSendMessage}>
-    <textarea
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-        placeholder="Skriv besked..."
-    />
+                            <textarea
+                                value={newMessage}
+                                onChange={(e) => setNewMessage(e.target.value)}
+                                placeholder="Skriv besked..."
+                            />
                             <button type="submit">Send</button>
                         </form>
                         {error && <p className="error-message">{error}</p>}
