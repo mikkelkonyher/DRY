@@ -207,7 +207,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     // Determine the path for selling gear
     const sellGearPath = gearType === "trommer"
         ? "/SellDrumsGear"
-        : gearType === "studie gear"
+        : gearType === "studiegear"
             ? "/SellStudioGear"
             : gearType === "keys"
                 ? "/SellKeysGear"
@@ -301,7 +301,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             {/* No search results message */}
             {noSearchResults && <p>Fandt ingen match</p>}
             {/* Gear list */}
-            <div className="gear-list">
+            <div className="gear-card-container">
                 {filteredGear.map((item) => (
                     <GearCard
                         key={item.id}

@@ -194,7 +194,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
             case 'keys':
                 typeFieldName = 'KeysGearType';
                 break;
-            case 'studie gear':
+            case 'studiegear':
                 typeFieldName = 'StudioGearType';
                 break;
             case 'strygere':

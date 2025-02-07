@@ -12,7 +12,8 @@ function SellGear() {
                 <li><Link to="/SellStudioGear">🎤 - Studiegear</Link></li>
                 <li><Link to="/SellKeysGear">🎹 - Keyboards</Link></li>
                 <li><Link to="/SellStringsGear">🎻 - Strygere</Link></li>
-                <li><Link to="/SellHornsGear">🎷 - Blæsere</Link></li>
+                <li><Link to="/SellHornsGear">🎷 - Blæs</Link></li>
+                <li><Link to ="/CreateRehearsalRoom">🏠 - Øvelokale & studie</Link></li>
             </ul>
         </div>
     );

@@ -9,7 +9,7 @@ function CreateStudioGear() {
         "Studiemøbler", "Midi-udstyr", "Andet"
     ];
 
-    return <GearForm gearType="studie gear" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/StudioGear`} />;
+    return <GearForm gearType="studiegear" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/StudioGear`} />;
 }
 
 export default CreateStudioGear;
