@@ -80,7 +80,7 @@ namespace DRYV1.Controllers
                     Id = c.Id,
                     Subject = c.Subject,
                     Messages = c.Messages
-                        .OrderBy(m => m.Timestamp) // Order messages by Timestamp in ascending order
+                        .OrderByDescending(m => m.Timestamp) // Order messages by Timestamp in descending order
                         .Select(m => new MessageDTO
                         {
                             Id = m.Id,

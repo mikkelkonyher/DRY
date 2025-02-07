@@ -338,3 +338,11 @@
 .clear-filters-button:hover {
     background-color: #4cacaf;
 }
+
+.search-bar2 input {
+    width: 450px !important; /* Adjust the width to make it smaller */
+    padding: 5px; /* Adjust the padding to make it smaller */
+    border-radius: 10px; /* Adjust the border-radius to make it smaller */
+    margin-right: 10px !important;
+
+}
