@@ -30,8 +30,8 @@ function DraggableImage({ src, index, moveImage }) {
     return (
         <div ref={(node) => ref(drop(node))} className="image-preview-container">
             <img src={src} alt={`Forhåndsvisning ${index}`} className="image-preview" />
-            <button type="button" onClick={() => moveImage(index, -1)}>Fjern</button>
-            {index === 0 && <p>Hovedbillede</p>}
+            <button type="button" className="remove-button" onClick={() => moveImage(index, -1)}>Fjern</button>
+            {index === 0 && <p>Primært billede</p>}
         </div>
     );
 }
@@ -261,8 +261,22 @@ function GearForm({ gearType, categories, apiEndpoint }) {
             <div>
                 <h2 className="sellHeadline">Sælg {gearType}</h2>
                 <form onSubmit={handleSubmit}>
-                    {successMessage && <p className="success-message" style={{color: 'green'}}>{successMessage}</p>}
-                    {errorMessage && <p className="error-message" style={{color: 'red'}}>{errorMessage}</p>}
+                    {successMessage && (
+                        <div className="modal-overlay" onClick={() => setSuccessMessage('')}>
+                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                <span className="close-button" onClick={() => setSuccessMessage('')}>&times;</span>
+                                <p>{successMessage}</p>
+                            </div>
+                        </div>
+                    )}
+                    {errorMessage && (
+                        <div className="modal-overlay" onClick={() => setErrorMessage('')}>
+                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                <span className="close-button" onClick={() => setErrorMessage('')}>&times;</span>
+                                <p>{errorMessage}</p>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Gear type selection */}
                     <select name="type" value={gear.type} onChange={handleChange} required>
@@ -281,7 +295,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         name="description"
                         value={gear.description}
                         onChange={handleChange}
-                        placeholder="Beskrivelse max 2000 tegn"
+                        placeholder="Beskrivelse (maks. 2000 tegn)"
                         required
                         maxLength={2000}
                     />
@@ -292,8 +306,8 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     <select name="condition" value={gear.condition} onChange={handleChange} required>
                         <option value="">Vælg tilstand</option>
                         <option value="Ny">Ny</option>
-                        <option value="Næsten Ny">Næsten Ny</option>
-                        <option value="God Stand">God Stand</option>
+                        <option value="Næsten Ny">Næsten ny</option>
+                        <option value="God Stand">God stand</option>
                         <option value="Brugt">Brugt</option>
                     </select>
 
@@ -313,18 +327,20 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         <option value="Andet">Andet</option>
                     </select>
 
-                    {/* File input for images */}
-                    <input type="file" multiple onChange={handleFileChange}/>
+                    <div className="custom-file-input-wrapper">
+                        <label htmlFor="fileInput" className="custom-file-label">Upload billede</label>
+                        <input type="file" multiple onChange={handleFileChange}/>
 
-                    {/* Image previews */}
-                    <div className="image-previews">
-                        {imagePreviews.map((src, index) => (
-                            <DraggableImage key={index} src={src} index={index} moveImage={moveImage}/>
-                        ))}
+                        {/* Image previews */}
+                        <div className="image-previews">
+                            {imagePreviews.map((src, index) => (
+                                <DraggableImage key={index} src={src} index={index} moveImage={moveImage}/>
+                            ))}
+                        </div>
                     </div>
 
                     <div className="parent-div">
-                        <button type="submit" className="submitproduct-button">Opret Produkt</button>
+                        <button type="submit" className="submitproduct-button">Opret artikel</button>
                     </div>
                 </form>
             </div>
