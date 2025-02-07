@@ -260,20 +260,20 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         <DndProvider backend={HTML5Backend}>
             <div>
                 <h2 className="sellHeadline">Sælg {gearType}</h2>
-                <form onSubmit={handleSubmit}>
+                <form className="createGearForm" onSubmit={handleSubmit}>
                     {successMessage && (
                         <div className="modal-overlay" onClick={() => setSuccessMessage('')}>
-                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                            <div className="modal-error-success" onClick={(e) => e.stopPropagation()}>
                                 <span className="close-button" onClick={() => setSuccessMessage('')}>&times;</span>
-                                <p>{successMessage}</p>
+                                <p className="successmessage">{successMessage}</p>
                             </div>
                         </div>
                     )}
                     {errorMessage && (
                         <div className="modal-overlay" onClick={() => setErrorMessage('')}>
-                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                            <div className="modal-error-success" onClick={(e) => e.stopPropagation()}>
                                 <span className="close-button" onClick={() => setErrorMessage('')}>&times;</span>
-                                <p>{errorMessage}</p>
+                                <p className="error-message">{errorMessage}</p>
                             </div>
                         </div>
                     )}

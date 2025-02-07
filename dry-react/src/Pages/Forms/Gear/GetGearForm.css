@@ -19,6 +19,15 @@
     box-sizing: border-box;
 }
 
+.image-container {
+    position: relative;
+    display: inline-block;
+    width: 200px; /* Fixed width */
+    height: 200px; /* Fixed height */
+    margin-top: 12px;
+    object-fit: cover;
+}
+
 .gear-card {
     border: none;
     box-shadow: var(--box-shadow);
@@ -26,7 +35,7 @@
     padding: 20px;
     width: 280px; /* Fixed width */
     height: 400px; /* Fixed height */
-    background-color: var(--background-color);
+    background-color: rgba(0, 0, 0, 0.8); /* Background color with opacity */
     color: var(--text-color);
     margin: 30px auto 20px;
     display: flex;
@@ -35,9 +44,17 @@
     position: relative;
 }
 
+.gear-card h4 {
+    width: 250px; /* Fixed width */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
+    text-align: center;
+}
+
 .favorite-button {
     position: absolute;
-    bottom: 0; /* Place at the bottom */
+    bottom: 144px; /* Position it 10px from the bottom */
     left: 50%;
     transform: translateX(-50%);
     background: none;
@@ -48,32 +65,17 @@
     outline: none;
     padding: 5px;
 }
+
 .favorite-button:hover {
     color: darkred;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 600px) {
-    .favorite-button {
-        top: -60px;
-        font-size: 30px;
-        margin-left: 100px;
-    }
-}
-
-/* Image Container */
-.image-container {
-    position: relative;
-    display: inline-block;
-}
-
-/* Navigation Buttons */
 .nav-button {
     position: absolute;
-    top: 50%;
+    top: 80%;
     transform: translateY(-50%);
-    background-color: var(--text-color);
-    color: var(--background-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--hover-color));
+    color: var(--text-color);
     border: none;
     padding: 5px;
     cursor: pointer;
@@ -85,22 +87,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.5;
+    opacity: 0.7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s, transform 0.3s;
 }
 
 .nav-button:hover {
     opacity: 1;
+    transform: translateY(-50%) scale(1.1);
 }
 
 .nav-button.left {
-    left: 10px;
+    left: -40px;
 }
 
 .nav-button.right {
-    right: 10px;
+    right: -40px;
 }
 
+/* Responsive Adjustments */
 @media (max-width: 600px) {
+    .favorite-button {
+        top: -60px;
+        font-size: 30px;
+        margin-left: 100px;
+    }
+
     .nav-button {
         font-size: 12px;
         width: 25px;
@@ -113,6 +125,52 @@
 
     .nav-button.right {
         right: 5px;
+    }
+
+    .gear-card {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .gear-image {
+        max-width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .toggle-images-button, .show-comments-button, .sell-button {
+        width: 100%;
+        font-size: 1em;
+    }
+
+    .search-bar2 {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .search-bar2 input {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .selector-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .selector-container .selector {
+        width: 100%;
+    }
+
+    .selector-container .selector select {
+        width: 100%;
+        margin: 10px 0;
+        font-size: 12px;
+    }
+
+    .selector-container .selector select option {
+        font-size: 30px;
     }
 }
 
@@ -148,25 +206,6 @@
     width: 100%;
     padding: 10px;
     white-space: pre-wrap;
-}
-
-/* Responsive Adjustments for Gear Card */
-@media (max-width: 600px) {
-    .gear-card {
-        width: 100%;
-        padding: 10px;
-    }
-
-    .gear-image {
-        max-width: 100%;
-        height: 200px;
-        object-fit: cover;
-    }
-
-    .toggle-images-button, .show-comments-button, .sell-button {
-        width: 100%;
-        font-size: 1em;
-    }
 }
 
 /* Modal */
@@ -210,18 +249,6 @@
     width: 300px;
     border-radius: 10px;
     margin-left: 15px;
-}
-
-@media (max-width: 600px) {
-    .search-bar2 {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    .search-bar2 input {
-        width: 100%;
-        margin-left: 0;
-    }
 }
 
 /* Search Button */
@@ -292,28 +319,6 @@
     border: 1px solid #ccc;
 }
 
-@media (max-width: 600px) {
-    .selector-container {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-
-    .selector-container .selector {
-        width: 100%;
-    }
-
-    .selector-container .selector select {
-        width: 100%;
-        margin: 10px 0;
-        font-size: 12px;
-    }
-
-    .selector-container .selector select option {
-        font-size: 30px;
-    }
-}
-
 /* View Details Button */
 .view-details-button {
     width: 130px;
@@ -337,12 +342,4 @@
 
 .clear-filters-button:hover {
     background-color: #4cacaf;
-}
-
-.search-bar2 input {
-    width: 450px !important; /* Adjust the width to make it smaller */
-    padding: 5px; /* Adjust the padding to make it smaller */
-    border-radius: 10px; /* Adjust the border-radius to make it smaller */
-    margin-right: 10px !important;
-
 }

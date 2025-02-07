@@ -67,7 +67,7 @@ const MessageToCard = ({ senderId, receiverId, brand, model }) => {
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Skriv privat besked til sælger..."
                 />
-                <button type="submit">Send</button>
+                <button type="submit3">Send</button>
             </form>
             {status && <p>{status}</p>}
         </div>
