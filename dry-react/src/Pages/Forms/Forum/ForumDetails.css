@@ -1,5 +1,7 @@
 /* src/Pages/Forms/Forum/ForumDetails.css */
-
+* {
+    font-family: 'Geist', sans-serif;
+}
 .forum-details {
     border: none; /* Remove the existing border */
     box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
@@ -87,7 +89,7 @@
 
 .editButton {
     justify-content: center;
-    background-color: #5dd94f;
+    background-color: #712cf9;
     width: 70px;
 }
 

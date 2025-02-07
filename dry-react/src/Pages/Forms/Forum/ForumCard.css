@@ -1,5 +1,7 @@
 /* src/Pages/Forms/Forum/ForumCard.css */
-
+* {
+    font-family: 'Geist', sans-serif;
+}
 .forum-card {
     border: 1px solid #ddd;
     border-radius: 8px;
