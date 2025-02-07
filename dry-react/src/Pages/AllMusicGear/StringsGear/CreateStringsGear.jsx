@@ -4,12 +4,12 @@ import config from "../../../../config.jsx";
 
 function CreateStringsGear() {
     const categories = [
-        "Violin/Viola", "Cello", "Kontrabas", "Elektrisk Violin", "Elektrisk Cello",
-        "Elektrisk Kontrabas", "Tilbehør til violin og viola", "Tilbehør til cello",
+        "Violin/viola", "Cello", "Kontrabas", "Elektrisk violin", "Elektrisk cello",
+        "Elektrisk kontrabas", "Tilbehør til violin og viola", "Tilbehør til cello",
         "Tilbehør til kontrabas", "Andet"
     ];
 
-    return <GearForm gearType="Strygere" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/StringsGear`} />;
+    return <GearForm gearType="strygere" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/StringsGear`} />;
 }
 
 export default CreateStringsGear;

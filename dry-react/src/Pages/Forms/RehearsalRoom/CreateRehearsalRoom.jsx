@@ -227,7 +227,7 @@ function CreateRehearsalRoom() {
     return (
         <DndProvider backend={HTML5Backend}>
             <div>
-                <h2 className="sellHeadline">Opret Øvelokale/Musikstudie</h2>
+                <h2 className="sellHeadline">Opret øvelokale/musikstudie</h2>
                 <form onSubmit={handleSubmit}>
                     {successMessage && <p className="success-message" style={{color: 'green'}}>{successMessage}</p>}
                     {errorMessage && <p className="error-message" style={{color: 'red'}}>{errorMessage}</p>}

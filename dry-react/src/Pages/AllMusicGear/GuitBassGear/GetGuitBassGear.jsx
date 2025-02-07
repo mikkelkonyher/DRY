@@ -4,14 +4,14 @@ import config from "../../../../config.jsx";
 
 function GetGuitBassGear() {
     const categories = [
-        "Elektrisk Guitar", "Akustisk Guitar", "Semi-Hollow Guitar", "Guitarforstærker",
-        "Effekt Pedal", "Tilbehør til Guitar", "Elektrisk Bas", "Akustisk Bas",
-        "Kontrabas", "Basforstærker", "Tilbehør til Bas", "Andet"
+        "Elektrisk guitar", "Akustisk guitar", "Semi-hollow guitar", "Guitarforstærker",
+        "Effektpedal", "Tilbehør til guitar", "Elektrisk bas", "Akustisk bas",
+        "Kontrabas", "Basforstærker", "Tilbehør til bas", "Andet"
     ];
 
     return (
         <GetGearForm
-            gearType="Guitar og Basudstyr"
+            gearType="guitar og bas"
             apiEndpoint={`${config.apiBaseUrl}/api/GuitBassGear`}
             categories={categories}
             gearTypeKey="guitBassType"

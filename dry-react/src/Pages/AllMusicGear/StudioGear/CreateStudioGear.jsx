@@ -4,12 +4,12 @@ import config from "../../../../config.jsx";
 
 function CreateStudioGear() {
     const categories = [
-        "Mikrofon", "Studie Monitors", "Høretelefoner", "Lydkort", "For-forstærker",
-        "Effekprocessor", "Studiesoftware", "Controllere", "Mixerpult", "Studieakustik-elementer",
-        "Studie møbler", "Midi-udstyr", "Andet"
+        "Mikrofon", "Studie monitors", "Høretelefoner", "Lydkort", "For-forstærker",
+        "Effektprocessor", "Studiesoftware", "Controllere", "Mixer", "Studieakustik-elementer",
+        "Studiemøbler", "Midi-udstyr", "Andet"
     ];
 
-    return <GearForm gearType="Studie Gear" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/StudioGear`} />;
+    return <GearForm gearType="studie gear" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/StudioGear`} />;
 }
 
 export default CreateStudioGear;

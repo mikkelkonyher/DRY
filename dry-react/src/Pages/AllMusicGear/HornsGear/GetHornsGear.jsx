@@ -12,7 +12,7 @@ function GetHornsGear() {
 
     return (
         <GetGearForm
-            gearType="Blæseinstrumenter"
+            gearType="blæseinstrumenter"
             apiEndpoint={`${config.apiBaseUrl}/api/HornsGear`}
             categories={categories}
             gearTypeKey="hornsGearType"

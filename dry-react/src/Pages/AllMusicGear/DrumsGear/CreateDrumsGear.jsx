@@ -4,11 +4,11 @@ import config from "../../../../config.jsx";
 
 function CreateDrumsGear() {
     const categories = [
-        "Akustiske Trommer", "Elektroniske Trommer", "Lilletromme", "Stortromme", "Tamtammer", "Bækkener",
-        "Trommehardware", "Slagtøj", "Trommetilbehør", "Andet"
+        "Akustiske trommer", "Elektroniske trommer", "Lilletromme", "Stortromme","Bækkener",
+        "Hardware", "Trommetilbehør", "Andet"
     ];
 
-    return <GearForm gearType="Trommeudstyr" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/DrumsGear`}/>;
+    return <GearForm gearType="trommer" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/DrumsGear`}/>;
 }
 
 export default CreateDrumsGear;

@@ -185,22 +185,22 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         let typeFieldName;
 
         switch (gearType) {
-            case 'Trommeudstyr':
+            case 'trommer':
                 typeFieldName = 'DrumsGearType';
                 break;
-            case 'Guitar/Bas Udstyr':
+            case 'guitar/bas':
                 typeFieldName = 'GuitBassType';
                 break;
-            case 'Keys Gear':
+            case 'keys':
                 typeFieldName = 'KeysGearType';
                 break;
-            case 'Studie Gear':
+            case 'studie gear':
                 typeFieldName = 'StudioGearType';
                 break;
-            case 'Strygere':
+            case 'strygere':
                 typeFieldName = 'StringsGearType';
                 break;
-            case 'Blæseinstrumenter':
+            case 'blæseinstrumenter':
                 typeFieldName = 'HornsGearType';
                 break;
             default:
@@ -280,7 +280,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
 
                     {/* Gear type selection */}
                     <select name="type" value={gear.type} onChange={handleChange} required>
-                        <option value="">Vælg {gearType} kategori</option>
+                        <option value="">Vælg type kategori</option>
                         {categories.map((category) => (
                             <option key={category} value={category}>{category}</option>
                         ))}

@@ -28,7 +28,7 @@ const pages = [
     { name: 'Keys', path: '/keys' },
     { name: 'Blæs', path: '/blæsere' },
     { name: 'Strygere', path: '/strygere' },
-    { name: 'Studie Gear', path: '/studiogear' },
+    { name: 'Studie gear', path: '/studiogear' },
     { name: 'Øvelokaler', path: '/rehearsal-rooms' },
     { name: 'Forum', path: '/forum' }
 ];

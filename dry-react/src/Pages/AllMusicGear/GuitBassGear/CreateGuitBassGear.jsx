@@ -4,12 +4,12 @@ import config from "../../../../config.jsx";
 
 function CreateGuitBassGear() {
     const categories = [
-        "Elektrisk Guitar", "Akustisk Guitar", "Semi-Hollow Guitar", "Guitarforstærker",
-        "Effekt Pedal", "Tilbehør til Guitar", "Elektrisk Bas", "Akustisk Bas",
-        "Kontrabas", "Basforstærker", "Tilbehør til Bas", "Andet"
+        "Elektrisk guitar", "Akustisk guitar", "Semi-hollow guitar", "Guitarforstærker",
+        "Effektpedal", "Tilbehør til guitar", "Elektrisk bas", "Akustisk bas",
+        "Kontrabas", "Basforstærker", "Tilbehør til bas", "Andet"
     ];
 
-    return <GearForm gearType="Guitar/Bas Udstyr" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/GuitBassGear`} />;
+    return <GearForm gearType="guitar/bas" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/GuitBassGear`} />;
 }
 
 export default CreateGuitBassGear;

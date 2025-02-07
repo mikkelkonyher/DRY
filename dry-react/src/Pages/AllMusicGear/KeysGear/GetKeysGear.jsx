@@ -4,13 +4,13 @@ import config from "../../../../config.jsx";
 
 function GetKeysGear() {
     const categories = [
-        "Synthsizere", "Keyboards", "Klaverer", "Stage Pianos", "Flygler",
-        "Orgler", "Akkordeons", "Tilbehør til keys", "Andet"
+        "Synthesizer", "Keyboard", "Klaver", "Stage piano", "Flygel",
+        "Orgel", "Akkordeon","Andet"
     ];
 
     return (
         <GetGearForm
-            gearType="Keys Gear"
+            gearType="keys"
             apiEndpoint={`${config.apiBaseUrl}/api/KeysGear`}
             categories={categories}
             gearTypeKey="keysGearType"

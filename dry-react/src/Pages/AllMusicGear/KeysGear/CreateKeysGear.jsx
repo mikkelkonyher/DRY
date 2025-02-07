@@ -4,11 +4,11 @@ import config from "../../../../config.jsx";
 
 function CreateKeysGear() {
     const categories = [
-        "Synthsizere", "Keyboards", "Klaverer", "Stage Pianos", "Flygler",
-        "Orgler", "Akkordeons", "Tilbehør til keys", "Andet"
+        "Synthesizer", "Keyboard", "Klaver", "Stage piano", "Flygel",
+        "Orgel", "Akkordeon","Andet"
     ];
 
-    return <GearForm gearType="Keys Gear" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/KeysGear`} />;
+    return <GearForm gearType="keys" categories={categories} apiEndpoint={`${config.apiBaseUrl}/api/KeysGear`} />;
 }
 
 export default CreateKeysGear;

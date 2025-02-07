@@ -4,13 +4,13 @@ import config from "../../../../config.jsx";
 
 function GetDrumsGear() {
     const categories = [
-        "Akustiske Trommer", "Elektroniske Trommer", "Lilletromme", "Stortromme", "Tamtammer", "Bækkener",
-        "Trommehardware", "Slagtøj", "Trommetilbehør", "Andet"
+        "Akustiske trommer", "Elektroniske trommer", "Lilletromme", "Stortromme","Bækkener",
+        "Hardware", "Trommetilbehør", "Andet"
     ];
 
     return (
         <GetGearForm
-            gearType="Trommeudstyr"
+            gearType="trommer"
             apiEndpoint={`${config.apiBaseUrl}/api/DrumsGear`}
             categories={categories}
             gearTypeKey="drumsGearType"
