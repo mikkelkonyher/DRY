@@ -19,6 +19,12 @@
     box-sizing: border-box;
 }
 
+.gear-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05); /* Slightly increase the size */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
 .image-container {
     position: relative;
     display: inline-block;

@@ -26,7 +26,7 @@ strong {
     .body {
         overflow: hidden;
     }
-    
+
     .gear-cardDetails {
         width: 90vw; /* Adjust width for smaller screens */
         padding: 10px; /* Adjust padding for smaller screens */
@@ -172,4 +172,9 @@ strong {
 
 .nav-button-right-cardDetails {
     margin-left: 10px; /* Add margin to separate from the image */
+}
+
+.nav-button-cardDetails:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
 }

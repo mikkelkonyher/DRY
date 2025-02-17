@@ -67,7 +67,7 @@ const MessageToRehearsalRoom = ({ senderId, receiverId, subject }) => {
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Skriv privat besked..."
                 />
-                <button type="submit">Send</button>
+                <button type="submit-rehearsalroom">Send</button>
             </form>
             {status && <p>{status}</p>}
         </div>
