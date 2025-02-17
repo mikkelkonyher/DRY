@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import config from "../../../../config.jsx";
+import './GearCard.css';
 
 
 function GearCard({ item, handleImageClick, userId }) {
@@ -89,17 +90,18 @@ function GearCard({ item, handleImageClick, userId }) {
             <h4>{item.brand} {item.model}</h4>
             <h5><strong>Pris: </strong>{item.price.toLocaleString('da-DK')} kr. </h5>
 
+            <button
+                className="favorite-button-getgear"
+                onClick={handleFavoriteClick}
+                title={isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
+            >
+                <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart}/>
+            </button>
+
             <div className="image-container">
-                <button
-                    className="favorite-button"
-                    onClick={handleFavoriteClick}
-                    title={isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
-                >
-                    <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart}/>
-                </button>
                 <button className="nav-button left" onClick={handlePrevImage}>&lt;</button>
                 <img src={item.imagePaths[currentImageIndex]} alt={`${item.brand} ${item.model}`}
-                     className="gear-image" onClick={(e) => { e.stopPropagation(); handleImageClick(item.imagePaths[currentImageIndex]); }}/>
+                     className="gear-image fixed-size" onClick={(e) => { e.stopPropagation(); handleImageClick(item.imagePaths[currentImageIndex]); }}/>
                 <button className="nav-button right" onClick={handleNextImage}>&gt;</button>
             </div>
         </div>

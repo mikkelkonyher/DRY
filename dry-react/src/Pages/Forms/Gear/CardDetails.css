@@ -1,4 +1,11 @@
-.gear-carddetails{
+
+
+strong {
+    font-family: 'Arial', sans-serif; /* Change to your desired font */
+    font-weight: bold;
+}
+
+.gear-cardDetails {
     border: none; /* Remove the existing border */
     box-shadow: 0 0 0 1px #3a3a3a, 0 4px 8px rgba(0, 0, 0, 0.1); /* Combine both box-shadow properties */
     border-radius: 15px;
@@ -15,16 +22,154 @@
 }
 
 @media (max-width: 600px) {
-    .gear-carddetails {
-        width: 320px; /* Adjust width for smaller screens */
+
+    .body {
+        overflow: hidden;
+    }
+    
+    .gear-cardDetails {
+        width: 90vw; /* Adjust width for smaller screens */
         padding: 10px; /* Adjust padding for smaller screens */
+        position: relative; /* Ensure positioning context for nav buttons */
+    }
+
+    .image-container-cardDetails {
+        width: 90%;
+        height: auto; /* Adjust height to be auto for smaller screens */
+        max-height: 200px; /* Set a maximum height */
+        margin-bottom: 10px; /* Add space between the image and text */
+    }
+
+    .gear-image-CardDetails {
+        width: 100%;
+        height: auto; /* Adjust height to be auto */
+        object-fit: contain; /* Contain the image within the container */
+    }
+
+    .nav-button-cardDetails {
+        width: 30px; /* Adjust width for smaller screens */
+        height: 30px; /* Adjust height for smaller screens */
+        font-size: 16px; /* Adjust font size for smaller screens */
+        padding: 5px; /* Adjust padding for smaller screens */
+        position: absolute; /* Ensure buttons are positioned absolutely */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Adjust for centering */
+        z-index: 2; /* Ensure buttons are above other elements */
+        background: linear-gradient(135deg, var(--primary-color), var(--hover-color));
+        color: var(--text-color);
+        border: none;
+        cursor: pointer;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.7;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .nav-button-left-cardDetails {
+        left: 100px; /* Adjust left position */
+    }
+
+    .nav-button-right-cardDetails {
+        right: 100px; /* Adjust right position */
     }
 }
 
 /* Is CSS for all delete comments button: Forum details, RehearsalroomDetails etc. */
-.deleteCommentButton{
+.deleteCommentButton {
     background-color: red;
     width: 10em;
     font-size: 0.7em;
 }
+.image-container-cardDetails {
+    width: 400px;
+    height: 400px; /* Set a fixed height for the container */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 20px; /* Add space between the image and text */
+    overflow: hidden; /* Hide overflow to ensure images fit within the container */
+}
 
+.gear-image-CardDetails {
+    width: 100%;
+    height: 100%; /* Ensure the image takes up the full container */
+    object-fit: contain; /* Ensure the image covers the container without distortion */
+    border-radius: 5px; /* Optional: add border radius for rounded corners */
+}
+
+.favorite-button-cardDetails {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 40px;
+    color: red;
+    outline: none;
+    width: 40px; /* Set width to match the font size */
+    height: 40px; /* Set height to match the font size */
+    display: inline-flex; /* Ensure the button only takes up the space of its content */
+    align-items: center; /* Center the icon vertically */
+    justify-content: center; /* Center the icon horizontally */
+    margin-bottom: 10px; /* Add space between the image and button */;
+}
+
+.favorite-button-cardDetails:hover {
+    color: darkred;
+}
+
+
+.image-carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.image-container-cardDetails {
+    width: 400px;
+    height: 400px; /* Set a fixed height for the container */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 20px; /* Add space between the image and text */
+    overflow: hidden; /* Hide overflow to ensure images fit within the container */
+}
+
+.gear-image-CardDetails {
+    width: 100%;
+    height: 100%; /* Ensure the image takes up the full container */
+    object-fit: contain; /* Ensure the image covers the container without distortion */
+    border-radius: 5px; /* Optional: add border radius for rounded corners */
+}
+
+.nav-button-cardDetails {
+    position: relative;
+    background: linear-gradient(135deg, var(--primary-color), var(--hover-color));
+    color: var(--text-color);
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 1;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.nav-button-left-cardDetails {
+    margin-right: 10px; /* Add margin to separate from the image */
+}
+
+.nav-button-right-cardDetails {
+    margin-left: 10px; /* Add margin to separate from the image */
+}

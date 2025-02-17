@@ -174,22 +174,28 @@ function RehearsalRoomDetails() {
     if (!roomItem) return <div>Loading...</div>;
 
     return (
-        <div className="gear-carddetails">
+        <div className="gear-cardDetails">
+            {/* Room item details */}
             <h4>{roomItem.name}</h4>
             <h5><strong>Pris: </strong>{roomItem.price.toLocaleString('da-DK')} kr. {roomItem.paymentType}</h5>
 
-            <div className="image-container">
-                <button
-                    className="favorite-button"
-                    onClick={handleFavoriteClick}
-                    title={isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
-                >
-                    <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart} />
-                </button>
-                <button className="nav-button left" onClick={handlePrevImage}>&lt;</button>
-                <img src={roomItem.imagePaths[currentImageIndex]} alt={roomItem.name}
-                     className="gear-image" onClick={() => handleImageClick(roomItem.imagePaths[currentImageIndex])} />
-                <button className="nav-button right" onClick={handleNextImage}>&gt;</button>
+            {/* Favorite button */}
+            <button
+                className="favorite-button-cardDetails"
+                onClick={handleFavoriteClick}
+                title={isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
+            >
+                <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart} />
+            </button>
+
+            {/* Image carousel */}
+            <div className="image-carousel-container">
+                <button className="nav-button-cardDetails nav-button-left-cardDetails" onClick={handlePrevImage}>&lt;</button>
+                <div className="image-container-cardDetails">
+                    <img src={roomItem.imagePaths[currentImageIndex]} alt={roomItem.name}
+                         className="gear-image-CardDetails" onClick={() => handleImageClick(roomItem.imagePaths[currentImageIndex])} />
+                </div>
+                <button className="nav-button-cardDetails nav-button-right-cardDetails" onClick={handleNextImage}>&gt;</button>
             </div>
 
             <div className="more-info-container">

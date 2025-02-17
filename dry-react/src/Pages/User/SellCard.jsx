@@ -263,7 +263,7 @@ function SellCard({ item, userId }) {
                     {/* Display item details */}
                     <h3>{item.brand} {item.model}</h3>
                     <h4><strong>Pris: </strong>{item.price.toLocaleString('da-DK')} kr. </h4>
-                    <div className="image-container">
+                    <div className="image-container-sellcard">
                         {item.imagePaths && item.imagePaths.length > 0 ? (
                             <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
                                  className="sell-gear-image" onClick={(e) => handleImageClick(item.imagePaths[0], e)} />
@@ -278,11 +278,7 @@ function SellCard({ item, userId }) {
                             </button>
                             <button onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}>Rediger</button>
                         </>
-                    ) : (
-                        <button className="favorite-button" onClick={(e) => handleFavoriteClick(e)}>
-
-                        </button>
-                    )}
+                    ) : null}
                     {isFavorite && (
                         <button className="remove-favorite-button" onClick={(e) => handleFavoriteClick(e)}>
                             Fjern fra favoritter
