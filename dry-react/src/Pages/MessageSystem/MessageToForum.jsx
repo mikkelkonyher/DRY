@@ -67,7 +67,7 @@ const MessageToForum = ({ senderId, receiverId, subject }) => {
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Skriv privat besked..."
                 />
-                <button type="submit">Send</button>
+                <button type="submit-forum">Send</button>
             </form>
             {status && <p>{status}</p>}
         </div>
