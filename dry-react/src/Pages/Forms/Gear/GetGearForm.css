@@ -141,11 +141,11 @@
 
     .gear-card-container {
         grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-        gap: 5px;
+        gap: 10px;
     }
 
     .gear-card {
-        width: 150px;
+        width: 160px;
         height: auto; /* Adjust height to auto */
         margin: 0px;
     }
@@ -164,7 +164,7 @@
     }
     .gear-card h5 {
         font-size: 12px;
-
+        margin-top: -15px;
 
     }
     .image-container img {
@@ -371,7 +371,7 @@
 @media (min-width: 768px) and (max-width: 1024px) {
     .gear-card-container {
         grid-template-columns: repeat(3, 1fr); /* Three equal columns */
-        gap: 10px; /* Adjust gap as needed */
+        gap: 15px; /* Adjust gap as needed */
     }
     .gear-card {
         width: 200px; /* Adjust width as needed */
@@ -383,4 +383,24 @@
         height: 80%;
         object-fit: cover;
     }
+}
+
+@media (min-width: 375px) and (max-width: 412px){
+    .gear-card-container {
+        grid-template-columns: repeat(2, 1fr); /* Three equal columns */
+        gap: 5px; /* Adjust gap as needed */
+    }
+    .gear-card {
+        width: 140px; /* Adjust width as needed */
+        height: auto; /* Adjust height as needed */
+        position: relative;
+    }
+
+    .image-container img {
+        width: 80%;
+        height: 90%;
+        object-fit: cover;
+    }
+
+
 }
