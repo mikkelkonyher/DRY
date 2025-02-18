@@ -26,7 +26,7 @@ function GetRehearsalRoom() {
     const [location, setLocation] = useState('');
     const [priceRange, setPriceRange] = useState('');
     const [showFilters, setShowFilters] = useState(false); // State variable for filter visibility
-    const itemsPerPage = 10;
+    const itemsPerPage = 16;
 
     // Fetch rehearsal room data from API
     const fetchRooms = async (search = false) => {

@@ -23,7 +23,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     const [location, setLocation] = useState('');
     const [priceRange, setPriceRange] = useState('');
     const [showFilters, setShowFilters] = useState(false);
-    const itemsPerPage = 10;
+    const itemsPerPage = 16;
 
     // Fetch gear data from API
     const fetchGear = async (search = false) => {

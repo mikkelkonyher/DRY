@@ -23,7 +23,7 @@ namespace DRYV1.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(
             int pageNumber = 1, 
-            int pageSize = 10, 
+            int pageSize = 16, 
             string drumsGearType = null, 
             string location = null, 
             decimal? minPrice = null, 
