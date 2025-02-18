@@ -157,7 +157,7 @@ function Signup() {
                         />
                         Jeg accepterer <span onClick={() => setIsModalOpen(true)} style={{color: 'blue', textDecoration: 'underline', cursor: 'pointer'}}>vilkårene og betingelserne</span>.
                     </label>
-                    <button type="submit" className="signup-button">Signup</button>
+                    <button type="submit-signup" className="signup-button">Signup</button>
                 </form>
             </div>
             {isModalOpen && (
