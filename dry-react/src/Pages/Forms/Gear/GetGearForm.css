@@ -141,31 +141,35 @@
 
     .gear-card-container {
         grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+        gap: 5px;
     }
 
     .gear-card {
-        width: 155px;
+        width: 150px;
         height: auto; /* Adjust height to auto */
         margin: 0px;
     }
 
+    .gear-card:hover {
+        transform: scale(1.0);
+
+    }
+
     .gear-card h4 {
-        font-size: 12px;
+        font-size: 14px;
         width: 100%; /* Ensure it takes the full width of the card */
         white-space: nowrap; /* Prevent text from wrapping */
         overflow: hidden; /* Hide overflow text */
         text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
     }
+    .gear-card h5 {
+        font-size: 12px;
 
-    .gear-image {
-        width: 100%; /* Make image take up full width of the card */
-        height: auto; /* Maintain aspect ratio */
-        object-fit: cover;
+
     }
-
     .image-container img {
         width: 80%;
-        height: 80%;
+        height: 90%;
         object-fit: cover;
     }
 
@@ -174,37 +178,53 @@
         font-size: 1em;
     }
 
-    .search-bar2 {
-        width: 100%;
-        margin-left: 0;
-    }
 
-    .search-bar2 input {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    .selector-container {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-
-    .selector-container .selector {
-        width: 100%;
-    }
-
-    .selector-container .selector select {
-        width: 100%;
-        margin: 10px 0;
-        font-size: 12px;
-    }
-
-    .selector-container .selector select option {
-        font-size: 30px;
-    }
 }
 
+
+.search-and-selector-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+
+/* Search Bar */
+.search-bar2 {
+    display: flex;
+    justify-content: center;
+    width: 44%; /* Adjust the width as needed */
+    margin-bottom: 20px;
+}
+
+.search-bar2 input {
+    width: 100%; /* Ensure the input takes the full width of the search bar */
+    border-radius: 10px;
+    margin-left: 0; /* Remove margin to center the input */
+}
+
+.selector-container {
+    display: flex;
+    flex-direction: column; /* Ensure selectors are in a column */
+    align-items: center;
+    width: 100%; /* Ensure it takes the full width */
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.selector-container .selector {
+    width: 100%; /* Ensure it takes the full width */
+    display: flex;
+    justify-content: center; /* Center the selectors */
+}
+
+.selector-container .selector select {
+    width: 200px; /* Set a fixed width for all selectors */
+    padding: 15px;
+    font-size: 12px;
+    margin: 10px 0; /* Adjust margin to ensure spacing */
+    border: 1px solid #ccc;
+}
 /* Gear Image */
 .gear-image {
     width: 100%;
@@ -268,18 +288,6 @@
     cursor: pointer;
 }
 
-/* Search Bar */
-.search-bar2 {
-    display: flex;
-    justify-content: center;
-    width: 300px;
-}
-
-.search-bar2 input {
-    width: 300px;
-    border-radius: 10px;
-    margin-left: 15px;
-}
 
 /* Search Button */
 .search-button-small {
@@ -333,21 +341,7 @@
     }
 }
 
-/* Selector Container */
-.selector-container {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    flex-wrap: wrap;
-    width: 100%;
-}
 
-.selector-container .selector select {
-    padding: 15px;
-    font-size: 12px;
-    margin: 0 10px;
-    border: 1px solid #ccc;
-}
 
 /* View Details Button */
 .view-details-button {
@@ -372,4 +366,21 @@
 
 .clear-filters-button:hover {
     background-color: #4cacaf;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .gear-card-container {
+        grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+        gap: 10px; /* Adjust gap as needed */
+    }
+    .gear-card {
+        width: 200px; /* Adjust width as needed */
+        height: auto; /* Adjust height as needed */
+    }
+
+    .image-container img {
+        width: 80%;
+        height: 80%;
+        object-fit: cover;
+    }
 }
