@@ -133,11 +133,19 @@ function CardDetails() {
 
     // Handle image navigation
     const handleNextImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % gearItem.imagePaths.length);
+        setCurrentImageIndex((prevIndex) => {
+            const newIndex = (prevIndex + 1) % gearItem.imagePaths.length;
+            setSelectedImage(gearItem.imagePaths[newIndex]);
+            return newIndex;
+        });
     };
 
     const handlePrevImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + gearItem.imagePaths.length) % gearItem.imagePaths.length);
+        setCurrentImageIndex((prevIndex) => {
+            const newIndex = (prevIndex - 1 + gearItem.imagePaths.length) % gearItem.imagePaths.length;
+            setSelectedImage(gearItem.imagePaths[newIndex]);
+            return newIndex;
+        });
     };
 
     // Handle image click to open modal
@@ -145,6 +153,7 @@ function CardDetails() {
         setSelectedImage(imagePath);
         setIsModalOpen(true);
     };
+
 
     // Handle comment posted
     const handleCommentPosted = async () => {
@@ -270,7 +279,13 @@ function CardDetails() {
             {isModalOpen && (
                 <div className="modal" onClick={() => setIsModalOpen(false)}>
                     <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
-                    <img className="modal-content" src={selectedImage} alt="Large view" />
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="image-container-modal">
+                            <button className="nav-button-modal nav-button-left-modal" onClick={handlePrevImage}>&lt;</button>
+                            <img className="modal-image" src={selectedImage} alt="Large view" />
+                            <button className="nav-button-modal nav-button-right-modal" onClick={handleNextImage}>&gt;</button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

@@ -186,3 +186,54 @@ strong {
     opacity: 1;
 
 }
+
+.modal-image {
+    width: 100%;
+    height: auto;
+    max-width: 70vw; /* Ensure the image doesn't exceed the viewport width */
+    max-height: 70vh; /* Ensure the image doesn't exceed the viewport height */
+    object-fit: contain; /* Ensure the image maintains its aspect ratio */
+}
+
+.nav-button-modal {
+    position: absolute;
+    background: linear-gradient(135deg, var(--primary-color), var(--hover-color));
+    color: var(--text-color);
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.nav-button-left-modal {
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.nav-button-right-modal {
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.nav-button-modal:hover {
+    opacity: 1;
+}
+
+.image-container-modal {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
