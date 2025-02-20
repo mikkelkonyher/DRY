@@ -25,7 +25,7 @@ namespace DRYV1.Controllers
         public async Task<IActionResult> Search(
             string query,
             int pageNumber = 1,
-            int pageSize = 10)
+            int pageSize = 16)
         {
             var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var queryable = _context.MusicGear
@@ -215,7 +215,7 @@ namespace DRYV1.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(
             int pageNumber = 1, 
-            int pageSize = 10, 
+            int pageSize = 16, 
             string location = null, 
             decimal? minPrice = null, 
             decimal? maxPrice = null,
@@ -268,7 +268,7 @@ namespace DRYV1.Controllers
         [HttpGet("GetByFavoriteCount")]
         public async Task<IActionResult> GetByFavoriteCount(
             int pageNumber = 1,
-            int pageSize = 10)
+            int pageSize = 16)
         {
             var queryable = _context.MusicGear.AsQueryable();
 

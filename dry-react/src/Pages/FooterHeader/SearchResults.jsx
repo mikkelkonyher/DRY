@@ -160,7 +160,7 @@ function SearchResults() {
 
     return (
         <Box className="search-results-container" sx={{ padding: '20px' }}>
-            <Typography className="search-results-title" variant="h5" sx={{ marginBottom: '20px', marginTop: '20px' }}>
+            <Typography className="search-results-title" variant="h5" sx={{ marginBottom: '20px', marginTop: '20px', textAlign: 'center' }}>
                 Søge resultater:
             </Typography>
             {errorMessage ? (
@@ -168,7 +168,7 @@ function SearchResults() {
                     {errorMessage}
                 </Typography>
             ) : (
-                <Box className="search-results-list" sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+                <Box className="gear-card-container">
                     {gear.length > 0 ? (
                         gear.map((item) => (
                             <GearCard
