@@ -8,12 +8,11 @@ import config from "../../../../config.jsx";
 import './RehearsalRoomCard.css';
 
 function RehearsalRoomCard({ item, handleImageClick, userId }) {
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!userId) return;
-
         const checkFavoriteStatus = async () => {
             try {
                 const checkUrl = new URL(`${config.apiBaseUrl}/api/RehearsalRoomFavorites/${userId}`);
@@ -70,32 +69,42 @@ function RehearsalRoomCard({ item, handleImageClick, userId }) {
         }
     };
 
+    const handleNextImage = (e) => {
+        e.stopPropagation();
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % item.imagePaths.length);
+    };
+
+    const handlePrevImage = (e) => {
+        e.stopPropagation();
+        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + item.imagePaths.length) % item.imagePaths.length);
+    };
+
     const handleCardClick = () => {
         navigate(`/RehearsalRoomDetails/${item.id}`);
     };
 
     return (
-        <div className="rehearsal-room-card" onClick={handleCardClick}>
-            <h3>{item.name}</h3>
-            <p><strong>{item.type}, {item.location}</strong> </p>
+        <div className="gear-card" onClick={handleCardClick}>
+            <h4 className="rehearsalroomh4">{item.name}</h4>
+            <h5 className="rehearsalroomh5">{item.type}, {item.location}</h5>
+
+            <button
+                className="favorite-button-getgear"
+                onClick={handleFavoriteClick}
+                title={isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
+            >
+                <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart}/>
+            </button>
 
             <div className="image-container">
-                <button
-                    className="favorite-button"
-                    onClick={handleFavoriteClick}
-                    title={isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
-                >
-                    <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart}/>
-                </button>
+                <button className="nav-button left" onClick={handlePrevImage}>&lt;</button>
                 <img
-                    src={item.imagePaths[0]}
+                    src={item.imagePaths[currentImageIndex]}
                     alt={item.name}
-                    onClick={(e) => { e.stopPropagation(); handleImageClick(item.imagePaths[0]); }}
-                    className="rehearsal-room-image"
+                    className="gear-image fixed-size"
+                    onClick={(e) => { e.stopPropagation(); handleImageClick(item.imagePaths[currentImageIndex]); }}
                 />
-            </div>
-            <div className="rehearsal-room-details left-align">
-                {/* Add other details here */}
+                <button className="nav-button right" onClick={handleNextImage}>&gt;</button>
             </div>
         </div>
     );

@@ -68,6 +68,8 @@
 .gear-card h5 {
     font-size: 14px;
     margin-top: -15px;
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
 }
 
 .favorite-button-getgear {
@@ -89,7 +91,7 @@
 
 .nav-button {
     position: absolute;
-    top: 80%;
+    top: 50%;
     transform: translateY(-50%);
     background: linear-gradient(135deg, var(--primary-color), var(--hover-color));
     color: var(--text-color);
@@ -115,20 +117,16 @@
 }
 
 .nav-button.left {
-    left: -40px;
+    left: 5px;
 }
 
 .nav-button.right {
-    right: -40px;
+    right: 5px;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 600px) {
-    .favorite-button {
-        top: -60px;
-        font-size: 30px;
-        margin-left: 100px;
-    }
+
 
     .nav-button {
         font-size: 12px;
@@ -137,11 +135,11 @@
     }
 
     .nav-button.left {
-        left: 5px;
+        left: 25px;
     }
 
     .nav-button.right {
-        right: 5px;
+        right: 25px;
     }
 
     .gear-card-container {
@@ -388,6 +386,13 @@
         height: 80%;
         object-fit: cover;
     }
+    .nav-button.left {
+        left: 25px;
+    }
+
+    .nav-button.right {
+        right: 25px;
+    }
 }
 
 @media (min-width: 375px) and (max-width: 412px){
@@ -405,6 +410,14 @@
         width: 80%;
         height: 90%;
         object-fit: cover;
+    }
+
+    .nav-button.left {
+        left: 25px;
+    }
+
+    .nav-button.right {
+        right: 25px;
     }
 
 

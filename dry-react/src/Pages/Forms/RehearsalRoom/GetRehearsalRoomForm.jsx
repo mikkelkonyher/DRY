@@ -289,7 +289,7 @@ function GetRehearsalRoom() {
             {/* No search results message */}
             {noSearchResults && <p>Fandt ingen match</p>}
             {/* Room list */}
-            <div className="gear-list">
+            <div className="gear-card-container">
                 {filteredRooms.map((item) => (
                     <RehearsalRoomCard
                         key={item.id}
