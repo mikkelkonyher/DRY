@@ -21,6 +21,14 @@ strong {
     position: relative; /* Add relative positioning */
 }
 
+.gear-cardDetails h5 {
+    font-size: 14px;
+    margin-top: -15px;
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
+
+}
+
 @media (max-width: 600px) {
 
     .body {
