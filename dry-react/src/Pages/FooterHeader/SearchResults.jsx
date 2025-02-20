@@ -18,7 +18,7 @@ function SearchResults() {
     const [totalItems, setTotalItems] = useState(0);
     const [errorMessage, setErrorMessage] = useState(location.state?.errorMessage || '');
     const [userId, setUserId] = useState(null);
-    const itemsPerPage = 10;
+    const itemsPerPage = 16;
 
     const fetchGear = async (pageNumber = 1) => {
         try {
