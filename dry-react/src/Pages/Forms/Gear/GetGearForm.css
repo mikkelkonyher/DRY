@@ -393,6 +393,14 @@
     .nav-button.right {
         right: 25px;
     }
+
+    .gear-card h4 {
+        width: 200px; /* Fixed width */
+        white-space: nowrap; /* Prevent text from wrapping */
+        overflow: hidden; /* Hide overflow text */
+        text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
+        text-align: center;
+    }
 }
 
 @media (min-width: 375px) and (max-width: 412px){
