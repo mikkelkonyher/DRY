@@ -119,11 +119,11 @@
 
 @media(max-width: 768px){
     .hero-text{
-        font-size: 2em !important;
+        font-size: 1.5em !important;
     }
 
     .subheadline{
-        font-size: 1.5em !important;
+        font-size: 1em !important;
     }
 }
 
