@@ -36,12 +36,12 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h2 className="login-h2">Login <LoginIcon /> </h2>
+            <h2 className="login-h2">Log ind <LoginIcon /> </h2>
             {error && <p className="login-error">{error}</p>}
             {success && <p className="login-success">{success}</p>}
             <form onSubmit={handleSubmit}>
                 <div className="login-form-group">
-                    <label htmlFor="email" className="login-label">Email Adresse</label>
+                    <label htmlFor="email" className="login-label">Email</label>
                     <input
                         placeholder={'Indtast email'}
                         type="email"
@@ -64,10 +64,10 @@ const Login = () => {
                         className="login-input"
                     />
                 </div>
-                <button type="submit-login" className="login-button">Login</button>
+                <button type="submit" className="login-button">Log ind</button>
             </form>
             <p className="signup-text">
-                <Link to="/signup" className="signup-link">Signup</Link>
+                <Link to="/signup" className="signup-link">Opret profil</Link>
             </p>
             <p className="forgot-password-text">
                 <Link to="/forgot-password" className="forgot-password-link">Glemt adgangskode?</Link>

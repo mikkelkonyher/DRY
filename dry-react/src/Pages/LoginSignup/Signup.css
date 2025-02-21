@@ -17,10 +17,16 @@
     margin-top: 50px;
 }
 
-.signup-container h2 {
-    text-align: center;
+.signup-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 20px;
     color: #ffffff;
+}
+
+.signup-header h2 {
+    margin-right: 10px; /* Adjust the spacing between the text and the icon as needed */
 }
 
 .signup-form {

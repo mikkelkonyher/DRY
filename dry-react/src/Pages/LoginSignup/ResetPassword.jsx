@@ -66,7 +66,7 @@ const ResetPassword = () => {
                         required
                     />
                 </div>
-                <button type="submit" className="reset-password-button">Reset Password</button>
+                <button type="submit" className="reset-password-button">Skift adgangskode</button>
             </form>
         </div>
     );

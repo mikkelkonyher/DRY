@@ -34,11 +34,11 @@ const ForgotPassword = () => {
 
     return (
         <div className="forgot-password-container">
-            <h2 className="forgot-password-title">Nulstil Adgangskode</h2>
+            <h2 className="forgot-password-title">Nulstil adgangskode</h2>
             {message && <p className="forgot-password-message">{message}</p>}
             <form onSubmit={handleSubmit} className="forgot-password-form">
                 <div className="forgot-password-form-group">
-                    <label htmlFor="email" className="forgot-password-label">Email Adresse</label>
+                    <label htmlFor="email" className="forgot-password-label">Email</label>
                     <input
                         placeholder={'Indtast email'}
                         type="email"
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
                         required
                     />
                 </div>
-                <button type="submit" className="forgot-password-button">Send nulstillingslink</button>
+                <button type="submit" className="forgot-password-button">Fortsæt</button>
             </form>
         </div>
     );

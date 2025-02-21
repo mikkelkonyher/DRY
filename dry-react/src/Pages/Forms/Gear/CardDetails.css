@@ -113,8 +113,8 @@ strong {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 40px;
-    color: red;
+    font-size: 30px;
+    color: white;
     outline: none;
     width: 40px; /* Set width to match the font size */
     height: 40px; /* Set height to match the font size */

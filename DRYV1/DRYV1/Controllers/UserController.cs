@@ -144,8 +144,15 @@ namespace DRYV1.Controllers
                 return NotFound("User not found.");
             }
 
-            // Find and delete all forums created by the user
+            // Find and delete all comments made on forums created by the user
             var userForums = await _context.Forums.Where(f => f.UserId == id).ToListAsync();
+            foreach (var forum in userForums)
+            {
+                var forumComments = await _context.Comments.Where(c => c.ForumId == forum.Id).ToListAsync();
+                _context.Comments.RemoveRange(forumComments);
+            }
+
+            // Find and delete all forums created by the user
             _context.Forums.RemoveRange(userForums);
 
             // Find and delete all liked forums by the user

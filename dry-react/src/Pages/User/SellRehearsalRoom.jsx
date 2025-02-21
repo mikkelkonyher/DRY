@@ -47,7 +47,7 @@ function SellRehearsalRoom({ room, userId }) {
     // Handle delete room
     const handleDelete = async (e) => {
         e.stopPropagation();
-        const confirmed = window.confirm('Are you sure you want to delete this room?');
+        const confirmed = window.confirm('Er du sikker på at du vil slette lokalet?');
         if (!confirmed) return;
 
         try {

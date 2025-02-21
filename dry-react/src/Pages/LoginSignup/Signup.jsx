@@ -104,7 +104,10 @@ function Signup() {
     return (
         <div className="signup-body">
             <div className="signup-container">
-                <h2>Signup <HowToRegIcon/></h2>
+                <div className="signup-header">
+                    <h2>Opret bruger</h2>
+                    <HowToRegIcon />
+                </div>
                 <form className="signup-form" onSubmit={handleSubmit}>
                     {successMessage && <p className="signup-success-message">{successMessage}</p>}
                     {errorMessage && <p className="signup-error-message">{errorMessage}</p>}
@@ -118,7 +121,7 @@ function Signup() {
                         placeholder="Brugernavn"
                         required
                     />
-                    <label htmlFor="email" className="signup-label">Email adresse*</label>
+                    <label htmlFor="email" className="signup-label">Emailadresse*</label>
                     <input
                         type="email"
                         name="email"
@@ -155,9 +158,9 @@ function Signup() {
                             checked={termsAccepted}
                             onChange={handleCheckboxChange}
                         />
-                        Jeg accepterer <span onClick={() => setIsModalOpen(true)} style={{color: 'blue', textDecoration: 'underline', cursor: 'pointer'}}>vilkårene og betingelserne</span>.
+                        Jeg accepterer <span onClick={() => setIsModalOpen(true)} style={{color: 'white', textDecoration: 'underline', cursor: 'pointer'}}>vilkår og betingelser</span>.
                     </label>
-                    <button type="submit-signup" className="signup-button">Signup</button>
+                    <button type="submit" className="signup-button">Opret bruger</button>
                 </form>
             </div>
             {isModalOpen && (

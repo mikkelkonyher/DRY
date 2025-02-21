@@ -75,12 +75,11 @@
 .favorite-button-getgear {
     position: relative;
     display: block;
-
     background: none;
     border: none;
     cursor: pointer;
     font-size: 30px;
-    color: red;
+    color: white;
     outline: none;
     padding: 5px;
 }

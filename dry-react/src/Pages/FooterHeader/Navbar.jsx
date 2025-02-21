@@ -228,7 +228,7 @@ function ResponsiveAppBar() {
                                     to="/login"
                                     sx={{my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none'}}
                                 >
-                                    LOGIN
+                                    Log ind
                                 </Typography>
                                 <Typography
                                     component={Link}
@@ -244,7 +244,7 @@ function ResponsiveAppBar() {
                                         },
                                     }}
                                 >
-                                    SIGNUP
+                                    Tilmeld
                                 </Typography>
                             </>
                         ) : (

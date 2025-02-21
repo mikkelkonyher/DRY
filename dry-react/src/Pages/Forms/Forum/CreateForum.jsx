@@ -90,7 +90,7 @@ const CreateForum = () => {
 
     return (
         <div className="create-forum-container">
-            <h2 className="centered-heading">Opret forum indlæg <EditNoteIcon/></h2>
+            <h2 className="centered-heading">Opret nyt indlæg <EditNoteIcon/></h2>
             <div className="form-container">
                 <form className="createPostForm" onSubmit={handleSubmit}>
                     {successMessage && <div className="success-message">{successMessage}</div>}

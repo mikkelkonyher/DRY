@@ -114,9 +114,10 @@ button[type="submit"]:hover {
 }
 
 .image-preview-container p {
-    color: #6dd94f; /* Ensure the "Hovedbillede" text is black */
+    color: #ffffff; /* Ensure the "Hovedbillede" text is black */
     font-weight: 600;
     text-align: left;
+    font-style: italic;
 }
 
 .submitproduct-button {

@@ -30,7 +30,7 @@ function SearchResults() {
             const data = await response.json();
             setGear(data.items);
             setTotalItems(data.totalItems);
-            setErrorMessage(data.items.length === 0 ? 'No results found.' : '');
+            setErrorMessage(data.items.length === 0 ? 'Fandt ingen match på søgning' : '');
 
             const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
             if (!userResponse.ok) {
@@ -161,7 +161,7 @@ function SearchResults() {
     return (
         <Box className="search-results-container" sx={{ padding: '20px' }}>
             <Typography className="search-results-title" variant="h5" sx={{ marginBottom: '20px', marginTop: '20px', textAlign: 'center' }}>
-                Søge resultater:
+                Søgeresultater:
             </Typography>
             {errorMessage ? (
                 <Typography className="error-message" variant="h6" sx={{ color: 'red' }}>
