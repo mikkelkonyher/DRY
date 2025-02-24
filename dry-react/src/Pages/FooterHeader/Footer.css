@@ -23,6 +23,7 @@
 .footer-icons {
     display: flex;
     justify-content: center;
+    display: none;
 }
 
 .footer-icons a {
