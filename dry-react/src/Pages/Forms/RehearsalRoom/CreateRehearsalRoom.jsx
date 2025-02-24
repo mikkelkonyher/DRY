@@ -229,8 +229,22 @@ function CreateRehearsalRoom() {
             <div>
                 <h2 className="sellHeadline">Opret øvelokale/musikstudie</h2>
                 <form onSubmit={handleSubmit}>
-                    {successMessage && <p className="success-message" style={{color: 'green'}}>{successMessage}</p>}
-                    {errorMessage && <p className="error-message" style={{color: 'red'}}>{errorMessage}</p>}
+                    {successMessage && (
+                        <div className="modal-overlay" onClick={() => setSuccessMessage('')}>
+                            <div className="modal-error-success" onClick={(e) => e.stopPropagation()}>
+                                <span className="close-button" onClick={() => setSuccessMessage('')}>&times;</span>
+                                <p className="successmessage">{successMessage}</p>
+                            </div>
+                        </div>
+                    )}
+                    {errorMessage && (
+                        <div className="modal-overlay" onClick={() => setErrorMessage('')}>
+                            <div className="modal-error-success" onClick={(e) => e.stopPropagation()}>
+                                <span className="close-button" onClick={() => setErrorMessage('')}>&times;</span>
+                                <p className="error-message">{errorMessage}</p>
+                            </div>
+                        </div>
+                    )}
 
                     <input type="text" name="name" value={rehearsalRoom.name} onChange={handleChange} placeholder="Navn" required />
                     <input type="text" name="address" value={rehearsalRoom.address} onChange={handleChange} placeholder="Adresse" required />

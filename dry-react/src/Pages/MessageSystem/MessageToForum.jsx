@@ -69,7 +69,7 @@ const MessageToForum = ({ senderId, receiverId, subject }) => {
                 />
                 <button type="submit-forum">Send</button>
             </form>
-            {status && <p>{status}</p>}
+            {status && <span style={{ color: 'white' }}>{status}</span>}
         </div>
     );
 };

@@ -5,6 +5,7 @@ import './ForgotPassword.css';
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,13 +30,14 @@ const ForgotPassword = () => {
         } catch (err) {
             console.error('Error:', err);
             setMessage(err.message || 'Fejl ved sending af password reset link.');
+        } finally {
+            setIsModalOpen(true);
         }
     };
 
     return (
         <div className="forgot-password-container">
             <h2 className="forgot-password-title">Nulstil adgangskode</h2>
-            {message && <p className="forgot-password-message">{message}</p>}
             <form onSubmit={handleSubmit} className="forgot-password-form">
                 <div className="forgot-password-form-group">
                     <label htmlFor="email" className="forgot-password-label">Email</label>
@@ -51,6 +53,13 @@ const ForgotPassword = () => {
                 </div>
                 <button type="submit" className="forgot-password-button">Fortsæt</button>
             </form>
+            {isModalOpen && (<div className="forgot-password-modal">
+                    <div className="forgot-password-modal-content">
+                        <span className="forgot-password-close" onClick={() => setIsModalOpen(false)}>&times;</span>
+                        <p>{message}</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

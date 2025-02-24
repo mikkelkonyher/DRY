@@ -15,8 +15,8 @@ function Signup() {
     const [errorMessage, setErrorMessage] = useState('');
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const modalRef = useRef(null);
-    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -78,6 +78,7 @@ function Signup() {
                 password: '',
                 confirmPassword: '',
             });
+            setIsSuccessModalOpen(true);
         } catch (error) {
             console.error('Error during signup:', error);
             setErrorMessage('An error occurred. Please try again.');
@@ -85,13 +86,14 @@ function Signup() {
     };
 
     const handleClickOutside = (event) => {
-        if (modalRef.current && modalRef.current.contains(event.target)) {
+        if (modalRef.current && !modalRef.current.contains(event.target)) {
             setIsModalOpen(false);
+            setIsSuccessModalOpen(false);
         }
     };
 
     useEffect(() => {
-        if (isModalOpen) {
+        if (isModalOpen || isSuccessModalOpen) {
             document.addEventListener('mousedown', handleClickOutside);
         } else {
             document.removeEventListener('mousedown', handleClickOutside);
@@ -99,7 +101,7 @@ function Signup() {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isModalOpen]);
+    }, [isModalOpen, isSuccessModalOpen]);
 
     return (
         <div className="signup-body">
@@ -109,7 +111,6 @@ function Signup() {
                     <HowToRegIcon />
                 </div>
                 <form className="signup-form" onSubmit={handleSubmit}>
-                    {successMessage && <p className="signup-success-message">{successMessage}</p>}
                     {errorMessage && <p className="signup-error-message">{errorMessage}</p>}
                     <label htmlFor="name" className="signup-label">Brugernavn*</label>
                     <input
@@ -188,6 +189,15 @@ function Signup() {
                             9. Kontakt<br />
                             Hvis du har spørgsmål til disse vilkår og betingelser, kan du kontakte GearNinja.dk på Support@GearNinja.dk.
                         </p>
+                    </div>
+                </div>
+            )}
+            {isSuccessModalOpen && (
+                <div className="signup-modal" ref={modalRef}>
+                    <div className="signup-modal-content">
+                        <span className="signup-close" onClick={() => setIsSuccessModalOpen(false)}>&times;</span>
+                        <h2>Success</h2>
+                        <p className="signup-success-message">{successMessage}</p>
                     </div>
                 </div>
             )}
