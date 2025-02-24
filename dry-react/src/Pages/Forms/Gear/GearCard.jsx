@@ -9,7 +9,7 @@ import './GearCard.css';
 
 
 function GearCard({ item, handleImageClick, userId }) {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [currentImageIndex] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
     const navigate = useNavigate();
 
@@ -71,15 +71,7 @@ function GearCard({ item, handleImageClick, userId }) {
         }
     };
 
-    const handleNextImage = (e) => {
-        e.stopPropagation();
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % item.imagePaths.length);
-    };
 
-    const handlePrevImage = (e) => {
-        e.stopPropagation();
-        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + item.imagePaths.length) % item.imagePaths.length);
-    };
 
     const handleCardClick = () => {
         navigate(`/gear/${item.id}`);
@@ -99,10 +91,10 @@ function GearCard({ item, handleImageClick, userId }) {
             </button>
 
             <div className="image-container">
-                <button className="nav-button left" onClick={handlePrevImage}>&lt;</button>
+
                 <img src={item.imagePaths[currentImageIndex]} alt={`${item.brand} ${item.model}`}
                      className="gear-image fixed-size" onClick={(e) => { e.stopPropagation(); handleImageClick(item.imagePaths[currentImageIndex]); }}/>
-                <button className="nav-button right" onClick={handleNextImage}>&gt;</button>
+
             </div>
         </div>
     );
