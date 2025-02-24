@@ -188,6 +188,7 @@ function ForumDetails() {
         }
     };
 
+    // Handle comment deletion
     const handleDeleteComment = async (commentId) => {
         const isConfirmed = window.confirm("Er du sikker på at du vil slette denne kommentar?");
         if (!isConfirmed) return;
@@ -290,7 +291,7 @@ function ForumDetails() {
                                     <div key={comment.id} className="comment">
                                         <p>{comment.user?.name || 'Ukendt'}: {comment.text}</p>
                                         <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
-                                        {comment.userId === userId && (
+                                        {(comment.userId === userId || forumItem.userId === userId) && (
                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                 <button className="deleteCommentButton" onClick={() => handleDeleteComment(comment.id)}>Slet kommentar</button>
                                             </div>

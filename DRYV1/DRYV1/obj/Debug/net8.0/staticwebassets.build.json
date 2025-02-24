@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "WMbffhm1mAkmZSy5sjNUPUk63P1GT60+T13ls7DxzSs=",
+  "Hash": "qtRl5du63cjEyQcxvBaIdxdiUElGq86dA+PrdRxdef8=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -3944,6 +3944,27 @@
       "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/vhykebze.s1f.jpg"
     },
     {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/vnjbcqxy.vld.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/musicgear/vnjbcqxy.vld#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "3ngf2e2got",
+      "Integrity": "AaTuyhdGoCPpPgjJti/kVcY+sEwDEWRDve3WI3SDwU4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/vnjbcqxy.vld.jpg"
+    },
+    {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/vnvzssx4.zzt.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
@@ -4551,6 +4572,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/ceyn3mvp.bn4.jpeg"
+    },
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/dspyhgal.0nz.webp",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/rehearsalrooms/dspyhgal.0nz#[.{fingerprint}]?.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "k3a5yjwzmv",
+      "Integrity": "oO+zCIJtAI/w9i3SOjtyEXfQA3yvRDd3xh530lHN9a8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/dspyhgal.0nz.webp"
     },
     {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/gwa3uvw2.xje.jpg",
@@ -6897,7 +6939,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:51:22 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6942,7 +6984,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:51:22 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7881,7 +7923,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:44:31 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7926,7 +7968,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:44:31 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8783,7 +8825,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 21 Feb 2025 10:40:12 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8828,7 +8870,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 21 Feb 2025 10:40:12 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -9439,7 +9481,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 18 Feb 2025 11:37:55 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -9484,7 +9526,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 18 Feb 2025 11:37:55 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -11489,7 +11531,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:33:01 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -11534,7 +11576,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:33:01 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13293,7 +13335,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:58:22 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13338,7 +13380,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:58:22 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13457,7 +13499,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:51:22 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -13502,7 +13544,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:51:22 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16163,7 +16205,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:44:30 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16208,7 +16250,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:44:30 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16737,7 +16779,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:25:26 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16782,7 +16824,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 07 Feb 2025 11:25:26 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17229,7 +17271,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 18 Feb 2025 11:37:55 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -17266,7 +17308,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 18 Feb 2025 11:37:55 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -20897,6 +20939,88 @@
       ]
     },
     {
+      "Route": "assets/uploads/musicgear/vnjbcqxy.vld.3ngf2e2got.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/vnjbcqxy.vld.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "41312"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"AaTuyhdGoCPpPgjJti/kVcY+sEwDEWRDve3WI3SDwU4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "3ngf2e2got"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/musicgear/vnjbcqxy.vld.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-AaTuyhdGoCPpPgjJti/kVcY+sEwDEWRDve3WI3SDwU4="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/vnjbcqxy.vld.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/vnjbcqxy.vld.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "41312"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"AaTuyhdGoCPpPgjJti/kVcY+sEwDEWRDve3WI3SDwU4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-AaTuyhdGoCPpPgjJti/kVcY+sEwDEWRDve3WI3SDwU4="
+        }
+      ]
+    },
+    {
       "Route": "assets/uploads/musicgear/vnvzssx4.zzt.f8gqfvcikc.jpg",
       "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/vnvzssx4.zzt.jpg",
       "Selectors": [],
@@ -23275,6 +23399,88 @@
       ]
     },
     {
+      "Route": "assets/uploads/rehearsalrooms/dspyhgal.0nz.k3a5yjwzmv.webp",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/dspyhgal.0nz.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "116238"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oO+zCIJtAI/w9i3SOjtyEXfQA3yvRDd3xh530lHN9a8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "k3a5yjwzmv"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/rehearsalrooms/dspyhgal.0nz.webp"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-oO+zCIJtAI/w9i3SOjtyEXfQA3yvRDd3xh530lHN9a8="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/dspyhgal.0nz.webp",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/dspyhgal.0nz.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "116238"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oO+zCIJtAI/w9i3SOjtyEXfQA3yvRDd3xh530lHN9a8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-oO+zCIJtAI/w9i3SOjtyEXfQA3yvRDd3xh530lHN9a8="
+        }
+      ]
+    },
+    {
       "Route": "assets/uploads/rehearsalrooms/gwa3uvw2.xje.jpg",
       "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/gwa3uvw2.xje.jpg",
       "Selectors": [],
@@ -23543,7 +23749,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 21 Feb 2025 10:19:01 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -23588,7 +23794,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 21 Feb 2025 10:19:01 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -23707,7 +23913,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 21 Feb 2025 10:19:01 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -23744,7 +23950,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 21 Feb 2025 10:19:01 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -24527,7 +24733,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 21 Feb 2025 10:19:01 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -24564,7 +24770,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 21 Feb 2025 10:19:01 GMT"
+          "Value": "Fri, 21 Feb 2025 12:11:55 GMT"
         },
         {
           "Name": "Cache-Control",

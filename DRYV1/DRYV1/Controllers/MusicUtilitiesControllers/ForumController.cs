@@ -94,6 +94,10 @@ namespace DRYV1.Controllers
                 return NotFound("Forum not found.");
             }
 
+            // Find and delete all comments associated with the forum
+            var comments = await _context.Comments.Where(c => c.ForumId == id).ToListAsync();
+            _context.Comments.RemoveRange(comments);
+
             _context.Forums.Remove(forum);
             await _context.SaveChangesAsync();
             return NoContent();
