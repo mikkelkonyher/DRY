@@ -287,7 +287,10 @@ function CreateRehearsalRoom() {
                         <option value="andet">andet</option>
                     </select>
 
-                    <input type="file" multiple onChange={handleFileChange} />
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <label htmlFor="fileInput" className="custom-file-label" style={{ marginRight: '10px' }}>Upload billede</label>
+                        <input id="fileInput" type="file" multiple onChange={handleFileChange} />
+                    </div>
 
                     <div className="image-previews">
                         {imagePreviews.map((src, index) => (
