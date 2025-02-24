@@ -82,64 +82,20 @@
     color: white;
     outline: none;
     padding: 5px;
+    width: 50px;
 }
 
 .favorite-button-getgear:hover {
     color: darkred;
 }
 
-.nav-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: linear-gradient(135deg, var(--primary-color), var(--hover-color));
-    color: var(--text-color);
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    z-index: 1;
-    font-size: 16px;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.7;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: opacity 0.3s, transform 0.3s;
-}
 
-.nav-button:hover {
-    opacity: 1;
-    transform: translateY(-50%) scale(1.0);
-}
-
-.nav-button.left {
-    left: 5px;
-}
-
-.nav-button.right {
-    right: 5px;
-}
 
 /* Responsive Adjustments */
 @media (max-width: 600px) {
 
 
-    .nav-button {
-        font-size: 12px;
-        width: 25px;
-        height: 25px;
-    }
 
-    .nav-button.left {
-        left: 25px;
-    }
-
-    .nav-button.right {
-        right: 25px;
-    }
 
     .gear-card-container {
         grid-template-columns: repeat(2, 1fr); /* Two equal columns */
@@ -385,13 +341,7 @@
         height: 80%;
         object-fit: cover;
     }
-    .nav-button.left {
-        left: 25px;
-    }
 
-    .nav-button.right {
-        right: 25px;
-    }
 
     .gear-card h4 {
         width: 200px; /* Fixed width */
@@ -419,13 +369,7 @@
         object-fit: cover;
     }
 
-    .nav-button.left {
-        left: 25px;
-    }
 
-    .nav-button.right {
-        right: 25px;
-    }
 
 
 }
