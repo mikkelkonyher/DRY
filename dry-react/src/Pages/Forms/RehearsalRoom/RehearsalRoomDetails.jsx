@@ -161,6 +161,7 @@ function RehearsalRoomDetails() {
         }
     };
 
+    // Handle comment deletion
     const handleDeleteComment = async (commentId) => {
         const isConfirmed = window.confirm("Er du sikker på at du vil slette denne kommentar?");
         if (!isConfirmed) return;
@@ -249,7 +250,7 @@ function RehearsalRoomDetails() {
                                     <div key={comment.id} className="comment">
                                         <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
                                         <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
-                                        {comment.userId === userId && (
+                                        {(comment.userId === userId || roomItem.userId === userId) && (
                                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                 <button className="deleteCommentButton" onClick={() => handleDeleteComment(comment.id)}>Slet kommentar</button>
                                             </div>
