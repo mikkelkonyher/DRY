@@ -80,7 +80,6 @@ function SellCard({ item, userId, onRemove }) {
         }
     };
 
-    // Handle delete item
     const handleDelete = async (e) => {
         e.stopPropagation();
         const confirmed = window.confirm('Er du sikker på at du vil slette produktet?');
@@ -94,7 +93,7 @@ function SellCard({ item, userId, onRemove }) {
                 throw new Error('Failed to delete the item');
             }
             console.log('Item deleted successfully');
-            window.location.reload();
+            onRemove(item.id); // Call the onRemove callback to update the parent component's state
         } catch (error) {
             console.error('Error deleting item:', error);
         }

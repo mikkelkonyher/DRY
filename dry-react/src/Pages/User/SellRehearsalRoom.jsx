@@ -58,7 +58,7 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
                 throw new Error('Failed to delete the room');
             }
             console.log('Room deleted successfully');
-            window.location.reload();
+            onRemove(room.id); // Call the onRemove callback to update the parent component's state
         } catch (error) {
             console.error('Error deleting room:', error);
         }

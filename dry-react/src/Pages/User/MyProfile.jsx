@@ -332,6 +332,14 @@ function MyProfile() {
         setFavoriteRehearsalRooms(favoriteRehearsalRooms.filter(room => room.id !== roomId));
     };
 
+    const handleRemoveItem = (itemId) => {
+        setGear(gear.filter(item => item.id !== itemId));
+    };
+
+    const handleRemoveRoom = (roomId) => {
+        setRehearsalRooms(rehearsalRooms.filter(room => room.id !== roomId));
+    };
+
     return (
         <div className="my-profile">
             {profileImageUrl ? (
@@ -422,6 +430,8 @@ function MyProfile() {
                             handleImageClick={handleImageClick}
                             userId={userId}
                             isFavorite={false}
+                            onRemove={handleRemoveItem}
+
                         />
                     ))}
                     {rehearsalRooms.map((room) => (
@@ -429,6 +439,7 @@ function MyProfile() {
                             key={room.id}
                             room={room}
                             userId={userId}
+                            onRemove={handleRemoveRoom}
                         />
                     ))}
                 </div>
