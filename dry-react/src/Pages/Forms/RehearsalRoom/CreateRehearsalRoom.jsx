@@ -177,6 +177,11 @@ function CreateRehearsalRoom() {
             return;
         }
 
+        if (imageFiles.length === 0) {
+            setErrorMessage('Du skal uploade mindst ét billede.');
+            return;
+        }
+
         const formData = new FormData();
         for (const key in rehearsalRoom) {
             formData.append(key, rehearsalRoom[key]);

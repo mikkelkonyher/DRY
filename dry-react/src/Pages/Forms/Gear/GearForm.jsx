@@ -172,12 +172,16 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         setImagePreviews(newImagePreviews);
     };
 
-    // Handle form submit
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = Cookies.get('AuthToken');
         if (!token) {
             setErrorMessage('Login for at oprette et produkt');
+            return;
+        }
+
+        if (imageFiles.length === 0) {
+            setErrorMessage('Du skal uploade mindst ét billede.');
             return;
         }
 
