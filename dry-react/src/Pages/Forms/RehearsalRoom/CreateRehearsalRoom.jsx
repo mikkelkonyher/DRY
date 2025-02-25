@@ -284,7 +284,7 @@ function CreateRehearsalRoom() {
                         <option value="">Vælg type</option>
                         <option value="Øvelokale">Øvelokale</option>
                         <option value="Musikstudie">Musikstudie</option>
-                        <option value="andet">andet</option>
+                        <option value="Andet">Andet</option>
                     </select>
 
                     <div style={{ display: 'flex', alignItems: 'center' }}>

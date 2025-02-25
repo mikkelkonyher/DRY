@@ -194,12 +194,16 @@ function SellRehearsalRoom({ room, userId }) {
                         placeholder="Room Size"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, roomSize: e.target.value })}
                     />
-                    <input
-                        type="text"
+                    <select
+                        className="nice-select"
                         value={updatedRoom.type}
-                        placeholder="Type"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, type: e.target.value })}
-                    />
+                    >
+                        <option value="">Vælg type</option>
+                        <option value="Øvelokale">Øvelokale</option>
+                        <option value="Musikstudie">Musikstudie</option>
+                        <option value="Andet">Andet</option>
+                    </select>
                     <input
                         type="file"
                         multiple
