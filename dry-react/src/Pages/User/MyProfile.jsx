@@ -6,7 +6,7 @@ import config from '../../../config.jsx';
 import './MyProfile.css';
 import Cookies from 'js-cookie';
 import { AuthContext } from "../../AuthContext.jsx";
-import defaultProfileImage from '../../assets/3675952-200.png'; // Import the new image
+import defaultProfileImage from '../../assets/3675952-200.png';
 
 const ninjaNames = [
     "Shadow Reaper",
@@ -22,7 +22,6 @@ const ninjaNames = [
 ];
 
 function MyProfile() {
-    // State variables
     const [gear, setGear] = useState([]);
     const [favoriteGear, setFavoriteGear] = useState([]);
     const [rehearsalRooms, setRehearsalRooms] = useState([]);
@@ -46,7 +45,6 @@ function MyProfile() {
     const fileInputRef = useRef(null);
     const { setIsAuthenticated } = useContext(AuthContext);
 
-    // Fetch user ID and profile image URL
     useEffect(() => {
         const fetchUserId = async () => {
             try {
@@ -74,7 +72,6 @@ function MyProfile() {
                 setUserName(user.name);
                 setUserEmail(user.email);
 
-                // Fetch profile image URL
                 const userDetailResponse = await fetch(`${config.apiBaseUrl}/api/User/${user.id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -94,13 +91,11 @@ function MyProfile() {
         fetchUserId();
     }, []);
 
-    // Set a random ninja name
     useEffect(() => {
         const randomName = ninjaNames[Math.floor(Math.random() * ninjaNames.length)];
         setRandomNinjaName(randomName);
     }, []);
 
-    // Fetch user gear and rehearsal rooms
     useEffect(() => {
         if (!userId) return;
 
@@ -139,7 +134,6 @@ function MyProfile() {
         fetchUserGearAndRooms();
     }, [userId]);
 
-    // Fetch favorite gear and rehearsal rooms
     const fetchFavoriteGearAndRooms = async () => {
         try {
             const favoriteGearResponse = await fetch(`${config.apiBaseUrl}/api/Favorites/${userId}`);
@@ -168,12 +162,10 @@ function MyProfile() {
         }
     };
 
-    // Handle profile image click
     const handleImageClick = () => {
         fileInputRef.current.click();
     };
 
-    // Handle profile image file change
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -184,7 +176,6 @@ function MyProfile() {
             };
             reader.readAsDataURL(file);
 
-            // Upload the image immediately
             const formData = new FormData();
             formData.append('imageFiles', file);
 
@@ -202,11 +193,9 @@ function MyProfile() {
                     throw new Error(`Failed to upload profile image: ${errorText}`);
                 }
 
-                // Update profile image URL
                 const imageUrl = await imageResponse.text();
                 setProfileImageUrl(imageUrl);
 
-                // Save the profile image URL to the user profile
                 const updateUserResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
                     method: 'PUT',
                     headers: {
@@ -221,7 +210,6 @@ function MyProfile() {
                     throw new Error(`Failed to update user profile image URL: ${errorText}`);
                 }
 
-                // Reload the page to fetch the updated image
                 window.location.reload();
             } catch (error) {
                 console.error('Error uploading profile image:', error);
@@ -229,7 +217,6 @@ function MyProfile() {
         }
     };
 
-    // Handle edit button click
     const handleEdit = () => {
         setIsEditing(true);
         setIsEmailChanging(false);
@@ -239,7 +226,6 @@ function MyProfile() {
         setShowFavoriteCards(false);
     };
 
-    // Handle save button click
     const handleSave = async () => {
         if (!userName || !userEmail || userEmail === "string" || userName === "string") {
             console.error('Invalid user data');
@@ -271,7 +257,7 @@ function MyProfile() {
             if (profileImageUrl) {
                 requestBody.profileImageUrl = profileImageUrl;
             } else {
-                requestBody.profileImageUrl = defaultProfileImage; // Set to default profile image if no profile image URL
+                requestBody.profileImageUrl = defaultProfileImage;
             }
 
             const response = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
@@ -295,7 +281,6 @@ function MyProfile() {
         }
     };
 
-    // Handle cancel button click
     const handleCancel = () => {
         setIsEditing(false);
         setShowDeleteConfirm(false);
@@ -303,7 +288,6 @@ function MyProfile() {
         setUserEmail(originalEmail);
     };
 
-    // Handle delete button click
     const handleDelete = async () => {
         if (!showDeleteConfirm) {
             setShowDeleteConfirm(true);
@@ -330,11 +314,9 @@ function MyProfile() {
                 throw new Error('Failed to delete user');
             }
 
-            // Update authentication state
             setIsAuthenticated(false);
             Cookies.remove('AuthToken');
 
-            // Redirect to login page
             window.location.href = '/login';
         } catch (error) {
             console.error('Error deleting user:', error);
@@ -342,9 +324,16 @@ function MyProfile() {
         }
     };
 
+    const handleRemoveFavorite = (itemId) => {
+        setFavoriteGear(favoriteGear.filter(item => item.id !== itemId));
+    };
+
+    const handleRemoveFavoriteRoom = (roomId) => {
+        setFavoriteRehearsalRooms(favoriteRehearsalRooms.filter(room => room.id !== roomId));
+    };
+
     return (
         <div className="my-profile">
-            {/* Profile image */}
             {profileImageUrl ? (
                 <img className="profile-image" src={profileImageUrl} alt="Profile" onClick={handleImageClick} />
             ) : (
@@ -358,7 +347,6 @@ function MyProfile() {
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
             />
-            {/* Edit profile form */}
             {isEditing ? (
                 <div className="edit-profile">
                     <Link to="/forgot-password">
@@ -411,7 +399,6 @@ function MyProfile() {
                     <button onClick={handleEdit}>Rediger</button>
                 </div>
             )}
-            {/* Show sell and favorite cards */}
             {!isEditing && (
                 <>
                     <button className="myproductsButton" onClick={() => setShowSellCards(!showSellCards)}>
@@ -425,7 +412,6 @@ function MyProfile() {
                     </button>
                 </>
             )}
-            {/* Sell cards */}
             {showSellCards && (
                 <div className="gear-list">
                     {gear.map((item) => (
@@ -447,7 +433,6 @@ function MyProfile() {
                     ))}
                 </div>
             )}
-            {/* Favorite cards */}
             {showFavoriteCards && (
                 <div className="gear-list">
                     {favoriteGear.map((item) => (
@@ -458,6 +443,7 @@ function MyProfile() {
                             handleImageClick={handleImageClick}
                             userId={userId}
                             isFavorite={true}
+                            onRemove={handleRemoveFavorite}
                         />
                     ))}
                     {favoriteRehearsalRooms.map((room) => (
@@ -465,6 +451,7 @@ function MyProfile() {
                             key={room.id}
                             room={room}
                             userId={userId}
+                            onRemove={handleRemoveFavoriteRoom}
                         />
                     ))}
                 </div>

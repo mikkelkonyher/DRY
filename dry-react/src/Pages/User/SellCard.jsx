@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import config from '../../../config.jsx';
 import './SellCard.css';
 
-function SellCard({ item, userId }) {
+function SellCard({ item, userId, onRemove }) {
     const [isEditing, setIsEditing] = useState(false);
     const [updatedItem, setUpdatedItem] = useState({ ...item, id: item.id });
     const [newImages, setNewImages] = useState([]);
@@ -72,7 +72,9 @@ function SellCard({ item, userId }) {
 
             if (!response.ok) throw new Error('Network response was not ok');
             setIsFavorite(!isFavorite);
-            window.location.reload(); // Reload the page to reflect the change
+            if (isFavorite && onRemove) {
+                onRemove(item.id);
+            }
         } catch (error) {
             console.error('Error toggling favorite:', error);
         }
@@ -299,6 +301,7 @@ function SellCard({ item, userId }) {
 SellCard.propTypes = {
     item: PropTypes.object.isRequired,
     userId: PropTypes.number.isRequired,
+    onRemove: PropTypes.func.isRequired,
 };
 
 export default SellCard;

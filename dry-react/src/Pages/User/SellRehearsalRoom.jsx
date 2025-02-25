@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import config from '../../../config.jsx';
 import './SellCard.css';
 
-function SellRehearsalRoom({ room, userId }) {
+function SellRehearsalRoom({ room, userId, onRemove }) {
     const [isEditing, setIsEditing] = useState(false);
     const [updatedRoom, setUpdatedRoom] = useState({ ...room, id: room.id });
     const [newImages, setNewImages] = useState([]);
@@ -38,7 +38,7 @@ function SellRehearsalRoom({ room, userId }) {
 
             if (!response.ok) throw new Error('Network response was not ok');
             setIsFavorite(false);
-            window.location.reload(); // Reload the page to reflect the change
+            onRemove(room.id); // Remove the card from the list
         } catch (error) {
             console.error('Error removing favorite:', error);
         }
@@ -264,6 +264,7 @@ function SellRehearsalRoom({ room, userId }) {
 SellRehearsalRoom.propTypes = {
     room: PropTypes.object.isRequired,
     userId: PropTypes.number.isRequired,
+    onRemove: PropTypes.func.isRequired,
 };
 
 export default SellRehearsalRoom;
