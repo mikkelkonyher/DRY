@@ -7,7 +7,6 @@ import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import config from "../../../../config.jsx";
 import './GearCard.css';
 
-
 function GearCard({ item, handleImageClick, userId }) {
     const [currentImageIndex] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
@@ -16,7 +15,6 @@ function GearCard({ item, handleImageClick, userId }) {
     useEffect(() => {
         if (!userId) return;
 
-        // Check if the item is already a favorite when the component mounts
         const checkFavoriteStatus = async () => {
             try {
                 const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
@@ -71,10 +69,13 @@ function GearCard({ item, handleImageClick, userId }) {
         }
     };
 
-
-
     const handleCardClick = () => {
         navigate(`/gear/${item.id}`);
+    };
+
+    const handleImageClickWrapper = (imagePath) => {
+        handleImageClick(imagePath);
+        handleCardClick();
     };
 
     return (
@@ -91,10 +92,8 @@ function GearCard({ item, handleImageClick, userId }) {
             </button>
 
             <div className="image-container">
-
                 <img src={item.imagePaths[currentImageIndex]} alt={`${item.brand} ${item.model}`}
-                     className="gear-image fixed-size" onClick={(e) => { e.stopPropagation(); handleImageClick(item.imagePaths[currentImageIndex]); }}/>
-
+                     className="gear-image fixed-size" onClick={(e) => { e.stopPropagation(); handleImageClickWrapper(item.imagePaths[currentImageIndex]); }}/>
             </div>
         </div>
     );

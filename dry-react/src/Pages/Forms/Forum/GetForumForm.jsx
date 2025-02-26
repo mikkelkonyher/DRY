@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import config from "../../../../config.jsx";
 import Pagination from '../../../Components/Pagination.jsx';
 import ForumCard from "./ForumCard.jsx";
@@ -10,14 +10,21 @@ import Cookies from 'js-cookie';
 function GetForumForm() {
     const apiEndpoint = `${config.apiBaseUrl}/api/Forum`;
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Get page number from URL or default to 1
+    const queryParams = new URLSearchParams(location.search);
+    const initialPage = Number(queryParams.get('page')) || 1;
+
     const [forums, setForums] = useState([]);
     const [users, setUsers] = useState({});
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(initialPage);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
     const [showLiked, setShowLiked] = useState(false);
     const [showCreated, setShowCreated] = useState(false);
-    const itemsPerPage = 10;
+    const itemsPerPage = 16;
 
     const fetchForums = async () => {
         try {
@@ -104,6 +111,21 @@ function GetForumForm() {
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
+
+    useEffect(() => {
+        // Update the URL when page changes
+        const params = new URLSearchParams(location.search);
+        params.set('page', currentPage);
+        navigate(`?${params.toString()}`, { replace: true });
+    }, [currentPage, navigate]);
+
+    useEffect(() => {
+        // Set the initial page number in the URL if not present
+        if (!queryParams.get('page')) {
+            queryParams.set('page', initialPage);
+            navigate(`?${queryParams.toString()}`, { replace: true });
+        }
+    }, [initialPage, navigate, queryParams]);
 
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 

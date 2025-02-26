@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../Gear/GetGearForm.css';
 import SellIcon from '@mui/icons-material/Sell';
 import config from "../../../../config.jsx";
@@ -14,16 +14,23 @@ function GetRehearsalRoom() {
     const categories = ["Musikstudie", "Øvelokale", "andet"];
 
     // State variables
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Get page number from URL or default to 1
+    const queryParams = new URLSearchParams(location.search);
+    const initialPage = Number(queryParams.get('page')) || 1;
+
     const [rooms, setRooms] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(initialPage);
     const [noSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [location, setLocation] = useState('');
+    const [userLocation, setUserLocation] = useState('');
     const [priceRange, setPriceRange] = useState('');
     const [showFilters, setShowFilters] = useState(false); // State variable for filter visibility
     const itemsPerPage = 16;
@@ -34,8 +41,8 @@ function GetRehearsalRoom() {
             const url = new URL(apiEndpoint);
             url.searchParams.append('pageNumber', currentPage);
             url.searchParams.append('pageSize', itemsPerPage);
-            if (location) {
-                url.searchParams.append('location', location); // Append location to the URL
+            if (userLocation) { // Corrected condition
+                url.searchParams.append('location', userLocation); // Append location to the URL
             }
             if (priceRange) {
                 const [minPrice, maxPrice] = priceRange.split('-').map(Number); // Split the price range and convert to numbers
@@ -83,7 +90,14 @@ function GetRehearsalRoom() {
 
     useEffect(() => {
         fetchRooms();
-    }, [currentPage, location, priceRange]);
+    }, [currentPage, location, priceRange, userLocation]); // Added userLocation to the dependency array
+
+    useEffect(() => {
+        // Update the URL when page changes
+        const params = new URLSearchParams(location.search);
+        params.set('page', currentPage);
+        navigate(`?${params.toString()}`, { replace: true });
+    }, [currentPage, navigate]);
 
     // Fetch user ID from token
     useEffect(() => {
@@ -253,8 +267,8 @@ function GetRehearsalRoom() {
                         </select>
                     </div>
                     <div className="selector location-filter">
-                        <select name="location" value={location} onChange={(e) => {
-                            setLocation(e.target.value);
+                        <select name="location" value={userLocation} onChange={(e) => {
+                            setUserLocation(e.target.value);
                             setCurrentPage(1); // Reset to page 1 when changing the filter
                         }} required>
                             <option value="">Vælg placering</option>

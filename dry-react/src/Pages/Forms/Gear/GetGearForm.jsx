@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './GetGearForm.css';
 import SellIcon from '@mui/icons-material/Sell';
 import config from "../../../../config.jsx";
@@ -11,19 +11,38 @@ import Cookies from 'js-cookie';
 
 function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     // State variables
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Get page number from URL or default to 1
+    const queryParams = new URLSearchParams(location.search);
+    const initialPage = Number(queryParams.get('page')) || 1;
+
     const [gear, setGear] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(initialPage);
     const [noSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [location, setLocation] = useState('');
+    const [userLocation, setUserLocation] = useState('');
     const [priceRange, setPriceRange] = useState('');
     const [showFilters, setShowFilters] = useState(false);
     const itemsPerPage = 16;
+
+    // Determine the path for selling gear
+    const sellGearPath = gearType === "trommer"
+        ? "/SellDrumsGear"
+        : gearType === "studiegear"
+            ? "/SellStudioGear"
+            : gearType === "keys"
+                ? "/SellKeysGear"
+                : gearType === "strygere"
+                    ? "/SellStringsGear"
+                    : gearType === "blæseinstrumenter"
+                        ? "/SellHornsGear"
+                        : "/SellGuiBassGear";
 
     // Fetch gear data from API
     const fetchGear = async (search = false) => {
@@ -34,8 +53,8 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             if (selectedCategory) {
                 url.searchParams.append(gearTypeKey, selectedCategory);
             }
-            if (location) {
-                url.searchParams.append('location', location);
+            if (userLocation) {
+                url.searchParams.append('location', userLocation);
             }
             if (priceRange) {
                 const [minPrice, maxPrice] = priceRange.split('-').map(Number);
@@ -84,7 +103,18 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     // Fetch gear data when dependencies change
     useEffect(() => {
         fetchGear();
-    }, [apiEndpoint, currentPage, selectedCategory, location, priceRange]);
+    }, [apiEndpoint, currentPage, selectedCategory, userLocation, priceRange]);
+
+    useEffect(() => {
+        // Update the URL when page changes
+        const params = new URLSearchParams(location.search);
+        params.set('page', currentPage);
+        navigate(`?${params.toString()}`, { replace: true });
+    }, [currentPage, navigate]);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     // Fetch user ID from token
     useEffect(() => {
@@ -130,93 +160,6 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         fetchGear(true);
     };
 
-    // Handle search input change
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
-    };
-
-    // Handle image click to open modal
-    const handleImageClick = (src) => {
-        setSelectedImage(src);
-    };
-
-    // Close modal
-    const closeModal = () => {
-        setSelectedImage(null);
-    };
-
-    // Calculate total pages
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-    // Handle page change
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    // Handle toggle favorite
-    const handleToggleFavorite = async (gearId) => {
-        try {
-            if (!userId) throw new Error('User ID not found');
-
-            const gearItem = gear.find(item => item.id === gearId);
-            if (!gearItem) throw new Error('Gear item not found');
-
-            if (userId === gearItem.userId) {
-                alert('Du kan ikke tilføje egne produkter til favoritter');
-                return;
-            }
-
-            const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
-            const checkResponse = await fetch(checkUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!checkResponse.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const favorites = await checkResponse.json();
-            const isFavorite = favorites.some(favorite => favorite.musicGearId === gearId);
-
-            const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
-            url.searchParams.append('userId', userId);
-            url.searchParams.append('musicGearId', gearId);
-
-            const response = await fetch(url, {
-                method: isFavorite ? 'DELETE' : 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const responseBody = await response.text();
-            const favoriteData = responseBody ? JSON.parse(responseBody) : {};
-            console.log(isFavorite ? 'Favorite removed:' : 'Favorite added:', favoriteData);
-        } catch (error) {
-            console.error('Error toggling favorite:', error);
-        }
-    };
-
-    // Determine the path for selling gear
-    const sellGearPath = gearType === "trommer"
-        ? "/SellDrumsGear"
-        : gearType === "studiegear"
-            ? "/SellStudioGear"
-            : gearType === "keys"
-                ? "/SellKeysGear"
-                : gearType === "strygere"
-                    ? "/SellStringsGear"
-                    : gearType === "blæseinstrumenter"
-                        ? "/SellHornsGear"
-                        : "/SellGuiBassGear";
-
     // Filter gear based on selected category
     const filteredGear = selectedCategory
         ? gear.filter(item => item[gearTypeKey] === selectedCategory)
@@ -228,14 +171,14 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             <div className="sell-button-container">
                 <Link to={sellGearPath}>
                     <button className="sell-button">
-                        <SellIcon style={{marginRight: '5px'}}/>
+                        <SellIcon style={{ marginRight: '5px' }} />
                         Sælg {gearType}
                     </button>
                 </Link>
             </div>
             {/* Filter button */}
             <button onClick={() => setShowFilters(!showFilters)} className="filter-button">
-                Filtre <TuneIcon style={{marginLeft: '5px'}}/>
+                Filtre <TuneIcon style={{ marginLeft: '5px' }} />
             </button>
             {/* Filters */}
             {showFilters && (
@@ -246,7 +189,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                             name="search"
                             className="search-bar2"
                             value={searchQuery}
-                            onChange={handleSearchChange}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Søg efter brand, model etc."
                         />
                         <button className="search-button-small" onClick={handleSearch}>Søg</button>
@@ -254,7 +197,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                     <div className="selector category-filter">
                         <select value={selectedCategory} onChange={(e) => {
                             setSelectedCategory(e.target.value);
-                            setCurrentPage(1);
+                            setCurrentPage(1); // Reset to page 1 when changing the filter
                         }}>
                             <option value="">Alle kategorier</option>
                             {categories.map((category) => (
@@ -263,9 +206,9 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                         </select>
                     </div>
                     <div className="selector location-filter">
-                        <select name="location" value={location} onChange={(e) => {
-                            setLocation(e.target.value);
-                            setCurrentPage(1);
+                        <select name="location" value={userLocation} onChange={(e) => {
+                            setUserLocation(e.target.value);
+                            setCurrentPage(1); // Reset to page 1 when changing the filter
                         }} required>
                             <option value="">Vælg placering</option>
                             <option value="København og omegn">København og omegn</option>
@@ -284,7 +227,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                     <div className="selector price-filter">
                         <select name="priceRange" value={priceRange} onChange={(e) => {
                             setPriceRange(e.target.value);
-                            setCurrentPage(1);
+                            setCurrentPage(1); // Reset to page 1 when changing the filter
                         }} required>
                             <option value="">Vælg pris</option>
                             <option value="0-1000">0-1000 kr.</option>
@@ -298,34 +241,16 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                     </div>
                 </div>
             )}
-            {/* No search results message */}
+            {/* No search results */}
             {noSearchResults && <p>Fandt ingen match</p>}
-            {/* Gear list */}
+            {/* Gear List */}
             <div className="gear-card-container">
                 {filteredGear.map((item) => (
-                    <GearCard
-                        key={item.id}
-                        item={item}
-                        users={users}
-                        handleImageClick={handleImageClick}
-                        handleFavorite={handleToggleFavorite}
-                        userId={userId}
-                    />
+                    <GearCard key={item.id} item={item} users={users} handleImageClick={() => {}} userId={userId} />
                 ))}
             </div>
             {/* Pagination */}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
-            {/* Image modal */}
-            {selectedImage && (
-                <div className="modal" onClick={closeModal}>
-                    <span className="close">&times;</span>
-                    <img className="modal-content" src={selectedImage} alt="Large view"/>
-                </div>
-            )}
+            <Pagination currentPage={currentPage} totalPages={Math.ceil(totalItems / itemsPerPage)} onPageChange={handlePageChange} />
         </div>
     );
 }

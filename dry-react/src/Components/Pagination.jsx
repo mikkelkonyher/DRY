@@ -2,11 +2,7 @@ import PropTypes from 'prop-types';
 import './Pagination.css';
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
-    const pageNumbers = [];
-
-    for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-    }
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     return (
         <div className="pagination">

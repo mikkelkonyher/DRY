@@ -19,7 +19,7 @@ namespace DRYV1.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(
             int pageNumber = 1, 
-            int pageSize = 10, 
+            int pageSize = 16, 
             string query = null)
         {
             var queryable = _context.Forums.AsQueryable();

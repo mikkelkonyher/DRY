@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import GearCard from "../Forms/Gear/GearCard.jsx"; // Adjust the import path as necessary
 import Pagination from '../../Components/Pagination.jsx';
@@ -11,10 +11,16 @@ import './SearchResults.css';
 
 function SearchResults() {
     const location = useLocation();
+    const navigate = useNavigate();
+
+    // Get page number from URL or default to 1
+    const queryParams = new URLSearchParams(location.search);
+    const initialPage = Number(queryParams.get('page')) || 1;
+
     const [gear, setGear] = useState(location.state?.searchResults || []);
     const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(initialPage);
     const [totalItems, setTotalItems] = useState(0);
     const [errorMessage, setErrorMessage] = useState(location.state?.errorMessage || '');
     const [userId, setUserId] = useState(null);
@@ -85,6 +91,21 @@ function SearchResults() {
 
         fetchUserId();
     }, []);
+
+    useEffect(() => {
+        // Update the URL when page changes
+        const params = new URLSearchParams(location.search);
+        params.set('page', currentPage);
+        navigate(`?${params.toString()}`, { replace: true });
+    }, [currentPage, navigate]);
+
+    useEffect(() => {
+        // Set the initial page number in the URL if not present
+        if (!queryParams.get('page')) {
+            queryParams.set('page', initialPage);
+            navigate(`?${queryParams.toString()}`, { replace: true });
+        }
+    }, [initialPage, navigate, queryParams]);
 
     const handleImageClick = (src) => {
         setSelectedImage(src);
