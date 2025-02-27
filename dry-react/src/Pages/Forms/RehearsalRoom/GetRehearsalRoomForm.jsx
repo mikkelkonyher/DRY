@@ -24,7 +24,6 @@ function GetRehearsalRoom() {
     const [rooms, setRooms] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState({});
-    const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(initialPage);
     const [noSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
@@ -146,16 +145,6 @@ function GetRehearsalRoom() {
     // Handle search input change
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
-    };
-
-    // Handle image click to open modal
-    const handleImageClick = (src) => {
-        setSelectedImage(src);
-    };
-
-    // Close modal
-    const closeModal = () => {
-        setSelectedImage(null);
     };
 
     // Calculate total pages
@@ -309,7 +298,6 @@ function GetRehearsalRoom() {
                         key={item.id}
                         item={item}
                         users={users}
-                        handleImageClick={handleImageClick}
                         handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
                         userId={userId}
                     />
@@ -321,13 +309,6 @@ function GetRehearsalRoom() {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-            {/* Image modal */}
-            {selectedImage && (
-                <div className="modal" onClick={closeModal}>
-                    <span className="close">&times;</span>
-                    <img className="modal-content" src={selectedImage} alt="Large view"/>
-                </div>
-            )}
         </div>
     );
 }

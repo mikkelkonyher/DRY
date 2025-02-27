@@ -7,7 +7,7 @@ import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import config from "../../../../config.jsx";
 import './RehearsalRoomCard.css';
 
-function RehearsalRoomCard({ item, handleImageClick, userId }) {
+function RehearsalRoomCard({ item, userId }) {
     const [currentImageIndex] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
     const navigate = useNavigate();
@@ -89,14 +89,12 @@ function RehearsalRoomCard({ item, handleImageClick, userId }) {
             </button>
 
             <div className="image-container">
-
                 <img
                     src={item.imagePaths[currentImageIndex]}
                     alt={item.name}
                     className="gear-image fixed-size"
-                    onClick={(e) => { e.stopPropagation(); handleImageClick(item.imagePaths[currentImageIndex]); }}
+                    onClick={handleCardClick}
                 />
-
             </div>
         </div>
     );
