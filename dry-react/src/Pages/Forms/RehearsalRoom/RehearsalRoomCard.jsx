@@ -102,7 +102,6 @@ function RehearsalRoomCard({ item, userId }) {
 
 RehearsalRoomCard.propTypes = {
     item: PropTypes.object.isRequired,
-    handleImageClick: PropTypes.func.isRequired,
     userId: PropTypes.number, // Make userId optional
 };
 
