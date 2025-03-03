@@ -97,7 +97,7 @@ function CardDetails() {
         fetchGearItem();
     }, [id, userId]);
 
-    // Handle favorite button click
+
 // Handle favorite button click
     const handleFavoriteClick = async () => {
         if (!userId) {
