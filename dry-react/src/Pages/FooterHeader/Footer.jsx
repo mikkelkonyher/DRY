@@ -18,7 +18,7 @@ function Footer() {
                     </a>
 
                 </div>
-                <p className="footer-text">© {currentYear} GearNinja | Support@GearNinja.dk</p>
+                <p className="footer-text">© {currentYear} GearNinja | Gearninja@Gearninja.dk</p>
             </div>
 
         </footer>
