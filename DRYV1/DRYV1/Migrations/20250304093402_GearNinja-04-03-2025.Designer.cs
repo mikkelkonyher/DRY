@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DRYV1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250113105737_Initial")]
-    partial class Initial
+    [Migration("20250304093402_GearNinja-04-03-2025")]
+    partial class GearNinja04032025
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

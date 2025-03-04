@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DRYV1.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class GearNinja04032025 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
