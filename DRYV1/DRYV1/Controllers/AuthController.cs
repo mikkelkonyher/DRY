@@ -88,7 +88,7 @@ public class AuthController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return Redirect("https://gearninja.dk/login");
+        return Redirect("https://www.gearninja.dk/login");
     }
 
     [HttpPost("login")]
@@ -153,7 +153,7 @@ public class AuthController : ControllerBase
         }
 
         var token = _jwtService.GenerateToken(user);
-        var resetLink = $"http://localhost:5173/reset-password/{token}";
+        var resetLink = $"https://www.gearninja.dk/reset-password/{token}";
         await _emailService.SendEmailAsync(email, "Reset din adgangskode",
             $"Venligst nulstil din adgangskode ved at klikke <a href='{resetLink}'>her</a>.🥷");
 
