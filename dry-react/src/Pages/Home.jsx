@@ -75,7 +75,7 @@ function Home() {
         <div className="home-container">
             <div className="headline-container">
                 <h1 className="hero-text">
-                    Fra din dojo til en ny mester.
+                    Fra din dojo til en ny mester
                 </h1>
 
                 <p className="subheadline">
