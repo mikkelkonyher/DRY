@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("https://gearninja.dk")
+        builder.WithOrigins("https://www.gearninja.dk")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials();
@@ -81,9 +81,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
