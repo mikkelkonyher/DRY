@@ -1,5 +1,5 @@
 const config = {
-    apiBaseUrl: 'https://localhost:7064'
+    apiBaseUrl: 'https://gearninja-api-g8a6c8brfkcyc5bk.northeurope-01.azurewebsites.net'
 };
 
 export default config;
