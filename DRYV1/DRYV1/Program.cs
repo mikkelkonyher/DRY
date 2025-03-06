@@ -7,6 +7,15 @@ using AspNetCoreRateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load configuration from appsettings.json and environment variables
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables(); // <-- Load Azure App Service settings
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+                       ?? Environment.GetEnvironmentVariable("ConnectionStrings:DefaultConnection");
+
 // Add services to the container.
 builder.Services.AddSingleton<JwtService>();
 builder.Services.AddScoped<EmailService>();
@@ -19,7 +28,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:5173")
+        builder.WithOrigins("https://gearninja.dk")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials();
@@ -28,7 +37,7 @@ builder.Services.AddCors(options =>
 
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
 // Configure JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");

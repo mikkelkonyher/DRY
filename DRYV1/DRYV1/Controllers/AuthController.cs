@@ -88,7 +88,7 @@ public class AuthController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        return Redirect("http://localhost:5173/login");
+        return Redirect("https://gearninja.dk/login");
     }
 
     [HttpPost("login")]
