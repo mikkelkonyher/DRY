@@ -96,7 +96,7 @@ namespace DRYV1.Controllers
             };
 
             // Send email notification
-            var inboxUrl = "http://localhost:5173/inbox";
+            var inboxUrl = "https://www.gearninja.dk/inbox";
             var receiver = await _context.Users.FindAsync(messageCreateDTO.ReceiverId);
             if (receiver != null)
             {
