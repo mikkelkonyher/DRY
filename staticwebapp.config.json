@@ -2,9 +2,11 @@
   "routes": [
     {
       "route": "/*",
-      "serve": "/index.html",
+      "methods": [
+        "get"
+      ],
+      "rewrite": "/index.html",
       "statusCode": 200
     }
-
   ]
 }
