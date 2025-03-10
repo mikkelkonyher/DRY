@@ -5,6 +5,7 @@ import GearCard from "../Forms/Gear/GearCard.jsx"; // Adjust the import path as 
 import Pagination from '../../Components/Pagination.jsx';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
 import config from "../../../config.jsx";
 import Cookies from 'js-cookie';
 import './SearchResults.css';
@@ -26,9 +27,11 @@ function SearchResults() {
     const [totalItems, setTotalItems] = useState(0);
     const [errorMessage, setErrorMessage] = useState(location.state?.errorMessage || '');
     const [userId, setUserId] = useState(null);
+    const [loading, setLoading] = useState(false);
     const itemsPerPage = 16;
 
     const fetchGear = async (pageNumber = 1) => {
+        setLoading(true);
         try {
             const response = await fetch(
                 `${config.apiBaseUrl}/api/MusicGear/search?query=${encodeURIComponent(searchQuery)}&pageNumber=${pageNumber}&pageSize=${itemsPerPage}`
@@ -55,6 +58,8 @@ function SearchResults() {
         } catch (error) {
             console.error('Error fetching gear or users:', error);
             setErrorMessage('Fandt ingen match på søgning.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -180,7 +185,11 @@ function SearchResults() {
             <Typography className="search-results-title" variant="h5" sx={{ marginBottom: '20px', marginTop: '20px', textAlign: 'center' }}>
                 Søgeresultater:
             </Typography>
-            {errorMessage ? (
+            {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                    <CircularProgress />
+                </Box>
+            ) : errorMessage ? (
                 <Typography className="error-message" variant="h6" sx={{ color: 'red' }}>
                     {errorMessage}
                 </Typography>
