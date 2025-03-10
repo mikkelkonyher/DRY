@@ -133,6 +133,12 @@ function SearchResults() {
         });
     };
 
+    useEffect(() => {
+        if (searchQuery) {
+            fetchGear(currentPage);
+        }
+    }, [currentPage]);
+
     const handleToggleFavorite = async (gearId) => {
         try {
             if (!userId) throw new Error('User ID not found');
