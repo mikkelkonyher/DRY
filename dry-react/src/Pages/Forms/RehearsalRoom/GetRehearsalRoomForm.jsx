@@ -9,15 +9,12 @@ import TuneIcon from '@mui/icons-material/Tune';
 import Cookies from 'js-cookie';
 
 function GetRehearsalRoom() {
-    // Define API endpoint and categories directly
     const apiEndpoint = `${config.apiBaseUrl}/api/RehearsalRoom`;
     const categories = ["Musikstudie", "Øvelokale", "andet"];
 
-    // State variables
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Get query parameters from URL
     const queryParams = new URLSearchParams(location.search);
     const initialPage = Number(queryParams.get('page')) || 1;
     const initialCategory = queryParams.get('category') || '';
@@ -29,7 +26,7 @@ function GetRehearsalRoom() {
     const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
     const [users, setUsers] = useState({});
     const [currentPage, setCurrentPage] = useState(initialPage);
-    const [noSearchResults] = useState(false);
+    const [noSearchResults, setNoSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState(initialCategory);
@@ -38,16 +35,14 @@ function GetRehearsalRoom() {
     const [showFilters, setShowFilters] = useState(false);
     const itemsPerPage = 16;
 
-    // Fetch rehearsal room data from API
     const fetchRooms = async (search = false) => {
         try {
             const url = new URL(apiEndpoint);
             url.searchParams.append('pageNumber', currentPage);
             url.searchParams.append('pageSize', itemsPerPage);
 
-            // Add filters to the URL if they are set
             if (selectedCategory) {
-                url.searchParams.append('type', selectedCategory);
+                url.searchParams.append('query', selectedCategory);
             }
             if (userLocation) {
                 url.searchParams.append('location', userLocation);
@@ -80,8 +75,8 @@ function GetRehearsalRoom() {
             const sortedData = data.items.sort((a, b) => b.id - a.id);
             setRooms(sortedData);
             setTotalItems(data.totalItems);
+            setNoSearchResults(data.items.length === 0);
 
-            // Fetch users for room cards
             const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
             if (!userResponse.ok) {
                 throw new Error('Network response was not ok');
@@ -97,12 +92,10 @@ function GetRehearsalRoom() {
         }
     };
 
-    // Fetch rooms when filters or page change
     useEffect(() => {
         fetchRooms();
     }, [currentPage, selectedCategory, userLocation, priceRange, searchQuery]);
 
-    // Update the URL when filters or page change
     useEffect(() => {
         const params = new URLSearchParams();
         params.set('page', currentPage);
@@ -114,7 +107,6 @@ function GetRehearsalRoom() {
         navigate(`?${params.toString()}`, { replace: true });
     }, [currentPage, selectedCategory, userLocation, priceRange, searchQuery, navigate]);
 
-    // Fetch user ID from token
     useEffect(() => {
         const fetchUserId = async () => {
             try {
@@ -147,37 +139,30 @@ function GetRehearsalRoom() {
         fetchUserId();
     }, []);
 
-    // Scroll to top when currentPage changes
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
 
-    // Handle search button click
     const handleSearch = () => {
         setCurrentPage(1);
         fetchRooms(true);
     };
 
-    // Handle search input change
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    // Calculate total pages
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-    // Handle page change
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    // Handle filter change
     const handleFilterChange = (setter) => (event) => {
         setter(event.target.value);
         setCurrentPage(1);
     };
 
-    // Handle toggle favorite
     const handleToggleFavorite = async (roomId) => {
         try {
             if (!userId) throw new Error('User ID not found');
@@ -228,14 +213,8 @@ function GetRehearsalRoom() {
         }
     };
 
-    // Filter rooms based on selected category
-    const filteredRooms = selectedCategory
-        ? rooms.filter(item => item.type === selectedCategory)
-        : rooms;
-
     return (
         <div>
-            {/* Sell button */}
             <div className="sell-button-container">
                 <Link to="/CreateRehearsalRoom">
                     <button className="sell-button">
@@ -244,11 +223,9 @@ function GetRehearsalRoom() {
                     </button>
                 </Link>
             </div>
-            {/* Filter button */}
             <button onClick={() => setShowFilters(!showFilters)} className="filter-button">
                 Filtre <TuneIcon style={{ marginLeft: '5px' }} />
             </button>
-            {/* Filters */}
             {showFilters && (
                 <div className="selector-container">
                     <div className="search-bar2">
@@ -298,11 +275,9 @@ function GetRehearsalRoom() {
                     </div>
                 </div>
             )}
-            {/* No search results message */}
             {noSearchResults && <p>Fandt ingen match</p>}
-            {/* Room list */}
             <div className="gear-card-container">
-                {filteredRooms.map((item) => (
+                {rooms.map((item) => (
                     <RehearsalRoomCard
                         key={item.id}
                         item={item}
@@ -312,7 +287,6 @@ function GetRehearsalRoom() {
                     />
                 ))}
             </div>
-            {/* Pagination */}
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
