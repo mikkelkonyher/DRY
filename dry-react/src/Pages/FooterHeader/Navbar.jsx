@@ -75,7 +75,7 @@ function ResponsiveAppBar() {
     const handleSearchSubmit = async (event) => {
         event.preventDefault();
         const pageNumber = 1;
-        const pageSize = 10;
+        const pageSize = 16;
 
         try {
             // Navigate to the search results page with the search query in the URL
