@@ -13,9 +13,10 @@ function SearchResults() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Get page number from URL or default to 1
+    // Get page number and search query from URL or default to 1 and empty string
     const queryParams = new URLSearchParams(location.search);
     const initialPage = Number(queryParams.get('page')) || 1;
+    const initialQuery = queryParams.get('query') || '';
 
     const [gear, setGear] = useState(location.state?.searchResults || []);
     const [users, setUsers] = useState({});
@@ -26,9 +27,8 @@ function SearchResults() {
     const [userId, setUserId] = useState(null);
     const itemsPerPage = 16;
 
-    const fetchGear = async (pageNumber = 1) => {
+    const fetchGear = async (pageNumber = 1, searchQuery = '') => {
         try {
-            const searchQuery = location.state?.searchQuery || '';
             const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/search?query=${searchQuery}&pageNumber=${pageNumber}&pageSize=${itemsPerPage}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -48,6 +48,12 @@ function SearchResults() {
                 return acc;
             }, {});
             setUsers(userMap);
+
+            // Update the URL with the search query and page number
+            const params = new URLSearchParams(location.search);
+            params.set('query', searchQuery);
+            params.set('page', pageNumber);
+            navigate(`?${params.toString()}`, { replace: true });
         } catch (error) {
             console.error('Error fetching gear or users:', error);
             setErrorMessage('Fandt ingen match på søgning.');
@@ -55,10 +61,10 @@ function SearchResults() {
     };
 
     useEffect(() => {
-        if (location.state?.searchQuery) {
-            fetchGear(currentPage);
+        if (initialQuery) {
+            fetchGear(currentPage, initialQuery);
         }
-    }, [location.state, currentPage]);
+    }, [initialQuery, currentPage]);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -100,12 +106,16 @@ function SearchResults() {
     }, [currentPage, navigate]);
 
     useEffect(() => {
-        // Set the initial page number in the URL if not present
+        // Set the initial page number and search query in the URL if not present
         if (!queryParams.get('page')) {
             queryParams.set('page', initialPage);
             navigate(`?${queryParams.toString()}`, { replace: true });
         }
-    }, [initialPage, navigate, queryParams]);
+        if (!queryParams.get('query')) {
+            queryParams.set('query', initialQuery);
+            navigate(`?${queryParams.toString()}`, { replace: true });
+        }
+    }, [initialPage, initialQuery, navigate, queryParams]);
 
     const handleImageClick = (src) => {
         setSelectedImage(src);
