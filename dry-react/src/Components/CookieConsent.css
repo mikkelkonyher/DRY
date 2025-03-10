@@ -16,7 +16,6 @@
     border-radius: 5px;
 }
 
-
 .cookie-consent-banner p {
     margin: 0;
     padding: 0 10px;
@@ -25,7 +24,6 @@
 }
 
 .cookie-consent-banner button {
-
     padding: 10px 20px;
     background-color: #4071f4;
     color: white;
@@ -38,4 +36,21 @@
 
 .cookie-consent-banner button:hover {
     background-color: #3f8cff;
+}
+
+/* Media query for small screens */
+@media (max-width: 600px) {
+    .cookie-consent-banner {
+        width: 90%; /* Adjust width for small screens */
+        padding: 10px; /* Adjust padding for small screens */
+    }
+
+    .cookie-consent-banner p {
+        font-size: 0.9em; /* Adjust font size for small screens */
+    }
+
+    .cookie-consent-banner button {
+        padding: 8px 16px; /* Adjust button padding for small screens */
+        font-size: 0.9em; /* Adjust button font size for small screens */
+    }
 }
