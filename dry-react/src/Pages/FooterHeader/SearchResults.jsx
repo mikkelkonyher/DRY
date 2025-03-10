@@ -13,8 +13,10 @@ function SearchResults() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Get page number from URL or default to 1
+    // Get search query and page number from URL or state
     const queryParams = new URLSearchParams(location.search);
+    const searchQueryFromURL = queryParams.get('query') || '';
+    const searchQuery = location.state?.searchQuery || searchQueryFromURL;
     const initialPage = Number(queryParams.get('page')) || 1;
 
     const [gear, setGear] = useState(location.state?.searchResults || []);
@@ -28,8 +30,9 @@ function SearchResults() {
 
     const fetchGear = async (pageNumber = 1) => {
         try {
-            const searchQuery = location.state?.searchQuery || '';
-            const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/search?query=${searchQuery}&pageNumber=${pageNumber}&pageSize=${itemsPerPage}`);
+            const response = await fetch(
+                `${config.apiBaseUrl}/api/MusicGear/search?query=${encodeURIComponent(searchQuery)}&pageNumber=${pageNumber}&pageSize=${itemsPerPage}`
+            );
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -38,6 +41,7 @@ function SearchResults() {
             setTotalItems(data.totalItems);
             setErrorMessage(data.items.length === 0 ? 'Fandt ingen match på søgning' : '');
 
+            // Fetch users for gear cards
             const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
             if (!userResponse.ok) {
                 throw new Error('Network response was not ok');
@@ -55,42 +59,10 @@ function SearchResults() {
     };
 
     useEffect(() => {
-        if (location.state?.searchQuery) {
+        if (searchQuery) {
             fetchGear(currentPage);
         }
-    }, [location.state, currentPage]);
-
-    useEffect(() => {
-        const fetchUserId = async () => {
-            try {
-                const token = Cookies.get('AuthToken');
-                if (!token) return; // Exit if no token is found
-
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                const email = payload.sub;
-                if (!email) throw new Error('Email not found in token');
-
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
-                    headers: {
-                        'accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (!userResponse.ok) throw new Error('Failed to fetch users');
-
-                const users = await userResponse.json();
-                const user = users.find(user => user.email === email);
-                if (!user) throw new Error('User not found');
-
-                setUserId(user.id);
-            } catch (error) {
-                console.error('Error fetching user ID:', error);
-            }
-        };
-
-        fetchUserId();
-    }, []);
+    }, [searchQuery, currentPage]);
 
     useEffect(() => {
         // Update the URL when page changes
@@ -106,6 +78,38 @@ function SearchResults() {
             navigate(`?${queryParams.toString()}`, { replace: true });
         }
     }, [initialPage, navigate, queryParams]);
+
+    useEffect(() => {
+        const fetchUserId = async () => {
+            try {
+                const token = Cookies.get('AuthToken');
+                if (!token) return; // Exit if no token is found
+
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const email = payload.sub;
+                if (!email) throw new Error('Email not found in token');
+
+                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
+                    headers: {
+                        'accept': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (!userResponse.ok) throw new Error('Failed to fetch users');
+
+                const users = await userResponse.json();
+                const user = users.find((user) => user.email === email);
+                if (!user) throw new Error('User not found');
+
+                setUserId(user.id);
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+            }
+        };
+
+        fetchUserId();
+    }, []);
 
     const handleImageClick = (src) => {
         setSelectedImage(src);
@@ -133,7 +137,7 @@ function SearchResults() {
         try {
             if (!userId) throw new Error('User ID not found');
 
-            const gearItem = gear.find(item => item.id === gearId);
+            const gearItem = gear.find((item) => item.id === gearId);
             if (!gearItem) throw new Error('Gear item not found');
 
             if (userId === gearItem.userId) {
@@ -154,7 +158,7 @@ function SearchResults() {
             }
 
             const favorites = await checkResponse.json();
-            const isFavorite = favorites.some(favorite => favorite.musicGearId === gearId);
+            const isFavorite = favorites.some((favorite) => favorite.musicGearId === gearId);
 
             const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
             url.searchParams.append('userId', userId);
@@ -197,7 +201,7 @@ function SearchResults() {
                                 item={item}
                                 users={users}
                                 handleImageClick={handleImageClick}
-                                handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
+                                handleFavorite={handleToggleFavorite}
                                 userId={userId}
                             />
                         ))

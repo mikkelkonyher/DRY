@@ -76,21 +76,33 @@ function ResponsiveAppBar() {
         event.preventDefault();
         const pageNumber = 1;
         const pageSize = 10;
+
         try {
-            navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: '' } });
+            // Navigate to the search results page with the search query in the URL
+            navigate(`/search-results?query=${encodeURIComponent(searchQuery)}&page=${pageNumber}`, {
+                state: { searchResults: [], searchQuery, errorMessage: '' },
+            });
+
             const response = await axios.get(`${config.apiBaseUrl}/api/MusicGear/search`, {
                 params: {
                     query: searchQuery,
                     pageNumber: pageNumber,
-                    pageSize: pageSize
-                }
+                    pageSize: pageSize,
+                },
             });
+
             console.log('API Response:', response.data);
             const searchResults = response.data;
-            navigate('/search-results', { state: { searchResults, searchQuery } });
+
+            // Navigate to the search results page with the search results and query in the state
+            navigate(`/search-results?query=${encodeURIComponent(searchQuery)}&page=${pageNumber}`, {
+                state: { searchResults, searchQuery },
+            });
         } catch (error) {
             console.error('Error fetching search results:', error);
-            navigate('/search-results', { state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match.' } });
+            navigate(`/search-results?query=${encodeURIComponent(searchQuery)}&page=${pageNumber}`, {
+                state: { searchResults: [], searchQuery, errorMessage: 'Fandt ingen match.' },
+            });
         }
     };
 
