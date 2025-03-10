@@ -10,24 +10,28 @@ import TuneIcon from '@mui/icons-material/Tune';
 import Cookies from 'js-cookie';
 
 function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
-    // State variables
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Get page number from URL or default to 1
+    // Get query parameters from URL
     const queryParams = new URLSearchParams(location.search);
     const initialPage = Number(queryParams.get('page')) || 1;
+    const initialCategory = queryParams.get('category') || '';
+    const initialLocation = queryParams.get('location') || '';
+    const initialPriceRange = queryParams.get('priceRange') || '';
+    const initialSearchQuery = queryParams.get('query') || '';
 
+    // State variables
     const [gear, setGear] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
     const [users, setUsers] = useState({});
     const [currentPage, setCurrentPage] = useState(initialPage);
     const [noSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [userLocation, setUserLocation] = useState('');
-    const [priceRange, setPriceRange] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+    const [userLocation, setUserLocation] = useState(initialLocation);
+    const [priceRange, setPriceRange] = useState(initialPriceRange);
     const [showFilters, setShowFilters] = useState(false);
     const itemsPerPage = 16;
 
@@ -50,6 +54,8 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             const url = new URL(apiEndpoint);
             url.searchParams.append('pageNumber', currentPage);
             url.searchParams.append('pageSize', itemsPerPage);
+
+            // Add filters to the URL if they are set
             if (selectedCategory) {
                 url.searchParams.append(gearTypeKey, selectedCategory);
             }
@@ -85,6 +91,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             setGear(sortedData);
             setTotalItems(data.totalItems);
 
+            // Fetch users for gear cards
             const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
             if (!userResponse.ok) {
                 throw new Error('Network response was not ok');
@@ -103,15 +110,21 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     // Fetch gear data when dependencies change
     useEffect(() => {
         fetchGear();
-    }, [apiEndpoint, currentPage, selectedCategory, userLocation, priceRange]);
+    }, [apiEndpoint, currentPage, selectedCategory, userLocation, priceRange, searchQuery]);
 
+    // Update the URL when filters or page change
     useEffect(() => {
-        // Update the URL when page changes
-        const params = new URLSearchParams(location.search);
+        const params = new URLSearchParams();
         params.set('page', currentPage);
-        navigate(`?${params.toString()}`, { replace: true });
-    }, [currentPage, navigate]);
+        if (selectedCategory) params.set('category', selectedCategory);
+        if (userLocation) params.set('location', userLocation);
+        if (priceRange) params.set('priceRange', priceRange);
+        if (searchQuery) params.set('query', searchQuery);
 
+        navigate(`?${params.toString()}`, { replace: true });
+    }, [currentPage, selectedCategory, userLocation, priceRange, searchQuery, navigate]);
+
+    // Handle page change
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -165,6 +178,12 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         ? gear.filter(item => item[gearTypeKey] === selectedCategory)
         : gear;
 
+    // Handle filter change
+    const handleFilterChange = (setter) => (event) => {
+        setter(event.target.value);
+        setCurrentPage(1);
+    };
+
     return (
         <div>
             {/* Sell button */}
@@ -189,16 +208,13 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                             name="search"
                             className="search-bar2"
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={handleFilterChange(setSearchQuery)}
                             placeholder="Søg efter brand, model etc."
                         />
                         <button className="search-button-small" onClick={handleSearch}>Søg</button>
                     </div>
                     <div className="selector category-filter">
-                        <select value={selectedCategory} onChange={(e) => {
-                            setSelectedCategory(e.target.value);
-                            setCurrentPage(1); // Reset to page 1 when changing the filter
-                        }}>
+                        <select value={selectedCategory} onChange={handleFilterChange(setSelectedCategory)}>
                             <option value="">Alle kategorier</option>
                             {categories.map((category) => (
                                 <option key={category} value={category}>{category}</option>
@@ -206,10 +222,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                         </select>
                     </div>
                     <div className="selector location-filter">
-                        <select name="location" value={userLocation} onChange={(e) => {
-                            setUserLocation(e.target.value);
-                            setCurrentPage(1); // Reset to page 1 when changing the filter
-                        }} required>
+                        <select name="location" value={userLocation} onChange={handleFilterChange(setUserLocation)} required>
                             <option value="">Vælg placering</option>
                             <option value="København og omegn">København og omegn</option>
                             <option value="Aarhus">Aarhus</option>
@@ -225,10 +238,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                         </select>
                     </div>
                     <div className="selector price-filter">
-                        <select name="priceRange" value={priceRange} onChange={(e) => {
-                            setPriceRange(e.target.value);
-                            setCurrentPage(1); // Reset to page 1 when changing the filter
-                        }} required>
+                        <select name="priceRange" value={priceRange} onChange={handleFilterChange(setPriceRange)} required>
                             <option value="">Vælg pris</option>
                             <option value="0-1000">0-1000 kr.</option>
                             <option value="1000-5000">1000-5000 kr.</option>

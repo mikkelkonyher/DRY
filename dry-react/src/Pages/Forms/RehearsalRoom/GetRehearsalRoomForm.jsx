@@ -17,21 +17,25 @@ function GetRehearsalRoom() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Get page number from URL or default to 1
+    // Get query parameters from URL
     const queryParams = new URLSearchParams(location.search);
     const initialPage = Number(queryParams.get('page')) || 1;
+    const initialCategory = queryParams.get('category') || '';
+    const initialLocation = queryParams.get('location') || '';
+    const initialPriceRange = queryParams.get('priceRange') || '';
+    const initialSearchQuery = queryParams.get('query') || '';
 
     const [rooms, setRooms] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
     const [users, setUsers] = useState({});
     const [currentPage, setCurrentPage] = useState(initialPage);
     const [noSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [userLocation, setUserLocation] = useState('');
-    const [priceRange, setPriceRange] = useState('');
-    const [showFilters, setShowFilters] = useState(false); // State variable for filter visibility
+    const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+    const [userLocation, setUserLocation] = useState(initialLocation);
+    const [priceRange, setPriceRange] = useState(initialPriceRange);
+    const [showFilters, setShowFilters] = useState(false);
     const itemsPerPage = 16;
 
     // Fetch rehearsal room data from API
@@ -40,11 +44,16 @@ function GetRehearsalRoom() {
             const url = new URL(apiEndpoint);
             url.searchParams.append('pageNumber', currentPage);
             url.searchParams.append('pageSize', itemsPerPage);
-            if (userLocation) { // Corrected condition
-                url.searchParams.append('location', userLocation); // Append location to the URL
+
+            // Add filters to the URL if they are set
+            if (selectedCategory) {
+                url.searchParams.append('type', selectedCategory);
+            }
+            if (userLocation) {
+                url.searchParams.append('location', userLocation);
             }
             if (priceRange) {
-                const [minPrice, maxPrice] = priceRange.split('-').map(Number); // Split the price range and convert to numbers
+                const [minPrice, maxPrice] = priceRange.split('-').map(Number);
                 if (minPrice) {
                     url.searchParams.append('minPrice', minPrice);
                 }
@@ -62,7 +71,7 @@ function GetRehearsalRoom() {
             }
             const data = await response.json();
 
-            console.log('API response:', data); // Log the response to debug
+            console.log('API response:', data);
 
             if (!data.items) {
                 throw new Error('items property is undefined');
@@ -72,6 +81,7 @@ function GetRehearsalRoom() {
             setRooms(sortedData);
             setTotalItems(data.totalItems);
 
+            // Fetch users for room cards
             const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
             if (!userResponse.ok) {
                 throw new Error('Network response was not ok');
@@ -87,23 +97,29 @@ function GetRehearsalRoom() {
         }
     };
 
+    // Fetch rooms when filters or page change
     useEffect(() => {
         fetchRooms();
-    }, [currentPage, location, priceRange, userLocation]); // Added userLocation to the dependency array
+    }, [currentPage, selectedCategory, userLocation, priceRange, searchQuery]);
 
+    // Update the URL when filters or page change
     useEffect(() => {
-        // Update the URL when page changes
-        const params = new URLSearchParams(location.search);
+        const params = new URLSearchParams();
         params.set('page', currentPage);
+        if (selectedCategory) params.set('category', selectedCategory);
+        if (userLocation) params.set('location', userLocation);
+        if (priceRange) params.set('priceRange', priceRange);
+        if (searchQuery) params.set('query', searchQuery);
+
         navigate(`?${params.toString()}`, { replace: true });
-    }, [currentPage, navigate]);
+    }, [currentPage, selectedCategory, userLocation, priceRange, searchQuery, navigate]);
 
     // Fetch user ID from token
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const token = Cookies.get('AuthToken');
-                if (!token) return; // Exit if no token is found
+                if (!token) return;
 
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const email = payload.sub;
@@ -138,7 +154,7 @@ function GetRehearsalRoom() {
 
     // Handle search button click
     const handleSearch = () => {
-        setCurrentPage(1); // Set current page to 1 before fetching search results
+        setCurrentPage(1);
         fetchRooms(true);
     };
 
@@ -155,22 +171,25 @@ function GetRehearsalRoom() {
         setCurrentPage(pageNumber);
     };
 
+    // Handle filter change
+    const handleFilterChange = (setter) => (event) => {
+        setter(event.target.value);
+        setCurrentPage(1);
+    };
+
     // Handle toggle favorite
     const handleToggleFavorite = async (roomId) => {
         try {
             if (!userId) throw new Error('User ID not found');
 
-            // Find the room item by roomId
             const roomItem = rooms.find(item => item.id === roomId);
             if (!roomItem) throw new Error('Room item not found');
 
-            // Prevent favoriting own created cards
             if (userId === roomItem.userId) {
                 alert('Du kan ikke tilføje egne produkter til favoritter');
                 return;
             }
 
-            // Check if the item is already a favorite
             const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
             const checkResponse = await fetch(checkUrl, {
                 method: 'GET',
@@ -186,7 +205,6 @@ function GetRehearsalRoom() {
             const favorites = await checkResponse.json();
             const isFavorite = favorites.some(favorite => favorite.rehearsalRoomId === roomId);
 
-            // Toggle favorite
             const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
             url.searchParams.append('userId', userId);
             url.searchParams.append('rehearsalRoomId', roomId);
@@ -221,14 +239,14 @@ function GetRehearsalRoom() {
             <div className="sell-button-container">
                 <Link to="/CreateRehearsalRoom">
                     <button className="sell-button">
-                        <SellIcon style={{marginRight: '5px'}}/>
+                        <SellIcon style={{ marginRight: '5px' }} />
                         Udlej øvelokale/musikstudie
                     </button>
                 </Link>
             </div>
             {/* Filter button */}
             <button onClick={() => setShowFilters(!showFilters)} className="filter-button">
-                Filtre <TuneIcon style={{marginLeft: '5px'}}/>
+                Filtre <TuneIcon style={{ marginLeft: '5px' }} />
             </button>
             {/* Filters */}
             {showFilters && (
@@ -239,16 +257,13 @@ function GetRehearsalRoom() {
                             name="search"
                             className="search-bar2"
                             value={searchQuery}
-                            onChange={handleSearchChange}
+                            onChange={handleFilterChange(setSearchQuery)}
                             placeholder="Søg efter adresse, størrelse, lokaletype etc..."
                         />
                         <button className="search-button-small" onClick={handleSearch}>Søg</button>
                     </div>
                     <div className="selector category-filter">
-                        <select value={selectedCategory} onChange={(e) => {
-                            setSelectedCategory(e.target.value);
-                            setCurrentPage(1); // Reset to page 1 when changing the filter
-                        }}>
+                        <select value={selectedCategory} onChange={handleFilterChange(setSelectedCategory)}>
                             <option value="">Alle kategorier</option>
                             {categories.map((category) => (
                                 <option key={category} value={category}>{category}</option>
@@ -256,10 +271,7 @@ function GetRehearsalRoom() {
                         </select>
                     </div>
                     <div className="selector location-filter">
-                        <select name="location" value={userLocation} onChange={(e) => {
-                            setUserLocation(e.target.value);
-                            setCurrentPage(1); // Reset to page 1 when changing the filter
-                        }} required>
+                        <select name="location" value={userLocation} onChange={handleFilterChange(setUserLocation)} required>
                             <option value="">Vælg placering</option>
                             <option value="København og omegn">København og omegn</option>
                             <option value="Aarhus">Aarhus</option>
@@ -273,10 +285,7 @@ function GetRehearsalRoom() {
                         </select>
                     </div>
                     <div className="selector price-filter">
-                        <select name="priceRange" value={priceRange} onChange={(e) => {
-                            setPriceRange(e.target.value);
-                            setCurrentPage(1); // Reset to page 1 when changing the filter
-                        }} required>
+                        <select name="priceRange" value={priceRange} onChange={handleFilterChange(setPriceRange)} required>
                             <option value="">Vælg pris</option>
                             <option value="0-1000">0-1000 kr.</option>
                             <option value="1000-5000">1000-5000 kr.</option>
@@ -298,7 +307,7 @@ function GetRehearsalRoom() {
                         key={item.id}
                         item={item}
                         users={users}
-                        handleFavorite={handleToggleFavorite} // Pass handleToggleFavorite here
+                        handleFavorite={handleToggleFavorite}
                         userId={userId}
                     />
                 ))}
