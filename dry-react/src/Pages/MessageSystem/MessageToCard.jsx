@@ -8,6 +8,7 @@ const MessageToCard = ({ senderId, receiverId, brand, model }) => {
     const [subject, setSubject] = useState(`${brand} ${model}`);
     const [message, setMessage] = useState('');
     const [status, setStatus] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
@@ -30,6 +31,8 @@ const MessageToCard = ({ senderId, receiverId, brand, model }) => {
             content: message
         };
 
+        setLoading(true);
+
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Messages`, {
                 method: 'POST',
@@ -50,6 +53,8 @@ const MessageToCard = ({ senderId, receiverId, brand, model }) => {
         } catch (error) {
             console.error('Error:', error);
             setStatus('Error sending message');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -67,7 +72,9 @@ const MessageToCard = ({ senderId, receiverId, brand, model }) => {
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Skriv privat besked til sælger..."
                 />
-                <button type="submit3">Send</button>
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Indlæser...' : 'Send'}
+                </button>
             </form>
             {status && <p>{status}</p>}
         </div>

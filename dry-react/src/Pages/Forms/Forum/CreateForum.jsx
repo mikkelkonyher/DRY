@@ -10,6 +10,7 @@ const CreateForum = () => {
     const [userId, setUserId] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [charCount, setCharCount] = useState(0);
+    const [loading, setLoading] = useState(false);
     const maxChars = 8000;
 
     useEffect(() => {
@@ -54,6 +55,7 @@ const CreateForum = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const formData = new FormData();
         formData.append('Subject', subject);
         formData.append('Body', body);
@@ -80,6 +82,8 @@ const CreateForum = () => {
             setCharCount(0);
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -95,7 +99,6 @@ const CreateForum = () => {
                 <form className="createPostForm" onSubmit={handleSubmit}>
                     {successMessage && <div className="success-message">{successMessage}</div>}
                     <div>
-
                         <input
                             type="text"
                             id="subject"
@@ -106,7 +109,6 @@ const CreateForum = () => {
                         />
                     </div>
                     <div>
-
                         <textarea
                             id="body"
                             className="body-textarea"
@@ -118,7 +120,9 @@ const CreateForum = () => {
                         />
                         <div>{charCount}/{maxChars} characters</div>
                     </div>
-                    <button className="postForumButton" type="submit">Opret opslag</button>
+                    <button className="postForumButton" type="submit" disabled={loading}>
+                        {loading ? 'Indlæser...' : 'Opret opslag'}
+                    </button>
                 </form>
             </div>
         </div>

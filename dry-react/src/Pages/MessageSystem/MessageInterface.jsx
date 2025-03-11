@@ -9,6 +9,7 @@ const MessageInterface = () => {
     const [userId, setUserId] = useState(null);
     const [newMessage, setNewMessage] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
 
     // Fetch user ID from token
@@ -130,9 +131,12 @@ const MessageInterface = () => {
         e.preventDefault();
         if (!newMessage.trim()) return;
 
+        setLoading(true);
+
         const selectedChatData = chats.find(chat => chat.id === selectedChat);
         if (!selectedChatData) {
             setError('Selected chat does not exist.');
+            setLoading(false);
             return;
         }
 
@@ -173,6 +177,8 @@ const MessageInterface = () => {
             }
         } catch (error) {
             console.error('Error sending message:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -240,17 +246,19 @@ const MessageInterface = () => {
                     <div className="chat-box">
                         <button className="back-button" onClick={() => setSelectedChat(null)}>Tilbage til indbakke</button>
                         <div className="messages">
-                            {chats.find(chat => chat.id === selectedChat).messages.map(message => (
-                                <div
-                                    key={message.id}
-                                    className={`message ${message.senderId === userId ? 'sent' : 'received'}`}
-                                >
-                                    <strong>{message.senderUsername || 'Deleted user'}:</strong> <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>{message.content}</pre>
-                                    <div className="dateTimeMessage" style={{ fontSize: '0.8em' }}>
-                                        {new Date(message.timestamp).toLocaleString()}
+                            {chats.find(chat => chat.id === selectedChat).messages
+                                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                                .map(message => (
+                                    <div
+                                        key={message.id}
+                                        className={`message ${message.senderId === userId ? 'sent' : 'received'}`}
+                                    >
+                                        <strong>{message.senderUsername || 'Deleted user'}:</strong> <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>{message.content}</pre>
+                                        <div className="dateTimeMessage" style={{ fontSize: '0.8em' }}>
+                                            {new Date(message.timestamp).toLocaleString()}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
                             <div ref={messagesEndRef} />
                         </div>
                         <form className="message-form" onSubmit={handleSendMessage}>
@@ -259,7 +267,9 @@ const MessageInterface = () => {
                                 onChange={(e) => setNewMessage(e.target.value)}
                                 placeholder="Skriv besked..."
                             />
-                            <button type="submit">Send</button>
+                            <button type="submit" disabled={loading}>
+                                {loading ? 'Indlæser...' : 'Send'}
+                            </button>
                         </form>
                         {error && <p className="error-message">{error}</p>}
                     </div>
