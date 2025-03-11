@@ -187,7 +187,7 @@ function Signup() {
                             8. Lovgivning<br />
                             Disse vilkår og betingelser er underlagt dansk lovgivning, og eventuelle tvister skal afgøres ved domstolene i Danmark.<br /><br />
                             9. Kontakt<br />
-                            Hvis du har spørgsmål til disse vilkår og betingelser, kan du kontakte GearNinja.dk på Support@GearNinja.dk.
+                            Hvis du har spørgsmål til disse vilkår og betingelser, kan du kontakte GearNinja.dk på Gearninja@GearNinja.dk.
                         </p>
                     </div>
                 </div>
