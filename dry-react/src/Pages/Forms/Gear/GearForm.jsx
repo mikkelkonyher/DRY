@@ -61,6 +61,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     // Fetch user ID
     useEffect(() => {
@@ -174,14 +175,17 @@ function GearForm({ gearType, categories, apiEndpoint }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const token = Cookies.get('AuthToken');
         if (!token) {
             setErrorMessage('Login for at oprette et produkt');
+            setLoading(false);
             return;
         }
 
         if (imageFiles.length === 0) {
             setErrorMessage('Du skal uploade mindst ét billede.');
+            setLoading(false);
             return;
         }
 
@@ -257,6 +261,8 @@ function GearForm({ gearType, categories, apiEndpoint }) {
             setErrorMessage('');
         } catch (error) {
             console.error('Fejl ved oprettelse af gear:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -344,7 +350,9 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     </div>
 
                     <div className="parent-div">
-                        <button type="submit" className="submitproduct-button">Opret artikel</button>
+                        <button type="submit" className="submitproduct-button" disabled={loading}>
+                            {loading ? 'Indlæser...' : 'Opret artikel'}
+                        </button>
                     </div>
                 </form>
             </div>

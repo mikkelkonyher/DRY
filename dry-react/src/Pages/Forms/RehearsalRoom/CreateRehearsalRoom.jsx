@@ -63,6 +63,7 @@ function CreateRehearsalRoom() {
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -171,14 +172,17 @@ function CreateRehearsalRoom() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const token = Cookies.get('AuthToken');
         if (!token) {
             setErrorMessage('Login for at oprette et produkt');
+            setLoading(false);
             return;
         }
 
         if (imageFiles.length === 0) {
             setErrorMessage('Du skal uploade mindst ét billede.');
+            setLoading(false);
             return;
         }
 
@@ -226,6 +230,8 @@ function CreateRehearsalRoom() {
             setErrorMessage('');
         } catch (error) {
             console.error('Fejl ved oprettelse af øvelokale:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -303,7 +309,9 @@ function CreateRehearsalRoom() {
                         ))}
                     </div>
 
-                    <button type="submit">Opret lokale</button>
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Indlæser...' : 'Opret lokale'}
+                    </button>
                 </form>
             </div>
         </DndProvider>
