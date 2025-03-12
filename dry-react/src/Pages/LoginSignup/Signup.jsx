@@ -16,6 +16,7 @@ function Signup() {
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const modalRef = useRef(null);
 
     const handleChange = (e) => {
@@ -45,6 +46,8 @@ function Signup() {
             return;
         }
 
+        setLoading(true);
+
         try {
             const signupResponse = await fetch(`${config.apiBaseUrl}/api/Auth/signup`, {
                 method: 'POST',
@@ -62,11 +65,13 @@ function Signup() {
             if (signupResponse.status === 400) {
                 const errorData = await signupResponse.json();
                 setErrorMessage(errorData.message);
+                setLoading(false);
                 return;
             }
 
             if (!signupResponse.ok) {
                 setErrorMessage('Signup failed. Please try again.');
+                setLoading(false);
                 throw new Error('Network response was not ok');
             }
 
@@ -82,6 +87,8 @@ function Signup() {
         } catch (error) {
             console.error('Error during signup:', error);
             setErrorMessage('An error occurred. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -164,7 +171,9 @@ function Signup() {
                         />
                         Jeg accepterer <span onClick={() => setIsModalOpen(true)} style={{color: 'white', textDecoration: 'underline', cursor: 'pointer'}}>vilkår og betingelser</span>.
                     </label>
-                    <button type="submit" className="signup-button">Opret bruger</button>
+                    <button type="submit" className="signup-button" disabled={loading}>
+                        {loading ? 'Indlæser...' : 'Opret bruger'}
+                    </button>
                 </form>
             </div>
             {isModalOpen && (
