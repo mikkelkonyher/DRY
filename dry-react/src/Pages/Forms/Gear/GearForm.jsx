@@ -272,9 +272,15 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                 <h2 className="sellHeadline">Sælg {gearType}</h2>
                 <form className="createGearForm" onSubmit={handleSubmit}>
                     {successMessage && (
-                        <div className="modal-overlay" onClick={() => setSuccessMessage('')}>
+                        <div className="modal-overlay" onClick={() => {
+                            setSuccessMessage('');
+                            window.location.reload();
+                        }}>
                             <div className="modal-error-success" onClick={(e) => e.stopPropagation()}>
-                                <span className="close-button" onClick={() => setSuccessMessage('')}>&times;</span>
+            <span className="close-button" onClick={() => {
+                setSuccessMessage('');
+                window.location.reload();
+            }}>&times;</span>
                                 <p className="successmessage">{successMessage}</p>
                             </div>
                         </div>
