@@ -186,27 +186,28 @@ public class AuthController : ControllerBase
     }
     
     [HttpGet("get-user-id")]
-    public async Task<IActionResult> GetUserIdFromCookie()
+    public async Task<IActionResult> GetUserIdFromHeader()
     {
-        if (Request.Cookies.TryGetValue("AuthToken", out var token)) // Get token from cookies
+        if (Request.Headers.TryGetValue("Authorization", out var authHeader))
         {
-            var handler = new JwtSecurityTokenHandler(); 
-            var jwtToken = handler.ReadJwtToken(token); // Read token
-            var email = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value; // Get email from token
+            var token = authHeader.ToString().Replace("Bearer ", string.Empty);
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            var email = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
 
             if (email == null)
             {
                 return BadRequest(new { Message = "Invalid token." });
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email); // Get user by email
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
             if (user == null)
             {
                 return BadRequest(new { Message = "User not found." });
             }
 
-            return Ok(new { UserId = user.Id }); 
+            return Ok(new { UserId = user.Id });
         }
-        return BadRequest(new { Message = "Token not found in cookies." });
+        return BadRequest(new { Message = "Authorization header not found." });
     }
 }

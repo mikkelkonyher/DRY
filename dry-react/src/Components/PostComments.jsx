@@ -12,26 +12,28 @@ function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted })
         const fetchUserId = async () => {
             try {
                 const token = Cookies.get('AuthToken');
-                if (!token) throw new Error('No token found');
+                if (!token) {
+                    console.error('No token found');
+                    return;
+                }
 
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                const email = payload.sub;
-                if (!email) throw new Error('Email not found in token');
-
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
+                const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
                     headers: {
-                        'accept': 'application/json',
+                        'accept': '*/*',
                         'Authorization': `Bearer ${token}`
                     }
                 });
 
-                if (!userResponse.ok) throw new Error('Failed to fetch users');
+                if (!userIdResponse.ok) {
+                    const errorResponse = await userIdResponse.json();
+                    console.error('Error response:', errorResponse);
+                    throw new Error('Failed to fetch user ID');
+                }
 
-                const users = await userResponse.json();
-                const user = users.find(user => user.email === email);
-                if (!user) throw new Error('User not found');
+                const { userId } = await userIdResponse.json();
+                if (!userId) throw new Error('User ID not found');
 
-                setUserId(user.id);
+                setUserId(userId);
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }

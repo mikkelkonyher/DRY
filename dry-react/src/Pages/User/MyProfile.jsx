@@ -55,7 +55,7 @@ function MyProfile() {
                 const email = payload.sub;
                 if (!email) throw new Error('Email not found in token');
 
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
+                const userResponse = await fetch(`${config.apiBaseUrl}/api/User/unmasked`, {
                     headers: {
                         'accept': 'application/json',
                         'Authorization': `Bearer ${token}`

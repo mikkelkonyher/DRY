@@ -26,11 +26,17 @@ namespace DRYV1.Controllers
                     Id = u.Id,
                     Name = u.Name,
                     Email = u.Email,
-                    ProfileImageUrl = u.ProfileImageUrl // Include this property
+                    ProfileImageUrl = u.ProfileImageUrl
                 })
                 .ToListAsync();
 
-            return Ok(users);
+            return Ok(users.Select(u => new
+            {
+                u.Id,
+                u.Name,
+                MaskedEmail = u.MaskedEmail,
+                u.ProfileImageUrl
+            }));
         }
 
         [HttpGet("{id}")]
@@ -43,7 +49,7 @@ namespace DRYV1.Controllers
                     Id = u.Id,
                     Name = u.Name,
                     Email = u.Email,
-                    ProfileImageUrl = u.ProfileImageUrl // Include this property
+                    ProfileImageUrl = u.ProfileImageUrl
                 })
                 .FirstOrDefaultAsync();
 
@@ -52,7 +58,13 @@ namespace DRYV1.Controllers
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(new
+            {
+                user.Id,
+                user.Name,
+                MaskedEmail = user.MaskedEmail,
+                user.ProfileImageUrl
+            });
         }
 
         [HttpPut("{id}")]
@@ -167,6 +179,22 @@ namespace DRYV1.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+        
+        [HttpGet("unmasked")]
+        public async Task<ActionResult<IEnumerable<UserProfileDTO>>> GetUsersUnmasked()
+        {
+            var users = await _context.Users
+                .Select(u => new UserProfileDTO
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Email = u.Email,
+                    ProfileImageUrl = u.ProfileImageUrl
+                })
+                .ToListAsync();
+
+            return Ok(users);
         }
     }
 }

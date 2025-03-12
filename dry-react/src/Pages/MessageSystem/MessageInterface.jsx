@@ -16,27 +16,29 @@ const MessageInterface = () => {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = Cookies.get('AuthToken'); // Get token from cookie
-                if (!token) return;
+                const token = Cookies.get('AuthToken');
+                if (!token) {
+                    console.error('No token found');
+                    return;
+                }
 
-                const payload = JSON.parse(atob(token.split('.')[1])); // Decode token payload
-                const email = payload.sub; // Extract email from payload
-                if (!email) throw new Error('Email not found in token');
-
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, { // Fetch users
+                const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
                     headers: {
-                        'accept': 'application/json',
-                        'Authorization': `Bearer ${token}` // Send token in header
+                        'accept': '*/*',
+                        'Authorization': `Bearer ${token}`
                     }
                 });
 
-                if (!userResponse.ok) throw new Error('Failed to fetch users');
+                if (!userIdResponse.ok) {
+                    const errorResponse = await userIdResponse.json();
+                    console.error('Error response:', errorResponse);
+                    throw new Error('Failed to fetch user ID');
+                }
 
-                const users = await userResponse.json(); // Parse response
-                const user = users.find(user => user.email === email);
-                if (!user) throw new Error('User not found');
+                const { userId } = await userIdResponse.json();
+                if (!userId) throw new Error('User ID not found');
 
-                setUserId(user.id); // Set user ID in state
+                setUserId(userId); // Set user ID
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }
