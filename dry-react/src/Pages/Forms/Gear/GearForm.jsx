@@ -297,10 +297,8 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     </select>
 
                     {/* Gear details input fields */}
-                    <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke"
-                           required/>
-                    <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model"
-                           required/>
+                    <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke" required maxLength="100" />
+                    <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model" required maxLength="100" />
                     <textarea
                         name="description"
                         value={gear.description}
@@ -309,8 +307,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         required
                         maxLength={2000}
                     />
-                    <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris"
-                           required/>
+                    <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris" required max="999999" min="0"/>
 
                     {/* Gear condition selection */}
                     <select name="condition" value={gear.condition} onChange={handleChange} required>
@@ -322,8 +319,7 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     </select>
 
                     {/* Gear year and location input fields */}
-                    <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År"
-                           required/>
+                    <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År" required max="9999" min="0" />
                     <select name="location" value={gear.location} onChange={handleChange} required>
                         <option value="">Vælg placering</option>
                         <option value="København og omegn">København og omegn</option>

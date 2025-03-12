@@ -104,6 +104,7 @@ const CreateForum = () => {
                             id="subject"
                             value={subject}
                             onChange={(e) => setSubject(e.target.value)}
+                            maxLength="100"
                             required
                             placeholder={'Emne*'}
                         />

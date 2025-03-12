@@ -65,11 +65,13 @@ const MessageToForum = ({ senderId, receiverId, subject }) => {
                     value={subjectState}
                     onChange={(e) => setSubjectState(e.target.value)}
                     placeholder="Emne"
+                    maxLength="100"
                 />
                 <textarea
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Skriv privat besked..."
+                    maxLength="1000"
                 />
                 <button type="submit" disabled={loading}>
                     {loading ? 'Indlæser...' : 'Send'}

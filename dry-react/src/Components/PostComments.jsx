@@ -89,6 +89,7 @@ function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted })
                 value={commentText}
                 onChange={handleCommentChange}
                 placeholder="Skriv en kommentar..."
+                maxLength="1000"
                 required
                 rows={calculateRows(commentText)}
             />

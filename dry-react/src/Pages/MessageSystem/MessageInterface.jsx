@@ -266,6 +266,7 @@ const MessageInterface = () => {
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
                                 placeholder="Skriv besked..."
+                                maxLength="1000"
                             />
                             <button type="submit" disabled={loading}>
                                 {loading ? 'Indlæser...' : 'Send'}

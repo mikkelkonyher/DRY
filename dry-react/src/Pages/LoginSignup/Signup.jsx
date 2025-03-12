@@ -120,6 +120,7 @@ function Signup() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Brugernavn"
+                        maxLength="100"
                         required
                     />
                     <label htmlFor="email" className="signup-label">Emailadresse*</label>
@@ -130,6 +131,7 @@ function Signup() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Indtast email"
+                        maxLength="100"
                         required
                     />
                     <label htmlFor="password" className="signup-label">Adgangskode*</label>
@@ -151,6 +153,7 @@ function Signup() {
                         value={formData.confirmPassword}
                         onChange={handleChange}
                         placeholder="Bekræft adgangskode"
+                        maxLength="100"
                         required
                     />
                     <label className="signup-label">

@@ -257,8 +257,8 @@ function CreateRehearsalRoom() {
                         </div>
                     )}
 
-                    <input type="text" name="name" value={rehearsalRoom.name} onChange={handleChange} placeholder="Navn" required />
-                    <input type="text" name="address" value={rehearsalRoom.address} onChange={handleChange} placeholder="Adresse" required />
+                    <input type="text" name="name" value={rehearsalRoom.name} onChange={handleChange} placeholder="Navn" required maxLength="100" />
+                    <input type="text" name="address" value={rehearsalRoom.address} onChange={handleChange} placeholder="Adresse" required maxLength="100" />
 
                     <select name="location" value={rehearsalRoom.location} onChange={handleChange} required>
                         <option value="">Vælg placering</option>
@@ -288,8 +288,8 @@ function CreateRehearsalRoom() {
                         <option value="i timen">i timen</option>
                     </select>
 
-                    <input type="number" name="price" value={rehearsalRoom.price} onChange={handleChange} placeholder="Pris" required />
-                    <input type="number" name="roomSize" value={rehearsalRoom.roomSize} onChange={handleChange} placeholder="Størrelse i m2" required />
+                    <input type="number" name="price" value={rehearsalRoom.price} onChange={handleChange} placeholder="Pris" required max="999999" min="0" />
+                    <input type="number" name="roomSize" value={rehearsalRoom.roomSize} onChange={handleChange} placeholder="Størrelse i m2" required max="9999" />
 
                     <select name="type" value={rehearsalRoom.type} onChange={handleChange} required>
                         <option value="">Vælg type</option>

@@ -48,6 +48,7 @@ const ForgotPassword = () => {
                         className="forgot-password-input"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        maxLength="100"
                         required
                     />
                 </div>
