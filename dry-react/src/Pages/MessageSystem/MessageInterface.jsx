@@ -253,7 +253,7 @@ const MessageInterface = () => {
                                         key={message.id}
                                         className={`message ${message.senderId === userId ? 'sent' : 'received'}`}
                                     >
-                                        <strong>{message.senderUsername || 'Deleted user'}:</strong> <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>{message.content}</pre>
+                                        <strong>{message.senderUsername || 'Slettet bruger'}:</strong> <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>{message.content}</pre>
                                         <div className="dateTimeMessage" style={{ fontSize: '0.8em' }}>
                                             {new Date(message.timestamp).toLocaleString()}
                                         </div>
