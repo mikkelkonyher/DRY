@@ -95,8 +95,7 @@ namespace DRYV1.Controllers
                     User = new UserDTO
                     {
                         Id = c.User.Id,
-                        Name = c.User.Name,
-                        Email = c.User.Email
+                        Name = c.User.Name
                     }
                 })
                 .FirstOrDefaultAsync(c => c.Id == id);
@@ -125,8 +124,7 @@ namespace DRYV1.Controllers
                     User = new UserDTO
                     {
                         Id = c.User.Id,
-                        Name = c.User.Name,
-                        Email = c.User.Email
+                        Name = c.User.Name
                     }
                 })
                 .ToListAsync();
@@ -150,8 +148,7 @@ namespace DRYV1.Controllers
                     User = new UserDTO
                     {
                         Id = c.User.Id,
-                        Name = c.User.Name,
-                        Email = c.User.Email
+                        Name = c.User.Name
                     }
                 })
                 .ToListAsync();
@@ -175,8 +172,7 @@ namespace DRYV1.Controllers
                     User = new UserDTO
                     {
                         Id = c.User.Id,
-                        Name = c.User.Name,
-                        Email = c.User.Email
+                        Name = c.User.Name
                     }
                 })
                 .ToListAsync();
