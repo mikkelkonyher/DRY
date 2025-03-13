@@ -27,20 +27,37 @@ public class AuthController : ControllerBase
         _emailService = emailService;
         _configuration = configuration;
     }
-
     [HttpPost("signup")]
     public async Task<IActionResult> Signup(UserCreateDTO userCreateDTO)
     {
         var existingUser = await _context.Users
             .FirstOrDefaultAsync(u => u.Email == userCreateDTO.Email);
 
-        if (existingUser != null && existingUser.IsValidated)
+        if (existingUser != null)
         {
-            return BadRequest(new { Message = "A user with the same email already exists and is validated." });
+            if (existingUser.IsValidated)
+            {
+                return BadRequest(new { Message = "A user with the same email already exists and is validated." });
+            }
+            else
+            {
+                return BadRequest(new { Message = "A user with the same email already exists but is not validated. Please check your email to verify your account." });
+            }
         }
 
-        var token = _jwtService.GenerateToken(new User { Email = userCreateDTO.Email });
-        var verificationLink = Url.Action(nameof(VerifyEmail), "Auth", new { token, userCreateDTO.Name, userCreateDTO.Password }, Request.Scheme);
+        var newUser = new User
+        {
+            Name = userCreateDTO.Name,
+            Email = userCreateDTO.Email,
+            Password = BCrypt.Net.BCrypt.HashPassword(userCreateDTO.Password),
+            IsValidated = false
+        };
+
+        _context.Users.Add(newUser);
+        await _context.SaveChangesAsync();
+
+        var token = _jwtService.GenerateToken(newUser);
+        var verificationLink = Url.Action(nameof(VerifyEmail), "Auth", new { token, name = userCreateDTO.Name }, Request.Scheme);
 
         await _emailService.SendEmailAsync(userCreateDTO.Email, "Bekræft din e-mail",
             $"Venligst bekræft din e-mail ved at klikke <a href='{verificationLink}'>her</a>. Du bliver derefter ført videre til login-siden. 🥷");
@@ -49,7 +66,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet("verify-email")]
-    public async Task<IActionResult> VerifyEmail(string token, string name, string password)
+    public async Task<IActionResult> VerifyEmail(string token)
     {
         var handler = new JwtSecurityTokenHandler();
         var jwtToken = handler.ReadJwtToken(token);
@@ -69,27 +86,18 @@ public class AuthController : ControllerBase
 
         if (existingUser == null)
         {
-            existingUser = new User
-            {
-                Name = name,
-                Email = email,
-                Password = BCrypt.Net.BCrypt.HashPassword(password),
-                IsValidated = true
-            };
-            _context.Users.Add(existingUser);
-        }
-        else
-        {
-            existingUser.Name = name;
-            existingUser.Password = BCrypt.Net.BCrypt.HashPassword(password);
-            existingUser.IsValidated = true;
-            _context.Users.Update(existingUser);
+            return BadRequest(new { Message = "User not found. Please sign up again." });
         }
 
+        existingUser.IsValidated = true;
+        _context.Users.Update(existingUser);
         await _context.SaveChangesAsync();
 
         return Redirect("https://www.gearninja.dk/login");
     }
+    
+    //"http://localhost:5173"
+    //"https://www.gearninja.dk/login"
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDTO loginDTO)
