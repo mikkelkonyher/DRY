@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("https://www.gearninja.dk", "http://localhost:5173")
+        builder.WithOrigins("https://www.gearninja.dk")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials();
