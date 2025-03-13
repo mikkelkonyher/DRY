@@ -203,7 +203,26 @@ namespace DRYV1.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var musicGear = await _context.MusicGear.FindAsync(id);
+            var musicGear = await _context.MusicGear
+                .Where(g => g.Id == id)
+                .Select(g => new
+                {
+                    g.Id,
+                    g.Brand,
+                    g.Model,
+                    g.Year,
+                    g.Description,
+                    g.Location,
+                    g.Condition,
+                    g.Price,
+                    g.ImagePaths,
+                    g.ListingDate,
+                    g.UserId, // Include UserId here
+                    g.FavoriteCount, // Include FavoriteCount here
+                    UserName = _context.Users.Where(u => u.Id == g.UserId).Select(u => u.Name).FirstOrDefault()
+                })
+                .FirstOrDefaultAsync();
+
             if (musicGear == null)
             {
                 return NotFound("MusicGear not found.");
@@ -211,6 +230,7 @@ namespace DRYV1.Controllers
 
             return Ok(musicGear);
         }
+
         
         [HttpGet]
         public async Task<IActionResult> GetAll(

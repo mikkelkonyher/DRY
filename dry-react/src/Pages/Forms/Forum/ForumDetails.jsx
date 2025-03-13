@@ -19,7 +19,6 @@ function ForumDetails() {
     const [forumItem, setForumItem] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [showComments, setShowComments] = useState(false);
-    const [users, setUsers] = useState({});
     const [userId, setUserId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [editSubject, setEditSubject] = useState('');
@@ -30,26 +29,28 @@ function ForumDetails() {
         const fetchUserId = async () => {
             try {
                 const token = Cookies.get('AuthToken');
-                if (!token) return;
+                if (!token) {
+                    console.error('No token found');
+                    return;
+                }
 
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                const email = payload.sub;
-                if (!email) throw new Error('Email not found in token');
-
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`, {
+                const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
                     headers: {
-                        'accept': 'application/json',
+                        'accept': '*/*',
                         'Authorization': `Bearer ${token}`
                     }
                 });
 
-                if (!userResponse.ok) throw new Error('Failed to fetch users');
+                if (!userIdResponse.ok) {
+                    const errorResponse = await userIdResponse.json();
+                    console.error('Error response:', errorResponse);
+                    throw new Error('Failed to fetch user ID');
+                }
 
-                const users = await userResponse.json();
-                const user = users.find(user => user.email === email);
-                if (!user) throw new Error('User not found');
+                const { userId } = await userIdResponse.json();
+                if (!userId) throw new Error('User ID not found');
 
-                setUserId(user.id);
+                setUserId(userId);
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }
@@ -70,15 +71,6 @@ function ForumDetails() {
                 if (!commentsResponse.ok) throw new Error('Network response was not ok');
                 const commentsData = await commentsResponse.json();
                 setForumItem(prevItem => ({ ...prevItem, comments: commentsData }));
-
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-                if (!userResponse.ok) throw new Error('Network response was not ok');
-                const userData = await userResponse.json();
-                const userMap = userData.reduce((acc, user) => {
-                    acc[user.id] = user;
-                    return acc;
-                }, {});
-                setUsers(userMap);
 
                 if (userId) {
                     const checkUrl = new URL(`${config.apiBaseUrl}/api/ForumLikes/${userId}`);
@@ -235,7 +227,7 @@ function ForumDetails() {
             )}
 
             <div className="more-info-container">
-                <p><strong>Indlæg af: {users[forumItem.userId]?.name || 'Ukendt'}</strong></p>
+                <p><strong>Indlæg af: {forumItem.userName || 'Ukendt'}</strong></p>
                 <p><strong>Oprettet: {new Date(forumItem.createdAt).toLocaleDateString()}</strong> </p>
             </div>
 

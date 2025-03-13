@@ -16,7 +16,6 @@ function RehearsalRoomDetails() {
     const [isFavorite, setIsFavorite] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [users, setUsers] = useState({});
     const [userId, setUserId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -70,15 +69,6 @@ function RehearsalRoomDetails() {
                 const commentsData = await commentsResponse.json();
                 setRoomItem(prevItem => ({ ...prevItem, comments: commentsData }));
 
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-                if (!userResponse.ok) throw new Error('Network response was not ok');
-                const userData = await userResponse.json();
-                const userMap = userData.reduce((acc, user) => {
-                    acc[user.id] = user;
-                    return acc;
-                }, {});
-                setUsers(userMap);
-
                 if (userId) {
                     const checkUrl = new URL(`${config.apiBaseUrl}/api/RehearsalRoomFavorites/${userId}`);
                     const checkResponse = await fetch(checkUrl, {
@@ -130,7 +120,7 @@ function RehearsalRoomDetails() {
         }
     };
 
-// Handle image navigation
+    // Handle image navigation
     const handleNextImage = () => {
         setCurrentImageIndex((prevIndex) => {
             const newIndex = (prevIndex + 1) % roomItem.imagePaths.length;
@@ -147,7 +137,7 @@ function RehearsalRoomDetails() {
         });
     };
 
-// Handle image click to open modal
+    // Handle image click to open modal
     const handleImageClick = (imagePath) => {
         setSelectedImage(imagePath);
         setIsModalOpen(true);
@@ -217,7 +207,7 @@ function RehearsalRoomDetails() {
 
                 <p><strong>Lokation:</strong> {roomItem.location}</p>
                 <p><strong>Adresse:</strong> {roomItem.address}</p>
-                <p><strong>Udlejer:</strong> {users[roomItem.userId]?.name || 'Ukendt'}</p>
+                <p><strong>Udlejer:</strong> {roomItem.userName || 'Ukendt'}</p>
                 <p><strong>Størrelse:</strong> {roomItem.roomSize} m²</p>
                 <p><strong>Oprettet:</strong> {new Date(roomItem.listingDate).toLocaleDateString()}</p>
                 <p><strong>🤍</strong> {roomItem.favoriteCount}</p>

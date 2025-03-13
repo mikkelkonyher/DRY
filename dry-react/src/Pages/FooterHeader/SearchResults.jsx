@@ -21,7 +21,6 @@ function SearchResults() {
     const initialPage = Number(queryParams.get('page')) || 1;
 
     const [gear, setGear] = useState(location.state?.searchResults || []);
-    const [users, setUsers] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentPage, setCurrentPage] = useState(initialPage);
     const [totalItems, setTotalItems] = useState(0);
@@ -43,20 +42,8 @@ function SearchResults() {
             setGear(data.items);
             setTotalItems(data.totalItems);
             setErrorMessage(data.items.length === 0 ? 'Fandt ingen match på søgning' : '');
-
-            // Fetch users for gear cards
-            const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-            if (!userResponse.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const userData = await userResponse.json();
-            const userMap = userData.reduce((acc, user) => {
-                acc[user.id] = user;
-                return acc;
-            }, {});
-            setUsers(userMap);
         } catch (error) {
-            console.error('Error fetching gear or users:', error);
+            console.error('Error fetching gear:', error);
             setErrorMessage('Fandt ingen match på søgning.');
         } finally {
             setLoading(false);
@@ -203,7 +190,6 @@ function SearchResults() {
                             <GearCard
                                 key={item.id}
                                 item={item}
-                                users={users}
                                 handleImageClick={handleImageClick}
                                 handleFavorite={handleToggleFavorite}
                                 userId={userId}

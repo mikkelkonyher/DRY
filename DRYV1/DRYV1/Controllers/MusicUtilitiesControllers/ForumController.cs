@@ -54,7 +54,20 @@ namespace DRYV1.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var forum = await _context.Forums.FindAsync(id);
+            var forum = await _context.Forums
+                .Where(f => f.Id == id)
+                .Select(f => new
+                {
+                    f.Id,
+                    f.Subject,
+                    f.Body,
+                    f.CreatedAt,
+                    f.UserId,
+                    UserName = _context.Users.Where(u => u.Id == f.UserId).Select(u => u.Name).FirstOrDefault(),
+                    f.LikeCount // Include LikeCount here
+                })
+                .FirstOrDefaultAsync();
+
             if (forum == null)
             {
                 return NotFound();
@@ -63,7 +76,7 @@ namespace DRYV1.Controllers
             var response = new
             {
                 TotalItems = 1,
-                Items = new List<Forum> { forum }
+                Items = new List<object> { forum }
             };
 
             return Ok(response);

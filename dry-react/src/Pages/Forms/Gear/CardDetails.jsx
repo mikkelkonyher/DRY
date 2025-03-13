@@ -16,7 +16,6 @@ function CardDetails() {
     const [isFavorite, setIsFavorite] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [users, setUsers] = useState({});
     const [userId, setUserId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -71,15 +70,6 @@ function CardDetails() {
                 const commentsData = await commentsResponse.json();
                 setGearItem(prevItem => ({ ...prevItem, comments: commentsData }));
 
-                const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-                if (!userResponse.ok) throw new Error('Network response was not ok');
-                const userData = await userResponse.json();
-                const userMap = userData.reduce((acc, user) => {
-                    acc[user.id] = user;
-                    return acc;
-                }, {});
-                setUsers(userMap);
-
                 if (userId) {
                     const checkUrl = new URL(`${config.apiBaseUrl}/api/Favorites/${userId}`);
                     const checkResponse = await fetch(checkUrl, {
@@ -99,8 +89,7 @@ function CardDetails() {
         fetchGearItem();
     }, [id, userId]);
 
-
-// Handle favorite button click
+    // Handle favorite button click
     const handleFavoriteClick = async () => {
         if (!userId) {
             alert('Login for at tilføje favoritter');
@@ -156,7 +145,6 @@ function CardDetails() {
         setIsModalOpen(true);
     };
 
-
     // Handle comment posted
     const handleCommentPosted = async () => {
         try {
@@ -169,7 +157,7 @@ function CardDetails() {
         }
     };
 
-// Handle comment deletion
+    // Handle comment deletion
     const handleDeleteComment = async (commentId) => {
         const isConfirmed = window.confirm("Er du sikker på at du vil slette denne kommentar?");
         if (!isConfirmed) return;
@@ -223,13 +211,13 @@ function CardDetails() {
                 <p><strong>Lokation:</strong> {gearItem.location}</p>
                 <p><strong>Stand:</strong> {gearItem.condition}</p>
                 <p><strong>År:</strong> {gearItem.year}</p>
-                <p><strong>Sælger:</strong> {users[gearItem.userId]?.name || 'Ukendt'}</p>
+                <p><strong>Sælger:</strong> {gearItem.userName || 'Ukendt'}</p>
                 <p><strong>Oprettet:</strong> {new Date(gearItem.listingDate).toLocaleDateString()}</p>
                 <p><strong>🤍</strong> {gearItem.favoriteCount}</p>
             </div>
 
             {/* Contact seller */}
-            <button onClick={() => setIsMessageModalOpen(true)}>
+            <button onClick={() => gearItem && setIsMessageModalOpen(true)}>
                 Skriv til sælger
             </button>
 

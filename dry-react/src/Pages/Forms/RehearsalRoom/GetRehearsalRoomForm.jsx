@@ -24,7 +24,6 @@ function GetRehearsalRoom() {
 
     const [rooms, setRooms] = useState([]);
     const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
-    const [users, setUsers] = useState({});
     const [currentPage, setCurrentPage] = useState(initialPage);
     const [noSearchResults, setNoSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
@@ -76,19 +75,8 @@ function GetRehearsalRoom() {
             setRooms(sortedData);
             setTotalItems(data.totalItems);
             setNoSearchResults(data.items.length === 0);
-
-            const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-            if (!userResponse.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const userData = await userResponse.json();
-            const userMap = userData.reduce((acc, user) => {
-                acc[user.id] = user;
-                return acc;
-            }, {});
-            setUsers(userMap);
         } catch (error) {
-            console.error('Error fetching rooms or users:', error);
+            console.error('Error fetching rooms:', error);
         }
     };
 
@@ -283,7 +271,6 @@ function GetRehearsalRoom() {
                     <RehearsalRoomCard
                         key={item.id}
                         item={item}
-                        users={users}
                         handleFavorite={handleToggleFavorite}
                         userId={userId}
                     />

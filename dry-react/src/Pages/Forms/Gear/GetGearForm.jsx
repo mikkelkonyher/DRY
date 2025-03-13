@@ -24,7 +24,6 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
     // State variables
     const [gear, setGear] = useState([]);
     const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
-    const [users, setUsers] = useState({});
     const [currentPage, setCurrentPage] = useState(initialPage);
     const [noSearchResults] = useState(false);
     const [userId, setUserId] = useState(null);
@@ -90,20 +89,8 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             const sortedData = data.items.sort((a, b) => b.id - a.id);
             setGear(sortedData);
             setTotalItems(data.totalItems);
-
-            // Fetch users for gear cards
-            const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-            if (!userResponse.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const userData = await userResponse.json();
-            const userMap = userData.reduce((acc, user) => {
-                acc[user.id] = user;
-                return acc;
-            }, {});
-            setUsers(userMap);
         } catch (error) {
-            console.error('Error fetching gear or users:', error);
+            console.error('Error fetching gear:', error);
         }
     };
 
@@ -258,7 +245,7 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
             {/* Gear List */}
             <div className="gear-card-container">
                 {filteredGear.map((item) => (
-                    <GearCard key={item.id} item={item} users={users} handleImageClick={() => {}} userId={userId} />
+                    <GearCard key={item.id} item={item} handleImageClick={() => {}} userId={userId} />
                 ))}
             </div>
             {/* Pagination */}

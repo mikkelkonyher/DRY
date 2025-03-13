@@ -7,13 +7,13 @@ import { faThumbsUp as regularThumbsUp } from '@fortawesome/free-regular-svg-ico
 import config from "../../../../config.jsx";
 import './ForumCard.css';
 
-function ForumCard({ item, userId, users }) {
+function ForumCard({ item, userId }) {
     const [isLiked, setIsLiked] = useState(false);
-    const [likeCount, setLikeCount] = useState(item.likeCount || 0); // Store like count in state
+    const [likeCount, setLikeCount] = useState(item?.likeCount || 0); // Store like count in state
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!userId) return;
+        if (!userId || !item) return;
 
         const checkLikeStatus = async () => {
             try {
@@ -36,7 +36,7 @@ function ForumCard({ item, userId, users }) {
         };
 
         checkLikeStatus();
-    }, [item.id, userId]);
+    }, [item, userId]);
 
     const handleLikeClick = async (e) => {
         e.stopPropagation();
@@ -77,15 +77,13 @@ function ForumCard({ item, userId, users }) {
         navigate(`/ForumDetails/${item.id}`);
     };
 
-    const userName = users[item.userId]?.name || 'Unknown User';
-
     return (
         <div className="forum-card" onClick={handleCardClick}>
             <div className="forum-card-content">
-                <h3>{item.subject}</h3>
-                <p>{item.body.substring(0, 100)}{item.body.length > 100 ? '... Se mere' : ''}</p>
-                <p className="info-text"><strong>Indlæg af: {userName}</strong></p>
-                <p className="info-text"><strong>Oprettet: {new Date(item.createdAt).toLocaleString()}</strong></p>
+                <h3>{item?.subject}</h3>
+                <p>{item?.body.substring(0, 100)}{item?.body.length > 100 ? '... Se mere' : ''}</p>
+                <p className="info-text"><strong>Indlæg af: {item?.userId || 'Unknown User'}</strong></p>
+                <p className="info-text"><strong>Oprettet: {new Date(item?.createdAt).toLocaleString()}</strong></p>
                 <div className="like-container">
                     <button
                         className="like-button"
@@ -106,7 +104,6 @@ function ForumCard({ item, userId, users }) {
 ForumCard.propTypes = {
     item: PropTypes.object.isRequired,
     userId: PropTypes.number,
-    users: PropTypes.object.isRequired,
 };
 
 export default ForumCard;

@@ -75,21 +75,36 @@ namespace DRYV1.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            // Log the received id
-            Console.WriteLine($"Received id: {id}");
+            var rehearsalRoom = await _context.RehearsalRooms
+                .Where(r => r.Id == id)
+                .Select(r => new
+                {
+                    r.Id,
+                    r.Name,
+                    r.Address,
+                    r.Location,
+                    r.Description,
+                    r.PaymentType,
+                    r.Price,
+                    r.RoomSize,
+                    r.Type,
+                    r.ImagePaths,
+                    r.ListingDate,
+                    r.UserId, // Include UserId here
+                    r.FavoriteCount,
+                    UserName = _context.Users.Where(u => u.Id == r.UserId).Select(u => u.Name).FirstOrDefault()
+                })
+                .FirstOrDefaultAsync();
 
-            var rehearsalRoom = await _context.RehearsalRooms.FindAsync(id);
             if (rehearsalRoom == null)
             {
-                // Log the error
-                Console.WriteLine($"RehearsalRoom with id {id} not found.");
                 return NotFound();
             }
 
             var response = new
             {
                 TotalItems = 1,
-                Items = new List<RehearsalRoom> { rehearsalRoom }
+                Items = new List<object> { rehearsalRoom }
             };
 
             return Ok(response);

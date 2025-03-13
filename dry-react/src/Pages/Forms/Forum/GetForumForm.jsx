@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import config from "../../../../config.jsx";
 import Pagination from '../../../Components/Pagination.jsx';
@@ -18,7 +18,6 @@ function GetForumForm() {
     const initialPage = Number(queryParams.get('page')) || 1;
 
     const [forums, setForums] = useState([]);
-    const [users, setUsers] = useState({});
     const [currentPage, setCurrentPage] = useState(initialPage);
     const [userId, setUserId] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
@@ -56,19 +55,8 @@ function GetForumForm() {
                 setForums(data.items);
                 setTotalItems(data.totalItems);
             }
-
-            const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-            if (!userResponse.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const userData = await userResponse.json();
-            const userMap = userData.reduce((acc, user) => {
-                acc[user.id] = user;
-                return acc;
-            }, {});
-            setUsers(userMap);
         } catch (error) {
-            console.error('Error fetching forums or users:', error);
+            console.error('Error fetching forums:', error);
         }
     };
 
@@ -172,7 +160,6 @@ function GetForumForm() {
                         <ForumCard
                             key={item.id}
                             item={item}
-                            users={users}
                             userId={userId}
                             className="forum-card"
                         />
