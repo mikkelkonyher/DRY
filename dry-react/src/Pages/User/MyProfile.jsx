@@ -30,7 +30,6 @@ function MyProfile() {
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
-    const [originalEmail, setOriginalEmail] = useState('');
     const [confirmEmail, setConfirmEmail] = useState('');
     const [showSellCards, setShowSellCards] = useState(false);
     const [showFavoriteCards, setShowFavoriteCards] = useState(false);
@@ -220,38 +219,25 @@ function MyProfile() {
         setIsEditing(true);
         setIsEmailChanging(false);
         setConfirmEmail('');
-        setOriginalEmail(userEmail);
         setShowSellCards(false);
         setShowFavoriteCards(false);
     };
 
     const handleSave = async () => {
-        if (!userName || !userEmail || userEmail === "string" || userName === "string") {
-            console.error('Invalid user data');
+        if (!userEmail || userEmail === "string") {
+            setErrorMessage('Invalid user data');
             return;
         }
 
         if (isEmailChanging && userEmail !== confirmEmail) {
-            setErrorMessage('E-mailadresserne stemmer ikke overens.');
+            setErrorMessage('E-mail addresses do not match.');
             return;
         }
 
-        const confirmed = window.confirm('Er du sikker på at du vil gemme disse ændringer?');
+        const confirmed = window.confirm('Are you sure you want to save these changes?');
         if (!confirmed) return;
 
         try {
-            const userResponse = await fetch(`${config.apiBaseUrl}/api/User`);
-            if (!userResponse.ok) {
-                throw new Error('Failed to fetch users');
-            }
-            const users = await userResponse.json();
-            const userExists = users.some(user => (user.name === userName || user.email === userEmail) && user.id !== userId);
-
-            if (userExists) {
-                setErrorMessage('Brugernavn eller mail er optaget');
-                return;
-            }
-
             const requestBody = { id: userId, name: userName, email: userEmail };
             if (profileImageUrl) {
                 requestBody.profileImageUrl = profileImageUrl;
@@ -277,6 +263,7 @@ function MyProfile() {
             setErrorMessage('');
         } catch (error) {
             console.error('Error updating user:', error);
+            setErrorMessage('Failed to update user');
         }
     };
 
@@ -284,7 +271,6 @@ function MyProfile() {
         setIsEditing(false);
         setShowDeleteConfirm(false);
         setErrorMessage('');
-        setUserEmail(originalEmail);
     };
 
     const handleDelete = async () => {
@@ -372,24 +358,19 @@ function MyProfile() {
                         </div>
                     )}
                     <input
-                        type="text"
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                        className="input-field"
-                    />
-                    <input
                         type="email"
-                        value={userEmail}
+                        value={userEmail || ''}
                         onChange={(e) => {
                             setUserEmail(e.target.value);
                             setIsEmailChanging(true);
                         }}
                         className="input-field"
+                        placeholder="Skift din e-mailadresse"
                     />
                     {isEmailChanging && (
                         <input
                             type="email"
-                            value={confirmEmail}
+                            value={confirmEmail || ''}
                             onChange={(e) => setConfirmEmail(e.target.value)}
                             className="input-field"
                             placeholder="Bekræft ændring af email"
