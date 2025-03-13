@@ -40,6 +40,16 @@ namespace DRYV1.Controllers
                 .OrderByDescending(f => f.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
+                .Select(f => new
+                {
+                    f.Id,
+                    f.Subject,
+                    f.Body,
+                    f.CreatedAt,
+                    f.UserId,
+                    UserName = _context.Users.Where(u => u.Id == f.UserId).Select(u => u.Name).FirstOrDefault(),
+                    f.LikeCount
+                })
                 .ToListAsync();
 
             var response = new
@@ -151,6 +161,16 @@ namespace DRYV1.Controllers
         {
             var forums = await _context.Forums
                 .Where(f => f.UserId == userId)
+                .Select(f => new
+                {
+                    f.Id,
+                    f.Subject,
+                    f.Body,
+                    f.CreatedAt,
+                    f.UserId,
+                    UserName = _context.Users.Where(u => u.Id == f.UserId).Select(u => u.Name).FirstOrDefault(),
+                    f.LikeCount
+                })
                 .ToListAsync();
 
             if (forums == null || !forums.Any())
@@ -160,15 +180,23 @@ namespace DRYV1.Controllers
 
             return Ok(forums);
         }
-        
-        
+
         [HttpGet("liked/{userId}")]
         public async Task<IActionResult> GetLikedForums(int userId)
         {
             var likedForums = await _context.ForumLikes
                 .Where(fl => fl.UserId == userId)
                 .Include(fl => fl.Forum)
-                .Select(fl => fl.Forum)
+                .Select(fl => new
+                {
+                    fl.Forum.Id,
+                    fl.Forum.Subject,
+                    fl.Forum.Body,
+                    fl.Forum.CreatedAt,
+                    fl.Forum.UserId,
+                    UserName = _context.Users.Where(u => u.Id == fl.Forum.UserId).Select(u => u.Name).FirstOrDefault(),
+                    fl.Forum.LikeCount
+                })
                 .ToListAsync();
 
             if (likedForums == null || !likedForums.Any())

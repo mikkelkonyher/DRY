@@ -82,7 +82,7 @@ function ForumCard({ item, userId }) {
             <div className="forum-card-content">
                 <h3>{item?.subject}</h3>
                 <p>{item?.body.substring(0, 100)}{item?.body.length > 100 ? '... Se mere' : ''}</p>
-                <p className="info-text"><strong>Indlæg af: {item?.userId || 'Unknown User'}</strong></p>
+                <p className="info-text"><strong>Indlæg af: {item?.userName || 'Unknown User'}</strong></p>
                 <p className="info-text"><strong>Oprettet: {new Date(item?.createdAt).toLocaleString()}</strong></p>
                 <div className="like-container">
                     <button
