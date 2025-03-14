@@ -27,15 +27,16 @@ public class AuthController : ControllerBase
         _emailService = emailService;
         _configuration = configuration;
     }
+    
     [HttpPost("signup")]
     public async Task<IActionResult> Signup(UserCreateDTO userCreateDTO)
     {
-        var existingUser = await _context.Users
+        var existingUserByEmail = await _context.Users
             .FirstOrDefaultAsync(u => u.Email == userCreateDTO.Email);
 
-        if (existingUser != null)
+        if (existingUserByEmail != null)
         {
-            if (existingUser.IsValidated)
+            if (existingUserByEmail.IsValidated)
             {
                 return BadRequest(new { Message = "A user with the same email already exists and is validated." });
             }
@@ -43,6 +44,14 @@ public class AuthController : ControllerBase
             {
                 return BadRequest(new { Message = "A user with the same email already exists but is not validated. Please check your email to verify your account." });
             }
+        }
+
+        var existingUserByName = await _context.Users
+            .FirstOrDefaultAsync(u => u.Name == userCreateDTO.Name);
+
+        if (existingUserByName != null)
+        {
+            return BadRequest(new { Message = "A user with the same name already exists." });
         }
 
         var newUser = new User

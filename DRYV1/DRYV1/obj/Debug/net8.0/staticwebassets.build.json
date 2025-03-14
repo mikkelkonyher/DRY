@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "yjXuZSzDwFgt0WDit8MdMNw66NK7pts9Bk7EmWpmFJc=",
+  "Hash": "8m/3euK7r7vT3+0CbA5BfuZM2JpOVk9Lk/K/VOfa3zg=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -5433,6 +5433,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/idzamicg.mt4.jpg"
+    },
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/inmtl11t.etj.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/rehearsalrooms/inmtl11t.etj#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "il5uwse7m3",
+      "Integrity": "KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/inmtl11t.etj.jpg"
     },
     {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/jiii3reb.yfh.jpg",
@@ -27702,6 +27723,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-Ads7sVYMxpFnnquaeZ+pmvB55Ah6IKzOIcdHrlyplkA="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/inmtl11t.etj.il5uwse7m3.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/inmtl11t.etj.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "315658"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 14 Mar 2025 08:44:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "il5uwse7m3"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/rehearsalrooms/inmtl11t.etj.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/inmtl11t.etj.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/inmtl11t.etj.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "315658"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 14 Mar 2025 08:44:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA="
         }
       ]
     },
