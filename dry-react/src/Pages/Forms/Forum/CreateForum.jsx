@@ -13,7 +13,7 @@ const CreateForum = () => {
     const [loading, setLoading] = useState(false);
     const maxChars = 8000;
 
-    // Fetch user ID from token
+    // Fetch user ID from token OLD
     useEffect(() => {
         const fetchUserId = async () => {
             try {
