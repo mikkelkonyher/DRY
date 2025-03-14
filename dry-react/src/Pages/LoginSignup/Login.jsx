@@ -21,9 +21,7 @@ const Login = () => {
             return;
         }
         try {
-            const response = await axios.post(`${config.apiBaseUrl}/api/Auth/login`, { email, password }, { withCredentials: true });
-            const { token } = response.data;
-            Cookies.set('AuthToken', token, { expires: 7 });
+            await axios.post(`${config.apiBaseUrl}/api/Auth/login`, { email, password }, { withCredentials: true });
             setSuccess('Login successful!');
             setError('');
             navigate('/');
