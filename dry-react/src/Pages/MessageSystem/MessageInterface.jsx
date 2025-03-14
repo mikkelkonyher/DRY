@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import config from "../../../config.jsx";
 import './MessageInterface.css';
-import Cookies from 'js-cookie';
 
 const MessageInterface = () => {
     const [chats, setChats] = useState([]);
@@ -12,21 +11,12 @@ const MessageInterface = () => {
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
 
-    // Fetch user ID from token
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = Cookies.get('AuthToken');
-                if (!token) {
-                    console.error('No token found');
-                    return;
-                }
-
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
-                    headers: {
-                        'accept': '*/*',
-                        'Authorization': `Bearer ${token}`
-                    }
+                    method: 'GET',
+                    credentials: 'include', // This sends cookies with the request
                 });
 
                 if (!userIdResponse.ok) {
@@ -36,9 +26,7 @@ const MessageInterface = () => {
                 }
 
                 const { userId } = await userIdResponse.json();
-                if (!userId) throw new Error('User ID not found');
-
-                setUserId(userId); // Set user ID
+                setUserId(userId);
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }
@@ -86,8 +74,8 @@ const MessageInterface = () => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Chats/${chatId}/markAllAsRead/${userId}`, {
                 method: 'PUT',
+                credentials: 'include', // This sends cookies with the request
                 headers: {
-                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`,
                     'accept': 'application/json',
                 },
             });
@@ -158,9 +146,9 @@ const MessageInterface = () => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Messages`, {
                 method: 'POST',
+                credentials: 'include', // This sends cookies with the request
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(messageData)
             });
@@ -193,8 +181,8 @@ const MessageInterface = () => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Chats/${chatId}/softDelete/${userId}`, {
                 method: 'PUT',
+                credentials: 'include', // This sends cookies with the request
                 headers: {
-                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`,
                     'accept': 'application/json',
                 },
             });

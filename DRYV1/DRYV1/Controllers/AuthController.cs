@@ -194,28 +194,28 @@ public class AuthController : ControllerBase
     }
     
     [HttpGet("get-user-id")]
-    public async Task<IActionResult> GetUserIdFromHeader()
+    public async Task<IActionResult> GetUserIdFromCookie()
     {
-        if (Request.Headers.TryGetValue("Authorization", out var authHeader))
+        if (!Request.Cookies.TryGetValue("AuthToken", out var token))
         {
-            var token = authHeader.ToString().Replace("Bearer ", string.Empty);
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
-            var email = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
-
-            if (email == null)
-            {
-                return BadRequest(new { Message = "Invalid token." });
-            }
-
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
-            if (user == null)
-            {
-                return BadRequest(new { Message = "User not found." });
-            }
-
-            return Ok(new { UserId = user.Id });
+            return Unauthorized(new { Message = "AuthToken cookie not found." });
         }
-        return BadRequest(new { Message = "Authorization header not found." });
+
+        var handler = new JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+        var email = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+
+        if (string.IsNullOrEmpty(email))
+        {
+            return BadRequest(new { Message = "Invalid token." });
+        }
+
+        var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+        if (user == null)
+        {
+            return NotFound(new { Message = "User not found." });
+        }
+
+        return Ok(new { UserId = user.Id });
     }
 }

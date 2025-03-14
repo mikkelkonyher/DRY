@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import config from '../../../../config.jsx';
 import './CreateForum.css';
-import Cookies from 'js-cookie';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 
 const CreateForum = () => {
@@ -13,21 +12,13 @@ const CreateForum = () => {
     const [loading, setLoading] = useState(false);
     const maxChars = 8000;
 
-    // Fetch user ID from token
+    // Fetch user ID from Token
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = Cookies.get('AuthToken');
-                if (!token) {
-                    console.error('No token found');
-                    return;
-                }
-
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
-                    headers: {
-                        'accept': '*/*',
-                        'Authorization': `Bearer ${token}`
-                    }
+                    method: 'GET',
+                    credentials: 'include', // This sends cookies with the request
                 });
 
                 if (!userIdResponse.ok) {
@@ -37,9 +28,7 @@ const CreateForum = () => {
                 }
 
                 const { userId } = await userIdResponse.json();
-                if (!userId) throw new Error('User ID not found');
-
-                setUserId(userId); // Set user ID
+                setUserId(userId);
             } catch (error) {
                 console.error('Error fetching user ID:', error);
             }
@@ -47,6 +36,7 @@ const CreateForum = () => {
 
         fetchUserId();
     }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -58,9 +48,7 @@ const CreateForum = () => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Forum`, {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${Cookies.get('AuthToken')}`
-                },
+                credentials: 'include', // This sends cookies with the request
                 body: formData
             });
 

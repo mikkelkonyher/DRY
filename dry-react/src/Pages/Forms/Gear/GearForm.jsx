@@ -4,9 +4,7 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import config from "../../../../config.jsx";
 import './GearForm.css';
-import Cookies from 'js-cookie';
 
-// DraggableImage component
 const ItemType = {
     IMAGE: 'image',
 };
@@ -42,7 +40,6 @@ DraggableImage.propTypes = {
     moveImage: PropTypes.func.isRequired,
 };
 
-// GearForm component
 function GearForm({ gearType, categories, apiEndpoint }) {
     const [gear, setGear] = useState({
         brand: '',
@@ -63,21 +60,12 @@ function GearForm({ gearType, categories, apiEndpoint }) {
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // Fetch user ID
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = Cookies.get('AuthToken');
-                if (!token) {
-                    console.error('No token found');
-                    return;
-                }
-
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
-                    headers: {
-                        'accept': '*/*',
-                        'Authorization': `Bearer ${token}`
-                    }
+                    method: 'GET',
+                    credentials: 'include',
                 });
 
                 if (!userIdResponse.ok) {
@@ -87,8 +75,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                 }
 
                 const { userId } = await userIdResponse.json();
-                if (!userId) throw new Error('User ID not found');
-
                 setGear((prevGear) => ({
                     ...prevGear,
                     userId: userId,
@@ -101,7 +87,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         fetchUserId();
     }, []);
 
-    // Handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
         setGear((prevGear) => ({
@@ -110,7 +95,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         }));
     };
 
-    // Handle file change
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
@@ -135,7 +119,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         setErrorMessage('');
     };
 
-    // Handle remove image
     const handleRemoveImage = (index) => {
         const newImageFiles = [...imageFiles];
         const newImagePreviews = [...imagePreviews];
@@ -147,7 +130,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         setImagePreviews(newImagePreviews);
     };
 
-    // Move image
     const moveImage = (fromIndex, toIndex) => {
         if (toIndex === -1) {
             handleRemoveImage(fromIndex);
@@ -170,12 +152,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const token = Cookies.get('AuthToken');
-        if (!token) {
-            setErrorMessage('Login for at oprette et produkt');
-            setLoading(false);
-            return;
-        }
 
         if (imageFiles.length === 0) {
             setErrorMessage('Du skal uploade mindst ét billede.');
@@ -218,16 +194,10 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         }
         formData.append('mainImageIndex', mainImageIndex);
 
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-
         try {
             const response = await fetch(apiEndpoint, {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
+                credentials: 'include',
                 body: formData
             });
 
@@ -271,10 +241,10 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                             window.location.reload();
                         }}>
                             <div className="modal-error-success" onClick={(e) => e.stopPropagation()}>
-            <span className="close-button" onClick={() => {
-                setSuccessMessage('');
-                window.location.reload();
-            }}>&times;</span>
+                                <span className="close-button" onClick={() => {
+                                    setSuccessMessage('');
+                                    window.location.reload();
+                                }}>&times;</span>
                                 <p className="successmessage">{successMessage}</p>
                             </div>
                         </div>
@@ -288,7 +258,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         </div>
                     )}
 
-                    {/* Gear type selection */}
                     <select name="type" value={gear.type} onChange={handleChange} required>
                         <option value="">Vælg type kategori</option>
                         {categories.map((category) => (
@@ -296,7 +265,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         ))}
                     </select>
 
-                    {/* Gear details input fields */}
                     <input type="text" name="brand" value={gear.brand} onChange={handleChange} placeholder="Mærke" required maxLength="100" />
                     <input type="text" name="model" value={gear.model} onChange={handleChange} placeholder="Model" required maxLength="100" />
                     <textarea
@@ -309,7 +277,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                     />
                     <input type="number" name="price" value={gear.price} onChange={handleChange} placeholder="Pris" required max="999999" min="0"/>
 
-                    {/* Gear condition selection */}
                     <select name="condition" value={gear.condition} onChange={handleChange} required>
                         <option value="">Vælg tilstand</option>
                         <option value="Ny">Ny</option>
@@ -318,7 +285,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         <option value="Brugt">Brugt</option>
                     </select>
 
-                    {/* Gear year and location input fields */}
                     <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År" required max="9999" min="0" />
                     <select name="location" value={gear.location} onChange={handleChange} required>
                         <option value="">Vælg placering</option>
@@ -337,7 +303,6 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         <label htmlFor="fileInput" className="custom-file-label">Upload billede</label>
                         <input type="file" multiple onChange={handleFileChange}/>
 
-                        {/* Image previews */}
                         <div className="image-previews">
                             {imagePreviews.map((src, index) => (
                                 <DraggableImage key={index} src={src} index={index} moveImage={moveImage}/>

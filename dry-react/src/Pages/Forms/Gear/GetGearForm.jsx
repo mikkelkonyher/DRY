@@ -116,21 +116,12 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
         setCurrentPage(pageNumber);
     };
 
-    //Fetch user ID
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = Cookies.get('AuthToken');
-                if (!token) {
-                    console.error('No token found');
-                    return;
-                }
-
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
-                    headers: {
-                        'accept': '*/*',
-                        'Authorization': `Bearer ${token}`
-                    }
+                    method: 'GET',
+                    credentials: 'include', // This sends cookies with the request
                 });
 
                 if (!userIdResponse.ok) {
@@ -140,8 +131,6 @@ function GetGearForm({ gearType, apiEndpoint, gearTypeKey, categories }) {
                 }
 
                 const { userId } = await userIdResponse.json();
-                if (!userId) throw new Error('User ID not found');
-
                 setUserId(userId);
             } catch (error) {
                 console.error('Error fetching user ID:', error);

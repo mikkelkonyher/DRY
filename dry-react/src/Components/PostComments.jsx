@@ -8,20 +8,13 @@ function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted })
     const [errorMessage, setErrorMessage] = useState('');
     const [userId, setUserId] = useState(null);
 
+    // Fetch user ID from token
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = Cookies.get('AuthToken');
-                if (!token) {
-                    console.error('No token found');
-                    return;
-                }
-
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
-                    headers: {
-                        'accept': '*/*',
-                        'Authorization': `Bearer ${token}`
-                    }
+                    method: 'GET',
+                    credentials: 'include', // This sends cookies with the request
                 });
 
                 if (!userIdResponse.ok) {
@@ -31,8 +24,6 @@ function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted })
                 }
 
                 const { userId } = await userIdResponse.json();
-                if (!userId) throw new Error('User ID not found');
-
                 setUserId(userId);
             } catch (error) {
                 console.error('Error fetching user ID:', error);
@@ -46,19 +37,14 @@ function PostComment({ musicGearId, rehearsalRoomId, forumId, onCommentPosted })
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
-        const token = Cookies.get('AuthToken');
-        if (!token) {
-            setErrorMessage('Login for at skrive en kommentar');
-            return;
-        }
 
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Comment`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
                 },
+                credentials: 'include', // This sends cookies with the request
                 body: JSON.stringify({ musicGearId, rehearsalRoomId, forumId, userId, text: commentText })
             });
 

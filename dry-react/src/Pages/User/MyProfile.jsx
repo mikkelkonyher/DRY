@@ -47,14 +47,9 @@ function MyProfile() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = Cookies.get('AuthToken');
-                if (!token) throw new Error('No token found');
-
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
-                    headers: {
-                        'accept': '*/*',
-                        'Authorization': `Bearer ${token}`
-                    }
+                    method: 'GET',
+                    credentials: 'include', // This sends cookies with the request
                 });
 
                 if (!userIdResponse.ok) {
@@ -69,9 +64,8 @@ function MyProfile() {
                 setUserId(userId);
 
                 const userDetailResponse = await fetch(`${config.apiBaseUrl}/api/User/${userId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                    method: 'GET',
+                    credentials: 'include', // This sends cookies with the request
                 });
 
                 if (userDetailResponse.ok) {

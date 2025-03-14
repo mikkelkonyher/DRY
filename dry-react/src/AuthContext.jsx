@@ -1,21 +1,30 @@
 import React, { createContext, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
+import config from "../config.jsx";
 
+// Create a context to store the authentication status
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(!!Cookies.get('AuthToken'));
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        const handleAuthChange = () => {
-            const token = Cookies.get('AuthToken');
-            setIsAuthenticated(!!token);
+        const checkAuthStatus = async () => {
+            try {
+                const response = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
+                    method: 'GET',
+                    credentials: 'include', // Ensures cookies are sent with the request
+                });
+
+                setIsAuthenticated(response.ok); // If response is 200, user is authenticated
+            } catch (error) {
+                console.error('Error checking auth status:', error);
+                setIsAuthenticated(false);
+            }
         };
 
-        handleAuthChange();
+        checkAuthStatus();
 
-        const interval = setInterval(handleAuthChange, 1000);
-
+        const interval = setInterval(checkAuthStatus, 10000); // Check every 10 seconds
         return () => clearInterval(interval);
     }, []);
 

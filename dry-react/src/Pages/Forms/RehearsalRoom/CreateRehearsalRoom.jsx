@@ -4,7 +4,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
 import config from '../../../../config.jsx';
 import '../Gear/GearForm.css';
-import Cookies from 'js-cookie';
 
 const API_ENDPOINT = `${config.apiBaseUrl}/api/RehearsalRoom`;
 
@@ -68,17 +67,9 @@ function CreateRehearsalRoom() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const token = Cookies.get('AuthToken');
-                if (!token) {
-                    console.error('No token found');
-                    return;
-                }
-
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
-                    headers: {
-                        'accept': '*/*',
-                        'Authorization': `Bearer ${token}`
-                    }
+                    method: 'GET',
+                    credentials: 'include', // This sends cookies with the request
                 });
 
                 if (!userIdResponse.ok) {
@@ -88,8 +79,6 @@ function CreateRehearsalRoom() {
                 }
 
                 const { userId } = await userIdResponse.json();
-                if (!userId) throw new Error('User ID not found');
-
                 setRehearsalRoom((prevRoom) => ({
                     ...prevRoom,
                     userId: userId,
@@ -167,12 +156,6 @@ function CreateRehearsalRoom() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const token = Cookies.get('AuthToken');
-        if (!token) {
-            setErrorMessage('Login for at oprette et produkt');
-            setLoading(false);
-            return;
-        }
 
         if (imageFiles.length === 0) {
             setErrorMessage('Du skal uploade mindst ét billede.');
@@ -192,9 +175,7 @@ function CreateRehearsalRoom() {
         try {
             const response = await fetch(API_ENDPOINT, {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
+                credentials: 'include', // This sends cookies with the request
                 body: formData
             });
 
@@ -240,10 +221,10 @@ function CreateRehearsalRoom() {
                             window.location.reload();
                         }}>
                             <div className="modal-error-success" onClick={(e) => e.stopPropagation()}>
-            <span className="close-button" onClick={() => {
-                setSuccessMessage('');
-                window.location.reload();
-            }}>&times;</span>
+                                <span className="close-button" onClick={() => {
+                                    setSuccessMessage('');
+                                    window.location.reload();
+                                }}>&times;</span>
                                 <p className="successmessage">{successMessage}</p>
                             </div>
                         </div>
