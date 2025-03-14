@@ -1,32 +1,38 @@
 import React, { createContext, useState, useEffect } from 'react';
 import config from "../config.jsx";
 
-// Create a context to store the authentication status
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const checkAuthStatus = async () => {
+        const checkAuth = async () => {
             try {
                 const response = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
                     method: 'GET',
-                    credentials: 'include', // Ensures cookies are sent with the request
+                    credentials: 'include', // Allows sending cookies
                 });
 
-                setIsAuthenticated(response.ok); // If response is 200, user is authenticated
+                if (response.ok) {
+                    setIsAuthenticated(true);
+                } else {
+                    setIsAuthenticated(false);
+                }
             } catch (error) {
-                console.error('Error checking auth status:', error);
+                console.error('Error checking authentication:', error);
                 setIsAuthenticated(false);
             }
+            setLoading(false);
         };
 
-        checkAuthStatus();
-
-        const interval = setInterval(checkAuthStatus, 10000); // Check every 10 seconds
-        return () => clearInterval(interval);
+        checkAuth();
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>; // Show loading state while checking authentication
+    }
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
