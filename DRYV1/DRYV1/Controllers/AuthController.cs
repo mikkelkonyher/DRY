@@ -130,7 +130,7 @@ public class AuthController : ControllerBase
             HttpOnly = true, // Prevents JavaScript from accessing the cookie
             Secure = true, // Ensures that the cookie is sent only over HTTPS
             SameSite = SameSiteMode.None, // Allows cross-site requests RETTELSE var Strict
-            Expires = DateTime.UtcNow.AddMinutes(_jwtExpirationMinutes) 
+            Expires = DateTime.UtcNow.AddMinutes(_jwtExpirationMinutes),
         };
 
         Response.Cookies.Append("AuthToken", token, cookieOptions); // Add token to cookies
