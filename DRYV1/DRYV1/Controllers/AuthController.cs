@@ -18,7 +18,7 @@ public class AuthController : ControllerBase
     private readonly JwtService _jwtService;
     private readonly EmailService _emailService;
     private readonly IConfiguration _configuration;
-    private readonly int _jwtExpirationMinutes = 30; // Token expiration time
+    private readonly int _jwtExpirationMinutes = 2880; // Token expiration time
 
     public AuthController(ApplicationDbContext context, JwtService jwtService, EmailService emailService, IConfiguration configuration)
     {
