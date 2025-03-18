@@ -6,7 +6,7 @@ import config from "../../../../config.jsx";
 import Pagination from '../../../Components/Pagination.jsx';
 import RehearsalRoomCard from "./RehearsalRoomCard.jsx";
 import TuneIcon from '@mui/icons-material/Tune';
-import Cookies from 'js-cookie';
+
 
 function GetRehearsalRoom() {
     const apiEndpoint = `${config.apiBaseUrl}/api/RehearsalRoom`;
