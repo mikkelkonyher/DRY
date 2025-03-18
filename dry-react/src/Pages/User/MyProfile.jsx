@@ -322,9 +322,9 @@ function MyProfile() {
     return (
         <div className="my-profile">
             {profileImageUrl ? (
-                <img className="profile-image" src={profileImageUrl} alt="Profile" onClick={handleImageClick} />
+                <img className="profile-image" src={profileImageUrl} alt="Profile" title="Skift profilbillede" onClick={handleImageClick} />
             ) : (
-                <div className="default-profile-image" onClick={handleImageClick}>
+                <div className="default-profile-image" title="Skift profilbillede" onClick={handleImageClick}>
                     <img src={defaultProfileImage} alt="Default Profile" style={{ width: '15em', height: '15em' }} />
                 </div>
             )}
