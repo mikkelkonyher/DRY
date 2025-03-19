@@ -213,7 +213,7 @@ function Signup() {
                 <div className="signup-modal" ref={modalRef}>
                     <div className="signup-modal-content">
                         <span className="signup-close" onClick={() => setIsSuccessModalOpen(false)}>&times;</span>
-                        <h2>Success</h2>
+                        <h2>Succes</h2>
                         <p className="signup-success-message">{successMessage}</p>
                     </div>
                 </div>
