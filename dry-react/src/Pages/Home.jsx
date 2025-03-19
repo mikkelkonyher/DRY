@@ -75,11 +75,11 @@ function Home() {
         <div className="home-container">
             <div className="headline-container">
                 <h1 className="hero-text">
-                    Fra din dojo til en ny mester
+                    Køb. Sælg. Connect.
                 </h1>
 
                 <p className="subheadline">
-                    Sælg dit gear og find dit næste våben!
+                    Fra musikere, til musikere – uden støj.
                 </p>
                 <div className="landingpagebuttons">
                     {isAuthenticated ? (
