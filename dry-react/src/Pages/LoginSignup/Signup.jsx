@@ -18,6 +18,7 @@ function Signup() {
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const modalRef = useRef(null);
+    const successModalRef = useRef(null);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -99,21 +100,28 @@ function Signup() {
     };
 
     const handleClickOutside = (event) => {
-        if (modalRef.current && !modalRef.current.contains(event.target)) {
+        if (isModalOpen && modalRef.current && !modalRef.current.contains(event.target)) {
             setIsModalOpen(false);
+        }
+        if (isSuccessModalOpen && successModalRef.current && !successModalRef.current.contains(event.target)) {
             setIsSuccessModalOpen(false);
             navigate('/');
         }
     };
 
     useEffect(() => {
+        const handleDocumentClick = (event) => {
+            handleClickOutside(event);
+        };
+
         if (isModalOpen || isSuccessModalOpen) {
-            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('mousedown', handleDocumentClick);
         } else {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', handleDocumentClick);
         }
+
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', handleDocumentClick);
         };
     }, [isModalOpen, isSuccessModalOpen]);
 
@@ -212,9 +220,9 @@ function Signup() {
                 </div>
             )}
             {isSuccessModalOpen && (
-                <div className="signup-modal" ref={modalRef}>
+                <div className="signup-modal" ref={successModalRef}>
                     <div className="signup-modal-content">
-                        <span className="signup-close" onClick={() => setIsSuccessModalOpen(false)}>&times;</span>
+                        <span className="signup-close" onClick={() => { setIsSuccessModalOpen(false); navigate('/'); }}>&times;</span>
                         <h2>Succes</h2>
                         <p className="signup-success-message">{successMessage}</p>
                     </div>
