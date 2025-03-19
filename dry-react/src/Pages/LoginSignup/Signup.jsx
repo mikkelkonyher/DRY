@@ -18,6 +18,7 @@ function Signup() {
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const modalRef = useRef(null);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -101,6 +102,7 @@ function Signup() {
         if (modalRef.current && !modalRef.current.contains(event.target)) {
             setIsModalOpen(false);
             setIsSuccessModalOpen(false);
+            navigate('/');
         }
     };
 
