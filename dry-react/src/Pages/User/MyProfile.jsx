@@ -293,6 +293,15 @@ function MyProfile() {
                 throw new Error('Failed to delete user');
             }
 
+            const logoutResponse = await fetch(`${config.apiBaseUrl}/api/Auth/logout`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+
+            if (!logoutResponse.ok) {
+                throw new Error('Failed to logout');
+            }
+
             setIsAuthenticated(false);
             Cookies.remove('AuthToken');
 

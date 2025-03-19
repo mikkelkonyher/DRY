@@ -3,7 +3,7 @@
 //'https://api.gearninja.dk'
 
 const config = {
-    apiBaseUrl: 'https://api.gearninja.dk'
+    apiBaseUrl: 'https://localhost:7064'
 };
 
 export default config;
