@@ -9,7 +9,6 @@ function SellCard({ item, userId, onRemove }) {
     const [updatedItem, setUpdatedItem] = useState({ ...item, id: item.id });
     const [newImages, setNewImages] = useState([]);
     const [imagesToDelete, setImagesToDelete] = useState([]);
-    const [selectedImage, setSelectedImage] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
     const navigate = useNavigate();
 
@@ -157,17 +156,6 @@ function SellCard({ item, userId, onRemove }) {
         });
     };
 
-    // Handle image click
-    const handleImageClick = (src, e) => {
-        e.stopPropagation();
-        setSelectedImage(src);
-    };
-
-    // Close modal
-    const closeModal = () => {
-        setSelectedImage(null);
-    };
-
     // Handle card click
     const handleCardClick = () => {
         if (!isEditing) {
@@ -267,7 +255,7 @@ function SellCard({ item, userId, onRemove }) {
                     <div className="image-container-sellcard">
                         {item.imagePaths && item.imagePaths.length > 0 ? (
                             <img src={item.imagePaths[0]} alt={`${item.brand} ${item.model}`}
-                                 className="sell-gear-image" onClick={(e) => handleImageClick(item.imagePaths[0], e)} />
+                                 className="sell-gear-image" />
                         ) : (
                             <p>No images available</p>
                         )}
@@ -286,12 +274,6 @@ function SellCard({ item, userId, onRemove }) {
                         </button>
                     )}
                 </>
-            )}
-            {selectedImage && (
-                <div className="modal" onClick={closeModal}>
-                    <span className="close">&times;</span>
-                    <img className="modal-content" src={selectedImage} alt="Large view" />
-                </div>
             )}
         </div>
     );

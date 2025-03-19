@@ -1,9 +1,9 @@
 //'https://localhost:7064'
 
-//'https://gearninja-api-g8a6c8brfkcyc5bk.northeurope-01.azurewebsites.net'
+//'https://api.gearninja.dk'
 
 const config = {
-    apiBaseUrl: 'https://api.gearninja.dk'
+    apiBaseUrl: 'https://localhost:7064'
 };
 
 export default config;

@@ -9,7 +9,6 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
     const [updatedRoom, setUpdatedRoom] = useState({ ...room, id: room.id });
     const [newImages, setNewImages] = useState([]);
     const [imagesToDelete, setImagesToDelete] = useState([]);
-    const [selectedImage, setSelectedImage] = useState(null);
     const [isFavorite, setIsFavorite] = useState(room.isFavorite || false);
     const navigate = useNavigate();
 
@@ -123,17 +122,6 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
         });
     };
 
-    // Handle image click
-    const handleImageClick = (src, e) => {
-        e.stopPropagation();
-        setSelectedImage(src);
-    };
-
-    // Close modal
-    const closeModal = () => {
-        setSelectedImage(null);
-    };
-
     // Handle card click
     const handleCardClick = () => {
         if (!isEditing) {
@@ -227,8 +215,7 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
                     <h4><strong>Pris: </strong>{room.price.toLocaleString('da-DK')} kr. </h4>
                     <div className="image-container-sellcard">
                         {room.imagePaths && room.imagePaths.length > 0 ? (
-                            <img src={room.imagePaths[0]} alt={`${room.name}`}
-                                 className="sell-gear-image" onClick={(e) => handleImageClick(room.imagePaths[0], e)} />
+                            <img src={room.imagePaths[0]} alt={`${room.name}`} className="sell-gear-image" />
                         ) : (
                             <p>No images available</p>
                         )}
@@ -250,12 +237,6 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
                         </>
                     )}
                 </>
-            )}
-            {selectedImage && (
-                <div className="modal" onClick={closeModal}>
-                    <span className="close">&times;</span>
-                    <img className="modal-content" src={selectedImage} alt="Large view" />
-                </div>
             )}
         </div>
     );
