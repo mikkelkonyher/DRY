@@ -17,7 +17,6 @@ import { useTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import config from '../../../config.jsx';
 import logo from '../../assets/logo.png';
 import userImage from '../../assets/886497-200.png';
@@ -62,10 +61,14 @@ function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
-    const handleLogout = () => {
-        Cookies.remove('AuthToken');
-        setIsAuthenticated(false);
-        navigate('/login');
+    const handleLogout = async () => {
+        try {
+            await axios.post(`${config.apiBaseUrl}/api/Auth/logout`, {}, { withCredentials: true });
+            setIsAuthenticated(false);
+            navigate('/login');
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
     };
 
     const handleSearchChange = (event) => {

@@ -228,4 +228,25 @@ public class AuthController : ControllerBase
 
         return Ok(new { UserId = user.Id });
     }
+    
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        if (Request.Cookies.ContainsKey("AuthToken"))
+        {
+            var cookieOptions = new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddDays(-1), // Set the expiration date to the past to remove the cookie
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Domain = ".gearninja.dk",
+                Path = "/"
+            };
+
+            Response.Cookies.Append("AuthToken", "", cookieOptions);
+        }
+
+        return Ok(new { Message = "Logout successful" });
+    }
 }
