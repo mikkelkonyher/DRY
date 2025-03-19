@@ -38,11 +38,16 @@ function Signup() {
             return;
         }
         if (formData.password.length < 8) {
-            setErrorMessage('Password must be at least 8 characters long.');
+            setErrorMessage('Adgangskode skal være mindst 8 tegn lang.');
+            return;
+        }
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])/;
+        if (!passwordRegex.test(formData.password)) {
+            setErrorMessage('Adgangskode skal indeholde mindst ét stort bogstav og ét specialtegn.');
             return;
         }
         if (formData.password !== formData.confirmPassword) {
-            setErrorMessage('Passwords do not match.');
+            setErrorMessage('Adgangskoderne stemmer ikke overens.');
             return;
         }
 
