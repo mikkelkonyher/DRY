@@ -164,16 +164,7 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
                         placeholder="Beskrivelse"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, description: e.target.value })}
                     />
-                    <select
-                        name="paymentType"
-                        value={updatedRoom.paymentType}
-                        onChange={(e) => setUpdatedRoom({ ...updatedRoom, paymentType: e.target.value })}
-                        required
-                    >
-                        <option value="">Vælg betalingstype</option>
-                        <option value="pr. måned">pr. måned</option>
-                        <option value="i timen">i timen</option>
-                    </select>
+
                     <input
                         type="number"
                         value={updatedRoom.price}
@@ -186,6 +177,17 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
                         placeholder="Størrelse i m²"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, roomSize: e.target.value })}
                     />
+                    <select
+                        className="nice-select"
+                        name="paymentType"
+                        value={updatedRoom.paymentType}
+                        onChange={(e) => setUpdatedRoom({ ...updatedRoom, paymentType: e.target.value })}
+                        required
+                    >
+                        <option value="">Vælg betalingstype</option>
+                        <option value="pr. måned">pr. måned</option>
+                        <option value="i timen">i timen</option>
+                    </select>
                     <select
                         className="nice-select"
                         value={updatedRoom.type}
