@@ -203,7 +203,12 @@ const MessageInterface = () => {
             <div className="message-interface">
                 <div className={`chat-list ${selectedChat ? 'hidden' : ''}`}>
                     <h2>
-                        {chats.length === 0 ? 'Ingen beskeder' : `Indbakke (${chats.reduce((total, chat) => total + chat.messages.filter(message => message.receiverId === userId && !message.isReadReceiver).length, 0)} Ulæste)`}
+                        {!userId
+                            ? 'Du skal være logget ind for at se dine beskeder'
+                            : (chats.length === 0
+                                ? 'Ingen beskeder'
+                                : `Indbakke (${chats.reduce((total, chat) => total + chat.messages.filter(message => message.receiverId === userId && !message.isReadReceiver).length, 0)} Ulæste)`)
+                        }
                     </h2>
                     {chats.map(chat => {
                         const unreadMessages = chat.messages.filter(

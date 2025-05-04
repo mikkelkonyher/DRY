@@ -285,7 +285,14 @@ function GearForm({ gearType, categories, apiEndpoint }) {
                         <option value="Brugt">Brugt</option>
                     </select>
 
-                    <input type="number" name="year" value={gear.year} onChange={handleChange} placeholder="År" required max="9999" min="0" />
+                    <select name="year" value={gear.year} onChange={handleChange} required>
+                        <option value="">Årgang på udstyr</option>
+                        <option value="0">Ved ikke</option>
+                        {Array.from({ length: new Date().getFullYear() - 1900 + 1 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+                            <option key={year} value={year}>{year}</option>
+                        ))}
+                    </select>
+
                     <select name="location" value={gear.location} onChange={handleChange} required>
                         <option value="">Vælg placering</option>
                         <option value="København og omegn">København og omegn</option>

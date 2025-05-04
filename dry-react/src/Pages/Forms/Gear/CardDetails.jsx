@@ -200,7 +200,7 @@ function CardDetails() {
                 <p>{gearItem.description}</p>
                 <p><strong>Lokation:</strong> {gearItem.location}</p>
                 <p><strong>Stand:</strong> {gearItem.condition}</p>
-                <p><strong>År:</strong> {gearItem.year}</p>
+                <p><strong>Produktionsår:</strong> {gearItem.year === 0 ? "Ukendt" : gearItem.year}</p>
                 <p><strong>Sælger:</strong> {gearItem.userName || 'Ukendt'}</p>
                 <p><strong>Oprettet:</strong> {new Date(gearItem.listingDate).toLocaleDateString()}</p>
                 <p><strong>🤍</strong> {gearItem.favoriteCount}</p>
