@@ -144,42 +144,46 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
                     <input
                         type="text"
                         value={updatedRoom.name}
-                        placeholder="Name"
+                        placeholder="Navn"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, name: e.target.value })}
                     />
                     <input
                         type="text"
                         value={updatedRoom.address}
-                        placeholder="Address"
+                        placeholder="Adresse"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, address: e.target.value })}
                     />
                     <input
                         type="text"
                         value={updatedRoom.location}
-                        placeholder="Location"
+                        placeholder="Placering"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, location: e.target.value })}
                     />
                     <textarea
                         value={updatedRoom.description}
-                        placeholder="Description"
+                        placeholder="Beskrivelse"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, description: e.target.value })}
                     />
-                    <input
-                        type="text"
+                    <select
+                        name="paymentType"
                         value={updatedRoom.paymentType}
-                        placeholder="Payment Type"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, paymentType: e.target.value })}
-                    />
+                        required
+                    >
+                        <option value="">Vælg betalingstype</option>
+                        <option value="pr. måned">pr. måned</option>
+                        <option value="i timen">i timen</option>
+                    </select>
                     <input
                         type="number"
                         value={updatedRoom.price}
-                        placeholder="Price"
+                        placeholder="Pris"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, price: e.target.value })}
                     />
                     <input
                         type="number"
                         value={updatedRoom.roomSize}
-                        placeholder="Room Size"
+                        placeholder="Størrelse i m²"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, roomSize: e.target.value })}
                     />
                     <select
