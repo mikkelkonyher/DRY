@@ -129,8 +129,8 @@ public class AuthController : ControllerBase
         {
             HttpOnly = true, // Prevents JavaScript from accessing the cookie
             Secure = true, // Ensures that the cookie is sent only over HTTPS
-            SameSite = SameSiteMode.None, // Allows cross-site requests RETTELSE var Strict
-            Domain = ".gearninja.dk", // Allow cookie to be shared across subdomains // ".gearninja.dk"
+            SameSite = SameSiteMode.None, // Allows cross-site requests
+            Domain = "localhost", // Allow cookie to be shared across subdomains // ".gearninja.dk", "localhost" - when testing locally
             Expires = DateTime.UtcNow.AddMinutes(_jwtExpirationMinutes),
         };
 
@@ -240,7 +240,7 @@ public class AuthController : ControllerBase
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.None,
-                Domain = ".gearninja.dk", //".gearninja.dk"
+                Domain = "localhost", //".gearninja.dk" // "localhost" - when testing locally
                 Path = "/"
             };
 
