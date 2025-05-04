@@ -84,7 +84,7 @@ function Home() {
                 <div className="landingpagebuttons">
                     {isAuthenticated ? (
                         <button className="sellgear-button" onClick={() => navigate('/sell-gear')}>
-                            Upload en artikel nu <SellIcon className="icon-spacing" />
+                            Opret en salgsannonce <SellIcon className="icon-spacing" />
                         </button>
                     ) : (
                         <button className="opret-dig-button" onClick={() => navigate('/signup')}>

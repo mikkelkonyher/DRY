@@ -45,7 +45,7 @@ function Signup() {
         }
         const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])/;
         if (!passwordRegex.test(formData.password)) {
-            setErrorMessage('Adgangskode skal indeholde mindst ét stort bogstav og ét specialtegn.');
+            setErrorMessage('Adgangskode skal indeholde mindst ét stort bogstav og ét specialtegn f.eks. #!+?');
             return;
         }
         if (formData.password !== formData.confirmPassword) {
