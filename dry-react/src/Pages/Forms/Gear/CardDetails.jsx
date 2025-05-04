@@ -14,7 +14,6 @@ function CardDetails() {
     const { id } = useParams();
     const [gearItem, setGearItem] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
-    const [showComments, setShowComments] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [userId, setUserId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -227,34 +226,7 @@ function CardDetails() {
                 </div>
             )}
 
-            {/* Comments section */}
-            <div className="comments-section">
-                <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
-                    {showComments ? 'Skjul kommentarer' : 'Kommenter'}
-                </button>
-                {showComments && (
-                    <>
-                        {gearItem.comments && gearItem.comments.length > 0 ? (
-                            gearItem.comments
-                                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                                .map((comment) => (
-                                    <div key={comment.id} className="comment">
-                                        <p><strong>{comment.user?.name || 'Ukendt'}:</strong> {comment.text}</p>
-                                        <p><small>{new Date(comment.createdAt).toLocaleString()}</small></p>
-                                        {(comment.userId === userId || gearItem.userId === userId) && (
-                                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                <button className="deleteCommentButton" onClick={() => handleDeleteComment(comment.id)}>Slet kommentar</button>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))
-                        ) : (
-                            <p>Ingen kommentarer.</p>
-                        )}
-                        <PostComment musicGearId={gearItem.id} onCommentPosted={handleCommentPosted} />
-                    </>
-                )}
-            </div>
+
 
             {/* Image modal */}
             {isModalOpen && (

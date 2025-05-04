@@ -11,7 +11,7 @@ function Footer() {
             <div className="footer-content">
 
                 <div className="footer-icons">
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.facebook.com/profile.php?id=61575987808404" target="_blank" rel="noopener noreferrer">
                         <FacebookIcon />
                     </a>
                     <a href="https://www.instagram.com/gearninja.dk/" target="_blank" rel="noopener noreferrer">
