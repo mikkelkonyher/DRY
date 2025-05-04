@@ -65,8 +65,6 @@ function GetRehearsalRoom() {
             }
             const data = await response.json();
 
-            console.log('API response:', data);
-
             if (!data.items) {
                 throw new Error('items property is undefined');
             }

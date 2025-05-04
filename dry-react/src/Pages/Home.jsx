@@ -25,7 +25,6 @@ function Home() {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log(`Fetched ${data.items.length} popular music gear items`);
                 setPopularMusicGear(data.items);
                 setLoading(false);
             } catch (error) {
@@ -41,7 +40,6 @@ function Home() {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log(`Fetched ${data.items.length} latest music gear items`);
                 setLatestMusicGear(data.items);
                 setLoading(false);
             } catch (error) {
@@ -57,7 +55,6 @@ function Home() {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log(`Fetched ${data.items.length} rehearsal room items`);
                 setRehearsalRooms(data.items);
                 setLoading(false);
             } catch (error) {
