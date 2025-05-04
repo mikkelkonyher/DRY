@@ -94,7 +94,6 @@ function ResponsiveAppBar() {
                 },
             });
 
-            console.log('API Response:', response.data);
             const searchResults = response.data;
 
             // Navigate to the search results page with the search results and query in the state
