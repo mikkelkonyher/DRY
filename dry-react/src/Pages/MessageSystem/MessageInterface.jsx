@@ -48,13 +48,13 @@ const MessageInterface = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log('Fetched chats:', data); // Log fetched data
+
                     // Check if each chat has unread messages for the receiver
                     const updatedChats = data.map(chat => {
                         const hasUnreadMessages = chat.messages.some(
                             message => message.receiverId === userId && !message.isReadReceiver
                         );
-                        console.log(`Chat ${chat.id} has unread messages:`, hasUnreadMessages); // Log unread status
+                        
                         return { ...chat, hasUnreadMessages };
                     });
                     setChats(updatedChats);

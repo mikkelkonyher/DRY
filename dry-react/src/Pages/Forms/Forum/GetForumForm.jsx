@@ -44,8 +44,6 @@ function GetForumForm() {
             }
             const data = await response.json();
 
-            console.log('API response:', data); // Log the response to debug
-
             if (showLiked || showCreated) {
                 setForums(data);
             } else {
