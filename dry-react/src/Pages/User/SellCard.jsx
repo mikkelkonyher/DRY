@@ -187,17 +187,25 @@ function SellCard({ item, userId, onRemove }) {
                         placeholder="Model"
                         onChange={(e) => setUpdatedItem({ ...updatedItem, model: e.target.value })}
                     />
-                    <input
-                        type="number"
-                        value={updatedItem.year}
-                        placeholder="År"
-                        onChange={(e) => setUpdatedItem({ ...updatedItem, year: e.target.value })}
-                    />
+
                     <textarea
                         value={updatedItem.description}
                         placeholder="Beskrivelse"
                         onChange={(e) => setUpdatedItem({ ...updatedItem, description: e.target.value })}
                     />
+
+                    <select
+                        className="nice-select"
+                        value={updatedItem.year}
+                        onChange={(e) => setUpdatedItem({ ...updatedItem, year: e.target.value })}
+                        required
+                    >
+                        <option value="">Årgang på udstyr</option>
+                        <option value="0">Ved ikke</option>
+                        {Array.from({ length: new Date().getFullYear() - 1900 + 1 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+                            <option key={year} value={year}>{year}</option>
+                        ))}
+                    </select>
                     <select
                         className="nice-select"
                         value={updatedItem.location}
