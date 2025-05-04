@@ -167,16 +167,18 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
 
                     <input
                         type="number"
-                        value={updatedRoom.price}
-                        placeholder="Pris"
-                        onChange={(e) => setUpdatedRoom({ ...updatedRoom, price: e.target.value })}
-                    />
-                    <input
-                        type="number"
                         value={updatedRoom.roomSize}
                         placeholder="Størrelse i m²"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, roomSize: e.target.value })}
                     />
+
+                    <input
+                        type="number"
+                        value={updatedRoom.price}
+                        placeholder="Pris"
+                        onChange={(e) => setUpdatedRoom({ ...updatedRoom, price: e.target.value })}
+                    />
+
                     <select
                         className="nice-select"
                         name="paymentType"
