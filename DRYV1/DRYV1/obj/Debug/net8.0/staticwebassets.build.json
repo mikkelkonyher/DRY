@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "gLw/kIGM5GHUqBA4Le1e6JfyZHrCZl8rS4cAXzXtTmg=",
+  "Hash": "OjU26+fcbJ2sNKmQkzTehHUY4KnMXCSs7c6rOTs8FJE=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -120,6 +120,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/0p0dyfuf.ai5.jpg"
+    },
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/0pxzxery.ewe.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/musicgear/0pxzxery.ewe#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "7f7deii0n3",
+      "Integrity": "LSN+VYdP2b2aAW2qnI7ZOt7jTUK7p5fgeiMW2pWCSgQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/musicgear/0pxzxery.ewe.jpg"
     },
     {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/0sdshyax.hke.jpg",
@@ -6977,6 +6998,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-XPTCDRu5wMwTRoYiV5CZZlqfsaxlrLdcE9nKTlsrRrk="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/0pxzxery.ewe.7f7deii0n3.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/0pxzxery.ewe.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "40544"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"LSN+VYdP2b2aAW2qnI7ZOt7jTUK7p5fgeiMW2pWCSgQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 04 May 2025 11:14:28 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "7f7deii0n3"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/musicgear/0pxzxery.ewe.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-LSN+VYdP2b2aAW2qnI7ZOt7jTUK7p5fgeiMW2pWCSgQ="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/musicgear/0pxzxery.ewe.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/0pxzxery.ewe.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "40544"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"LSN+VYdP2b2aAW2qnI7ZOt7jTUK7p5fgeiMW2pWCSgQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 04 May 2025 11:14:28 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-LSN+VYdP2b2aAW2qnI7ZOt7jTUK7p5fgeiMW2pWCSgQ="
         }
       ]
     },
