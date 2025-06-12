@@ -15,11 +15,13 @@ namespace DRYV1.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        // Controllerens konstruktør, modtager databasekontekst via dependency injection
         public DrumsGearController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Henter alle tromme-annoncer med filtrering, søgning og pagination
         [HttpGet]
         public async Task<IActionResult> GetAll(
             int pageNumber = 1, 
@@ -32,28 +34,33 @@ namespace DRYV1.Controllers
         {
             var queryable = _context.DrumsGear.AsQueryable();
 
+            // Filtrerer på type
             if (!string.IsNullOrEmpty(drumsGearType))
             {
                 var normalizedDrumsGearType = drumsGearType.Trim().ToLower();
                 queryable = queryable.Where(d => d.DrumsGearType.ToLower() == normalizedDrumsGearType);
             }
 
+            // Filtrerer på lokation
             if (!string.IsNullOrEmpty(location))
             {
                 var normalizedLocation = location.Trim().ToLower();
                 queryable = queryable.Where(d => d.Location.ToLower().Contains(normalizedLocation));
             }
 
+            // Filtrerer på minimumspris
             if (minPrice.HasValue)
             {
                 queryable = queryable.Where(d => d.Price >= minPrice.Value);
             }
 
+            // Filtrerer på maksimumspris
             if (maxPrice.HasValue)
             {
                 queryable = queryable.Where(d => d.Price <= maxPrice.Value);
             }
 
+            // Søger på nøgleord i flere felter
             if (!string.IsNullOrEmpty(query))
             {
                 var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -81,6 +88,7 @@ namespace DRYV1.Controllers
             return Ok(response);
         }
 
+        // Henter en enkelt tromme-annonce baseret på id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -92,8 +100,8 @@ namespace DRYV1.Controllers
             return Ok(drum);
         }
 
+        // Opretter en ny tromme-annonce, inkl. upload af billeder
         [HttpPost]
-    
         public async Task<IActionResult> Create([FromForm] DrumsGear drumGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == drumGear.UserId);
@@ -122,6 +130,7 @@ namespace DRYV1.Controllers
             return CreatedAtAction(nameof(GetById), new { id = drumGear.Id }, drumGear);
         }
 
+        // Opdaterer en eksisterende tromme-annonce
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, DrumsGear drumGear)
         {
@@ -135,6 +144,7 @@ namespace DRYV1.Controllers
             return NoContent();
         }
 
+        // Sletter en tromme-annonce baseret på id
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -148,7 +158,5 @@ namespace DRYV1.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-        
-      
     }
 }

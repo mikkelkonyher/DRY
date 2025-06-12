@@ -12,11 +12,13 @@ namespace DRYV1.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        // Controllerens konstruktør, modtager databasekontekst via dependency injection
         public CommentController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Opretter en ny kommentar til MusicGear, RehearsalRoom eller Forum
         [HttpPost]
         public async Task<IActionResult> PostComment([FromBody] CommentDTO commentDto)
         {
@@ -25,14 +27,14 @@ namespace DRYV1.Controllers
                 return BadRequest("Comment is null.");
             }
 
-            // Validate if the UserId exists
+            // Tjekker om bruger eksisterer
             var userExists = await _context.Users.AnyAsync(u => u.Id == commentDto.UserId);
             if (!userExists)
             {
                 return BadRequest("Invalid UserId.");
             }
 
-            // Validate if the MusicGearId, RehearsalRoomId, or ForumId exists
+            // Validerer at der er angivet et gyldigt objekt at kommentere på
             if (commentDto.MusicGearId.HasValue && commentDto.MusicGearId.Value > 0)
             {
                 var musicGearExists = await _context.MusicGear.AnyAsync(mg => mg.Id == commentDto.MusicGearId.Value);
@@ -62,6 +64,7 @@ namespace DRYV1.Controllers
                 return BadRequest("Either MusicGearId, RehearsalRoomId, or ForumId must be provided.");
             }
 
+            // Opretter kommentar-objekt
             var comment = new Comment
             {
                 MusicGearId = commentDto.MusicGearId.HasValue && commentDto.MusicGearId.Value > 0 ? commentDto.MusicGearId : null,
@@ -78,6 +81,7 @@ namespace DRYV1.Controllers
             return CreatedAtAction(nameof(GetCommentById), new { id = comment.Id }, comment);
         }
 
+        // Henter en kommentar baseret på id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCommentById(int id)
         {
@@ -108,6 +112,7 @@ namespace DRYV1.Controllers
             return Ok(comment);
         }
 
+        // Henter alle kommentarer til et bestemt MusicGear
         [HttpGet("api/MusicGear/{musicGearId}/comments")]
         public async Task<IActionResult> GetCommentsByMusicGearId(int musicGearId)
         {
@@ -132,6 +137,7 @@ namespace DRYV1.Controllers
             return Ok(comments);
         }
 
+        // Henter alle kommentarer til et bestemt RehearsalRoom
         [HttpGet("api/RehearsalRoom/{rehearsalRoomId}/comments")]
         public async Task<IActionResult> GetCommentsByRehearsalRoomId(int rehearsalRoomId)
         {
@@ -156,6 +162,7 @@ namespace DRYV1.Controllers
             return Ok(comments);
         }
 
+        // Henter alle kommentarer til et bestemt Forum
         [HttpGet("api/Forum/{forumId}/comments")]
         public async Task<IActionResult> GetCommentsByForumId(int forumId)
         {
@@ -180,6 +187,7 @@ namespace DRYV1.Controllers
             return Ok(comments);
         }
         
+        // Sletter en kommentar baseret på id
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComment(int id)
         {

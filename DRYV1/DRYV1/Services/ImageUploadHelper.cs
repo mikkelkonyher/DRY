@@ -9,18 +9,21 @@ using System;
 
 namespace DRYV1.Services
 {
+    // Hjælpeklasse til upload og sletning af billeder
     public static class ImageUploadHelper
     {
+        // Upload flere billeder, returnerer liste af URL'er til de uploadede billeder
         public static async Task<List<string>> UploadImagesAsync(List<IFormFile> imageFiles, string uploadPath, string baseUrl, int maxFiles = 8, long maxSize = 4 * 1024 * 1024)
         {
             var imageUrls = new List<string>();
 
+            // Tjekker om der uploades for mange filer
             if (imageFiles.Count > maxFiles)
             {
-                throw new InvalidOperationException($"You can upload a maximum of {maxFiles} images.");
+                throw new InvalidOperationException($"Du kan maksimalt uploade {maxFiles} billeder.");
             }
 
-            // Ensure the upload directory exists
+            // Sikrer at upload-mappen findes
             var fullUploadPath = Path.Combine("wwwroot", uploadPath);
             if (!Directory.Exists(fullUploadPath))
             {
@@ -29,31 +32,35 @@ namespace DRYV1.Services
 
             foreach (var imageFile in imageFiles)
             {
+                // Tjekker filstørrelse
                 if (imageFile.Length > maxSize)
                 {
-                    throw new InvalidOperationException($"Each image must be less than {maxSize / (1024 * 1024)}MB.");
+                    throw new InvalidOperationException($"Hvert billede skal være mindre end {maxSize / (1024 * 1024)}MB.");
                 }
 
+                // Tjekker filtype
                 var extension = Path.GetExtension(imageFile.FileName).ToLower();
                 if (extension != ".png" && extension != ".jpg" && extension != ".jpeg" && extension != ".webp")
                 {
-                    throw new InvalidOperationException("Only PNG, JPG, and WEBP images are allowed.");
+                    throw new InvalidOperationException("Kun PNG, JPG og WEBP billeder er tilladt.");
                 }
 
+                // Genererer unikt filnavn og sti
                 var fileName = Path.GetRandomFileName() + extension;
                 var filePath = Path.Combine(fullUploadPath, fileName);
 
+                // Komprimerer og gemmer billedet som JPEG
                 using (var image = Image.Load(imageFile.OpenReadStream()))
                 {
-                    
                     var encoder = new JpegEncoder
                     {
-                        Quality = 30 // adjust this value to change the image quality
+                        Quality = 30 // Juster kvaliteten her
                     };
 
                     await image.SaveAsync(filePath, encoder);
                 }
 
+                // Opretter URL til det uploadede billede
                 var imageUrl = new Uri(new Uri(baseUrl), Path.Combine(uploadPath, fileName).Replace("\\", "/")).ToString();
                 imageUrls.Add(imageUrl);
             }
@@ -61,6 +68,7 @@ namespace DRYV1.Services
             return imageUrls;
         }
 
+        // Sletter flere billeder ud fra deres stier
         public static void DeleteImages(List<string> imagePaths)
         {
             foreach (var imagePath in imagePaths)
@@ -72,8 +80,8 @@ namespace DRYV1.Services
                 }
             }
         }
-        
-        
+
+        // Sletter et enkelt billede ud fra stien
         public static void DeleteImage(string imagePath)
         {
             var fullPath = Path.Combine("wwwroot", imagePath);

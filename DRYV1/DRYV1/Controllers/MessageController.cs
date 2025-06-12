@@ -14,13 +14,14 @@ namespace DRYV1.Controllers
         private readonly ApplicationDbContext _context;
         private readonly EmailService _emailService;
 
+        // Controllerens konstruktør, modtager databasekontekst og emailservice via dependency injection
         public MessagesController(ApplicationDbContext context, EmailService emailService)
         {
             _context = context;
             _emailService = emailService;
         }
 
-        // GET: api/Messages/{userId}
+        // Henter alle beskeder for en bruger (både sendte og modtagne)
         [HttpGet("{userId}")]
         public async Task<ActionResult<IEnumerable<MessageDTO>>> GetMessages(int userId)
         {
@@ -39,17 +40,17 @@ namespace DRYV1.Controllers
                     IsReadSender = m.IsReadSender,
                     IsReadReceiver = m.IsReadReceiver,
                     ChatId = m.ChatId,
-                   
                 })
                 .ToListAsync();
 
             return Ok(messages);
         }
 
+        // Sender en besked og opretter evt. en ny chat hvis nødvendigt
         [HttpPost]
         public async Task<ActionResult<MessageDTO>> SendMessage(MessageCreateDTO messageCreateDTO)
         {
-            // Check if a chat with the same subject already exists between the sender and receiver
+            // Tjekker om en chat med samme emne og deltagere allerede findes
             var chat = await _context.Chats
                 .Include(c => c.Messages)
                 .FirstOrDefaultAsync(c => c.Subject == messageCreateDTO.Subject &&
@@ -59,7 +60,7 @@ namespace DRYV1.Controllers
 
             if (chat == null)
             {
-                // Create a new chat if it doesn't exist
+                // Opretter ny chat hvis den ikke findes
                 chat = new Chat
                 {
                     Subject = messageCreateDTO.Subject
@@ -68,6 +69,7 @@ namespace DRYV1.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            // Opretter besked-objekt og tilføjer til databasen
             var message = new Message
             {
                 SenderId = messageCreateDTO.SenderId,
@@ -95,7 +97,7 @@ namespace DRYV1.Controllers
                 ChatId = message.ChatId,
             };
 
-            // Send email notification
+            // Sender emailnotifikation til modtageren
             var inboxUrl = "https://www.gearninja.dk/inbox";
             var receiver = await _context.Users.FindAsync(messageCreateDTO.ReceiverId);
             if (receiver != null)
@@ -106,7 +108,7 @@ namespace DRYV1.Controllers
             return CreatedAtAction(nameof(GetMessages), new { userId = message.SenderId }, messageDTO);
         }
 
-        // DELETE: api/Messages/{id}
+        // Sletter en besked baseret på id
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMessage(int id)
         {

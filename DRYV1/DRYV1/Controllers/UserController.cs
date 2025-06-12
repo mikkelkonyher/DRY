@@ -12,11 +12,13 @@ namespace DRYV1.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        // Controllerens konstruktør, modtager databasekontekst via dependency injection
         public UserController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Henter alle brugere og returnerer dem med maskeret email
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
@@ -39,6 +41,7 @@ namespace DRYV1.Controllers
             }));
         }
 
+        // Henter en bruger baseret på id og returnerer maskeret email
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDTO>> GetUserById(int id)
         {
@@ -67,6 +70,7 @@ namespace DRYV1.Controllers
             });
         }
 
+        // Opdaterer brugerens navn og email efter validering
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO updatedUser)
         {
@@ -81,6 +85,7 @@ namespace DRYV1.Controllers
                 return NotFound("User not found.");
             }
 
+            // Tjekker om email allerede er i brug af en anden bruger
             if (!string.IsNullOrEmpty(updatedUser.Email) && updatedUser.Email.Trim() != "string")
             {
                 var emailExists = await _context.Users
@@ -91,6 +96,7 @@ namespace DRYV1.Controllers
                 }
             }
 
+            // Tjekker om navn allerede er i brug af en anden bruger
             if (!string.IsNullOrEmpty(updatedUser.Name) && updatedUser.Name.Trim() != "string")
             {
                 var nameExists = await _context.Users
@@ -101,7 +107,7 @@ namespace DRYV1.Controllers
                 }
             }
 
-            // Update user properties after validation checks
+            // Opdaterer brugerens egenskaber efter validering
             if (!string.IsNullOrEmpty(updatedUser.Email) && updatedUser.Email.Trim() != "string")
             {
                 user.Email = updatedUser.Email.Trim();
@@ -118,6 +124,7 @@ namespace DRYV1.Controllers
             return NoContent();
         }
 
+        // Opdaterer brugerens profilbillede
         [HttpPut("{id}/profile-image")]
         public async Task<IActionResult> UpdateProfileImage(int id, [FromForm] List<IFormFile> imageFiles)
         {
@@ -129,7 +136,7 @@ namespace DRYV1.Controllers
 
             if (imageFiles != null && imageFiles.Any())
             {
-                // Delete the existing profile image if it exists
+                // Sletter eksisterende profilbillede hvis det findes
                 if (!string.IsNullOrEmpty(user.ProfileImageUrl))
                 {
                     var existingImagePath = user.ProfileImageUrl.Replace($"{Request.Scheme}://{Request.Host}/", "");
@@ -147,6 +154,8 @@ namespace DRYV1.Controllers
 
             return NoContent();
         }
+
+        // Sletter en bruger og relaterede data (fora, likes, kommentarer)
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -156,7 +165,7 @@ namespace DRYV1.Controllers
                 return NotFound("User not found.");
             }
 
-            // Find and delete all comments made on forums created by the user
+            // Sletter alle kommentarer på fora oprettet af brugeren
             var userForums = await _context.Forums.Where(f => f.UserId == id).ToListAsync();
             foreach (var forum in userForums)
             {
@@ -164,14 +173,14 @@ namespace DRYV1.Controllers
                 _context.Comments.RemoveRange(forumComments);
             }
 
-            // Find and delete all forums created by the user
+            // Sletter alle fora oprettet af brugeren
             _context.Forums.RemoveRange(userForums);
 
-            // Find and delete all liked forums by the user
+            // Sletter alle likes på fora lavet af brugeren
             var likedForums = await _context.ForumLikes.Where(fl => fl.UserId == id).ToListAsync();
             _context.ForumLikes.RemoveRange(likedForums);
 
-            // Find and delete all comments made by the user
+            // Sletter alle kommentarer lavet af brugeren
             var userComments = await _context.Comments.Where(c => c.UserId == id).ToListAsync();
             _context.Comments.RemoveRange(userComments);
 
@@ -180,7 +189,8 @@ namespace DRYV1.Controllers
 
             return NoContent();
         }
-        
+
+        // Henter alle brugere med umaskeret email (til admin-brug)
         [HttpGet("unmasked")]
         public async Task<ActionResult<IEnumerable<UserProfileDTO>>> GetUsersUnmasked()
         {

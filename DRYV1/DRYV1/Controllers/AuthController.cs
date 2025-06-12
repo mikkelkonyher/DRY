@@ -18,8 +18,9 @@ public class AuthController : ControllerBase
     private readonly JwtService _jwtService;
     private readonly EmailService _emailService;
     private readonly IConfiguration _configuration;
-    private readonly int _jwtExpirationMinutes = 2880; // Token expiration time
+    private readonly int _jwtExpirationMinutes = 2880; // Token udløbstid i minutter
 
+    // Controllerens konstruktør, modtager nødvendige services via dependency injection
     public AuthController(ApplicationDbContext context, JwtService jwtService, EmailService emailService, IConfiguration configuration)
     {
         _context = context;
@@ -28,9 +29,11 @@ public class AuthController : ControllerBase
         _configuration = configuration;
     }
     
+    // Opretter en ny bruger og sender bekræftelsesmail
     [HttpPost("signup")]
     public async Task<IActionResult> Signup(UserCreateDTO userCreateDTO)
     {
+        // Tjekker om email allerede er i brug
         var existingUserByEmail = await _context.Users
             .FirstOrDefaultAsync(u => u.Email == userCreateDTO.Email);
 
@@ -46,6 +49,7 @@ public class AuthController : ControllerBase
             }
         }
 
+        // Tjekker om brugernavn allerede er i brug
         var existingUserByName = await _context.Users
             .FirstOrDefaultAsync(u => u.Name == userCreateDTO.Name);
 
@@ -54,6 +58,7 @@ public class AuthController : ControllerBase
             return BadRequest(new { Message = "A user with the same name already exists." });
         }
 
+        // Opretter ny bruger
         var newUser = new User
         {
             Name = userCreateDTO.Name,
@@ -65,6 +70,7 @@ public class AuthController : ControllerBase
         _context.Users.Add(newUser);
         await _context.SaveChangesAsync();
 
+        // Genererer bekræftelseslink og sender email
         var token = _jwtService.GenerateToken(newUser);
         var verificationLink = Url.Action(nameof(VerifyEmail), "Auth", new { token, name = userCreateDTO.Name }, Request.Scheme);
 
@@ -74,6 +80,7 @@ public class AuthController : ControllerBase
         return Ok(new { Message = "Please check your email to verify your account." });
     }
 
+    // Bekræfter brugerens email via token
     [HttpGet("verify-email")]
     public async Task<IActionResult> VerifyEmail(string token)
     {
@@ -105,15 +112,13 @@ public class AuthController : ControllerBase
         return Redirect("https://www.gearninja.dk/login");
     }
     
-    //"http://localhost:5173"
-    //"https://www.gearninja.dk/login"
-
+    // Logger bruger ind og sætter JWT-token i cookie
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDTO loginDTO)
     {
-        var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == loginDTO.Email); // Get user by email
+        var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == loginDTO.Email); // Henter bruger via email
 
-        if (user == null || !BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password)) // Check if user exists and password is correct
+        if (user == null || !BCrypt.Net.BCrypt.Verify(loginDTO.Password, user.Password)) // Tjekker om bruger findes og password er korrekt
         {
             return Unauthorized(new { Message = "Incorrect email or password." });
         }
@@ -123,33 +128,34 @@ public class AuthController : ControllerBase
             return Unauthorized(new { Message = "Email not verified. Please check your email to verify your account." });
         }
 
-        var token = GenerateJwtToken(user.Email); // Generate JWT token
+        var token = GenerateJwtToken(user.Email); // Genererer JWT-token
 
         var cookieOptions = new CookieOptions 
         {
-            HttpOnly = true, // Prevents JavaScript from accessing the cookie
-            Secure = true, // Ensures that the cookie is sent only over HTTPS
-            SameSite = SameSiteMode.None, // Allows cross-site requests
-            Domain = ".gearninja.dk", // Allow cookie to be shared across subdomains // ".gearninja.dk", "localhost" - when testing locally
+            HttpOnly = true, // Forhindrer JavaScript i at tilgå cookien
+            Secure = true, // Kun via HTTPS
+            SameSite = SameSiteMode.None, // Tillader cross-site requests
+            Domain = "localhost", // Skift til ".gearninja.dk" i produktion
             Expires = DateTime.UtcNow.AddMinutes(_jwtExpirationMinutes),
         };
 
-        Response.Cookies.Append("AuthToken", token, cookieOptions); // Add token to cookies
+        Response.Cookies.Append("AuthToken", token, cookieOptions); // Tilføjer token til cookies
 
         return Ok(new { Message = "Login successful", Token = token });
     }
 
-    private string GenerateJwtToken(string email) // Generate JWT token
+    // Genererer JWT-token ud fra email
+    private string GenerateJwtToken(string email)
     {
         var claims = new[] 
         {
             new Claim(JwtRegisteredClaimNames.Sub, email), 
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // Unique identifier for the token
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // Unik identifikator for token
         };
 
-        var jwtSettings = _configuration.GetSection("JwtSettings"); // Get JWT settings from appsettings.json
+        var jwtSettings = _configuration.GetSection("JwtSettings"); // Henter JWT-indstillinger fra appsettings.json
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"])); 
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); // Create signing credentials
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); // Opretter signeringsnøgle
 
         var token = new JwtSecurityToken( 
             issuer: jwtSettings["Issuer"],
@@ -161,6 +167,7 @@ public class AuthController : ControllerBase
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
+    // Sender email med link til nulstilling af adgangskode
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword([FromBody] string email)
     {
@@ -178,6 +185,7 @@ public class AuthController : ControllerBase
         return Ok(new { Message = "Password reset link has been sent to your email." });
     }
 
+    // Nulstiller adgangskode via token
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO resetPasswordDTO)
     {
@@ -203,6 +211,7 @@ public class AuthController : ControllerBase
         return Ok(new { Message = "Password has been reset successfully." });
     }
     
+    // Henter brugerens ID ud fra AuthToken-cookie
     [HttpGet("get-user-id")]
     public async Task<IActionResult> GetUserIdFromCookie()
     {
@@ -229,6 +238,7 @@ public class AuthController : ControllerBase
         return Ok(new { UserId = user.Id });
     }
     
+    // Logger bruger ud og fjerner AuthToken-cookie
     [HttpPost("logout")]
     public IActionResult Logout()
     {
@@ -236,11 +246,11 @@ public class AuthController : ControllerBase
         {
             var cookieOptions = new CookieOptions
             {
-                Expires = DateTime.UtcNow.AddDays(-1), // Set the expiration date to the past to remove the cookie
+                Expires = DateTime.UtcNow.AddDays(-1), // Sætter udløbsdato i fortiden for at slette cookien
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.None,
-                Domain = ".gearninja.dk", //".gearninja.dk" // "localhost" - when testing locally
+                Domain = "localhost", // Skift til ".gearninja.dk" i produktion
                 Path = "/"
             };
 
