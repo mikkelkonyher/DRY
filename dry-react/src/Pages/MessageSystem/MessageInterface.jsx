@@ -8,7 +8,7 @@ const MessageInterface = () => {
     const [userId, setUserId] = useState(null);
     const [newMessage, setNewMessage] = useState('');
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true); // Set loading to true initially
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ const MessageInterface = () => {
             try {
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
                     method: 'GET',
-                    credentials: 'include', // This sends cookies with the request
+                    credentials: 'include',
                 });
 
                 if (!userIdResponse.ok) {
@@ -32,11 +32,6 @@ const MessageInterface = () => {
             }
         };
 
-        fetchUserId();
-    }, []);
-
-    // Fetch chats
-    useEffect(() => {
         const fetchChats = async () => {
             try {
                 if (!userId) return;
@@ -48,13 +43,10 @@ const MessageInterface = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-
-                    // Check if each chat has unread messages for the receiver
                     const updatedChats = data.map(chat => {
                         const hasUnreadMessages = chat.messages.some(
                             message => message.receiverId === userId && !message.isReadReceiver
                         );
-                        
                         return { ...chat, hasUnreadMessages };
                     });
                     setChats(updatedChats);
@@ -63,25 +55,25 @@ const MessageInterface = () => {
                 }
             } catch (error) {
                 console.error('Error fetching chats:', error);
+            } finally {
+                setLoading(false); // Set loading to false after data is fetched
             }
         };
 
-        fetchChats();
+        fetchUserId().then(fetchChats);
     }, [userId]);
 
-    // Mark all messages as read
     const markAllMessagesAsRead = async (chatId) => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Chats/${chatId}/markAllAsRead/${userId}`, {
                 method: 'PUT',
-                credentials: 'include', // This sends cookies with the request
+                credentials: 'include',
                 headers: {
                     'accept': 'application/json',
                 },
             });
 
             if (response.ok) {
-                // Update the state of the chats array directly
                 setChats(prevChats => {
                     return prevChats.map(chat => {
                         if (chat.id === chatId) {
@@ -92,7 +84,7 @@ const MessageInterface = () => {
                                     isReadReceiver: message.receiverId === userId ? true : message.isReadReceiver,
                                     isReadSender: message.senderId === userId ? true : message.isReadSender
                                 })),
-                                hasUnreadMessages: false // Set hasUnreadMessages to false
+                                hasUnreadMessages: false
                             };
                         }
                         return chat;
@@ -106,17 +98,15 @@ const MessageInterface = () => {
         }
     };
 
-    // Handle chat click
     const handleChatClick = (chatId) => {
         if (selectedChat !== chatId) {
             setSelectedChat(chatId);
-            markAllMessagesAsRead(chatId); // Mark messages as read for the current chat
+            markAllMessagesAsRead(chatId);
         } else {
             setSelectedChat(null);
         }
     };
 
-    // Handle send message
     const handleSendMessage = async (e) => {
         e.preventDefault();
         if (!newMessage.trim()) return;
@@ -146,7 +136,7 @@ const MessageInterface = () => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Messages`, {
                 method: 'POST',
-                credentials: 'include', // This sends cookies with the request
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -172,23 +162,21 @@ const MessageInterface = () => {
         }
     };
 
-    // Handle soft delete chat
     const handleSoftDeleteChat = async (e, chatId) => {
-        e.stopPropagation(); // Stop event propagation
+        e.stopPropagation();
         const confirmDelete = window.confirm("Er du sikker på at du vil slette denne chat?");
         if (!confirmDelete) return;
 
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Chats/${chatId}/softDelete/${userId}`, {
                 method: 'PUT',
-                credentials: 'include', // This sends cookies with the request
+                credentials: 'include',
                 headers: {
                     'accept': 'application/json',
                 },
             });
 
             if (response.ok) {
-                // Remove the chat from the state
                 setChats(prevChats => prevChats.filter(chat => chat.id !== chatId));
             } else {
                 console.error('Failed to soft delete chat');
@@ -197,6 +185,10 @@ const MessageInterface = () => {
             console.error('Error soft deleting chat:', error);
         }
     };
+
+    if (loading) {
+        return <div className="spinner-container"><div className="spinner"></div></div>;
+    }
 
     return (
         <div className="message-interface-container">
@@ -221,7 +213,6 @@ const MessageInterface = () => {
                                 className={`chat-item ${chat.hasUnreadMessages ? 'unread' : ''} ${selectedChat === chat.id ? 'selected-chat' : ''}`}
                                 onClick={() => handleChatClick(chat.id)}
                             >
-
                                 <strong>
                                     {chat.messages[0].senderId === userId
                                         ? chat.messages[0].receiverUsername
