@@ -84,12 +84,12 @@ function ForumDetails() {
 
     const handleLikeClick = async () => {
         if (!userId) {
-            alert('Login to like posts');
+            alert('Login for at kunne synes godt om indlæg');
             return;
         }
 
         if (userId === forumItem.userId) {
-            alert('You cannot like your own post');
+            alert('Du kan ikke synes godt om dit dit eget indlæg');
             return;
         }
 
@@ -159,7 +159,7 @@ function ForumDetails() {
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
-            navigate('/Forums');
+            navigate('/forum'); // Correct path for navigation
         } catch (error) {
             console.error('Error deleting forum:', error);
         }
