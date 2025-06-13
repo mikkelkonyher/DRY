@@ -10,6 +10,7 @@ import './RehearsalRoomCard.css';
 function RehearsalRoomCard({ item, userId }) {
     const [currentImageIndex] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [loadingFavorite, setLoadingFavorite] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,6 +49,9 @@ function RehearsalRoomCard({ item, userId }) {
             return;
         }
 
+        if (loadingFavorite) return;
+
+        setLoadingFavorite(true);
         try {
             const url = new URL(`${config.apiBaseUrl}/api/RehearsalRoomFavorites`);
             url.searchParams.append('userId', userId);
@@ -66,10 +70,10 @@ function RehearsalRoomCard({ item, userId }) {
             setIsFavorite(!isFavorite);
         } catch (error) {
             console.error('Error toggling favorite:', error);
+        } finally {
+            setLoadingFavorite(false);
         }
     };
-
-
 
     const handleCardClick = () => {
         navigate(`/RehearsalRoomDetails/${item.id}`);
@@ -84,6 +88,7 @@ function RehearsalRoomCard({ item, userId }) {
                 className="favorite-button-getgear"
                 onClick={handleFavoriteClick}
                 title={isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
+                disabled={loadingFavorite}
             >
                 <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart}/>
             </button>
@@ -102,7 +107,7 @@ function RehearsalRoomCard({ item, userId }) {
 
 RehearsalRoomCard.propTypes = {
     item: PropTypes.object.isRequired,
-    userId: PropTypes.number, // Make userId optional
+    userId: PropTypes.number,
 };
 
 export default RehearsalRoomCard;

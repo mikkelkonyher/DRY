@@ -10,6 +10,7 @@ import './GearCard.css';
 function GearCard({ item, handleImageClick, userId }) {
     const [currentImageIndex] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [loadingFavorite, setLoadingFavorite] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -52,6 +53,9 @@ function GearCard({ item, handleImageClick, userId }) {
             return;
         }
 
+        if (loadingFavorite) return; // Prevent double click
+
+        setLoadingFavorite(true);
         try {
             const url = new URL(`${config.apiBaseUrl}/api/Favorites`);
             url.searchParams.append('userId', userId);
@@ -66,6 +70,8 @@ function GearCard({ item, handleImageClick, userId }) {
             setIsFavorite(!isFavorite);
         } catch (error) {
             console.error('Error toggling favorite:', error);
+        } finally {
+            setLoadingFavorite(false);
         }
     };
 
@@ -87,6 +93,7 @@ function GearCard({ item, handleImageClick, userId }) {
                 className="favorite-button-getgear"
                 onClick={handleFavoriteClick}
                 title={isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
+                disabled={loadingFavorite}
             >
                 <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart}/>
             </button>
@@ -102,7 +109,7 @@ function GearCard({ item, handleImageClick, userId }) {
 GearCard.propTypes = {
     item: PropTypes.object.isRequired,
     handleImageClick: PropTypes.func.isRequired,
-    userId: PropTypes.number, // Make userId optional
+    userId: PropTypes.number,
 };
 
 export default GearCard;
