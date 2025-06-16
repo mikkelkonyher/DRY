@@ -135,7 +135,7 @@ public class AuthController : ControllerBase
             HttpOnly = true, // Forhindrer JavaScript i at tilgå cookien
             Secure = true, // Kun via HTTPS
             SameSite = SameSiteMode.None, // Tillader cross-site requests
-            Domain = "localhost", // Skift til ".gearninja.dk" i produktion
+            Domain = ".gearninja.dk", // Skift til ".gearninja.dk" i produktion
             Expires = DateTime.UtcNow.AddMinutes(_jwtExpirationMinutes),
         };
 
@@ -178,7 +178,7 @@ public class AuthController : ControllerBase
         }
 
         var token = _jwtService.GenerateToken(user);
-        var resetLink = $"https://www.gearninja.dk/reset-password/{token}";
+        var resetLink = $"https://www.gearninja.dk/reset-password/{token}"; // Når du tester lokalt, brug "http://localhost:5173/reset-password/{token}" ellers brug "https://www.gearninja.dk/reset-password/{token}"
         await _emailService.SendEmailAsync(email, "Reset din adgangskode",
             $"Venligst nulstil din adgangskode ved at klikke <a href='{resetLink}'>her</a>.🥷");
 
@@ -250,7 +250,7 @@ public class AuthController : ControllerBase
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.None,
-                Domain = "localhost", // Skift til ".gearninja.dk" i produktion
+                Domain = ".gearninja.dk", // Skift til ".gearninja.dk" i produktion
                 Path = "/"
             };
 

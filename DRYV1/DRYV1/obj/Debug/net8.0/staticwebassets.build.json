@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "qPwQ5ymZ8034kctfGTOydixN/hxbT3GxE/b82Y6yX1c=",
+  "Hash": "OCt2YJ9rwPCM5xu2pTFJq6b482h/hyZ9HrflDikSrxc=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -16,6 +16,27 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/MailImage/logo.png",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/MailImage/logo#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "n694zdez9l",
+      "Integrity": "f/4ArFCHbKZM2MrB4+bFQyH+DMttEAU1s6HmASnIz9Y=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/MailImage/logo.png"
+    },
     {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/0ebcadwc.yvc.jpg",
       "SourceId": "DRYV1",
@@ -6612,6 +6633,88 @@
     }
   ],
   "Endpoints": [
+    {
+      "Route": "assets/MailImage/logo.n694zdez9l.png",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/MailImage/logo.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9004"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"f/4ArFCHbKZM2MrB4+bFQyH+DMttEAU1s6HmASnIz9Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 16 Jun 2025 08:04:39 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "n694zdez9l"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/MailImage/logo.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-f/4ArFCHbKZM2MrB4+bFQyH+DMttEAU1s6HmASnIz9Y="
+        }
+      ]
+    },
+    {
+      "Route": "assets/MailImage/logo.png",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/MailImage/logo.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9004"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"f/4ArFCHbKZM2MrB4+bFQyH+DMttEAU1s6HmASnIz9Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 16 Jun 2025 08:04:39 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-f/4ArFCHbKZM2MrB4+bFQyH+DMttEAU1s6HmASnIz9Y="
+        }
+      ]
+    },
     {
       "Route": "assets/uploads/musicgear/0ebcadwc.yvc.jpg",
       "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/musicgear/0ebcadwc.yvc.jpg",

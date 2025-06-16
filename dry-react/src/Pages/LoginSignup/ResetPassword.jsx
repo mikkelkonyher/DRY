@@ -9,56 +9,74 @@ const ResetPassword = () => {
     const navigate = useNavigate();
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [isError, setIsError] = useState(false);
-    const [success, setSuccess] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (newPassword !== confirmPassword) {
-            setMessage('Adgangskoderne stemmer ikke overens.');
-            setIsError(true);
+
+        if (newPassword.length < 8) {
+            setErrorMessage('Adgangskode skal være mindst 8 tegn lang.');
             return;
         }
+
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])/;
+        if (!passwordRegex.test(newPassword)) {
+            setErrorMessage('Adgangskode skal indeholde mindst ét stort bogstav og ét specialtegn f.eks. #!+?');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            setErrorMessage('Adgangskoderne stemmer ikke overens.');
+            return;
+        }
+
+        setLoading(true);
+
         try {
-            const response = await axios.post(`${config.apiBaseUrl}/api/Auth/reset-password`, { token, newPassword }, { withCredentials: true });
-            setMessage('');
-            setSuccess(response.data.Message || 'Adgangskode er blevet ændret.');
-            setIsError(false);
+            const response = await axios.post(
+                `${config.apiBaseUrl}/api/Auth/reset-password`,
+                { token, newPassword },
+                { withCredentials: true }
+            );
+
+            setErrorMessage('');
+            setSuccessMessage(response.data.Message || 'Adgangskode er blevet ændret.');
             setNewPassword('');
             setConfirmPassword('');
             navigate('/login');
         } catch (err) {
-            setMessage(err.response?.data?.Message || 'Error resetting password.');
-            setIsError(true);
-            setSuccess('');
+            setErrorMessage(err.response?.data?.Message || 'Error resetting password.');
+            setSuccessMessage('');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="reset-password-container">
             <h2 className="reset-password-title">Skift adgangskode</h2>
-            {message && <p className="reset-password-message" style={{ color: 'red' }}>{message}</p>}
-            {success && <p className="reset-password-message" style={{ color: 'green' }}>{success}</p>}
+            {errorMessage && <p className="reset-password-message" style={{ color: 'red' }}>{errorMessage}</p>}
+            {successMessage && <p className="reset-password-message" style={{ color: 'green' }}>{successMessage}</p>}
             <form className="reset-password-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="newPassword" className="reset-password-label">Ny adgangskode</label>
                     <input
-                        placeholder={'Indtast ny adgangskode'}
+                        placeholder="Indtast ny adgangskode"
                         type="password"
                         id="newPassword"
                         className="reset-password-input"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         required
-                        minLength="8"
                         maxLength="100"
                     />
                 </div>
                 <div className="form-group">
                     <label htmlFor="confirmPassword" className="reset-password-label">Bekræft adgangskode</label>
                     <input
-                        placeholder={'Bekræft ny adgangskode'}
+                        placeholder="Bekræft ny adgangskode"
                         type="password"
                         id="confirmPassword"
                         className="reset-password-input"
@@ -67,7 +85,9 @@ const ResetPassword = () => {
                         required
                     />
                 </div>
-                <button type="submit" className="reset-password-button">Skift adgangskode</button>
+                <button type="submit" className="reset-password-button" disabled={loading}>
+                    {loading ? 'Indlæser...' : 'Skift adgangskode'}
+                </button>
             </form>
         </div>
     );
