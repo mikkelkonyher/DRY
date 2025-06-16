@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
@@ -9,11 +10,13 @@ using System.IO;
 public class EmailService
 {
     private readonly IConfiguration _configuration;
+    private readonly IWebHostEnvironment _env;
 
-    // Konstruktor modtager konfiguration (f.eks. fra appsettings.json)
-    public EmailService(IConfiguration configuration)
+    // Konstruktor modtager konfiguration og miljø (f.eks. fra appsettings.json og hosting)
+    public EmailService(IConfiguration configuration, IWebHostEnvironment env)
     {
         _configuration = configuration;
+        _env = env;
     }
 
     // Asynkron metode til at sende en e-mail
@@ -39,8 +42,8 @@ public class EmailService
         };
         mailMessage.To.Add(toEmail);
 
-        // Sti til logo-billedet, der skal indsættes i e-mailen
-        var logoPath = "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/MailImage/logo.png";
+        // Find sti til logo-billedet i wwwroot, så det virker både lokalt og på serveren
+        var logoPath = Path.Combine(_env.WebRootPath, "assets", "MailImage", "logo.png");
         if (!File.Exists(logoPath))
             throw new FileNotFoundException("Logo image not found.", logoPath);
 
@@ -60,8 +63,10 @@ public class EmailService
     <div style='margin-left:20px;'>
         <img src='cid:logoImage' alt='Logo' style='width:200px;'>
     </div> <br><br>
-    {body}
-    {signature}
+    <div style='font-size:16px;'>
+        {body}
+        {signature}
+    </div>
 ";
 
         // Opret AlternateView for at kunne indsætte billeder i e-mailen
