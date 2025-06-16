@@ -13,44 +13,52 @@ namespace DRYV1.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        // Controllerens konstruktør, modtager databasekontekst via dependency injection
         public GuitBassGearController(ApplicationDbContext context)
         {
             _context = context;
         }
+
+        // Henter alle guitar- og bas-annoncer med filtrering, søgning og pagination
         [HttpGet]
         public async Task<IActionResult> GetAll(
-            int pageNumber = 1, 
-            int pageSize = 16, 
-            string guitBassType = null, 
-            string location = null, 
-            decimal? minPrice = null, 
+            int pageNumber = 1,
+            int pageSize = 16,
+            string guitBassType = null,
+            string location = null,
+            decimal? minPrice = null,
             decimal? maxPrice = null,
             string query = null)
         {
-            var queryable = _context.GuitBassGear.AsQueryable(); 
+            var queryable = _context.GuitBassGear.AsQueryable();
 
-            if (!string.IsNullOrEmpty(guitBassType)) 
+            // Filtrerer på type
+            if (!string.IsNullOrEmpty(guitBassType))
             {
                 var normalizedGuitBassType = guitBassType.Trim().ToLower();
-                queryable = queryable.Where(g => g.GuitBassType.ToLower() == normalizedGuitBassType); 
+                queryable = queryable.Where(g => g.GuitBassType.ToLower() == normalizedGuitBassType);
             }
 
+            // Filtrerer på lokation
             if (!string.IsNullOrEmpty(location))
             {
                 var normalizedLocation = location.Trim().ToLower();
                 queryable = queryable.Where(g => g.Location.ToLower().Contains(normalizedLocation));
             }
 
+            // Filtrerer på minimumspris
             if (minPrice.HasValue)
             {
                 queryable = queryable.Where(g => g.Price >= minPrice.Value);
             }
 
+            // Filtrerer på maksimumspris
             if (maxPrice.HasValue)
             {
                 queryable = queryable.Where(g => g.Price <= maxPrice.Value);
             }
 
+            // Søger på nøgleord i flere felter
             if (!string.IsNullOrEmpty(query))
             {
                 var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -78,6 +86,7 @@ namespace DRYV1.Controllers
             return Ok(response);
         }
 
+        // Henter en enkelt guitar- eller bas-annonce baseret på id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -95,10 +104,9 @@ namespace DRYV1.Controllers
 
             return Ok(response);
         }
-        
-        
+
+        // Opretter en ny guitar- eller bas-annonce, inkl. upload af billeder
         [HttpPost]
-        
         public async Task<IActionResult> Create([FromForm] GuitBassGear guitBassGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == guitBassGear.UserId);
@@ -127,8 +135,7 @@ namespace DRYV1.Controllers
             return CreatedAtAction(nameof(GetById), new { id = guitBassGear.Id }, guitBassGear);
         }
 
-        
-
+        // Sletter en guitar- eller bas-annonce baseret på id
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -142,8 +149,5 @@ namespace DRYV1.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-        
-      
-        
     }
 }

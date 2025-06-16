@@ -9,7 +9,8 @@ import './ForumCard.css';
 
 function ForumCard({ item, userId }) {
     const [isLiked, setIsLiked] = useState(false);
-    const [likeCount, setLikeCount] = useState(item?.likeCount || 0); // Store like count in state
+    const [likeCount, setLikeCount] = useState(item?.likeCount || 0);
+    const [loadingLike, setLoadingLike] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,6 +51,9 @@ function ForumCard({ item, userId }) {
             return;
         }
 
+        if (loadingLike) return;
+
+        setLoadingLike(true);
         try {
             const url = new URL(`${config.apiBaseUrl}/api/ForumLikes`);
             url.searchParams.append('userId', userId);
@@ -67,9 +71,11 @@ function ForumCard({ item, userId }) {
             }
 
             setIsLiked(!isLiked);
-            setLikeCount(prevCount => (isLiked ? prevCount - 1 : prevCount + 1)); // Update like count dynamically
+            setLikeCount(prevCount => (isLiked ? prevCount - 1 : prevCount + 1));
         } catch (error) {
             console.error('Error toggling like:', error);
+        } finally {
+            setLoadingLike(false);
         }
     };
 
@@ -89,6 +95,7 @@ function ForumCard({ item, userId }) {
                         className="like-button"
                         onClick={handleLikeClick}
                         title={isLiked ? 'Remove like' : 'Add like'}
+                        disabled={loadingLike}
                     >
                         <div className="like-content">
                             <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />

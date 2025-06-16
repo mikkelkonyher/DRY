@@ -16,17 +16,20 @@ namespace DRYV1.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        // Controllerens konstruktør, modtager databasekontekst via dependency injection
         public MusicGearController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Søger efter MusicGear baseret på søgeord og returnerer paginerede resultater
         [HttpGet("search")]
         public async Task<IActionResult> Search(
             string query,
             int pageNumber = 1,
             int pageSize = 16)
         {
+            // Splitter søgeord op og søger i relevante felter
             var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var queryable = _context.MusicGear
                 .Where(g => keywords.All(k => g.Brand.ToLower().Contains(k) ||
@@ -38,7 +41,7 @@ namespace DRYV1.Controllers
 
             var totalItems = await queryable.CountAsync();
             var results = await queryable
-                .OrderByDescending(g => g.Id)
+                .OrderByDescending(g => g.Id) // Nyeste først
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -57,6 +60,7 @@ namespace DRYV1.Controllers
             return Ok(response);
         }
         
+        // Henter alt MusicGear for en bestemt bruger, sorteret nyeste først
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUserId(int userId)
         {
@@ -68,6 +72,7 @@ namespace DRYV1.Controllers
 
             var musicGear = await _context.MusicGear
                 .Where(g => g.UserId == userId)
+                .OrderByDescending(g => g.Id)
                 .ToListAsync();
 
             if (!musicGear.Any())
@@ -78,6 +83,7 @@ namespace DRYV1.Controllers
             return Ok(musicGear);
         }
         
+        // Opdaterer et MusicGear-objekt inkl. billeder
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] MusicGearUpdateDTO updatedMusicGear, [FromForm] List<IFormFile> imageFiles, [FromForm] List<string> imagesToDelete)
         {
@@ -92,48 +98,43 @@ namespace DRYV1.Controllers
                 return NotFound("MusicGear not found.");
             }
 
+            // Opdaterer felter hvis de er angivet
             if (!string.IsNullOrEmpty(updatedMusicGear.Brand))
             {
                 musicGear.Brand = updatedMusicGear.Brand;
             }
-
             if (!string.IsNullOrEmpty(updatedMusicGear.Model))
             {
                 musicGear.Model = updatedMusicGear.Model;
             }
-
             if (updatedMusicGear.Year.HasValue)
             {
                 musicGear.Year = updatedMusicGear.Year.Value;
             }
-
             if (!string.IsNullOrEmpty(updatedMusicGear.Description))
             {
                 musicGear.Description = updatedMusicGear.Description;
             }
-
             if (!string.IsNullOrEmpty(updatedMusicGear.Location))
             {
                 musicGear.Location = updatedMusicGear.Location;
             }
-
             if (!string.IsNullOrEmpty(updatedMusicGear.Condition))
             {
                 musicGear.Condition = updatedMusicGear.Condition;
             }
-
             if (updatedMusicGear.Price.HasValue)
             {
                 musicGear.Price = updatedMusicGear.Price.Value;
             }
 
-            // Handle image deletion
+            // Sletter valgte billeder
             if (imagesToDelete != null && imagesToDelete.Any())
             {
                 musicGear.ImagePaths = musicGear.ImagePaths.Except(imagesToDelete).ToList();
             }
 
-            // Handle image addition
+            // Tilføjer nye billeder
             if (imageFiles != null && imageFiles.Any())
             {
                 var uploadPath = "assets/uploads/musicgear";
@@ -148,6 +149,7 @@ namespace DRYV1.Controllers
             return NoContent();
         }
         
+        // Sletter et MusicGear-objekt og tilhørende kommentarer og billeder
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -157,11 +159,11 @@ namespace DRYV1.Controllers
                 return NotFound("MusicGear not found.");
             }
 
-            // Find related comments and remove them
+            // Fjerner relaterede kommentarer
             var relatedComments = _context.Comments.Where(c => c.MusicGearId == id);
             _context.Comments.RemoveRange(relatedComments);
 
-            // Ensure the paths are relative to wwwroot
+            // Sletter billeder fra serveren
             var relativeImagePaths = musicGear.ImagePaths.Select(p => p.Replace($"{Request.Scheme}://{Request.Host}/", "")).ToList();
             ImageUploadHelper.DeleteImages(relativeImagePaths);
 
@@ -173,13 +175,14 @@ namespace DRYV1.Controllers
             }
             catch (DbUpdateException ex)
             {
-                // Log the exception (ex) here if needed
+                // Log evt. fejl her
                 return StatusCode(500, "An error occurred while deleting the music gear.");
             }
 
             return NoContent();
         }
         
+        // Sletter et enkelt billede fra et MusicGear-objekt
         [HttpDelete("{id}/images")]
         public async Task<IActionResult> DeleteImage(int id, [FromBody] string imageUrl)
         {
@@ -200,6 +203,7 @@ namespace DRYV1.Controllers
             return NotFound("Image not found.");
         }
         
+        // Henter et enkelt MusicGear-objekt med ekstra brugerinfo
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -217,8 +221,8 @@ namespace DRYV1.Controllers
                     g.Price,
                     g.ImagePaths,
                     g.ListingDate,
-                    g.UserId, // Include UserId here
-                    g.FavoriteCount, // Include FavoriteCount here
+                    g.UserId,
+                    g.FavoriteCount,
                     UserName = _context.Users.Where(u => u.Id == g.UserId).Select(u => u.Name).FirstOrDefault()
                 })
                 .FirstOrDefaultAsync();
@@ -231,7 +235,7 @@ namespace DRYV1.Controllers
             return Ok(musicGear);
         }
 
-        
+        // Henter alle MusicGear-objekter med mulighed for filtrering og paginering
         [HttpGet]
         public async Task<IActionResult> GetAll(
             int pageNumber = 1, 
@@ -243,22 +247,26 @@ namespace DRYV1.Controllers
         {
             var queryable = _context.MusicGear.AsQueryable();
 
+            // Filtrerer på lokation hvis angivet
             if (!string.IsNullOrEmpty(location))
             {
                 var normalizedLocation = location.Trim().ToLower();
                 queryable = queryable.Where(d => d.Location.ToLower().Contains(normalizedLocation));
             }
 
+            // Filtrerer på minimumspris hvis angivet
             if (minPrice.HasValue)
             {
                 queryable = queryable.Where(d => d.Price >= minPrice.Value);
             }
 
+            // Filtrerer på maksimumspris hvis angivet
             if (maxPrice.HasValue)
             {
                 queryable = queryable.Where(d => d.Price <= maxPrice.Value);
             }
 
+            // Søger i relevante felter hvis query er angivet
             if (!string.IsNullOrEmpty(query))
             {
                 var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -271,7 +279,7 @@ namespace DRYV1.Controllers
 
             var totalItems = await queryable.CountAsync();
             var musicGear = await queryable
-                .OrderByDescending(d => d.Id)
+                .OrderByDescending(d => d.Id) // Nyeste først
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -285,6 +293,7 @@ namespace DRYV1.Controllers
             return Ok(response);
         }
         
+        // Henter MusicGear sorteret efter antal favoritter (mest populære først)
         [HttpGet("GetByFavoriteCount")]
         public async Task<IActionResult> GetByFavoriteCount(
             int pageNumber = 1,

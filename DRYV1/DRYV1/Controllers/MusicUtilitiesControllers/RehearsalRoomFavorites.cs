@@ -13,17 +13,21 @@ namespace DRYV1.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        // Controller constructor, modtager databasekontekst via dependency injection
         public RehearsalRoomFavoritesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Tilføjer et øvelokale til brugerens favoritter
         [HttpPost]
         public async Task<IActionResult> AddFavorite(int userId, int rehearsalRoomId)
         {
+            // Opretter favorit-objekt og tilføjer til databasen
             var favorite = new RehearsalRoomFavorites { UserId = userId, RehearsalRoomid = rehearsalRoomId };
             _context.RehearsalRoomFavorites.Add(favorite);
 
+            // Opdaterer favorit-tælleren på det relevante øvelokale
             var rehearsalRoom = await _context.RehearsalRooms.FindAsync(rehearsalRoomId);
             if (rehearsalRoom != null)
             {
@@ -34,9 +38,11 @@ namespace DRYV1.Controllers
             return Ok(favorite);
         }
 
+        // Fjerner et øvelokale fra brugerens favoritter
         [HttpDelete]
         public async Task<IActionResult> RemoveFavorite(int userId, int rehearsalRoomId)
         {
+            // Finder favorit-objektet i databasen
             var favorite = await _context.RehearsalRoomFavorites
                 .FirstOrDefaultAsync(f => f.UserId == userId && f.RehearsalRoomid == rehearsalRoomId);
             if (favorite == null)
@@ -44,6 +50,7 @@ namespace DRYV1.Controllers
                 return NotFound("Favorite not found.");
             }
 
+            // Fjerner favorit og opdaterer favorit-tælleren
             _context.RehearsalRoomFavorites.Remove(favorite);
 
             var rehearsalRoom = await _context.RehearsalRooms.FindAsync(rehearsalRoomId);
@@ -56,12 +63,14 @@ namespace DRYV1.Controllers
             return NoContent();
         }
 
+        // Henter alle favoritter for en bruger, sorteret nyeste først
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetFavorites(int userId)
         {
             var favorites = await _context.RehearsalRoomFavorites
                 .Where(f => f.UserId == userId)
-                .Include(f => f.RehearsalRoom)
+                .Include(f => f.RehearsalRoom) // Henter relateret øvelokale-data
+                .OrderByDescending(f => f.Id) // Sorterer så nyeste favoritter kommer først
                 .ToListAsync();
 
             return Ok(favorites);

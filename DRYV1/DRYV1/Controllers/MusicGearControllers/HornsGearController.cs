@@ -13,11 +13,13 @@ namespace DRYV1.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        // Controllerens konstruktør, modtager databasekontekst via dependency injection
         public HornsGearController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Henter alle blæser-annoncer med filtrering, søgning og pagination
         [HttpGet]
         public async Task<IActionResult> GetAll(
             int pageNumber = 1,
@@ -30,28 +32,33 @@ namespace DRYV1.Controllers
         {
             var queryable = _context.HornsGear.AsQueryable();
 
+            // Filtrerer på type
             if (!string.IsNullOrEmpty(hornsGearType))
             {
                 var normalizedHornsGearType = hornsGearType.Trim().ToLower();
                 queryable = queryable.Where(h => h.HornsGearType.ToLower() == normalizedHornsGearType);
             }
 
+            // Filtrerer på lokation
             if (!string.IsNullOrEmpty(location))
             {
                 var normalizedLocation = location.Trim().ToLower();
                 queryable = queryable.Where(h => h.Location.ToLower().Contains(normalizedLocation));
             }
 
+            // Filtrerer på minimumspris
             if (minPrice.HasValue)
             {
                 queryable = queryable.Where(h => h.Price >= minPrice.Value);
             }
 
+            // Filtrerer på maksimumspris
             if (maxPrice.HasValue)
             {
                 queryable = queryable.Where(h => h.Price <= maxPrice.Value);
             }
 
+            // Søger på nøgleord i flere felter
             if (!string.IsNullOrEmpty(query))
             {
                 var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -79,6 +86,7 @@ namespace DRYV1.Controllers
             return Ok(response);
         }
 
+        // Henter en enkelt blæser-annonce baseret på id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -97,8 +105,8 @@ namespace DRYV1.Controllers
             return Ok(response);
         }
 
+        // Opretter en ny blæser-annonce, inkl. upload af billeder
         [HttpPost]
-        
         public async Task<IActionResult> Create([FromForm] HornsGear hornsGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == hornsGear.UserId);
@@ -127,6 +135,7 @@ namespace DRYV1.Controllers
             return CreatedAtAction(nameof(GetById), new { id = hornsGear.Id }, hornsGear);
         }
 
+        // Sletter en blæser-annonce baseret på id
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

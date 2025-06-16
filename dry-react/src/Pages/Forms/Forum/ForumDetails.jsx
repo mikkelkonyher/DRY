@@ -18,6 +18,7 @@ function ForumDetails() {
     const navigate = useNavigate();
     const [forumItem, setForumItem] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
+    const [loadingLike, setLoadingLike] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [userId, setUserId] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -25,13 +26,12 @@ function ForumDetails() {
     const [editBody, setEditBody] = useState('');
     const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
-    //Fetch user ID from Token
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
                     method: 'GET',
-                    credentials: 'include', // This sends cookies with the request
+                    credentials: 'include',
                 });
 
                 if (!userIdResponse.ok) {
@@ -84,15 +84,18 @@ function ForumDetails() {
 
     const handleLikeClick = async () => {
         if (!userId) {
-            alert('Login to like posts');
+            alert('Login for at kunne synes godt om indlæg');
             return;
         }
 
         if (userId === forumItem.userId) {
-            alert('You cannot like your own post');
+            alert('Du kan ikke synes godt om dit dit eget indlæg');
             return;
         }
 
+        if (loadingLike) return;
+
+        setLoadingLike(true);
         try {
             const url = new URL(`${config.apiBaseUrl}/api/ForumLikes`);
             url.searchParams.append('userId', userId);
@@ -108,10 +111,12 @@ function ForumDetails() {
             setIsLiked(!isLiked);
             setForumItem(prevItem => ({
                 ...prevItem,
-                likeCount: prevItem.likeCount + (isLiked ? -1 : 1) // Dynamically update like count
+                likeCount: prevItem.likeCount + (isLiked ? -1 : 1)
             }));
         } catch (error) {
             console.error('Error toggling like:', error);
+        } finally {
+            setLoadingLike(false);
         }
     };
 
@@ -154,7 +159,7 @@ function ForumDetails() {
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
-            navigate('/Forums');
+            navigate('/forum'); // Correct path for navigation
         } catch (error) {
             console.error('Error deleting forum:', error);
         }
@@ -171,7 +176,6 @@ function ForumDetails() {
         }
     };
 
-    // Handle comment deletion
     const handleDeleteComment = async (commentId) => {
         const isConfirmed = window.confirm("Er du sikker på at du vil slette denne kommentar?");
         if (!isConfirmed) return;
@@ -227,6 +231,7 @@ function ForumDetails() {
                     className="like-button"
                     onClick={handleLikeClick}
                     title={isLiked ? 'Remove like' : 'Add like'}
+                    disabled={loadingLike}
                 >
                     <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
                 </button>

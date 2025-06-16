@@ -134,7 +134,7 @@ function SellCard({ item, userId, onRemove }) {
             }
             console.log('Item updated successfully');
             setIsEditing(false);
-            window.location.reload();
+            navigate(`/gear/${item.id}`); // Redirect to item detail page
         } catch (error) {
             console.error('Error updating item:', error);
         }

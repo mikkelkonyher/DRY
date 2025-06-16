@@ -13,11 +13,13 @@ namespace DRYV1.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        // Controllerens konstruktør, modtager databasekontekst via dependency injection
         public ChatsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
+        // Henter alle chats med tilhørende beskeder
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChatDTO>>> GetChats()
         {
@@ -45,27 +47,29 @@ namespace DRYV1.Controllers
             return Ok(chats);
         }
 
+        // Opretter en ny chat, hvis den ikke allerede findes
         [HttpPost]
         public async Task<ActionResult<Chat>> CreateChat(Chat chat)
         {
-            // Check if a chat with the same subject and sender already exists
+            // Tjekker om en chat med samme emne og afsender allerede findes
             var existingChat = await _context.Chats
                 .Include(c => c.Messages)
                 .FirstOrDefaultAsync(c => c.Subject == chat.Subject && c.Messages.Any(m => m.SenderId == chat.Messages.First().SenderId));
 
             if (existingChat != null)
             {
-                // Return the existing chat
+                // Returnerer eksisterende chat hvis fundet
                 return Ok(existingChat);
             }
 
-            // Create a new chat if it doesn't exist
+            // Opretter ny chat hvis den ikke findes
             _context.Chats.Add(chat);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetChats), new { id = chat.Id }, chat);
         }
 
+        // Henter alle chats for en bestemt bruger, sorteret efter seneste besked
         [HttpGet("{userId}")]
         public async Task<ActionResult<IEnumerable<ChatDTO>>> GetChats(int userId)
         {
@@ -74,13 +78,13 @@ namespace DRYV1.Controllers
                 .Where(c => (c.Messages.Any(m => m.SenderId == userId || m.ReceiverId == userId)) &&
                             !(c.IsDeletedBySender && c.Messages.Any(m => m.SenderId == userId)) &&
                             !(c.IsDeletedByReceiver && c.Messages.Any(m => m.ReceiverId == userId)))
-                .OrderByDescending(c => c.Messages.Max(m => m.Timestamp)) // Order chats by the latest message timestamp in descending order
+                .OrderByDescending(c => c.Messages.Max(m => m.Timestamp)) // Sorterer chats efter seneste besked
                 .Select(c => new ChatDTO
                 {
                     Id = c.Id,
                     Subject = c.Subject,
                     Messages = c.Messages
-                        .OrderByDescending(m => m.Timestamp) // Order messages by Timestamp in descending order
+                        .OrderByDescending(m => m.Timestamp) // Sorterer beskeder nyeste først
                         .Select(m => new MessageDTO
                         {
                             Id = m.Id,
@@ -101,6 +105,7 @@ namespace DRYV1.Controllers
             return Ok(chats);
         }
         
+        // Soft-delete af chat for en bestemt bruger (skjuler chatten for brugeren)
         [HttpPut("{chatId}/softDelete/{userId}")]
         public async Task<IActionResult> SoftDeleteChat(int chatId, int userId)
         {
@@ -136,10 +141,8 @@ namespace DRYV1.Controllers
 
             return NoContent();
         }
-        
-        
 
-        // DELETE: api/Chats/{id}
+        // Sletter en chat permanent
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteChat(int id)
         {
@@ -155,6 +158,7 @@ namespace DRYV1.Controllers
             return NoContent();
         }
         
+        // Markerer alle beskeder i en chat som læst for en bestemt bruger
         [HttpPut("{chatId}/markAllAsRead/{userId}")]
         public async Task<IActionResult> MarkAllMessagesAsRead(int chatId, int userId)
         {
@@ -171,13 +175,13 @@ namespace DRYV1.Controllers
             {
                 if (message.ReceiverId == userId && !message.IsReadReceiver)
                 {
-                    // Mark as read for the receiver
+                    // Marker som læst for modtager
                     message.IsReadReceiver = true;
                     _context.Entry(message).State = EntityState.Modified;
                 }
                 else if (message.SenderId == userId && !message.IsReadSender)
                 {
-                    // Optionally mark as read for the sender
+                    // Marker evt. som læst for afsender
                     message.IsReadSender = true;
                     _context.Entry(message).State = EntityState.Modified;
                 }

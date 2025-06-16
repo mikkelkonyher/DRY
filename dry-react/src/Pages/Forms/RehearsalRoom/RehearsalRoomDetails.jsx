@@ -14,6 +14,7 @@ function RehearsalRoomDetails() {
     const { id } = useParams();
     const [roomItem, setRoomItem] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [loadingFavorite, setLoadingFavorite] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [userId, setUserId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +27,7 @@ function RehearsalRoomDetails() {
             try {
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
                     method: 'GET',
-                    credentials: 'include', // This sends cookies with the request
+                    credentials: 'include',
                 });
 
                 if (!userIdResponse.ok) {
@@ -44,7 +45,6 @@ function RehearsalRoomDetails() {
 
         fetchUserId();
     }, []);
-
 
     useEffect(() => {
         const fetchRoomItem = async () => {
@@ -89,6 +89,9 @@ function RehearsalRoomDetails() {
             return;
         }
 
+        if (loadingFavorite) return;
+
+        setLoadingFavorite(true);
         try {
             const url = new URL(`${config.apiBaseUrl}/api/RehearsalRoomFavorites`);
             url.searchParams.append('userId', userId);
@@ -107,6 +110,8 @@ function RehearsalRoomDetails() {
             }));
         } catch (error) {
             console.error('Error toggling favorite:', error);
+        } finally {
+            setLoadingFavorite(false);
         }
     };
 
@@ -169,20 +174,18 @@ function RehearsalRoomDetails() {
 
     return (
         <div className="gear-cardDetails">
-            {/* Room item details */}
             <h4>{roomItem.name}</h4>
             <h5><strong>Pris: </strong>{roomItem.price.toLocaleString('da-DK')} kr. {roomItem.paymentType}</h5>
 
-            {/* Favorite button */}
             <button
                 className="favorite-button-cardDetails"
                 onClick={handleFavoriteClick}
                 title={isFavorite ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
+                disabled={loadingFavorite}
             >
                 <FontAwesomeIcon icon={isFavorite ? solidHeart : regularHeart} />
             </button>
 
-            {/* Image carousel */}
             <div className="image-carousel-container">
                 <button className="nav-button-cardDetails nav-button-left-cardDetails" onClick={handlePrevImage}>&lt;</button>
                 <div className="image-container-cardDetails">
@@ -194,7 +197,6 @@ function RehearsalRoomDetails() {
 
             <div className="more-info-container">
                 <p>{roomItem.description}</p>
-
                 <p><strong>Lokation:</strong> {roomItem.location}</p>
                 <p><strong>Adresse:</strong> {roomItem.address}</p>
                 <p><strong>Udlejer:</strong> {roomItem.userName || 'Ukendt'}</p>
@@ -219,8 +221,6 @@ function RehearsalRoomDetails() {
                     </div>
                 </div>
             )}
-
-
 
             {isModalOpen && (
                 <div className="modal" onClick={() => setIsModalOpen(false)}>

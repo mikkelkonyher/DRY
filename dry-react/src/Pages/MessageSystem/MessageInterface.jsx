@@ -54,7 +54,7 @@ const MessageInterface = () => {
                         const hasUnreadMessages = chat.messages.some(
                             message => message.receiverId === userId && !message.isReadReceiver
                         );
-                        
+
                         return { ...chat, hasUnreadMessages };
                     });
                     setChats(updatedChats);
