@@ -100,7 +100,7 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
             }
             console.log('Room updated successfully');
             setIsEditing(false);
-            window.location.reload();
+            navigate(`/RehearsalRoomDetails/${room.id}`); // Redirect to room detail page
         } catch (error) {
             console.error('Error updating room:', error);
         }
