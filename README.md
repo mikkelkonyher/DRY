@@ -5,6 +5,7 @@ Gearninja is a developer-focused platform designed to streamline the development
 Why Gearninja?
 
 This project helps developers build organized, efficient, and extensible applications by providing:
+
 	•	🧩 Modular architecture: Supports diverse musical gear types with specialized models for easy management.
 	•	🚀 Seamless deployment: Includes routing rules and CI/CD workflows for effortless static web app deployment.
 	•	🎯 Focused on maintainability: Promotes a DRY approach to keep codebases clean and scalable.
