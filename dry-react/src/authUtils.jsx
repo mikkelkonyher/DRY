@@ -1,22 +1,26 @@
 import config from "../config.jsx";
 
-// Function to check if the user is authenticated
+// Funktion til at tjekke, om brugeren er autentificeret
 export const checkToken = async () => {
     try {
+        // Sender en GET-forespørgsel til serveren for at validere brugerens token
         const response = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
             method: 'GET',
-            credentials: 'include', // Ensures cookies are sent
+            credentials: 'include', // Sikrer, at cookies sendes med forespørgslen
         });
 
+        // Hvis serveren svarer med en fejlstatus, betragtes brugeren som ikke-autentificeret
         if (!response.ok) {
-            console.warn('User is not authenticated.');
+            console.warn('Brugeren er ikke autentificeret.');
             return null;
         }
 
+        // Parser JSON-svaret og returnerer brugerens ID, hvis autentificeret
         const data = await response.json();
-        return data.UserId; // Returns user ID if authenticated
+        return data.UserId; // Returnerer bruger-ID, hvis autentificeret
     } catch (error) {
-        console.error('Error checking token:', error);
+        // Logger fejl, hvis der opstår problemer under forespørgslen
+        console.error('Error checking token:', error); // Fejlmeddelelser forbliver på engelsk
         return null;
     }
 };

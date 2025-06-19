@@ -135,7 +135,7 @@ public class AuthController : ControllerBase
             HttpOnly = true, // Forhindrer JavaScript i at tilgå cookien
             Secure = true, // Kun via HTTPS
             SameSite = SameSiteMode.None, // Tillader cross-site requests
-            Domain = ".gearninja.dk", // Skift til ".gearninja.dk" i produktion
+            Domain = "localhost", // ".gearninja.dk" i produktion
             Expires = DateTime.UtcNow.AddMinutes(_jwtExpirationMinutes),
         };
 
@@ -250,7 +250,7 @@ public class AuthController : ControllerBase
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.None,
-                Domain = ".gearninja.dk", // Skift til ".gearninja.dk" i produktion
+                Domain = "localhost", // ".gearninja.dk" i produktion
                 Path = "/"
             };
 
