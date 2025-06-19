@@ -1,0 +1,67 @@
+.about-container {
+    padding: 4rem 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.about-flex {
+    display: flex;
+    gap: 2rem;
+    max-width: 1200px;
+    align-items: center; /* ⬅️ Dette centrerer billedet vertikalt */
+}
+
+.about-content {
+    flex: 4;
+    color: white;
+    line-height: 1.7;
+}
+
+.about-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.about-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.about-signature {
+    margin-top: 2rem;
+}
+
+.about-image-wrapper {
+    flex: 2;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.about-image {
+    max-width: 600px;
+    width: 150%;
+    border-radius: 2rem;
+    object-fit: cover;
+
+}
+
+@media (max-width: 1366px) {
+    .about-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-image-wrapper {
+        margin-top: 2rem;
+        width: 100%;
+    }
+
+    .about-image {
+        max-width: 600px;
+        width: 100%;
+        border-radius: 2rem;
+        object-fit: cover;
+
+    }
+}

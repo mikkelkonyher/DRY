@@ -1,8 +1,6 @@
 import './Footer.css';
-import XIcon from '@mui/icons-material/X';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
-
 
 function Footer() {
     const currentYear = new Date().getFullYear();
@@ -18,7 +16,11 @@ function Footer() {
                         <InstagramIcon />
                     </a>
                 </div>
-                <p className="footer-text">© {currentYear} GearNinja | Gearninja@Gearninja.dk</p>
+
+                <p className="footer-text">
+                    © {currentYear} GearNinja | Gearninja@Gearninja.dk |{' '}
+                    <a href="https://gearninja.dk/about" className="footer-link">Om os</a>
+                </p>
             </div>
         </footer>
     );
