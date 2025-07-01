@@ -268,7 +268,7 @@ function ForumDetails() {
 
             <div className="comments-section">
                 <button className="show-comments-button" onClick={() => setShowComments(!showComments)}>
-                    {showComments ? 'Skjul kommentarer' : 'Kommenter'}
+                    {showComments ? 'Skjul kommentarer' : 'Vis Kommentarer'}
                 </button>
                 {showComments && (
                     <>
