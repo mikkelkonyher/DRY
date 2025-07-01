@@ -45,21 +45,10 @@ function ResponsiveAppBar() {
     const theme = useTheme();
     const navigate = useNavigate();
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
+    const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
+    const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
+    const handleCloseNavMenu = () => setAnchorElNav(null);
+    const handleCloseUserMenu = () => setAnchorElUser(null);
 
     const handleLogout = async () => {
         try {
@@ -81,7 +70,6 @@ function ResponsiveAppBar() {
         const pageSize = 16;
 
         try {
-            // Navigate to the search results page with the search query in the URL
             navigate(`/search-results?query=${encodeURIComponent(searchQuery)}&page=${pageNumber}`, {
                 state: { searchResults: [], searchQuery, errorMessage: '' },
             });
@@ -96,7 +84,6 @@ function ResponsiveAppBar() {
 
             const searchResults = response.data;
 
-            // Navigate to the search results page with the search results and query in the state
             navigate(`/search-results?query=${encodeURIComponent(searchQuery)}&page=${pageNumber}`, {
                 state: { searchResults, searchQuery },
             });
@@ -113,9 +100,16 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none', width: '100%', padding: '0px 0', backdropFilter: 'blur(50px)', marginBottom: '20px' }}>
-            <Container maxWidth="xl" sx={{padding: '0 0px'}}>
-                <Toolbar disableGutters>
+        <AppBar position="fixed" sx={{
+            backgroundColor: 'black',
+            boxShadow: 'none',
+            width: '100%',
+            padding: '0px 0',
+            backdropFilter: 'blur(50px)',
+            marginBottom: '20px'
+        }}>
+            <Container maxWidth="xl" sx={{ padding: '0 0px' }}>
+                <Toolbar disableGutters sx={{ position: 'relative' }}>
                     {/* Desktop Logo */}
                     <Box
                         component="a"
@@ -130,44 +124,29 @@ function ResponsiveAppBar() {
                     </Box>
 
                     {/* Mobile Hamburger Icon */}
-                    <Box sx={{flexGrow: 1, display: {xs: 'flex', lg: 'none'}, justifyContent: 'center'}}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' }, justifyContent: 'center' }}>
                         <IconButton
                             size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
+                            aria-label="menu"
                             onClick={handleOpenNavMenu}
                             color="inherit"
                         >
-                            <MenuIcon/>
+                            <MenuIcon />
                         </IconButton>
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
-                                display: {xs: 'block', lg: 'none'},
-                                '& .MuiPaper-root': {
-                                    backgroundColor: 'black',
-                                }
+                                display: { xs: 'block', lg: 'none' },
+                                '& .MuiPaper-root': { backgroundColor: 'black' }
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem
-                                    key={page.name}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{color: 'white'}}
-                                >
+                                <MenuItem key={page.name} onClick={handleCloseNavMenu} sx={{ color: 'white' }}>
                                     <Typography
                                         component={Link}
                                         to={page.path}
@@ -182,25 +161,7 @@ function ResponsiveAppBar() {
                                     </Typography>
                                 </MenuItem>
                             ))}
-                            {!isAuthenticated && (
-                                <MenuItem
-                                    onClick={handleCloseNavMenu}
-                                    sx={{color: 'white'}}
-                                >
-                                    <Typography
-                                        component={Link}
-                                        to="/signup"
-                                        sx={{
-                                            textAlign: 'center',
-                                            textDecoration: 'none',
-                                            color: 'inherit',
-                                            textTransform: 'none'
-                                        }}
-                                    >
-                                        Signup
-                                    </Typography>
-                                </MenuItem>
-                            )}
+
                         </Menu>
                     </Box>
 
@@ -209,56 +170,64 @@ function ResponsiveAppBar() {
                         component="a"
                         href="/"
                         sx={{
-                            mr: 2,
-                            display: { xs: 'flex', lg: 'none' },
-                            flexGrow: 1,
-                            justifyContent: 'center',
+                            display: { xs: 'flex', lg: 'none' }, // Show only on small screens
+                            justifyContent: 'center', // Center the logo on mobile devices
+                            alignItems: 'center',
+                            width: '100%',
+                            '@media (min-width: 768px) and (max-width: 1024px)': {
+                                justifyContent: 'center', // Center the logo specifically for iPad size
+                            },
                         }}
                     >
-                        <img src={logo} alt="Logo" style={{ height: '30px' }} />
+                        <img src={logo} alt="Logo" style={{ height: '20px' }} />
                     </Box>
 
-                    {/* Desktop Menu */}
-                    <Box sx={{flexGrow: 1, display: {xs: 'none', lg: 'flex'}, justifyContent: 'center'}}>
+                    {/* Centered Desktop Menu */}
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            display: { xs: 'none', lg: 'flex' },
+                            gap: 2,
+                            zIndex: 1,
+                        }}
+                    >
                         {pages.map((page) => (
                             <Button
                                 key={page.name}
                                 component={Link}
                                 to={page.path}
                                 onClick={handleCloseNavMenu}
-                                sx={{my: 2, color: 'white', display: 'block', textTransform: 'none', mx: 2}}
+                                sx={{
+                                    my: 2,
+                                    color: 'white',
+                                    display: 'block',
+                                    textTransform: 'none'
+                                }}
                             >
                                 {page.name}
                             </Button>
                         ))}
                     </Box>
 
-                    {/* User Profile / Login / Logout */}
-                    <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center'}}>
+                    {/* User Profile / Login */}
+                    <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
                         {!isAuthenticated ? (
                             <>
                                 <Typography
                                     component={Link}
                                     to="/login"
-                                    sx={{my: 2, color: 'cyan', textDecoration: 'none', textTransform: 'none'}}
-                                >
-                                    Log ind
-                                </Typography>
-                                <Typography
-                                    component={Link}
-                                    to="/signup"
                                     sx={{
                                         my: 2,
+                                        mr: 1, // Adds margin to the right
                                         color: 'cyan',
                                         textDecoration: 'none',
                                         textTransform: 'none',
-                                        ml: 2,
-                                        [theme.breakpoints.down('sm')]: {
-                                            mr: 2,
-                                        },
+                                        whiteSpace: 'nowrap' // Ensures "Log ind" stays on one line
                                     }}
                                 >
-                                    Tilmeld
+                                    Log ind
                                 </Typography>
                             </>
                         ) : (
@@ -271,35 +240,33 @@ function ResponsiveAppBar() {
                                             marginRight: '10px',
                                             [theme.breakpoints.down('sm')]: {
                                                 marginLeft: 'auto',
-                                                marginRight: '45px',
+                                                marginRight: '15px',
+                                                width: '20px', // Adjust width for small devices
+                                                height: '20px', // Adjust height for small devices
                                             },
                                         }}
                                     >
-                                        <img src={userImage} alt="User" style={{ height: '45px', borderRadius: '50%', backgroundColor: 'rgb(113 44 249)' }} />
+                                        <img
+                                            src={userImage}
+                                            alt="User"
+                                            style={{
+                                                height: '45px',
+                                                borderRadius: '50%',
+                                                backgroundColor: 'rgb(113 44 249)',
+                                            }}
+                                        />
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
-                                    sx={{
-                                        mt: '45px',
-                                        '& .MuiPaper-root': {backgroundColor: 'black'}
-                                    }}
-                                    id="menu-appbar"
+                                    sx={{ mt: '45px', '& .MuiPaper-root': { backgroundColor: 'black' } }}
                                     anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
+                                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                    transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                                 >
                                     {settings.map((setting) => (
-                                        <MenuItem key={setting.name} onClick={handleCloseUserMenu}
-                                                  sx={{color: 'white'}}>
+                                        <MenuItem key={setting.name} onClick={handleCloseUserMenu} sx={{ color: 'white' }}>
                                             <Typography
                                                 component={Link}
                                                 to={setting.path}
@@ -314,7 +281,7 @@ function ResponsiveAppBar() {
                                             </Typography>
                                         </MenuItem>
                                     ))}
-                                    <MenuItem onClick={handleLogout} sx={{color: 'red'}}>
+                                    <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>
                                         <Typography
                                             component="a"
                                             sx={{
@@ -334,13 +301,16 @@ function ResponsiveAppBar() {
                 </Toolbar>
 
                 {/* Search Bar */}
-                <form onSubmit={handleSearchSubmit} style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    border: '0px',
-                    marginTop: '-25px',
-                    marginBottom: '10px'
-                }}>
+                <form
+                    onSubmit={handleSearchSubmit}
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        border: '0px',
+                        marginTop: '-25px',
+                        marginBottom: '10px'
+                    }}
+                >
                     <TextField
                         variant="outlined"
                         placeholder="Søg i alt udstyr..."
@@ -349,7 +319,7 @@ function ResponsiveAppBar() {
                         onChange={handleSearchChange}
                         sx={{
                             backgroundColor: 'black',
-                            width: {xs: '100%', sm: '500px'},
+                            width: { xs: '100%', sm: '500px' },
                             height: '40px',
                             borderRadius: '20px',
                             '& .MuiOutlinedInput-root': {
@@ -381,7 +351,7 @@ function ResponsiveAppBar() {
                             startAdornment: (
                                 <InputAdornment position="start">
                                     <IconButton onClick={handleSearchIconClick}>
-                                        <SearchIcon sx={{color: 'white'}}/>
+                                        <SearchIcon sx={{ color: 'white' }} />
                                     </IconButton>
                                 </InputAdornment>
                             )
