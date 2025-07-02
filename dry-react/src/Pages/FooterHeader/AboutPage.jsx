@@ -1,8 +1,7 @@
 import './AboutPage.css';
-
-import AboutImage from '../assets/459118063_539597145247047_8853740358288590339_n-1.webp';
-import MikkelSignature from '../assets/Mikkel signatur.png';
-import TroelsSignature from '../assets/Troels signatur.png';
+import MikkelSignature from '../../assets/Mikkel signatur.png';
+import TroelsSignature from '../../assets/Troels signatur.png';
+import AboutImage from '../../assets/459118063_539597145247047_8853740358288590339_n-1.webp';
 
 function AboutPage() {
     return (
@@ -42,7 +41,7 @@ function AboutPage() {
                         Mikkel & Troels
                     </p>
 
-                    {/* Signaturbilleder */}
+                    {/* Signaturbillederne her */}
                     <div className="signatures">
                         <img
                             src={MikkelSignature}
