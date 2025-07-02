@@ -9,6 +9,7 @@ namespace DRYV1.Controllers
     [Route("api/[controller]")]
     public class ForumController : ControllerBase
     {
+        // Databasekontekst til adgang af data
         private readonly ApplicationDbContext _context;
 
         public ForumController(ApplicationDbContext context)
@@ -16,6 +17,7 @@ namespace DRYV1.Controllers
             _context = context;
         }
 
+        // Hent alle forumindlæg med mulighed for søgning og paginering
         [HttpGet]
         public async Task<IActionResult> GetAll(
             int pageNumber = 1, 
@@ -24,6 +26,7 @@ namespace DRYV1.Controllers
         {
             var queryable = _context.Forums.AsQueryable();
 
+            // Hvis der er en søgeforespørgsel, filtrer resultaterne
             if (!string.IsNullOrEmpty(query))
             {
                 var keywords = query.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -35,7 +38,10 @@ namespace DRYV1.Controllers
                                                                        .Contains(f.UserId)));
             }
 
+            // Optæl det samlede antal resultater
             var totalItems = await queryable.CountAsync();
+
+            // Hent den aktuelle side af forumindlæg
             var forums = await queryable
                 .OrderByDescending(f => f.Id)
                 .Skip((pageNumber - 1) * pageSize)
@@ -47,6 +53,7 @@ namespace DRYV1.Controllers
                     f.Body,
                     f.CreatedAt,
                     f.UserId,
+                    // Hent brugernavn for forfatteren
                     UserName = _context.Users.Where(u => u.Id == f.UserId).Select(u => u.Name).FirstOrDefault(),
                     f.LikeCount
                 })
@@ -61,6 +68,7 @@ namespace DRYV1.Controllers
             return Ok(response);
         }
 
+        // Hent et enkelt forumindlæg baseret på ID
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -74,7 +82,7 @@ namespace DRYV1.Controllers
                     f.CreatedAt,
                     f.UserId,
                     UserName = _context.Users.Where(u => u.Id == f.UserId).Select(u => u.Name).FirstOrDefault(),
-                    f.LikeCount // Include LikeCount here
+                    f.LikeCount
                 })
                 .FirstOrDefaultAsync();
 
@@ -92,9 +100,11 @@ namespace DRYV1.Controllers
             return Ok(response);
         }
 
+        // Opret et nyt forumindlæg
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] Forum forum)
         {
+            // Tjek om brugeren eksisterer
             var userExists = await _context.Users.AnyAsync(u => u.Id == forum.UserId);
             if (!userExists)
             {
@@ -108,6 +118,7 @@ namespace DRYV1.Controllers
             return CreatedAtAction(nameof(GetById), new { id = forum.Id }, forum);
         }
 
+        // Slet et forumindlæg og tilhørende kommentarer
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -117,7 +128,7 @@ namespace DRYV1.Controllers
                 return NotFound("Forum not found.");
             }
 
-            // Find and delete all comments associated with the forum
+            // Find og slet alle kommentarer tilknyttet forumindlægget
             var comments = await _context.Comments.Where(c => c.ForumId == id).ToListAsync();
             _context.Comments.RemoveRange(comments);
 
@@ -126,6 +137,7 @@ namespace DRYV1.Controllers
             return NoContent();
         }
 
+        // Opdater et eksisterende forumindlæg
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ForumUpdateDTO updatedForum)
         {
@@ -140,6 +152,7 @@ namespace DRYV1.Controllers
                 return NotFound("Forum not found.");
             }
 
+            // Opdater kun felter, hvis de er angivet
             if (!string.IsNullOrEmpty(updatedForum.Subject))
             {
                 forum.Subject = updatedForum.Subject;
@@ -156,6 +169,7 @@ namespace DRYV1.Controllers
             return NoContent();
         }
         
+        // Hent alle forumindlæg oprettet af en bestemt bruger
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetByUserId(int userId)
         {
@@ -181,6 +195,7 @@ namespace DRYV1.Controllers
             return Ok(forums);
         }
 
+        // Hent alle forumindlæg, som en bruger har liket
         [HttpGet("liked/{userId}")]
         public async Task<IActionResult> GetLikedForums(int userId)
         {
@@ -205,6 +220,13 @@ namespace DRYV1.Controllers
             }
 
             return Ok(likedForums);
+        }
+        
+        [HttpGet("forum/{forumId}/count")]
+        public async Task<IActionResult> GetCommentCountByForumId(int forumId)
+        {
+            var count = await _context.Comments.CountAsync(c => c.ForumId == forumId);
+            return Ok(new { ForumId = forumId, CommentCount = count });
         }
         
     }

@@ -31,6 +31,7 @@ import CreateForum from "./Forms/Forum/CreateForum.jsx";
 import SellGear from "./SellGear.jsx";
 import MessageInterface from "./MessageSystem/MessageInterface.jsx";
 import CookieConsent from "../Components/CookieConsent.jsx";
+import AboutPage from "./FooterHeader/AboutPage.jsx";
 
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
                     <Route path="/CreateForum" element={<CreateForum />} />
                     <Route path="/sell-gear" element={<SellGear />} />
                     <Route path="/inbox" element={<MessageInterface />} />
+                    <Route path="/about" element={<AboutPage />} />
                 </Routes>
             </Box>
             <CookieConsent />

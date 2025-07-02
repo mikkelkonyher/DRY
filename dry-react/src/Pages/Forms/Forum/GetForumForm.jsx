@@ -13,7 +13,7 @@ function GetForumForm() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Get page number from URL or default to 1
+    // Hent sidetal fra URL eller standard til 1
     const queryParams = new URLSearchParams(location.search);
     const initialPage = Number(queryParams.get('page')) || 1;
 
@@ -62,14 +62,13 @@ function GetForumForm() {
         fetchForums();
     }, [currentPage, showLiked, showCreated, userId]);
 
-
-    //Fetch user ID from token
+    // Hent bruger-ID fra token
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
                     method: 'GET',
-                    credentials: 'include', // This sends cookies with the request
+                    credentials: 'include', // Dette sender cookies med forespørgslen
                 });
 
                 if (!userIdResponse.ok) {
@@ -93,14 +92,14 @@ function GetForumForm() {
     }, [currentPage]);
 
     useEffect(() => {
-        // Update the URL when page changes
+        // Opdater URL'en, når siden ændres
         const params = new URLSearchParams(location.search);
         params.set('page', currentPage);
         navigate(`?${params.toString()}`, { replace: true });
     }, [currentPage, navigate]);
 
     useEffect(() => {
-        // Set the initial page number in the URL if not present
+        // Sæt det oprindelige sidetal i URL'en, hvis det ikke er til stede
         if (!queryParams.get('page')) {
             queryParams.set('page', initialPage);
             navigate(`?${queryParams.toString()}`, { replace: true });
@@ -129,7 +128,10 @@ function GetForumForm() {
                     <input
                         type="checkbox"
                         checked={showLiked}
-                        onChange={() => setShowLiked(!showLiked)}
+                        onChange={() => {
+                            setShowLiked(!showLiked);
+                            if (!showLiked) setShowCreated(false); // Fjern markering af den anden checkbox
+                        }}
                     />
                     Vis indlæg, du synes godt om
                 </label>
@@ -137,7 +139,10 @@ function GetForumForm() {
                     <input
                         type="checkbox"
                         checked={showCreated}
-                        onChange={() => setShowCreated(!showCreated)}
+                        onChange={() => {
+                            setShowCreated(!showCreated);
+                            if (!showCreated) setShowLiked(false); // Fjern markering af den anden checkbox
+                        }}
                     />
                     Vis indlæg, du har oprettet
                 </label>

@@ -153,12 +153,22 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
                         placeholder="Adresse"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, address: e.target.value })}
                     />
-                    <input
-                        type="text"
+                    <select
+                        className="nice-select"
                         value={updatedRoom.location}
-                        placeholder="Placering"
                         onChange={(e) => setUpdatedRoom({ ...updatedRoom, location: e.target.value })}
-                    />
+                    >
+                        <option value="">Vælg placering</option>
+                        <option value="København og omegn">København og omegn</option>
+                        <option value="Aarhus">Aarhus</option>
+                        <option value="Odense">Odense</option>
+                        <option value="Aalborg">Aalborg</option>
+                        <option value="Sjælland">Sjælland</option>
+                        <option value="Jylland">Jylland</option>
+                        <option value="Fyn">Fyn</option>
+                        <option value="Bornholm">Bornholm</option>
+                        <option value="Andet">Andet</option>
+                    </select>
                     <textarea
                         value={updatedRoom.description}
                         placeholder="Beskrivelse"

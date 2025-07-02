@@ -1,0 +1,99 @@
+.about-container {
+    padding: 4rem 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.about-flex {
+    display: flex;
+    gap: 2rem;
+    max-width: 1200px;
+    align-items: center; /* ⬅️ Dette centrerer billedet vertikalt */
+}
+
+.about-content {
+    flex: 4;
+    color: white;
+    line-height: 1.7;
+}
+
+.about-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.about-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.about-signature {
+    margin-top: 2rem;
+}
+
+.about-image-wrapper {
+    flex: 2;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.about-image {
+    max-width: 600px;
+    width: 150%;
+    border-radius: 2rem;
+    object-fit: cover;
+
+}
+
+.signature-image {
+    max-width: 180px; /* Mindre standardbredde */
+    width: 100%;
+    height: auto;
+    margin: 0 10px;
+}
+
+.signatures {
+    display: flex;
+    gap: 20px;
+    margin-top: 1rem;
+
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Tilpasning til tablets og mindre enheder */
+@media (max-width: 768px) {
+    .about-container {
+        padding: 2rem 1rem;
+    }
+
+    .about-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .about-content {
+        text-align: left;
+    }
+
+    .about-flex {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .about-image {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .signatures {
+        justify-content: center; /* Centrer signaturer på mobil */
+    }
+
+    .signature-image {
+        max-width: 140px;
+        margin: 0.5rem;
+    }
+}
