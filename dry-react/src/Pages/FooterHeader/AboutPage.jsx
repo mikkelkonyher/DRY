@@ -37,6 +37,20 @@ function AboutPage() {
                         De bedste hilsner,<br />
                         Mikkel & Troels
                     </p>
+
+                    {/* Signaturbillederne her */}
+                    <div className="signatures">
+                        <img
+                            src="src/assets/Mikkel signatur.png"
+                            alt="Mikkel signatur"
+                            className="signature-image"
+                        />
+                        <img
+                            src="src/assets/Troels signatur.png"
+                            alt="Troels signatur"
+                            className="signature-image"
+                        />
+                    </div>
                 </div>
 
                 <div className="about-image-wrapper">
