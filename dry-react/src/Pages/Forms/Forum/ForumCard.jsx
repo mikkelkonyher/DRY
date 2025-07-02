@@ -1,57 +1,68 @@
-// Importer nødvendige React hooks og biblioteker
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp as solidThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as regularThumbsUp } from '@fortawesome/free-regular-svg-icons';
-import config from "../../../../config.jsx"; // Importer konfigurationsfilen
-import './ForumCard.css'; // Importer CSS-styling
+import config from "../../../../config.jsx";
+import './ForumCard.css';
 
-// ForumCard-komponentet viser detaljer om et forumindlæg
 function ForumCard({ item, userId }) {
-    // State til at holde styr på om indlægget er liket
     const [isLiked, setIsLiked] = useState(false);
-    // State til at holde styr på antallet af likes
     const [likeCount, setLikeCount] = useState(item?.likeCount || 0);
-    // State til at holde styr på antallet af kommentarer
     const [commentCount, setCommentCount] = useState(0);
-    // State til at indikere om en like-operation er i gang
     const [loadingLike, setLoadingLike] = useState(false);
-    // Brug React Router's navigate-funktion til navigation
     const navigate = useNavigate();
 
-    // useEffect til at hente antallet af kommentarer fra API'et
     useEffect(() => {
-        if (!item) return; // Hvis der ikke er noget indlæg, gør ingenting
+        if (!item || !userId) return;
+
+        const fetchLikeStatus = async () => {
+            try {
+                const url = new URL(`${config.apiBaseUrl}/api/ForumLikes/${userId}`);
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                const likes = await response.json();
+                const likeStatus = likes.some(like => like.forumId === item.id);
+                setIsLiked(likeStatus);
+            } catch (error) {
+                console.error('Error fetching like status:', error);
+            }
+        };
+
+        fetchLikeStatus();
+    }, [item, userId]);
+
+    useEffect(() => {
+        if (!item) return;
 
         const fetchCommentCount = async () => {
             try {
-                // Byg URL til API-kaldet
                 const countUrl = new URL(`${config.apiBaseUrl}/api/Forum/forum/${item.id}/count`);
                 const response = await fetch(countUrl, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
                 });
 
-                if (!response.ok) {
-                    throw new Error('Netværksrespons var ikke OK');
-                }
+                if (!response.ok) throw new Error('Network response was not ok');
 
-                // Parse JSON-responsen og opdater state med antallet af kommentarer
                 const data = await response.json();
                 setCommentCount(data.commentCount);
             } catch (error) {
-                console.error('Fejl ved hentning af kommentarantal:', error);
+                console.error('Error fetching comment count:', error);
             }
         };
 
         fetchCommentCount();
     }, [item]);
 
-    // Funktion til at håndtere klik på like-knappen
     const handleLikeClick = async (e) => {
-        e.stopPropagation(); // Forhindrer klik på kortet når knappen trykkes
+        e.stopPropagation();
         if (!userId) {
             alert('Log ind for at like indlæg');
             return;
@@ -62,50 +73,43 @@ function ForumCard({ item, userId }) {
             return;
         }
 
-        if (loadingLike) return; // Hvis en like-operation allerede er i gang, gør ingenting
+        if (loadingLike) return;
 
-        setLoadingLike(true); // Sæt loading til true
+        setLoadingLike(true);
         try {
-            // Byg URL til API-kaldet
             const url = new URL(`${config.apiBaseUrl}/api/ForumLikes`);
             url.searchParams.append('userId', userId);
             url.searchParams.append('forumId', item.id);
-            const method = isLiked ? 'DELETE' : 'POST'; // Vælg metode baseret på like-status
+            const method = isLiked ? 'DELETE' : 'POST';
 
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Netværksrespons var ikke OK: ${errorText}`);
-            }
+            if (!response.ok) throw new Error('Network response was not ok');
 
-            // Opdater like-status og antallet af likes
             setIsLiked(!isLiked);
             setLikeCount(prevCount => (isLiked ? prevCount - 1 : prevCount + 1));
         } catch (error) {
-            console.error('Fejl ved toggling af like:', error);
+            console.error('Error toggling like:', error);
         } finally {
-            setLoadingLike(false); // Sæt loading til false
+            setLoadingLike(false);
         }
     };
 
-    // Funktion til at navigere til detaljer om forumindlægget
     const handleCardClick = () => {
         navigate(`/ForumDetails/${item.id}`);
     };
 
-    // Returner JSX til visning af forumkortet
     return (
         <div className="forum-card" onClick={handleCardClick}>
             <div className="forum-card-content">
-                <h3>{item?.subject}</h3> {/* Viser emnet for indlægget */}
-                <p>{item?.body.substring(0, 100)}{item?.body.length > 100 ? '... Se mere' : ''}</p> {/* Viser en kort version af indlægget */}
-                <p className="info-text"><strong>Indlæg af: {item?.userName || 'Ukendt bruger'}</strong></p> {/* Viser forfatterens navn */}
-                <p className="info-text"><strong>Oprettet: {new Date(item?.createdAt).toLocaleString()}</strong></p> {/* Viser oprettelsesdato */}
-                <p className="info-text"><strong>{commentCount} {commentCount === 1 ? 'kommentar' : 'kommentarer'}</strong></p> {/* Viser antallet af kommentarer */}
+                <h3>{item?.subject}</h3>
+                <p>{item?.body.substring(0, 100)}{item?.body.length > 100 ? '... Se mere' : ''}</p>
+                <p className="info-text"><strong>Indlæg af: {item?.userName || 'Ukendt bruger'}</strong></p>
+                <p className="info-text"><strong>Oprettet: {new Date(item?.createdAt).toLocaleString()}</strong></p>
+                <p className="info-text"><strong>{commentCount} {commentCount === 1 ? 'kommentar' : 'kommentarer'}</strong></p>
                 <div className="like-container">
                     <button
                         className="like-button"
@@ -114,8 +118,8 @@ function ForumCard({ item, userId }) {
                         disabled={loadingLike}
                     >
                         <div className="like-content">
-                            <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} /> {/* Viser like-ikon */}
-                            <span className="like-count">{likeCount}</span> {/* Viser antallet af likes */}
+                            <FontAwesomeIcon icon={isLiked ? solidThumbsUp : regularThumbsUp} />
+                            <span className="like-count">{likeCount}</span>
                         </div>
                     </button>
                 </div>
@@ -124,11 +128,9 @@ function ForumCard({ item, userId }) {
     );
 }
 
-// Definer prop-types for komponentet
 ForumCard.propTypes = {
-    item: PropTypes.object.isRequired, // Indlægget er påkrævet
-    userId: PropTypes.number, // Bruger-ID er valgfrit
+    item: PropTypes.object.isRequired,
+    userId: PropTypes.number,
 };
 
-// Eksporter komponentet
 export default ForumCard;
