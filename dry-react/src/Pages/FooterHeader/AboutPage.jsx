@@ -1,5 +1,9 @@
 import './AboutPage.css';
 
+import AboutImage from '../assets/459118063_539597145247047_8853740358288590339_n-1.webp';
+import MikkelSignature from '../assets/Mikkel signatur.png';
+import TroelsSignature from '../assets/Troels signatur.png';
+
 function AboutPage() {
     return (
         <div className="about-container">
@@ -38,15 +42,15 @@ function AboutPage() {
                         Mikkel & Troels
                     </p>
 
-                    {/* Signaturbillederne her */}
+                    {/* Signaturbilleder */}
                     <div className="signatures">
                         <img
-                            src="src/assets/Mikkel signatur.png"
+                            src={MikkelSignature}
                             alt="Mikkel signatur"
                             className="signature-image"
                         />
                         <img
-                            src="src/assets/Troels signatur.png"
+                            src={TroelsSignature}
                             alt="Troels signatur"
                             className="signature-image"
                         />
@@ -55,7 +59,7 @@ function AboutPage() {
 
                 <div className="about-image-wrapper">
                     <img
-                        src="src/assets/459118063_539597145247047_8853740358288590339_n-1.webp"
+                        src={AboutImage}
                         alt="Mikkel og Troels"
                         className="about-image"
                     />
