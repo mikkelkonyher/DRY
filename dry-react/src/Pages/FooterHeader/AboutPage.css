@@ -1,5 +1,5 @@
 .about-container {
-    padding: 4rem 1.5rem;
+    padding: 4rem 2rem; /* Slightly increase padding for larger screens */
     display: flex;
     justify-content: center;
 }
@@ -7,8 +7,9 @@
 .about-flex {
     display: flex;
     gap: 2rem;
-    max-width: 1200px;
-    align-items: center; /* ⬅️ Dette centrerer billedet vertikalt */
+    max-width: 90%; /* Use percentage for relative width */
+    align-items: center;
+    flex-wrap: nowrap; /* Prevent wrapping on larger screens */
 }
 
 .about-content {
@@ -39,15 +40,14 @@
 }
 
 .about-image {
-    max-width: 600px;
-    width: 150%;
+    max-width: 100%; /* Make image responsive */
+    width: 100%; /* Ensure it scales within its container */
     border-radius: 2rem;
     object-fit: cover;
-
 }
 
 .signature-image {
-    max-width: 180px; /* Mindre standardbredde */
+    max-width: 180px;
     width: 100%;
     height: auto;
     margin: 0 10px;
@@ -57,12 +57,17 @@
     display: flex;
     gap: 20px;
     margin-top: 1rem;
-
     justify-content: flex-start;
     align-items: center;
 }
 
-/* Tilpasning til tablets og mindre enheder */
+/* Responsive adjustments for tablets and smaller screens */
+@media (max-width: 1024px) {
+    .about-flex {
+        max-width: 95%; /* Adjust width for smaller screens */
+    }
+}
+
 @media (max-width: 768px) {
     .about-container {
         padding: 2rem 1rem;
@@ -89,7 +94,7 @@
     }
 
     .signatures {
-        justify-content: center; /* Centrer signaturer på mobil */
+        justify-content: center; /* Center signatures on mobile */
     }
 
     .signature-image {
