@@ -189,8 +189,11 @@ function ResponsiveAppBar() {
                             left: '50%',
                             transform: 'translateX(-50%)',
                             display: { xs: 'none', lg: 'flex' },
-                            gap: 2,
+                            gap: 2, // Adjust spacing between links
+                            flexWrap: 'nowrap', // Prevent wrapping
                             zIndex: 1,
+                            maxWidth: '80%', // Limit the width of the menu
+                            justifyContent: 'center', // Center the links
                         }}
                     >
                         {pages.map((page) => (
@@ -203,7 +206,8 @@ function ResponsiveAppBar() {
                                     my: 2,
                                     color: 'white',
                                     display: 'block',
-                                    textTransform: 'none'
+                                    textTransform: 'none',
+                                    whiteSpace: 'nowrap', // Prevent text wrapping
                                 }}
                             >
                                 {page.name}
