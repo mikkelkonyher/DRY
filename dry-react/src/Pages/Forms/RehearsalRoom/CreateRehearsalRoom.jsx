@@ -278,21 +278,23 @@ function CreateRehearsalRoom() {
                         <option value="Musikstudie">Musikstudie</option>
                         <option value="Andet">Andet</option>
                     </select>
+                    <div className="custom-file-input-wrapper">
 
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <label htmlFor="fileInput" className="custom-file-label" style={{ marginRight: '10px' }}>Upload billede</label>
+                        <label htmlFor="fileInput" className="custom-file-label">Upload billede</label>
                         <input id="fileInput" type="file" multiple onChange={handleFileChange} />
-                    </div>
+
 
                     <div className="image-previews">
                         {imagePreviews.map((src, index) => (
                             <DraggableImage key={index} src={src} index={index} moveImage={moveImage} />
                         ))}
                     </div>
-
-                    <button type="submit" disabled={loading}>
+                    </div>
+                    <div className="parent-div">
+                        <button type="submit" className="submitproduct-button" disabled={loading}>
                         {loading ? 'Indlæser...' : 'Opret lokale'}
                     </button>
+                    </div>
                 </form>
             </div>
         </DndProvider>
