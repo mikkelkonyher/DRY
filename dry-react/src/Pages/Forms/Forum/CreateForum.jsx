@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import config from '../../../../config.jsx';
 import './CreateForum.css';
 import EditNoteIcon from '@mui/icons-material/EditNote';
@@ -12,13 +13,14 @@ const CreateForum = () => {
     const [loading, setLoading] = useState(false);
     const maxChars = 8000;
 
-    // Fetch user ID from Token
+    const navigate = useNavigate(); // Initialize navigate
+
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
                     method: 'GET',
-                    credentials: 'include', // This sends cookies with the request
+                    credentials: 'include',
                 });
 
                 if (!userIdResponse.ok) {
@@ -48,20 +50,16 @@ const CreateForum = () => {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/Forum`, {
                 method: 'POST',
-                credentials: 'include', // This sends cookies with the request
-                body: formData
+                credentials: 'include',
+                body: formData,
             });
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
 
-            const data = await response.json();
-            console.log('Success:', data);
             setSuccessMessage('Indlægget er oprettet');
-            setSubject('');
-            setBody('');
-            setCharCount(0);
+            setTimeout(() => navigate('/forum'), 2000); // Redirect to /forum after 2 seconds
         } catch (error) {
             console.error('Error:', error);
         } finally {
