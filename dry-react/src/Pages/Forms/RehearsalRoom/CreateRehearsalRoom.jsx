@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import config from '../../../../config.jsx';
 import '../Gear/GearForm.css';
@@ -64,12 +65,14 @@ function CreateRehearsalRoom() {
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const userIdResponse = await fetch(`${config.apiBaseUrl}/api/Auth/get-user-id`, {
                     method: 'GET',
-                    credentials: 'include', // This sends cookies with the request
+                    credentials: 'include',
                 });
 
                 if (!userIdResponse.ok) {
@@ -175,8 +178,8 @@ function CreateRehearsalRoom() {
         try {
             const response = await fetch(API_ENDPOINT, {
                 method: 'POST',
-                credentials: 'include', // This sends cookies with the request
-                body: formData
+                credentials: 'include',
+                body: formData,
             });
 
             if (!response.ok) {
@@ -216,15 +219,26 @@ function CreateRehearsalRoom() {
                 <h2 className="sellHeadline">Opret øvelokale/musikstudie</h2>
                 <form onSubmit={handleSubmit}>
                     {successMessage && (
-                        <div className="modal-overlay" onClick={() => {
-                            setSuccessMessage('');
-                            window.location.reload();
-                        }}>
-                            <div className="modal-error-success" onClick={(e) => e.stopPropagation()}>
-                                <span className="close-button" onClick={() => {
-                                    setSuccessMessage('');
-                                    window.location.reload();
-                                }}>&times;</span>
+                        <div
+                            className="modal-overlay"
+                            onClick={() => {
+                                setSuccessMessage('');
+                                navigate('/rehearsal-rooms');
+                            }}
+                        >
+                            <div
+                                className="modal-error-success"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <span
+                                    className="close-button"
+                                    onClick={() => {
+                                        setSuccessMessage('');
+                                        navigate('/rehearsal-rooms');
+                                    }}
+                                >
+                                    &times;
+                                </span>
                                 <p className="successmessage">{successMessage}</p>
                             </div>
                         </div>
@@ -279,21 +293,18 @@ function CreateRehearsalRoom() {
                         <option value="Andet">Andet</option>
                     </select>
                     <div className="custom-file-input-wrapper">
-
                         <label htmlFor="fileInput" className="custom-file-label">Upload billede</label>
                         <input id="fileInput" type="file" multiple onChange={handleFileChange} />
-
-
-                    <div className="image-previews">
-                        {imagePreviews.map((src, index) => (
-                            <DraggableImage key={index} src={src} index={index} moveImage={moveImage} />
-                        ))}
-                    </div>
+                        <div className="image-previews">
+                            {imagePreviews.map((src, index) => (
+                                <DraggableImage key={index} src={src} index={index} moveImage={moveImage} />
+                            ))}
+                        </div>
                     </div>
                     <div className="parent-div">
                         <button type="submit" className="submitproduct-button" disabled={loading}>
-                        {loading ? 'Indlæser...' : 'Opret lokale'}
-                    </button>
+                            {loading ? 'Indlæser...' : 'Opret lokale'}
+                        </button>
                     </div>
                 </form>
             </div>

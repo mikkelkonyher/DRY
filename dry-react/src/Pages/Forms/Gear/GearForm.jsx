@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useNavigate } from 'react-router-dom';
 import config from "../../../../config.jsx";
 import './GearForm.css';
 
@@ -41,6 +42,7 @@ DraggableImage.propTypes = {
 };
 
 function GearForm({ gearType, categories, apiEndpoint }) {
+    const navigate = useNavigate();
     const [gear, setGear] = useState({
         brand: '',
         model: '',
@@ -230,21 +232,41 @@ function GearForm({ gearType, categories, apiEndpoint }) {
         }
     };
 
+    const handleSuccessModalClose = () => {
+        setSuccessMessage('');
+        switch (gearType) {
+            case 'guitar/bas':
+                navigate('/GuitBass');
+                break;
+            case 'trommer':
+                navigate('/Trommer');
+                break;
+            case 'keys':
+                navigate('/Keys');
+                break;
+            case 'studiegear':
+                navigate('/Studiogear');
+                break;
+            case 'strygere':
+                navigate('/Strygere');
+                break;
+            case 'blæseinstrumenter':
+                navigate('/Blæsere');
+                break;
+            default:
+                navigate('/');
+        }
+    };
+
     return (
         <DndProvider backend={HTML5Backend}>
             <div>
                 <h2 className="sellHeadline">Sælg {gearType}</h2>
                 <form className="createGearForm" onSubmit={handleSubmit}>
                     {successMessage && (
-                        <div className="modal-overlay" onClick={() => {
-                            setSuccessMessage('');
-                            window.location.reload();
-                        }}>
+                        <div className="modal-overlay" onClick={handleSuccessModalClose}>
                             <div className="modal-error-success" onClick={(e) => e.stopPropagation()}>
-                                <span className="close-button" onClick={() => {
-                                    setSuccessMessage('');
-                                    window.location.reload();
-                                }}>&times;</span>
+                                <span className="close-button" onClick={handleSuccessModalClose}>&times;</span>
                                 <p className="successmessage">{successMessage}</p>
                             </div>
                         </div>
