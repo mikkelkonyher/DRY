@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "q2D6G/QfHyL8zYWakV1tDZO9L2fCMfbVddpFWi4YGdE=",
+  "Hash": "U/mNV75SgNfPFPea+R/3p6aqcVDGtAfvtCfvTXxioks=",
   "Source": "DRYV1",
   "BasePath": "_content/DRYV1",
   "Mode": "Default",
@@ -5477,6 +5477,48 @@
       "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/ceyn3mvp.bn4.jpeg"
     },
     {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/cwmnlbdf.ayz.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/rehearsalrooms/cwmnlbdf.ayz#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "il5uwse7m3",
+      "Integrity": "KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/cwmnlbdf.ayz.jpg"
+    },
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/dcfrhsdo.je4.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/rehearsalrooms/dcfrhsdo.je4#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "77zfnue8xy",
+      "Integrity": "DRFKDPMKX4Hi4LW100PECfPh1HzRDFBe/0LcUqdTH24=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/dcfrhsdo.je4.jpg"
+    },
+    {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/dspyhgal.0nz.webp",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
@@ -5561,6 +5603,48 @@
       "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/gwa3uvw2.xje.jpg"
     },
     {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/hzztvivf.ivy.jpeg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/rehearsalrooms/hzztvivf.ivy#[.{fingerprint}]?.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "g4piybvevq",
+      "Integrity": "UNJkZeqeaZn1DBBs+agT0woD8Zs6r5cvy1AbgTas7+8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/hzztvivf.ivy.jpeg"
+    },
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/i4bpiea0.hjp.webp",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/rehearsalrooms/i4bpiea0.hjp#[.{fingerprint}]?.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "6kzvqgsxz9",
+      "Integrity": "OqAx6Rax9TCM0wDzzhinYA81giwLeF6trOL3b/wN2kM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/i4bpiea0.hjp.webp"
+    },
+    {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/idzamicg.mt4.jpg",
       "SourceId": "DRYV1",
       "SourceType": "Discovered",
@@ -5601,6 +5685,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/inmtl11t.etj.jpg"
+    },
+    {
+      "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/ixbzuyq2.lrw.jpg",
+      "SourceId": "DRYV1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/",
+      "BasePath": "_content/DRYV1",
+      "RelativePath": "assets/uploads/rehearsalrooms/ixbzuyq2.lrw#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "m2fu02qo1a",
+      "Integrity": "MnCuHeSLxQrqJVTw7HV2zKKJhgBPDrBw7I9N3YuvuWU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/assets/uploads/rehearsalrooms/ixbzuyq2.lrw.jpg"
     },
     {
       "Identity": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/jiii3reb.yfh.jpg",
@@ -28122,6 +28227,170 @@
       ]
     },
     {
+      "Route": "assets/uploads/rehearsalrooms/cwmnlbdf.ayz.il5uwse7m3.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/cwmnlbdf.ayz.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "315658"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Jul 2025 15:38:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "il5uwse7m3"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/rehearsalrooms/cwmnlbdf.ayz.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/cwmnlbdf.ayz.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/cwmnlbdf.ayz.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "315658"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Jul 2025 15:38:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/dcfrhsdo.je4.77zfnue8xy.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/dcfrhsdo.je4.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "32337"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"DRFKDPMKX4Hi4LW100PECfPh1HzRDFBe/0LcUqdTH24=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Jul 2025 15:38:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "77zfnue8xy"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/rehearsalrooms/dcfrhsdo.je4.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-DRFKDPMKX4Hi4LW100PECfPh1HzRDFBe/0LcUqdTH24="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/dcfrhsdo.je4.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/dcfrhsdo.je4.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "32337"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"DRFKDPMKX4Hi4LW100PECfPh1HzRDFBe/0LcUqdTH24=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Jul 2025 15:38:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-DRFKDPMKX4Hi4LW100PECfPh1HzRDFBe/0LcUqdTH24="
+        }
+      ]
+    },
+    {
       "Route": "assets/uploads/rehearsalrooms/dspyhgal.0nz.k3a5yjwzmv.webp",
       "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/dspyhgal.0nz.webp",
       "Selectors": [],
@@ -28450,6 +28719,170 @@
       ]
     },
     {
+      "Route": "assets/uploads/rehearsalrooms/hzztvivf.ivy.g4piybvevq.jpeg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/hzztvivf.ivy.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "164753"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UNJkZeqeaZn1DBBs+agT0woD8Zs6r5cvy1AbgTas7+8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Jul 2025 15:38:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "g4piybvevq"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/rehearsalrooms/hzztvivf.ivy.jpeg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-UNJkZeqeaZn1DBBs+agT0woD8Zs6r5cvy1AbgTas7+8="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/hzztvivf.ivy.jpeg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/hzztvivf.ivy.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "164753"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UNJkZeqeaZn1DBBs+agT0woD8Zs6r5cvy1AbgTas7+8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Jul 2025 15:38:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-UNJkZeqeaZn1DBBs+agT0woD8Zs6r5cvy1AbgTas7+8="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/i4bpiea0.hjp.6kzvqgsxz9.webp",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/i4bpiea0.hjp.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "58304"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OqAx6Rax9TCM0wDzzhinYA81giwLeF6trOL3b/wN2kM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Jul 2025 15:38:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6kzvqgsxz9"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/rehearsalrooms/i4bpiea0.hjp.webp"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-OqAx6Rax9TCM0wDzzhinYA81giwLeF6trOL3b/wN2kM="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/i4bpiea0.hjp.webp",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/i4bpiea0.hjp.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "58304"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"OqAx6Rax9TCM0wDzzhinYA81giwLeF6trOL3b/wN2kM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Jul 2025 15:38:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-OqAx6Rax9TCM0wDzzhinYA81giwLeF6trOL3b/wN2kM="
+        }
+      ]
+    },
+    {
       "Route": "assets/uploads/rehearsalrooms/idzamicg.mt4.1w4l7agkh4.jpg",
       "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/idzamicg.mt4.jpg",
       "Selectors": [],
@@ -28610,6 +29043,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-KtiDG1N+MYmKmNUB0ftFLcAfV57t/Zl7RW2T+ZmukcA="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/ixbzuyq2.lrw.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/ixbzuyq2.lrw.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "225456"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MnCuHeSLxQrqJVTw7HV2zKKJhgBPDrBw7I9N3YuvuWU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Jul 2025 15:38:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MnCuHeSLxQrqJVTw7HV2zKKJhgBPDrBw7I9N3YuvuWU="
+        }
+      ]
+    },
+    {
+      "Route": "assets/uploads/rehearsalrooms/ixbzuyq2.lrw.m2fu02qo1a.jpg",
+      "AssetFile": "/Users/mikkelkonyher/Documents/GitHub/DRY/DRYV1/DRYV1/wwwroot/assets/uploads/rehearsalrooms/ixbzuyq2.lrw.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "225456"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MnCuHeSLxQrqJVTw7HV2zKKJhgBPDrBw7I9N3YuvuWU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 02 Jul 2025 15:38:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "m2fu02qo1a"
+        },
+        {
+          "Name": "label",
+          "Value": "assets/uploads/rehearsalrooms/ixbzuyq2.lrw.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MnCuHeSLxQrqJVTw7HV2zKKJhgBPDrBw7I9N3YuvuWU="
         }
       ]
     },

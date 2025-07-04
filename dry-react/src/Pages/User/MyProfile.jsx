@@ -8,18 +8,7 @@ import Cookies from 'js-cookie';
 import { AuthContext } from "../../AuthContext.jsx";
 import defaultProfileImage from '../../assets/3675952-200.png';
 
-const ninjaNames = [
-    "Shadow Reaper",
-    "Ghost Fang",
-    "Bloodmoon Shinobi",
-    "Silent Phantom",
-    "Nightfall Ronin",
-    "Dagger Viper",
-    "Stormblade Sensei",
-    "Void Stalker",
-    "Obsidian Kage",
-    "Venom Shuriken"
-];
+
 
 function MyProfile() {
     const [gear, setGear] = useState([]);
@@ -40,7 +29,6 @@ function MyProfile() {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [profileImage, setProfileImage] = useState(null);
     const [profileImageUrl, setProfileImageUrl] = useState('');
-    const [randomNinjaName, setRandomNinjaName] = useState('');
     const fileInputRef = useRef(null);
     const { setIsAuthenticated } = useContext(AuthContext);
 
@@ -83,10 +71,7 @@ function MyProfile() {
         fetchUserId();
     }, []);
 
-    useEffect(() => {
-        const randomName = ninjaNames[Math.floor(Math.random() * ninjaNames.length)];
-        setRandomNinjaName(randomName);
-    }, []);
+
 
     useEffect(() => {
         if (!userId) return;
@@ -385,7 +370,7 @@ function MyProfile() {
                 </div>
             ) : (
                 <div className="profile-info">
-                    <h2>{`${randomNinjaName} ${userName}`}</h2>
+                    <h2>{`${userName}`}</h2>
 
                     <button onClick={handleEdit}>Rediger</button>
                 </div>
