@@ -1,7 +1,7 @@
 import './AboutPage.css';
 import MikkelSignature from '../../assets/Mikkel signatur.png';
 import TroelsSignature from '../../assets/Troels signatur.png';
-import AboutImage from '../../assets/459118063_539597145247047_8853740358288590339_n-1.webp';
+import AboutImage from '../../assets/troelsogmikkel.jpg';
 
 function AboutPage() {
     return (
