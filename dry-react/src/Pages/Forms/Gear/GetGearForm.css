@@ -1,5 +1,9 @@
 
-
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
 
 :root {
     --primary-color: #6366f1;
