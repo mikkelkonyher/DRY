@@ -398,7 +398,7 @@ html, body {
     }
 
     .gear-card {
-        width: 200px; /* Adjust width to fit better */
+        width: 135px; /* Adjust width to fit better */
         height: auto; /* Adjust height as needed */
     }
 }
