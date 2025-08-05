@@ -106,11 +106,16 @@ function CreateRehearsalRoom() {
         const files = Array.from(e.target.files);
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
         const newImageFiles = [...imageFiles];
+        const maxFileSize = 5 * 1024 * 1024; // 5MB
         const newImagePreviews = [...imagePreviews];
 
         for (const file of files) {
             if (!allowedTypes.includes(file.type)) {
                 setErrorMessage('Kun billeder af typen jpg, jpeg, png eller webp er tilladt.');
+                return;
+            }
+            if (file.size > maxFileSize) {
+                setErrorMessage('Billedet må maks. være 5MB.');
                 return;
             }
             if (newImageFiles.length >= 8) {
