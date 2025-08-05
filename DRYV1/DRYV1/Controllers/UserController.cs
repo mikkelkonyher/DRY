@@ -155,7 +155,6 @@ namespace DRYV1.Controllers
             return NoContent();
         }
 
-        // Sletter en bruger og relaterede data (fora, likes, kommentarer)
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -165,7 +164,7 @@ namespace DRYV1.Controllers
                 return NotFound("User not found.");
             }
 
-            // Sletter alle kommentarer på fora oprettet af brugeren
+            // Slet kommentarer på forum oprettet af brugeren
             var userForums = await _context.Forums.Where(f => f.UserId == id).ToListAsync();
             foreach (var forum in userForums)
             {
@@ -173,16 +172,27 @@ namespace DRYV1.Controllers
                 _context.Comments.RemoveRange(forumComments);
             }
 
-            // Sletter alle fora oprettet af brugeren
+            // Slet alle fora oprettet af brugeren
             _context.Forums.RemoveRange(userForums);
 
-            // Sletter alle likes på fora lavet af brugeren
+            // Slet alle likes på fora lavet af brugeren
             var likedForums = await _context.ForumLikes.Where(fl => fl.UserId == id).ToListAsync();
             _context.ForumLikes.RemoveRange(likedForums);
 
-            // Sletter alle kommentarer lavet af brugeren
+            // Slet alle kommentarer lavet af brugeren
             var userComments = await _context.Comments.Where(c => c.UserId == id).ToListAsync();
             _context.Comments.RemoveRange(userComments);
+
+            // Slet alle kommentarer på MusicGear ejet af brugeren
+            var userMusicGear = await _context.MusicGear.Where(mg => mg.UserId == id).ToListAsync();
+            foreach (var gear in userMusicGear)
+            {
+                var gearComments = await _context.Comments.Where(c => c.MusicGearId == gear.Id).ToListAsync();
+                _context.Comments.RemoveRange(gearComments);
+            }
+
+            // Slet alt MusicGear ejet af brugeren
+            _context.MusicGear.RemoveRange(userMusicGear);
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
