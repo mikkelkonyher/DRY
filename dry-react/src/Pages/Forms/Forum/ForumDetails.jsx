@@ -217,7 +217,7 @@ function ForumDetails() {
             ) : (
                 <>
                     <h4>{forumItem.subject}</h4>
-                    <p>{forumItem.body}</p>
+                    <p className="forum-body">{forumItem.body}</p>
                 </>
             )}
 

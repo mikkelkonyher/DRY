@@ -18,6 +18,10 @@
     position: relative; /* Add relative positioning */
 }
 
+.forum-body {
+    white-space: pre-line;
+}
+
 @media (max-width: 600px) {
     .forum-details {
 
