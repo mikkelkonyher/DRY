@@ -46,67 +46,79 @@ namespace DRYV1.Controllers
             return Ok(messages);
         }
 
-        // Sender en besked og opretter evt. en ny chat hvis nødvendigt
-        [HttpPost]
-        public async Task<ActionResult<MessageDTO>> SendMessage(MessageCreateDTO messageCreateDTO)
+       // Sender en besked og opretter evt. en ny chat hvis nødvendigt
+[HttpPost]
+public async Task<ActionResult<MessageDTO>> SendMessage(MessageCreateDTO messageCreateDTO)
+{
+    // Tjekker om en chat med samme emne og deltagere allerede findes
+    var chat = await _context.Chats
+        .Include(c => c.Messages)
+        .FirstOrDefaultAsync(c => c.Subject == messageCreateDTO.Subject &&
+                                  c.Messages.Any(m =>
+                                      (m.SenderId == messageCreateDTO.SenderId && m.ReceiverId == messageCreateDTO.ReceiverId) ||
+                                      (m.SenderId == messageCreateDTO.ReceiverId && m.ReceiverId == messageCreateDTO.SenderId)));
+
+    // Tjekker om chatten er slettet for afsender eller modtager
+    if (chat != null)
+    {
+        bool deletedForSender = chat.IsDeletedBySender && chat.Messages.Any(m => m.SenderId == messageCreateDTO.SenderId);
+        bool deletedForReceiver = chat.IsDeletedByReceiver && chat.Messages.Any(m => m.ReceiverId == messageCreateDTO.ReceiverId);
+        if (deletedForSender || deletedForReceiver)
         {
-            // Tjekker om en chat med samme emne og deltagere allerede findes
-            var chat = await _context.Chats
-                .Include(c => c.Messages)
-                .FirstOrDefaultAsync(c => c.Subject == messageCreateDTO.Subject &&
-                                          c.Messages.Any(m =>
-                                              (m.SenderId == messageCreateDTO.SenderId && m.ReceiverId == messageCreateDTO.ReceiverId) ||
-                                              (m.SenderId == messageCreateDTO.ReceiverId && m.ReceiverId == messageCreateDTO.SenderId)));
-
-            if (chat == null)
-            {
-                // Opretter ny chat hvis den ikke findes
-                chat = new Chat
-                {
-                    Subject = messageCreateDTO.Subject
-                };
-                _context.Chats.Add(chat);
-                await _context.SaveChangesAsync();
-            }
-
-            // Opretter besked-objekt og tilføjer til databasen
-            var message = new Message
-            {
-                SenderId = messageCreateDTO.SenderId,
-                ReceiverId = messageCreateDTO.ReceiverId,
-                Content = messageCreateDTO.Content,
-                Subject = messageCreateDTO.Subject,
-                Timestamp = DateTime.UtcNow,
-                ChatId = chat.Id,
-                Chat = chat
-            };
-
-            _context.Messages.Add(message);
-            await _context.SaveChangesAsync();
-
-            var messageDTO = new MessageDTO
-            {
-                Id = message.Id,
-                SenderId = message.SenderId,
-                SenderUsername = _context.Users.FirstOrDefault(u => u.Id == message.SenderId).Name,
-                ReceiverId = message.ReceiverId,
-                ReceiverUsername = _context.Users.FirstOrDefault(u => u.Id == message.ReceiverId).Name,
-                Content = message.Content,
-                Subject = message.Subject,
-                Timestamp = message.Timestamp,
-                ChatId = message.ChatId,
-            };
-
-            // Sender emailnotifikation til modtageren
-            var inboxUrl = "https://www.gearninja.dk/inbox";
-            var receiver = await _context.Users.FindAsync(messageCreateDTO.ReceiverId);
-            if (receiver != null)
-            {
-                await _emailService.SendEmailAsync(receiver.Email, "Ny besked modtaget", $"Du har modtaget en ny besked fra {messageDTO.SenderUsername}. Klik <a href=\"{inboxUrl}\">her</a> for at gå til din inbox. 🥷");
-            }
-
-            return CreatedAtAction(nameof(GetMessages), new { userId = message.SenderId }, messageDTO);
+            chat = null; // Opretter ny chat hvis den er slettet for en af deltagerne
         }
+    }
+
+    // Opretter ny chat hvis den ikke findes
+    if (chat == null)
+    {
+        chat = new Chat
+        {
+            Subject = messageCreateDTO.Subject
+        };
+        _context.Chats.Add(chat);
+        await _context.SaveChangesAsync();
+    }
+
+    // Opretter besked-objekt og tilføjer til databasen
+    var message = new Message
+    {
+        SenderId = messageCreateDTO.SenderId,
+        ReceiverId = messageCreateDTO.ReceiverId,
+        Content = messageCreateDTO.Content,
+        Subject = messageCreateDTO.Subject,
+        Timestamp = DateTime.UtcNow,
+        ChatId = chat.Id,
+        Chat = chat
+    };
+
+    _context.Messages.Add(message);
+    await _context.SaveChangesAsync();
+
+    // Opretter MessageDTO til returnering
+    var messageDTO = new MessageDTO
+    {
+        Id = message.Id,
+        SenderId = message.SenderId,
+        SenderUsername = _context.Users.FirstOrDefault(u => u.Id == message.SenderId).Name,
+        ReceiverId = message.ReceiverId,
+        ReceiverUsername = _context.Users.FirstOrDefault(u => u.Id == message.ReceiverId).Name,
+        Content = message.Content,
+        Subject = message.Subject,
+        Timestamp = message.Timestamp,
+        ChatId = message.ChatId,
+    };
+
+    // Sender emailnotifikation til modtageren
+    var inboxUrl = "https://www.gearninja.dk/inbox";
+    var receiver = await _context.Users.FindAsync(messageCreateDTO.ReceiverId);
+    if (receiver != null)
+    {
+        await _emailService.SendEmailAsync(receiver.Email, "Ny besked modtaget", $"Du har modtaget en ny besked fra {messageDTO.SenderUsername}. Klik <a href=\"{inboxUrl}\">her</a> for at gå til din inbox. 🥷");
+    }
+
+    return CreatedAtAction(nameof(GetMessages), new { userId = message.SenderId }, messageDTO);
+}
 
         // Sletter en besked baseret på id
         [HttpDelete("{id}")]
