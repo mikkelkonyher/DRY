@@ -75,9 +75,13 @@ namespace DRYV1.Controllers
         {
             var chats = await _context.Chats
                 .Include(c => c.Messages)
-                .Where(c => (c.Messages.Any(m => m.SenderId == userId || m.ReceiverId == userId)) &&
-                            !(c.IsDeletedBySender && c.Messages.Any(m => m.SenderId == userId)) &&
-                            !(c.IsDeletedByReceiver && c.Messages.Any(m => m.ReceiverId == userId)))
+                .Where(c =>
+                    c.Messages.Any(m => m.SenderId == userId || m.ReceiverId == userId) &&
+                    (
+                        (c.Messages.Any(m => m.SenderId == userId) && !c.IsDeletedBySender) ||
+                        (c.Messages.Any(m => m.ReceiverId == userId) && !c.IsDeletedByReceiver)
+                    )
+                )
                 .OrderByDescending(c => c.Messages.Max(m => m.Timestamp)) // Sorterer chats efter seneste besked
                 .Select(c => new ChatDTO
                 {
