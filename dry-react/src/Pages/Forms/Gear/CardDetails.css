@@ -261,6 +261,7 @@ strong {
     justify-content: center;
     cursor: pointer;
     transition: background 0.2s ease, transform 0.1s ease;
+    z-index: 10002; /* ensure close X sits above navbar and panel */
 }
 
 .modal-close-x:hover {
@@ -298,6 +299,9 @@ strong {
 .ai-modal-response {
     white-space: pre-wrap;
     line-height: 1.6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    font-size: 0.92rem;
 }
 
 .ai-modal-error {
@@ -306,4 +310,126 @@ strong {
 
 .ai-modal-status {
     opacity: 0.9;
+}
+
+/* AI modal toolbar and copy button */
+.ai-modal-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.ai-copy-btn {
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid #2a2a2a;
+    background: #111;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.82rem;
+    transition: background 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
+}
+
+.ai-copy-btn:hover {
+    background: #1a1a1a;
+}
+
+.ai-copy-btn:active {
+    transform: translateY(1px);
+}
+
+.ai-copied-hint {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.ai-modal-footer {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.7;
+}
+.ai-modal-root {
+    /* Only the AI modal should use these constraints */
+    position: fixed;
+    inset: 0; /* cover the viewport regardless of page scroll */
+    z-index: 10000; /* above most navbars */
+    display: flex;
+    align-items: flex-start; /* start at top to avoid clipping under notches */
+    justify-content: center;
+    padding: max(16px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+    box-sizing: border-box;
+    overflow-y: auto; /* allow the whole overlay to scroll on very small screens */
+}
+
+.ai-modal-root .modal-content {
+    /* Let the inner content size naturally; panel handles its own max sizes */
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding-top: 0; /* panel includes its padding */
+}
+
+/* Slightly narrower default panel and cap width on larger phones */
+.ai-modal-root .ai-modal-panel {
+    width: min(92vw, 560px);
+}
+
+/* Extra small devices (e.g., iPhone 12/13/14/15 non‑Pro widths) */
+@media (max-width: 420px) {
+    .ai-modal-root .ai-modal-panel {
+        width: 94vw; /* a bit more breathing room on the sides */
+        max-height: calc(78vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+        padding: 16px; /* tighten padding to fit header + content */
+    }
+    .ai-modal-logo {
+        width: 36px;
+        height: 36px;
+        margin-bottom: 6px;
+    }
+    .ai-modal-title {
+        margin: 2px 0 10px 0;
+        font-size: 0.95rem;
+    }
+    .ai-modal-response {
+        line-height: 1.55;
+        font-size: 0.84rem;
+    }
+}
+
+
+/* Extra compact typography for very small devices (e.g., 375px width) */
+@media (max-width: 375px) {
+    .ai-modal-logo {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 4px;
+    }
+    .ai-modal-title {
+        font-size: 0.9rem;
+        margin: 2px 0 8px 0;
+    }
+    .ai-modal-response {
+        font-size: 0.8rem;
+        line-height: 1.5;
+    }
+}
+
+
+/* Smaller copy button text on small screens */
+@media (max-width: 420px) {
+    .ai-copy-btn {
+        font-size: 0.74rem;
+        padding: 4px 8px;
+    }
+}
+
+@media (max-width: 375px) {
+    .ai-copy-btn {
+        font-size: 0.7rem;
+        padding: 3px 7px;
+    }
 }

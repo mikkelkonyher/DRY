@@ -25,6 +25,29 @@ function CardDetails() {
     const [aiLoading, setAiLoading] = useState(false);
     const [aiError, setAiError] = useState('');
     const [aiResponse, setAiResponse] = useState('');
+    const [aiCopied, setAiCopied] = useState(false);
+
+    // Lock background scroll when AI modal is open and enable Esc to close
+    useEffect(() => {
+        // Toggle body scroll
+        const prevOverflow = document.body.style.overflow;
+        if (isAiModalOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = prevOverflow || '';
+        }
+        // Escape key handler
+        const onKeyDown = (e) => {
+            if (e.key === 'Escape' && isAiModalOpen) {
+                setIsAiModalOpen(false);
+            }
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+            document.body.style.overflow = prevOverflow;
+        };
+    }, [isAiModalOpen]);
 
     // Fetch user ID from token
     useEffect(() => {
@@ -237,6 +260,16 @@ function CardDetails() {
         }
     };
 
+    const handleCopyAi = async () => {
+        try {
+            await navigator.clipboard.writeText(aiResponse || '');
+            setAiCopied(true);
+            setTimeout(() => setAiCopied(false), 1500);
+        } catch (err) {
+            console.error('Clipboard error:', err);
+        }
+    };
+
     if (!gearItem) return <div>Loading...</div>;
 
     return (
@@ -325,7 +358,7 @@ function CardDetails() {
             {isAiModalOpen && (
                 <div className="modal" onClick={() => setIsAiModalOpen(false)}>
                     <span className="close" onClick={() => setIsAiModalOpen(false)}>&times;</span>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <div className="modal-content" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title" onClick={(e) => e.stopPropagation()}>
                         <button
                             type="button"
                             className="modal-close-x"
@@ -337,12 +370,21 @@ function CardDetails() {
                         </button>
                         <div className="ai-modal-panel">
                             <img src="/openai-chatgpt-logo-icon-free-png.webp" alt="AI" className="ai-modal-logo" />
-                            <h3 className="ai-modal-title">AI vurdering af pris</h3>
+                            <h3 id="ai-modal-title" className="ai-modal-title">AI vurdering af pris</h3>
+                            <div className="ai-modal-toolbar">
+                                {!aiLoading && !aiError && aiResponse && (
+                                    <>
+                                        <button type="button" className="ai-copy-btn" onClick={handleCopyAi}>Kopiér svar</button>
+                                        {aiCopied && <span className="ai-copied-hint">Kopieret!</span>}
+                                    </>
+                                )}
+                            </div>
                             {aiLoading && <p className="ai-modal-status">Henter vurdering fra AI...</p>}
                             {aiError && <p className="ai-modal-error">Fejl: {aiError}</p>}
                             {!aiLoading && !aiError && (
                                 <div className="ai-modal-response">{aiResponse}</div>
                             )}
+                            <div className="ai-modal-footer">Powered by OpenAI</div>
                         </div>
                     </div>
                 </div>
