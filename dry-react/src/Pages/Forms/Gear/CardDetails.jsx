@@ -20,6 +20,12 @@ function CardDetails() {
     const [selectedImage, setSelectedImage] = useState('');
     const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
 
+    // AI modal & response state
+    const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+    const [aiLoading, setAiLoading] = useState(false);
+    const [aiError, setAiError] = useState('');
+    const [aiResponse, setAiResponse] = useState('');
+
     // Fetch user ID from token
     useEffect(() => {
         const fetchUserId = async () => {
@@ -141,6 +147,63 @@ function CardDetails() {
         setIsModalOpen(true);
     };
 
+    // Ask AI about price and details
+    const handleAskAiPrice = async () => {
+        if (!gearItem || aiLoading) return;
+        setAiError('');
+        setAiResponse('');
+        // Open the modal immediately and show loading
+        setIsAiModalOpen(true);
+        
+        // If backend endpoint requires [Authorize], ensure user is logged in
+        if (!userId) {
+            setAiLoading(false);
+            setAiError('Du skal være logget ind for at bruge AI-vurdering. Log ind og prøv igen.');
+            return;
+        }
+
+        setAiLoading(true);
+        try {
+            // Build payload to send to backend (no API keys in the browser)
+            const payload = {
+                brand: gearItem.brand || '',
+                model: gearItem.model || '',
+                price: gearItem.price,
+                condition: gearItem.condition || 'Ukendt',
+                year: gearItem.year,
+                location: gearItem.location || 'Ukendt',
+                description: gearItem.description || 'Ingen beskrivelse'
+            };
+
+            const response = await fetch(`${config.apiBaseUrl}/api/AI/evaluate-price`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(payload)
+            });
+
+            if (response.status === 401) {
+                setAiError('Ikke autoriseret. Log ind for at bruge AI-vurdering.');
+                return;
+            }
+
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`Fejl fra serveren: ${response.status} ${errText}`);
+            }
+
+            const data = await response.json();
+            // Expecting { content: string }
+            const text = (data && (data.content || data.result || data.message)) || 'Intet svar modtaget.';
+            setAiResponse(text);
+        } catch (e) {
+            console.error(e);
+            setAiError(e.message || 'Der opstod en fejl.');
+        } finally {
+            setAiLoading(false);
+        }
+    };
+
     // Handle comment posted
     const handleCommentPosted = async () => {
         try {
@@ -178,6 +241,30 @@ function CardDetails() {
 
     return (
         <div className="gear-cardDetails">
+            {/* AI evaluation button at top */}
+            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: '10px' }}>
+                <button
+                    onClick={handleAskAiPrice}
+                    disabled={aiLoading}
+                    title="Vurdering af produkt"
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '8px 12px',
+                        borderRadius: '8px',
+                        border: '1px solid #e5e7eb',
+                        background: '#ffffff',
+                        color: '#111827',
+                        cursor: aiLoading ? 'not-allowed' : 'pointer',
+                        boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                    }}
+                >
+                    <img src="/chatgpt-logo-png_seeklogo-465219.png" alt="ChatGPT" style={{ width: 28, height: 28, color: '#10a37f' }} />
+                    <span>{aiLoading ? 'Vurderer…' : 'Vurdering af produkt'}</span>
+                </button>
+            </div>
+
             {/* Gear item details */}
             <h4>{gearItem.brand} {gearItem.model}</h4>
             <h5><strong>Pris: </strong>{gearItem.price.toLocaleString('da-DK')} kr. </h5>
@@ -218,6 +305,7 @@ function CardDetails() {
                 Skriv til sælger
             </button>
 
+
             {/* Message modal */}
             {isMessageModalOpen && (
                 <div className="modal" onClick={() => setIsMessageModalOpen(false)}>
@@ -233,7 +321,20 @@ function CardDetails() {
                 </div>
             )}
 
-
+            {/* AI modal */}
+            {isAiModalOpen && (
+                <div className="modal" onClick={() => setIsAiModalOpen(false)}>
+                    <span className="close" onClick={() => setIsAiModalOpen(false)}>&times;</span>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <h3>AI vurdering af pris</h3>
+                        {aiLoading && <p>Henter vurdering fra AI...</p>}
+                        {aiError && <p style={{ color: 'red' }}>Fejl: {aiError}</p>}
+                        {!aiLoading && !aiError && (
+                            <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{aiResponse}</div>
+                        )}
+                    </div>
+                </div>
+            )}
 
             {/* Image modal */}
             {isModalOpen && (

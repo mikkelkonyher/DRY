@@ -23,6 +23,7 @@ builder.Services.AddScoped<EmailService>();  // Email service som scoped
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
 
 // Tilføj CORS services
 builder.Services.AddCors(options =>
