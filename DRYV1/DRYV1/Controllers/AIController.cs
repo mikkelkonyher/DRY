@@ -43,8 +43,8 @@ Beskrivelse: {description}
 
 Opgave:
 1) Giv en kort vurdering om prisen virker lav, fair eller høj (1 linje med et tydeligt “Vurdering”).
-2) Angiv 3-6 punkter med relevante detaljer (fx kendte prisniveauer, efterspørgsel, kendte fejl/fordele, tilbehør, årgang/stand).
-3) Afslut med et forslag til forhandlingsstrategi (1-2 linjer).
+2) Angiv 3-4 punkter med relevante detaljer (fx kendte prisniveauer, efterspørgsel, kendte fejl/fordele, tilbehør, årgang/stand).
+3) Afslut med en samlet anbefaling: køb nu, vent på bedre pris, eller undgå helt. (1-2 linjer).
 Svar på dansk.";
 
         var client = _httpClientFactory.CreateClient();
