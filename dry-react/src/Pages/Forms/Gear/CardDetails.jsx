@@ -260,7 +260,7 @@ function CardDetails() {
                         boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
                     }}
                 >
-                    <img src="/chatgpt-logo-png_seeklogo-465219.png" alt="ChatGPT" style={{ width: 28, height: 28, color: '#10a37f' }} />
+                    <img src="/openai-chatgpt-logo-icon-free-png.webp" alt="ChatGPT" style={{ width: 28, height: 28, color: '#10a37f' }} />
                     <span>{aiLoading ? 'Vurderer…' : 'Vurdering af produkt'}</span>
                 </button>
             </div>
@@ -326,12 +326,24 @@ function CardDetails() {
                 <div className="modal" onClick={() => setIsAiModalOpen(false)}>
                     <span className="close" onClick={() => setIsAiModalOpen(false)}>&times;</span>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <h3>AI vurdering af pris</h3>
-                        {aiLoading && <p>Henter vurdering fra AI...</p>}
-                        {aiError && <p style={{ color: 'red' }}>Fejl: {aiError}</p>}
-                        {!aiLoading && !aiError && (
-                            <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{aiResponse}</div>
-                        )}
+                        <button
+                            type="button"
+                            className="modal-close-x"
+                            aria-label="Luk AI vurdering"
+                            title="Luk"
+                            onClick={() => setIsAiModalOpen(false)}
+                        >
+                            &times;
+                        </button>
+                        <div className="ai-modal-panel">
+                            <img src="/openai-chatgpt-logo-icon-free-png.webp" alt="AI" className="ai-modal-logo" />
+                            <h3 className="ai-modal-title">AI vurdering af pris</h3>
+                            {aiLoading && <p className="ai-modal-status">Henter vurdering fra AI...</p>}
+                            {aiError && <p className="ai-modal-error">Fejl: {aiError}</p>}
+                            {!aiLoading && !aiError && (
+                                <div className="ai-modal-response">{aiResponse}</div>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}

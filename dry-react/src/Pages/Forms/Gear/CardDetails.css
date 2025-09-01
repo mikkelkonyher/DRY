@@ -237,3 +237,73 @@ strong {
     align-items: center;
     justify-content: center;
 }
+
+/* Ensure modal content can position children absolutely */
+.modal-content {
+    position: relative;
+}
+
+/* Close X button inside modal content */
+.modal-close-x {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.modal-close-x:hover {
+    background: rgba(0,0,0,0.65);
+}
+
+.modal-close-x:active {
+    transform: scale(0.97);
+}
+
+/* AI modal black content panel and logo */
+.ai-modal-panel {
+    background: rgba(0, 0, 0, 0.92);
+    color: #ffffff;
+    border-radius: 14px;
+    padding: 20px 24px;
+    border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.ai-modal-logo {
+    width: 44px;
+    height: 44px;
+    display: block;
+    margin: 0 auto 8px auto; /* centered at top */
+}
+
+.ai-modal-title {
+    text-align: center;
+    margin: 4px 0 12px 0;
+}
+
+.ai-modal-response {
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+.ai-modal-error {
+    color: #fca5a5; /* soft red */
+}
+
+.ai-modal-status {
+    opacity: 0.9;
+}
