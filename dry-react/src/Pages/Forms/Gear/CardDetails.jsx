@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
-import PostComment from "../../../Components/PostComments.jsx";
 import MessageToCard from "../../MessageSystem/MessageToCard.jsx";
 import config from "../../../../config.jsx";
 import './CardDetails.css';
@@ -227,38 +226,7 @@ function CardDetails() {
         }
     };
 
-    // Handle comment posted
-    const handleCommentPosted = async () => {
-        try {
-            const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${id}/comments`);
-            if (!response.ok) throw new Error('Network response was not ok');
-            const commentsData = await response.json();
-            setGearItem(prevItem => ({ ...prevItem, comments: commentsData }));
-        } catch (error) {
-            console.error('Error fetching comments:', error);
-        }
-    };
 
-    // Handle comment deletion
-    const handleDeleteComment = async (commentId) => {
-        const isConfirmed = window.confirm("Er du sikker på at du vil slette denne kommentar?");
-        if (!isConfirmed) return;
-
-        try {
-            const response = await fetch(`${config.apiBaseUrl}/api/Comment/${commentId}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${Cookies.get('AuthToken')}` },
-            });
-
-            if (!response.ok) throw new Error('Network response was not ok');
-            setGearItem(prevItem => ({
-                ...prevItem,
-                comments: prevItem.comments.filter(comment => comment.id !== commentId)
-            }));
-        } catch (error) {
-            console.error('Error deleting comment:', error);
-        }
-    };
 
     const handleCopyAi = async () => {
         try {

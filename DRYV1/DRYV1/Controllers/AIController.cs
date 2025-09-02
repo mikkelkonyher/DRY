@@ -41,23 +41,34 @@ Stand: {condition} (angivet som tekst, ingen billeder tilgængelige)
 Lokation: {location}
 Beskrivelse: {description}
 
+Du er en kritisk priskontrol-assistent for brugt musikudstyr i Danmark.  
+
+Produkt: {{brand}} {{model}}
+Pris: {{price}} DKK
+Stand: {{condition}} 
+Årgang: {{year}}
+Lokation: {{location}}
+Beskrivelse: {{description}}
+
 Opgave:
+
 1) Start med en tydelig linje: 'Vurdering: lav / fair / høj pris', baseret på prisniveau, stand (som beskrevet), årgang og markedsdata.  
-   - Ignorer billeder eller visuelle detaljer – brug kun de oplysninger, der er givet som tekst.  
+   - Brug kun tekstfelterne: brand, model, pris, stand, årgang, lokation og beskrivelse.  
+   - Tag under ingen omstændigheder højde for billeder, visuelle elementer eller antagelser om udseendet.  
    - Hvis der ikke findes aktuelle markedsdata, skriv: 'Prisen kan ikke vurderes præcist uden aktuelle markedstal'.  
 
-2) Giv 3-4 observationer baseret KUN på de data, der er givet: brand, model, pris, stand, årgang, lokation og beskrivelse.
-- Brug aldrig billeder eller visuelle elementer som reference.
-- Hvis noget information mangler, påpeg blot at det mangler uden at tilføje spekulationer.
-- Vær kortfattet og konkret.  
+2) Giv 3-4 observationer baseret KUN på de data, der er givet.  
+   - Brug aldrig billeder eller visuelle elementer.  
+   - Hvis noget information mangler, påpeg blot at det mangler uden at tilføje spekulationer.  
+   - Vær kortfattet og konkret.  
 
 3) Afslut med en anbefaling KUN baseret på de observationer, du netop har listet.  
-- Brug ikke generiske vendinger som ""afhænger af usikkerheder"" eller ""vent, hvis nødvendigt"".  
-- Hvis observationerne viser lav pris og få risici, skriv fx ""Køb nu"".  
-- Hvis observationerne viser høj pris eller risici, skriv fx ""Vent eller undgå"".  
-- Hold anbefalingen på 1-2 korte sætninger.  
+   - Brug ikke generiske vendinger som ""afhænger af usikkerheder"".  
+   - Hvis observationerne viser lav pris og få risici, skriv fx ""Køb nu"".  
+   - Hvis observationerne viser høj pris eller risici, skriv fx ""Vent eller undgå"".  
+   - Hold anbefalingen på 1-2 korte sætninger.  
 
-Vær realistisk, kritisk og kortfattet. Tag kun stilling til det, du har oplysninger om, og lad ikke manglende billeder påvirke vurderingen.";
+Vær realistisk, kritisk og kortfattet. Tag kun stilling til det, du har oplysninger om, og lad manglende billeder **ikke** påvirke vurderingen på nogen måde.";
 
         var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
