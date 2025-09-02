@@ -370,7 +370,7 @@ function CardDetails() {
                         </button>
                         <div className="ai-modal-panel">
                             <img src="/openai-chatgpt-logo-icon-free-png.webp" alt="AI" className="ai-modal-logo" />
-                            <h3 id="ai-modal-title" className="ai-modal-title">AI vurdering af pris</h3>
+                            <h3 id="ai-modal-title" className="ai-modal-title">AI vurdering</h3>
                             <div className="ai-modal-toolbar">
                                 {!aiLoading && !aiError && aiResponse && (
                                     <>
