@@ -32,7 +32,7 @@ public class AIController : ControllerBase
         var description = gear.Description ?? "Ingen beskrivelse";
 
         var prompt = $@"
-Du er en kritisk priskontrol-assistent for brugt musikudstyr i Danmark.  
+Du er en kritisk priskontrol-assistent for brugt musikudstyr i Danmark.
 
 Produkt: {brand} {model}
 Pris: {price} DKK
@@ -41,34 +41,38 @@ Stand: {condition} (angivet som tekst, ingen billeder tilgængelige)
 Lokation: {location}
 Beskrivelse: {description}
 
-Du er en kritisk priskontrol-assistent for brugt musikudstyr i Danmark.  
+Vigtigt:
+- Vintage-instrumenter (over 30 år) vurderes højere end almindelige brugte instrumenter.
+- Kendte og eftertragtede brands fra 50’erne–70’erne kan have høj værdi, uanset om det er guitar, bas eller trommer.
+- Sjældne specifikationer, originale pickups, originale cases og ekstra tilbehør øger samlerværdien.
+- Brug kun data fra brand, model, pris, stand, årgang, lokation og beskrivelse.
+- Tag ikke højde for billeder eller visuelle spor.
 
-Produkt: {{brand}} {{model}}
-Pris: {{price}} DKK
-Stand: {{condition}} 
-Årgang: {{year}}
-Lokation: {{location}}
-Beskrivelse: {{description}}
+Reference-priser for vintage i Danmark (ca. DKK):
+- Fender (1950–1970): 30.000 – 80.000
+- Gibson (1950–1970): 50.000 – 120.000
+- Martin (1950–1970): 30.000 – 70.000
+- Rickenbacker (1960–1975): 25.000 – 60.000
+- Gretsch (1950–1970): 40.000 – 90.000
+- PRS (1990–2000): 25.000 – 50.000
+- Vox / andre britiske vintage (1960–1970): 20.000 – 50.000
+- Ludwig / Slingerland / Rogers trommer (1950–1970): 15.000 – 50.000
+- Neumann mikrofoner (1950–1980): 15.000 – 120.000+
+- Neve konsoller / moduler (1960–1980): 200.000 – 1.500.000+
+- API konsoller / moduler (1967–1980): 50.000 – 500.000+
+- SSL konsoller (1970–1990): 150.000 – 1.000.000+
+- Telefunken mikrofoner (1950–1970): 20.000 – 80.000+
 
 Opgave:
 
-1) Start med en tydelig linje: 'Vurdering: lav / fair / høj pris', baseret på prisniveau, stand (som beskrevet), årgang og markedsdata.  
-   - Brug kun tekstfelterne: brand, model, pris, stand, årgang, lokation og beskrivelse.  
-   - Tag under ingen omstændigheder højde for billeder, visuelle elementer eller antagelser om udseendet.  
-   - Hvis der ikke findes aktuelle markedsdata, skriv: 'Prisen kan ikke vurderes præcist uden aktuelle markedstal'.  
-
-2) Giv 3-4 observationer baseret KUN på de data, der er givet.  
-   - Brug aldrig billeder eller visuelle elementer.  
-   - Hvis noget information mangler, påpeg blot at det mangler uden at tilføje spekulationer.  
-   - Vær kortfattet og konkret.  
-
-3) Afslut med en anbefaling KUN baseret på de observationer, du netop har listet.  
-   - Brug ikke generiske vendinger som ""afhænger af usikkerheder"".  
-   - Hvis observationerne viser lav pris og få risici, skriv fx ""Køb nu"".  
-   - Hvis observationerne viser høj pris eller risici, skriv fx ""Vent eller undgå"".  
-   - Hold anbefalingen på 1-2 korte sætninger.  
-
-Vær realistisk, kritisk og kortfattet. Tag kun stilling til det, du har oplysninger om, og lad manglende billeder **ikke** påvirke vurderingen på nogen måde.";
+1) 1) Hvis produktet tilhører en **vintage-kategori** (guitar, bas, tromme, vintage amp/konsol, mikrofon, studiegear) og AI har information om produktet i sin træningsdata:
+   - Hvis prisen ligger under referenceintervallet, start med 'Vurdering: lav pris', giv 3-4 konkrete observationer og afslut med anbefaling: 'Køb nu' eller 'Vent eller undgå'.
+   - Hvis prisen ligger inden for referenceintervallet, start med 'Vurdering: lav / fair / høj pris', giv 3-4 observationer og afslut med anbefaling.
+   - Hvis prisen ligger over referenceintervallet, skriv: 'Prisen ligger væsentligt over normalintervallet for dette brand og årgang. Vurdering kræver ekspertise i samlerværdi, sjældenhed og originale dele.' Giv 2-3 observationer om sjældne karakteristika, men **brug ikke lav/fair/høj vurdering**.
+2) Hvis produktet **ikke tilhører en vintage-kategori**, og AI har information om produktet i sin træningsdata:
+   - Start med 'Vurdering: lav / fair / høj pris', baseret på pris, stand, tilbehør og lokation. Giv 3-4 observationer og afslut med anbefaling.
+3) Hvis produktet **ikke findes i AI’s træningsdata**, skriv: 'Jeg har ikke info om produktet i min træningsdata' og giv ingen yderligere vurdering eller anbefaling.
+4) Hold alle svar realistiske, kritiske og kortfattede. Tag kun stilling til oplysninger, der er tilgængelige. Manglende billeder påvirker ikke vurderingen.";
 
         var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
@@ -76,7 +80,7 @@ Vær realistisk, kritisk og kortfattet. Tag kun stilling til det, du har oplysni
         // Body til Responses API
         var body = new
         {
-            model = "gpt-4o-mini",
+            model = "gpt-4o",
             input = new object[]
             {
                 new { role = "system", content = "Du hjælper brugere med at vurdere prisen på brugt musikudstyr i Danmark. Svar altid på dansk, kortfattet og konkret." },
