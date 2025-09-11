@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
-using DRYV1.Data;
-using DRYV1.Models; // hvor MusicGearUpdateDTO ligger
+using DRYV1.Models;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -16,7 +14,6 @@ public class AIController : ControllerBase
     }
 
     [HttpPost("evaluate-price")]
-    // authorized eller [AllowAnonymous] hvis endpoint skal være offentligt
     public async Task<IActionResult> EvaluatePrice([FromBody] MusicGearUpdateDTO gear)
     {
         var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
@@ -31,97 +28,154 @@ public class AIController : ControllerBase
         var location = gear.Location ?? "Ukendt";
         var description = gear.Description ?? "Ingen beskrivelse";
 
-        var prompt = $@"
-Du er en kritisk priskontrol-assistent for brugt musikudstyr i Danmark.
-
-Produkt: {brand} {model}
-Pris: {price} DKK
-Stand: {condition} (angivet som tekst, ingen billeder tilgængelige)
-Årgang: {year}
-Lokation: {location}
-Beskrivelse: {description}
-
-Vigtigt:
-- Vintage-instrumenter (over 30 år) vurderes højere end almindelige brugte instrumenter.
-- Kendte og eftertragtede brands fra 50’erne–70’erne kan have høj værdi, uanset om det er guitar, bas eller trommer.
-- Sjældne specifikationer, originale pickups, originale cases og ekstra tilbehør øger samlerværdien.
-- Brug kun data fra brand, model, pris, stand, årgang, lokation og beskrivelse.
-- Tag ikke højde for billeder eller visuelle spor.
-
-Reference-priser for vintage i Danmark (ca. DKK):
-- Fender (1950–1970): 30.000 – 80.000
-- Gibson (1950–1970): 50.000 – 120.000
-- Martin (1950–1970): 30.000 – 70.000
-- Rickenbacker (1960–1975): 25.000 – 60.000
-- Gretsch (1950–1970): 40.000 – 90.000
-- PRS (1990–2000): 25.000 – 50.000
-- Vox / andre britiske vintage (1960–1970): 20.000 – 50.000
-- Ludwig / Slingerland / Rogers trommer (1950–1970): 15.000 – 50.000
-- Neumann mikrofoner (1950–1980): 15.000 – 120.000+
-- Neve konsoller / moduler (1960–1980): 200.000 – 1.500.000+
-- API konsoller / moduler (1967–1980): 50.000 – 500.000+
-- SSL konsoller (1970–1990): 150.000 – 1.000.000+
-- Telefunken mikrofoner (1950–1970): 20.000 – 80.000+
-
-Opgave:
-
-1) 1) Hvis produktet tilhører en **vintage-kategori** (guitar, bas, tromme, vintage amp/konsol, mikrofon, studiegear) og AI har information om produktet i sin træningsdata:
-   - Hvis prisen ligger under referenceintervallet, start med 'Vurdering: lav pris', giv 3-4 konkrete observationer og afslut med anbefaling: 'Køb nu' eller 'Vent eller undgå'.
-   - Hvis prisen ligger inden for referenceintervallet, start med 'Vurdering: lav / fair / høj pris', giv 3-4 observationer og afslut med anbefaling.
-   - Hvis prisen ligger over referenceintervallet, skriv: 'Prisen ligger væsentligt over normalintervallet for dette brand og årgang. Vurdering kræver ekspertise i samlerværdi, sjældenhed og originale dele.' Giv 2-3 observationer om sjældne karakteristika, men **brug ikke lav/fair/høj vurdering**.
-2) Hvis produktet **ikke tilhører en vintage-kategori**, og AI har information om produktet i sin træningsdata:
-   - Start med 'Vurdering: lav / fair / høj pris', baseret på pris, stand, tilbehør og lokation. Giv 3-4 observationer og afslut med anbefaling.
-3) Hvis produktet **ikke findes i AI’s træningsdata**, skriv: 'Jeg har ikke info om produktet i min træningsdata' og giv ingen yderligere vurdering eller anbefaling.
-4) Hold alle svar realistiske, kritiske og kortfattede. Tag kun stilling til oplysninger, der er tilgængelige. Manglende billeder påvirker ikke vurderingen.";
-
         var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 
-        // Body til Responses API
-        var body = new
+        // ---------- TRIN 1: gpt-5-nano laver websearch ----------
+        var nanoPrompt = $@"
+Lav en websearch og find aktuelle brugtpriser for {brand} {model} {year} i Danmark og internationalt.
+Indsaml alle relevante kilder, hvor priser findes. Medtag kun brugtpriser, ikke nye.
+
+Returnér kun JSON uden forklaringer i dette format:
+
+{{
+  ""dk_prisinterval"": ""<laveste>–<højeste> DKK eller ca. <pris> DKK hvis kun én pris findes"",
+  ""intl_prisinterval"": ""<laveste>–<højeste> USD eller ca. <pris> USD hvis kun én pris findes"",
+  ""kilder"": [""<faktiske websites eller markedspladser hvor priser findes>""] 
+}}
+
+Vigtige instruktioner: 
+- Medtag kun kilder, hvor du faktisk finder priser.
+- Brug de reelle website-navne, f.eks. 'DBA.dk', 'eBay.com', 'Reverb.com' osv., i stedet for interne pladsholdere.
+- Hvis du ikke finder danske priser, skal dk_prisinterval være tomt: """"
+- Hvis du ikke finder internationale priser, skal intl_prisinterval være tomt: """"
+- Returnér priser som et interval (laveste–højeste) baseret på de fundne brugtpriser, men **KUN** hvis du finder mere end én pris. Ellers angiv 'ca. <pris>'.
+- Medtag ikke interne søgenavne eller kodeord som kilder.
+";
+
+        var nanoBody = new
         {
-            model = "gpt-4o",
+            model = "gpt-5-nano",
             input = new object[]
             {
-                new { role = "system", content = "Du hjælper brugere med at vurdere prisen på brugt musikudstyr i Danmark. Svar altid på dansk, kortfattet og konkret." },
-                new { role = "user", content = prompt }
+                new { role = "system", content = "Du er en assistent, der kun henter fakta og priser." },
+                new { role = "user", content = nanoPrompt }
             },
-            temperature = 0.3,
-            max_output_tokens = 450
+            tools = new object[]
+            {
+                new { type = "web_search" }
+            },
+            reasoning = new { effort = "low" }
         };
 
-        // Endpoint: responses
-        var reqMsg = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/responses")
+        var nanoReq = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/responses")
         {
-            Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body), System.Text.Encoding.UTF8, "application/json")
+            Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(nanoBody), System.Text.Encoding.UTF8, "application/json")
         };
 
-        var resp = await client.SendAsync(reqMsg);
-        var raw = await resp.Content.ReadAsStringAsync();
-        if (!resp.IsSuccessStatusCode)
-            return Problem($"OpenAI error {resp.StatusCode}: {raw}", statusCode: (int)resp.StatusCode);
+        var nanoResp = await client.SendAsync(nanoReq);
+        var nanoRaw = await nanoResp.Content.ReadAsStringAsync();
 
-        // Robust parsing
-        using var doc = System.Text.Json.JsonDocument.Parse(raw);
-        string content;
+        if (!nanoResp.IsSuccessStatusCode)
+            return Problem($"OpenAI error {nanoResp.StatusCode}: {nanoRaw}", statusCode: (int)nanoResp.StatusCode);
 
-        if (doc.RootElement.TryGetProperty("output_text", out var simpleText))
+        // hent JSON indhold fra nano-5
+        string nanoJson = nanoRaw;
+        using (var doc = System.Text.Json.JsonDocument.Parse(nanoRaw))
         {
-            content = simpleText.GetString();
-        }
-        else
-        {
-            var output = doc.RootElement.GetProperty("output")[0];
-            var firstContent = output.GetProperty("content")[0];
-            content = firstContent.GetProperty("text").GetString();
+            if (doc.RootElement.TryGetProperty("output", out var outputElement))
+            {
+                foreach (var item in outputElement.EnumerateArray())
+                {
+                    if (item.TryGetProperty("type", out var typeProp) && typeProp.GetString() == "message")
+                    {
+                        foreach (var c in item.GetProperty("content").EnumerateArray())
+                        {
+                            if (c.TryGetProperty("text", out var textEl))
+                                nanoJson = textEl.GetString() ?? nanoJson;
+                        }
+                    }
+                }
+            }
         }
 
-        //Fjern Markdown fed
-        if (!string.IsNullOrEmpty(content))
-        {
-            content = content.Replace("**", "");
-        }
+        // ---------- TRIN 2: gpt-4o-mini skriver vurdering ----------
+        var writerPrompt = $@"
+Du hjælper med at vurdere brugt musikudstyr. 
+Lav altid en kort markedsanalyse på dansk baseret på følgende data:
 
-        return Ok(new { content });
+{nanoJson}
+
+Start med at fastlægge det realistiske markedsinterval **udelukkende baseret på faktiske brugtsalg for samme model og stand**.  
+
+Prisvurdering: Lav pris, Fair pris eller Høj pris skal bestemmes ud fra hvor prisen ligger i forhold til dette brugtprisinterval:
+- Lav pris: prisen ligger under intervallets nederste grænse  
+- Fair pris: prisen ligger inden for intervallet  
+- Høj pris: prisen ligger over intervallets øverste grænse   
+
+Angiv evt. også, om prisen ligger i nederste, midterste eller øverste del af intervallet.
+
+Derefter skriver du tre afsnit med tydelige overskrifter og to linjeskift mellem afsnittene. Drop alle '###'.  
+Formatér afsnittene sådan her:
+
+Prisvurdering: <Lav/Fair/Høj pris> (uddyb evt. med 'øverste/midterste/nederste del af intervallet')
+
+Vurdering: 2–3 sætninger med realistisk prisinterval i DKK og stand. Sammenlign kun med faktiske brugtsalg.  
+
+Begrundelse: 2–3 sætninger om hvorfor prisintervallet er realistisk, med henvisning til udstyrsegenskaber, stand, originalitet og eventuelle særlige detaljer.  
+
+Kilder: kun navn på de brugte kilder, ikke URL.  
+
+Hold sproget naturligt, flydende og objektivt.  
+
+Produktdata:
+- Brand: {brand}
+- Model: {model}
+- Pris: {price} DKK
+- Lokation: {location}
+- Stand/beskrivelse: {description}
+";
+
+        var writerBody = new
+        {
+            model = "gpt-4o-mini",
+            input = new object[]
+            {
+                new { role = "system", content = "Du er en vurderingsekspert i brugt musikudstyr." },
+                new { role = "user", content = writerPrompt }
+            }
+        };
+
+        var writerReq = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/responses")
+        {
+            Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(writerBody), System.Text.Encoding.UTF8, "application/json")
+        };
+
+        var writerResp = await client.SendAsync(writerReq);
+        var writerRaw = await writerResp.Content.ReadAsStringAsync();
+
+        if (!writerResp.IsSuccessStatusCode)
+            return Problem($"OpenAI error {writerResp.StatusCode}: {writerRaw}", statusCode: (int)writerResp.StatusCode);
+
+        string content = "Ingen gyldig tekst returneret.";
+        using (var doc = System.Text.Json.JsonDocument.Parse(writerRaw))
+        {
+            if (doc.RootElement.TryGetProperty("output", out var outputElement))
+            {
+                foreach (var item in outputElement.EnumerateArray())
+                {
+                    if (item.TryGetProperty("type", out var typeProp) && typeProp.GetString() == "message")
+                    {
+                        foreach (var c in item.GetProperty("content").EnumerateArray())
+                        {
+                            if (c.TryGetProperty("text", out var textEl))
+                                content = textEl.GetString() ?? content;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return Ok(new { nanoRaw, writerRaw, content });
     }
 }
