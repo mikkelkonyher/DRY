@@ -24,6 +24,7 @@ function GearCard({ item, handleImageClick, userId }) {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include',
                 });
 
                 if (!checkResponse.ok) {
@@ -64,6 +65,7 @@ function GearCard({ item, handleImageClick, userId }) {
             const response = await fetch(url, {
                 method: isFavorite ? 'DELETE' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');

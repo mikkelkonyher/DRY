@@ -33,6 +33,7 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
             const response = await fetch(url, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
@@ -52,6 +53,7 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/RehearsalRoom/${room.id}`, {
                 method: 'DELETE',
+                credentials: 'include',
             });
             if (!response.ok) {
                 throw new Error('Failed to delete the room');
@@ -92,6 +94,7 @@ function SellRehearsalRoom({ room, userId, onRemove }) {
             const response = await fetch(`${config.apiBaseUrl}/api/RehearsalRoom/update/${room.id}`, {
                 method: 'PUT',
                 body: formData,
+                credentials: 'include',
             });
 
             if (!response.ok) {

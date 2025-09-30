@@ -61,6 +61,7 @@ function RehearsalRoomCard({ item, userId }) {
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             });
 
             if (!response.ok) {

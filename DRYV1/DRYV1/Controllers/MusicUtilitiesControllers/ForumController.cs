@@ -122,6 +122,7 @@ namespace DRYV1.Controllers
 
         // Slet et forumindlæg og tilhørende kommentarer
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var forum = await _context.Forums.FindAsync(id);

@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -213,6 +214,7 @@ public class AuthController : ControllerBase
     
     // Henter brugerens ID ud fra AuthToken-cookie
     [HttpGet("get-user-id")]
+    [Authorize]
     public async Task<IActionResult> GetUserIdFromCookie()
     {
         if (!Request.Cookies.TryGetValue("AuthToken", out var token))

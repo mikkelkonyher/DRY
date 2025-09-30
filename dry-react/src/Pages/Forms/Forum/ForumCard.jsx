@@ -23,6 +23,7 @@ function ForumCard({ item, userId }) {
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
                 });
 
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -47,6 +48,7 @@ function ForumCard({ item, userId }) {
                 const response = await fetch(countUrl, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
                 });
 
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -85,6 +87,7 @@ function ForumCard({ item, userId }) {
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
