@@ -107,6 +107,7 @@ namespace DRYV1.Controllers
 
         // Opretter en ny guitar- eller bas-annonce, inkl. upload af billeder
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] GuitBassGear guitBassGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == guitBassGear.UserId);
@@ -137,6 +138,7 @@ namespace DRYV1.Controllers
 
         // Sletter en guitar- eller bas-annonce baseret på id
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var guitar = await _context.GuitBassGear.FindAsync(id);

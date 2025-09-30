@@ -49,12 +49,12 @@ function RehearsalRoomDetails() {
     useEffect(() => {
         const fetchRoomItem = async () => {
             try {
-                const response = await fetch(`${config.apiBaseUrl}/api/RehearsalRoom/${id}`);
+                const response = await fetch(`${config.apiBaseUrl}/api/RehearsalRoom/${id}`, { credentials: 'include' });
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 setRoomItem(data.items[0]);
 
-                const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/RehearsalRoom/${id}/comments`);
+                const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/RehearsalRoom/${id}/comments`, { credentials: 'include' });
                 if (!commentsResponse.ok) throw new Error('Network response was not ok');
                 const commentsData = await commentsResponse.json();
                 setRoomItem(prevItem => ({ ...prevItem, comments: commentsData }));
@@ -64,6 +64,7 @@ function RehearsalRoomDetails() {
                     const checkResponse = await fetch(checkUrl, {
                         method: 'GET',
                         headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
                     });
                     if (!checkResponse.ok) throw new Error('Network response was not ok');
                     const favorites = await checkResponse.json();
@@ -100,6 +101,7 @@ function RehearsalRoomDetails() {
             const response = await fetch(url, {
                 method: isFavorite ? 'DELETE' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
@@ -140,7 +142,7 @@ function RehearsalRoomDetails() {
 
     const handleCommentPosted = async () => {
         try {
-            const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/RehearsalRoom/${id}/comments`);
+            const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/RehearsalRoom/${id}/comments`, { credentials: 'include' });
             if (!response.ok) throw new Error('Network response was not ok');
             const commentsData = await response.json();
             setRoomItem(prevItem => ({ ...prevItem, comments: commentsData }));
@@ -158,6 +160,7 @@ function RehearsalRoomDetails() {
             const response = await fetch(`${config.apiBaseUrl}/api/Comment/${commentId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${Cookies.get('AuthToken')}` },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');

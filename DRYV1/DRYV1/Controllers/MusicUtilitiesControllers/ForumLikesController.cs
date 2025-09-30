@@ -3,6 +3,7 @@ using DRYV1.Data;
 using DRYV1.Models.MusicUtilities;
 using System.Threading.Tasks;
 using DRYV1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace DRYV1.Controllers
@@ -19,6 +20,7 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddLike(int userId, int forumId)
         {
             var like = new ForumLikes { UserId = userId, ForumId = forumId };
@@ -35,6 +37,7 @@ namespace DRYV1.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> RemoveLike(int userId, int forumId)
         {
             var like = await _context.ForumLikes

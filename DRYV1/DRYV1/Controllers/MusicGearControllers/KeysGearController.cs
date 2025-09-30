@@ -107,6 +107,7 @@ namespace DRYV1.Controllers
 
         // Opretter en ny keys-annonce, inkl. upload af billeder
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] KeysGear keysGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == keysGear.UserId);
@@ -137,6 +138,7 @@ namespace DRYV1.Controllers
 
         // Sletter en keys-annonce baseret på id
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var key = await _context.KeysGear.FindAsync(id);

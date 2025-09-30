@@ -40,6 +40,7 @@ const MessageToCard = ({ senderId, receiverId, brand, model }) => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                 },
+                credentials: 'include',
                 body: JSON.stringify(messageData)
             });
 

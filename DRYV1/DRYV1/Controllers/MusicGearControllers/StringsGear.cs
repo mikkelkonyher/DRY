@@ -107,6 +107,7 @@ namespace DRYV1.Controllers
 
         // Opretter en ny strenge-annonce, inkl. upload af billeder
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] StringsGear stringsGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == stringsGear.UserId);
@@ -137,6 +138,7 @@ namespace DRYV1.Controllers
 
         // Sletter en strenge-annonce baseret på id
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var stringGear = await _context.StringsGear.FindAsync(id);

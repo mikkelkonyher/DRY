@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using DRYV1.Data;
 using DRYV1.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace DRYV1.Controllers
@@ -20,6 +21,7 @@ namespace DRYV1.Controllers
 
         // Tilføjer et MusicGear til brugerens favoritter
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddFavorite(int userId, int musicGearId)
         {
             // Opretter favorit-objekt og tilføjer til databasen
@@ -39,6 +41,7 @@ namespace DRYV1.Controllers
 
         // Fjerner et MusicGear fra brugerens favoritter
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> RemoveFavorite(int userId, int musicGearId)
         {
             // Finder favorit-objektet i databasen

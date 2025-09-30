@@ -43,7 +43,8 @@ const MessageInterface = () => {
                 const response = await fetch(`${config.apiBaseUrl}/api/Chats/${userId}`, {
                     headers: {
                         'accept': 'application/json'
-                    }
+                    },
+                    credentials: 'include' // <-- This sends cookies
                 });
 
                 if (response.ok) {

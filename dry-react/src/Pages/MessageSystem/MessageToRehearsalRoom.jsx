@@ -40,6 +40,7 @@ const MessageToRehearsalRoom = ({ senderId, receiverId, subject }) => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                 },
+                credentials: 'include',
                 body: JSON.stringify(messageData)
             });
 

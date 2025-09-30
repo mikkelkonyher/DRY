@@ -50,12 +50,12 @@ function CardDetails() {
     useEffect(() => {
         const fetchGearItem = async () => {
             try {
-                const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/${id}`);
+                const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/${id}`, { credentials: 'include' });
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 setGearItem(data);
 
-                const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${id}/comments`);
+                const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${id}/comments`, { credentials: 'include' });
                 if (!commentsResponse.ok) throw new Error('Network response was not ok');
                 const commentsData = await commentsResponse.json();
                 setGearItem(prevItem => ({ ...prevItem, comments: commentsData }));
@@ -65,6 +65,7 @@ function CardDetails() {
                     const checkResponse = await fetch(checkUrl, {
                         method: 'GET',
                         headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
                     });
                     if (!checkResponse.ok) throw new Error('Network response was not ok');
                     const favorites = await checkResponse.json();
@@ -103,6 +104,7 @@ function CardDetails() {
             const response = await fetch(url, {
                 method: isFavorite ? 'DELETE' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
@@ -144,7 +146,7 @@ function CardDetails() {
     // Handle comment posted
     const handleCommentPosted = async () => {
         try {
-            const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${id}/comments`);
+            const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/MusicGear/${id}/comments`, { credentials: 'include' });
             if (!response.ok) throw new Error('Network response was not ok');
             const commentsData = await response.json();
             setGearItem(prevItem => ({ ...prevItem, comments: commentsData }));
@@ -162,6 +164,7 @@ function CardDetails() {
             const response = await fetch(`${config.apiBaseUrl}/api/Comment/${commentId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${Cookies.get('AuthToken')}` },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');

@@ -230,6 +230,7 @@ function MyProfile() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                 },
+                credentials: 'include',
                 body: JSON.stringify(requestBody)
             });
 
@@ -271,7 +272,8 @@ function MyProfile() {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${Cookies.get('AuthToken')}`
-                }
+                },
+                credentials: 'include'
             });
 
             if (!response.ok) {

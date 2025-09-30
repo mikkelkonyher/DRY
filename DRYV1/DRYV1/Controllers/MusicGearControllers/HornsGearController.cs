@@ -107,6 +107,7 @@ namespace DRYV1.Controllers
 
         // Opretter en ny blæser-annonce, inkl. upload af billeder
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] HornsGear hornsGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == hornsGear.UserId);
@@ -137,6 +138,7 @@ namespace DRYV1.Controllers
 
         // Sletter en blæser-annonce baseret på id
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var horn = await _context.HornsGear.FindAsync(id);

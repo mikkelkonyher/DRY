@@ -102,6 +102,7 @@ namespace DRYV1.Controllers
 
         // Opretter en ny tromme-annonce, inkl. upload af billeder
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] DrumsGear drumGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == drumGear.UserId);
@@ -132,6 +133,7 @@ namespace DRYV1.Controllers
 
         // Opdaterer en eksisterende tromme-annonce
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, DrumsGear drumGear)
         {
             if (id != drumGear.Id)
@@ -146,6 +148,7 @@ namespace DRYV1.Controllers
 
         // Sletter en tromme-annonce baseret på id
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var drum = await _context.DrumsGear.FindAsync(id);

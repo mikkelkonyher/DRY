@@ -1,6 +1,7 @@
 using DRYV1.Data;
 using DRYV1.Models;
 using DRYV1.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,7 @@ namespace DRYV1.Controllers
 
         // Henter alle brugere og returnerer dem med maskeret email
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             var users = await _context.Users
@@ -72,6 +74,7 @@ namespace DRYV1.Controllers
 
         // Opdaterer brugerens navn og email efter validering
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO updatedUser)
         {
             if (id != updatedUser.Id)
@@ -126,6 +129,7 @@ namespace DRYV1.Controllers
 
         // Opdaterer brugerens profilbillede
         [HttpPut("{id}/profile-image")]
+        [Authorize]
         public async Task<IActionResult> UpdateProfileImage(int id, [FromForm] List<IFormFile> imageFiles)
         {
             var user = await _context.Users.FindAsync(id);
@@ -156,6 +160,7 @@ namespace DRYV1.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
@@ -202,6 +207,7 @@ namespace DRYV1.Controllers
 
         // Henter alle brugere med umaskeret email (til admin-brug)
         [HttpGet("unmasked")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<UserProfileDTO>>> GetUsersUnmasked()
         {
             var users = await _context.Users

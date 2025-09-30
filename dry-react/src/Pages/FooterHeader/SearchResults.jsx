@@ -33,7 +33,8 @@ function SearchResults() {
         setLoading(true);
         try {
             const response = await fetch(
-                `${config.apiBaseUrl}/api/MusicGear/search?query=${encodeURIComponent(searchQuery)}&pageNumber=${pageNumber}&pageSize=${itemsPerPage}`
+                `${config.apiBaseUrl}/api/MusicGear/search?query=${encodeURIComponent(searchQuery)}&pageNumber=${pageNumber}&pageSize=${itemsPerPage}`,
+                { credentials: 'include' }
             );
             if (!response.ok) {
                 throw new Error('Network response was not ok');

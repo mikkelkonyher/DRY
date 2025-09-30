@@ -4,10 +4,12 @@ using DRYV1.Data;
 using DRYV1.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DRYV1.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class MessagesController : ControllerBase
     {

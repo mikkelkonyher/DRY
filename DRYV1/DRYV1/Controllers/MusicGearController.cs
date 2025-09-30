@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
 using DRYV1.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DRYV1.Controllers
 {
@@ -85,6 +86,7 @@ namespace DRYV1.Controllers
         
         // Opdaterer et MusicGear-objekt inkl. billeder
         [HttpPut("update/{id}")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, [FromForm] MusicGearUpdateDTO updatedMusicGear, [FromForm] List<IFormFile> imageFiles, [FromForm] List<string> imagesToDelete)
         {
             if (id != updatedMusicGear.Id)
@@ -151,6 +153,7 @@ namespace DRYV1.Controllers
         
         // Sletter et MusicGear-objekt og tilhørende kommentarer og billeder
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var musicGear = await _context.MusicGear.FindAsync(id);
@@ -184,6 +187,7 @@ namespace DRYV1.Controllers
         
         // Sletter et enkelt billede fra et MusicGear-objekt
         [HttpDelete("{id}/images")]
+        [Authorize]
         public async Task<IActionResult> DeleteImage(int id, [FromBody] string imageUrl)
         {
             var musicGear = await _context.MusicGear.FindAsync(id);

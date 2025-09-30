@@ -53,12 +53,12 @@ function ForumDetails() {
     useEffect(() => {
         const fetchForumItem = async () => {
             try {
-                const response = await fetch(`${config.apiBaseUrl}/api/Forum/${id}`);
+                const response = await fetch(`${config.apiBaseUrl}/api/Forum/${id}`, { credentials: 'include' });
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
                 setForumItem(data.items[0]);
 
-                const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/Forum/${id}/comments`);
+                const commentsResponse = await fetch(`${config.apiBaseUrl}/api/Comment/api/Forum/${id}/comments`, { credentials: 'include' });
                 if (!commentsResponse.ok) throw new Error('Network response was not ok');
                 const commentsData = await commentsResponse.json();
                 setForumItem(prevItem => ({ ...prevItem, comments: commentsData }));
@@ -68,6 +68,7 @@ function ForumDetails() {
                     const checkResponse = await fetch(checkUrl, {
                         method: 'GET',
                         headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
                     });
                     if (!checkResponse.ok) throw new Error('Network response was not ok');
                     const likes = await checkResponse.json();
@@ -104,6 +105,7 @@ function ForumDetails() {
             const response = await fetch(url, {
                 method: isLiked ? 'DELETE' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
@@ -134,6 +136,7 @@ function ForumDetails() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${Cookies.get('AuthToken')}`
                 },
+                credentials: 'include',
                 body: JSON.stringify({ id, subject: editSubject, body: editBody, userId })
             });
 
@@ -156,6 +159,7 @@ function ForumDetails() {
             const response = await fetch(`${config.apiBaseUrl}/api/Forum/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${Cookies.get('AuthToken')}` },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
@@ -167,7 +171,7 @@ function ForumDetails() {
 
     const handleCommentPosted = async () => {
         try {
-            const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/Forum/${id}/comments`);
+            const response = await fetch(`${config.apiBaseUrl}/api/Comment/api/Forum/${id}/comments`, { credentials: 'include' });
             if (!response.ok) throw new Error('Network response was not ok');
             const commentsData = await response.json();
             setForumItem(prevItem => ({ ...prevItem, comments: commentsData }));
@@ -184,6 +188,7 @@ function ForumDetails() {
             const response = await fetch(`${config.apiBaseUrl}/api/Comment/${commentId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${Cookies.get('AuthToken')}` },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');

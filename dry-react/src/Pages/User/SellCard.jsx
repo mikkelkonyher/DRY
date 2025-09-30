@@ -24,6 +24,7 @@ function SellCard({ item, userId, onRemove }) {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include',
                 });
 
                 if (!checkResponse.ok) {
@@ -67,6 +68,7 @@ function SellCard({ item, userId, onRemove }) {
             const response = await fetch(url, {
                 method: isFavorite ? 'DELETE' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             });
 
             if (!response.ok) throw new Error('Network response was not ok');
@@ -87,6 +89,7 @@ function SellCard({ item, userId, onRemove }) {
         try {
             const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/${item.id}`, {
                 method: 'DELETE',
+                credentials: 'include',
             });
             if (!response.ok) {
                 throw new Error('Failed to delete the item');
@@ -126,6 +129,7 @@ function SellCard({ item, userId, onRemove }) {
             const response = await fetch(`${config.apiBaseUrl}/api/MusicGear/update/${item.id}`, {
                 method: 'PUT',
                 body: formData,
+                credentials: 'include',
             });
 
             if (!response.ok) {

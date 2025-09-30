@@ -1,6 +1,7 @@
 using DRYV1.Data;
 using DRYV1.Models;
 using DRYV1.Models.MusicUtilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,7 @@ namespace DRYV1.Controllers
 
         // Opretter en ny kommentar til MusicGear, RehearsalRoom eller Forum
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostComment([FromBody] CommentDTO commentDto)
         {
             if (commentDto == null)
@@ -189,6 +191,7 @@ namespace DRYV1.Controllers
         
         // Sletter en kommentar baseret på id
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteComment(int id)
         {
             var comment = await _context.Comments.FindAsync(id);

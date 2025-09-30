@@ -107,6 +107,7 @@ namespace DRYV1.Controllers
 
         // Opretter en ny studie-annonce, inkl. upload af billeder
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] StudioGear studioGear, [FromForm] List<IFormFile> imageFiles)
         {
             var userExists = await _context.Users.AnyAsync(u => u.Id == studioGear.UserId);
@@ -137,6 +138,7 @@ namespace DRYV1.Controllers
 
         // Sletter en studie-annonce baseret på id
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var studioGear = await _context.StudioGear.FindAsync(id);

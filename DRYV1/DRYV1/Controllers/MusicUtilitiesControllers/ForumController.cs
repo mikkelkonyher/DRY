@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DRYV1.Data;
 using DRYV1.Models.MusicUtilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace DRYV1.Controllers
@@ -102,6 +103,7 @@ namespace DRYV1.Controllers
 
         // Opret et nyt forumindlæg
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromForm] Forum forum)
         {
             // Tjek om brugeren eksisterer
@@ -139,6 +141,7 @@ namespace DRYV1.Controllers
 
         // Opdater et eksisterende forumindlæg
         [HttpPut("update/{id}")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, [FromBody] ForumUpdateDTO updatedForum)
         {
             if (id != updatedForum.Id)

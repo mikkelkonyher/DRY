@@ -132,6 +132,7 @@ namespace DRYV1.Controllers
         }
 
         [HttpPost]
+        [Authorize]
       
         public async Task<IActionResult> Create([FromForm] RehearsalRoom rehearsalRoom, [FromForm] List<IFormFile> imageFiles)
         {
@@ -162,6 +163,7 @@ namespace DRYV1.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var rehearsalRoom = await _context.RehearsalRooms.FindAsync(id);
@@ -184,6 +186,7 @@ namespace DRYV1.Controllers
         }
         
         [HttpPut("update/{id}")]
+        [Authorize]
 public async Task<IActionResult> Update(int id, [FromForm] RehearsalRoomUpdateDTO updatedRehearsalRoom, [FromForm] List<IFormFile> imageFiles, [FromForm] List<string> imagesToDelete)
 {
     if (id != updatedRehearsalRoom.Id)
